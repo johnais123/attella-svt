@@ -1,0 +1,262 @@
+<org-openroadm-device xls="http://org/openroadm/device"> 
+  <org-openroadm-device> 
+    <info> 
+      <node-id/>  
+      <node-number/>  
+      <node-type/>  
+      <clli/>  
+      <vendor-info alias="vendor"/>  
+      <model-info alias="model"/>  
+      <serial-id-info alias="serial-id"/>  
+      <ipAddress/>  
+      <prefix-length/>  
+      <defaultGateway/>  
+      <source/>  
+      <current-ipAddress/>  
+      <current-prefix-length/>  
+      <current-defaultGateway/>  
+      <macAddress/>  
+      <softwareVersion/>  
+      <openroadm-version/>  
+      <template/>  
+      <current-datetime/>  
+      <geoLocation> 
+        <latitude/>  
+        <longitude/> 
+      </geoLocation>  
+      <openroadm-version/>  
+      <max-degrees/>  
+      <max-srgs/>  
+      <max-num-bin-15min-historical-pm/>  
+      <max-num-bin-24hour-historical-pm/> 
+    </info>  
+    <users> 
+      <user> 
+        <name type="key"/>  
+        <password/>  
+        <group/> 
+      </user> 
+    </users>  
+    <pending-sw> 
+      <sw-version/>  
+      <sw-validation-timer/>  
+      <activation-date-time/> 
+    </pending-sw>  
+    <shelves> 
+      <shelf-name type="key"/>  
+      <shelf-type/>  
+      <rack/>  
+      <shelf-position/>  
+      <administrative-state-shelves alias="administrative-state"/>  
+      <vendor-shelves alias="vendor"/>  
+      <model-shlves alias="model"/>  
+      <serial-id-shelves alias="serial-id"/>  
+      <type/>  
+      <product-code/>  
+      <manufacture-date/>  
+      <clei/>  
+      <hardware-version/>  
+      <operational-state/>  
+      <equipment-state-shelves alias="equipment-state"/>  
+      <due-date-shelves alias="due-date"/>  
+      <slots> 
+        <slot-name type="key"/>  
+        <label/>  
+        <provisioned-circuit-pack/>  
+        <slot-status/> 
+      </slots> 
+    </shelves>  
+    <circuit-packs> 
+      <circuit-pack-name-self type="key" alias="circuit-pack-name"/>  
+      <circuit-pack-type/>  
+      <circuit-pack-product-code/>  
+      <administrative-state-cp alias="administrative-state"/>  
+      <vendor-cp alias="vendor"/>  
+      <model-cp alias="model"/>  
+      <serial-id-cp alias="serial-id"/>  
+      <type-cp alias="type"/>  
+      <product-code-cp alias="product-code"/>  
+      <manufacture-date/>  
+      <clei-cp alias="clei"/>  
+      <hardware-version-cp alias="hardware-version"/>  
+      <operational-state-cp alias="operational-state"/>  
+      <circuit-pack-category> 
+        <type-cp-category alias="type"/>  
+        <extension/> 
+      </circuit-pack-category>  
+      <equipment-state-cp alias="equipment-state"/>  
+      <circuit-pack-mode/>  
+      <shelf/>  
+      <slot/>  
+      <subSlot/>  
+      <is-pluggable-optics/>  
+      <due-date-cp alias="due-date"/>  
+      <software-load-version/>  
+      <parent-circuit-pack> 
+        <circuit-pack-name-parent alias="circuit-pack-name"/>  
+        <cp-slot-name/> 
+      </parent-circuit-pack>  
+      <cp-slots> 
+        <slot-name-cp type="key" alias="slot-name"/>  
+        <label-cp alias="label"/>  
+        <provisioned-circuit-pack-cp alias="provisioned-circuit-pack"/>  
+        <slot-status-cp alias="slot-status"/>  
+        <slot-type/> 
+               <pluggable-optics-holder-capability xls="http://org/openroadm/pluggable-optics-holder-capability">
+                 <supported-circuit-pack-types>
+                   <supported-circuit-pack-type-cp type="key"  alias="supported-circuit-pack-type"></supported-circuit-pack-type-cp>
+                   <ports-slot alias="ports">
+                     <port-name-cp type="key"  alias="port-name"></port-name-cp>
+                     <port-capabilities>
+                       <supported-interface-capability>
+                         <if-cap-type-cp type="key"  alias="if-cap-type"></if-cap-type-cp>
+                         <otn-capability>
+                           <proactive-DMp-cp alias="proactive-DMp"></proactive-DMp-cp> 
+                           <tcm-capable-cp alias="tcm-capable"></tcm-capable-cp> 
+                           <proactive-DMt-cp alias="proactive-DMt"></proactive-DMt-cp>
+                         </otn-capability>
+                       </supported-interface-capability>
+                     </port-capabilities>
+                   </ports-slot>
+                 </supported-circuit-pack-types>
+               </pluggable-optics-holder-capability>
+      </cp-slots>  
+      <ports> 
+        <port-name-p type="key" alias="port-name"></port-name-p>  
+        <port-type/>  
+        <port-qual/>  
+        <port-wavelength-type/>  
+        <port-direction/>  
+        <label-ports alias="label"/>  
+        <circuit-id/>  
+        <administrative-state/>  
+        <operational-state-ports alias="operational-state"/>  
+        <logical-connection-point/> 
+               <transponder-port>
+                 <port-power-capability-min-rx/>
+                 <port-power-capability-min-tx/>
+                 <port-power-capability-max-rx/>
+                 <port-power-capability-max-tx/>
+               </transponder-port>
+               <port-capabilities xls="http://org/openroadm/port-capability">   
+                 <supported-interface-capability>
+                   <if-cap-type-ports type="key"  alias="if-cap-type"></if-cap-type-ports>
+                   <otn-capability>
+                     <proactive-DMp-ports alias="proactive-DMp"></proactive-DMp-ports> 
+                     <tcm-capable-ports alias="tcm-capable"></tcm-capable-ports>
+                     <proactive-DMt-ports alias="proactive-DMt"></proactive-DMt-ports>
+                   </otn-capability>
+                 </supported-interface-capability>  
+               </port-capabilities>
+      </ports> 
+    </circuit-packs>  
+    <interface> 
+      <interface-name type="key" alias="name"/>  
+      <description/>  
+      <interface-type alias="type"/>      
+      <interface-administrative-state alias="administrative-state"/>  
+      <interface-operational-state alias="operational-state"/>  
+      <interface-circuit-id alias="circuit-id"/>  
+      <supporting-interface/>  
+      <supporting-circuit-pack-name/>  
+      <supporting-port/>  
+      <ethernet xls="http://org/openroadm/ethernet-interfaces">  
+        <speed/>  
+        <ethernet-fec alias="fec"/>  
+        <duplex/>  
+        <mtu/>  
+        <auto-negotiation/>  
+        <curr-speed/>  
+        <curr-duplex/> 
+      </ethernet>  
+      <och xls="http://org/openroadm/optical-channel-interfaces">  
+        <och-rate alias="rate"/> 
+        <frequency/>  
+        <width/>  
+        <modulation-format/>  
+        <transmit-power/> 
+      </och>  
+      <ots xls="org-openroadm-optical-transport-interfaces">  
+        <fiber-type/>  
+        <span-loss-receive/>  
+        <span-loss-transmit/>  
+        <ingress-span-loss-aging-margin/>  
+        <eol-max-load-pIn/> 
+      </ots>  
+      <odu xls="http://org/openroadm/otn-odu-interfaces">  
+        <odu-rate alias="rate"/>   
+        <odu-function/>  
+        <monitoring-mode/>  
+        <no-oam-function/>  
+        <proactive-delay-measurement-enabled/>  
+        <odu-tx-sapi  alias="tx-sapi"/>  
+        <odu-tx-dapi  alias="tx-dapi"/>  
+        <odu-tx-operator  alias="tx-operator"/>  
+        <odu-accepted-sapi  alias="accepted-sapi"/>  
+        <odu-accepted-dapi  alias="accepted-dapi"/>  
+        <odu-accepted-operator alias="accepted-operator"/>  
+        <odu-expected-sapi  alias="expected-sapi"/>  
+        <odu-expected-dapi  alias="expected-dapi"/>  
+        <odu-tim-act-enabled  alias="tim-act-enabled"/>  
+        <odu-tim-detect-mode  alias="tim-detect-mode"/>  
+        <odu-degm-intervals alias="degm-intervals"/> 
+        <odu-degthr-percentage alias="degthr-percentage"/>  
+        <opu> 
+          <payload-type/>  
+          <rx-payload-type/>  
+          <exp-payload-type/>  
+          <payload-interface/>  
+          <msi> 
+            <tx-msi> 
+              <trib-slot type="key"/>  
+              <odtu-type/>  
+              <trib-port/>  
+              <trib-port-payload/> 
+            </tx-msi>  
+            <rx-msi> 
+              <trib-slot type="key"/>  
+              <odtu-type/>  
+              <trib-port/>  
+              <trib-port-payload/> 
+            </rx-msi>  
+            <exp-msi> 
+              <trib-slot type="key"/>  
+              <odtu-type/>  
+              <trib-port/>  
+              <trib-port-payload/> 
+            </exp-msi> 
+          </msi> 
+        </opu>  
+        <maint-testsignal> 
+          <odu-maint-enabled alias="enabled"/>  
+          <testPattern/>  
+          <odu-maint-type alias="type"/>  
+          <bitErrors/>  
+          <bitErrorsTerminal/>  
+          <syncSeconds/>  
+          <syncSecondsTerminal/> 
+        </maint-testsignal> 
+      </odu>  
+      <otu xls="http://org/openroadm/otn-otu-interfaces">
+        <otu-rate alias="rate"/>  
+        <otu-fec alias="fec"/>  
+        <otu-tx-sapi  alias="tx-sapi"/>  
+        <otu-tx-dapi  alias="tx-dapi"/>  
+        <otu-tx-operator  alias="tx-operator"/>  
+        <otu-accepted-sapi  alias="accepted-sapi"/>  
+        <otu-accepted-dapi  alias="accepted-dapi"/>  
+        <otu-accepted-operator alias="accepted-operator"/>  
+        <otu-expected-sapi  alias="expected-sapi"/>  
+        <otu-expected-dapi  alias="expected-dapi"/>  
+        <otu-tim-act-enabled  alias="tim-act-enabled"/>  
+        <otu-tim-detect-mode  alias="tim-detect-mode"/>  
+        <otu-degm-intervals alias="degm-intervals"/> 
+        <otu-degthr-percentage alias="degthr-percentage"/>  
+        <maint-loopback> 
+          <otu-maint-enabled alias="enabled"/> 
+          <otu-maint-type alias="type"/> 
+        </maint-loopback> 
+      </otu> 
+    </interface> 
+  </org-openroadm-device> 
+</org-openroadm-device>

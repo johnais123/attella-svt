@@ -1,0 +1,27 @@
+#fv-connect-controllers "all";
+#fv-load-baseline-config-from  "default";
+#fv-core-check   "enable";
+
+uv-odl-server "172.27.80.27:18181";
+
+device0 {
+  system {
+    model ("ACX6160-T");
+    fv-tags "dut";
+    # name "Gemini05";
+  }
+  interfaces {
+    intf1 {
+      type "och";
+    }
+    intf2 {
+      type "otu";
+    }
+    intf3 {
+      type "odu";
+    }
+    intf4 {
+      type "ett";
+    }
+  }
+}

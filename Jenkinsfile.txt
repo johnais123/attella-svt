@@ -1,0 +1,9 @@
+ node (){
+  stage 'Build and Test'
+  # env.PATH = "${tool 'M3'}/bin:${env.PATH}"
+  //checkout scm
+  git url:"https://git.juniper.net/attella/system-test.git"
+  sh 'runAutomation.sh'
+}
+
+

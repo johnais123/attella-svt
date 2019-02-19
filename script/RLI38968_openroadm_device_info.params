@@ -1,0 +1,36 @@
+#fv-connect-controllers "all";
+#fv-load-baseline-config-from  "default";
+#fv-core-check   "enable";
+
+uv-odl-server "172.27.80.27:18181";
+
+device0 {
+  system {
+    model ("ACX6160-T");
+    fv-tags "dut";
+    # name "Gemini05";
+  }
+}
+
+## read-only leaf##
+uv-ATTELLA_DEF_INFO_VENDOR "Juniper Networks";
+uv-ATTELLA_DEF_INFO_MODEL "ACX6160-T";
+uv-ATTELLA_DEF_INFO_SOURCE "static";
+uv-ATTELLA_DEF_INFO_CURRENT_PREFIX_LENGTH "21";
+uv-ATTELLA_DEF_INFO_CURRENT_DEFAULTGATEWAY "172.27.88.1";
+uv-ATTELLA_DEF_INFO_OPENROADM_VERSION "2.2";
+uv-ATTELLA_DEF_INFO_CURRENT_DATETIME "";
+## end of read-only leaf##
+
+## read-write leaf##
+uv-ATTELLA_DEF_INFO_NODE_ID "openroadm";
+uv-ATTELLA_DEF_INFO_NODE_NUMBER "77";
+uv-ATTELLA_DEF_INFO_NODE_TYPE "xpdr";
+uv-ATTELLA_DEF_INFO_CLLI "attella_juniper";
+uv-ATTELLA_DEF_INFO_IPADDRESS "100.100.100.20";
+uv-ATTELLA_DEF_INFO_PREFIX_LENGTH "21";
+uv-ATTELLA_DEF_INFO_DEFAULTGATEWAY "30.100.100.1";
+uv-ATTELLA_DEF_INFO_TEMPLATE "attella";
+uv-ATTELLA_DEF_INFO_LATITUDE "0.00000";
+uv-ATTELLA_DEF_INFO_LONGITUDE "0.00000";
+## end of read-write leaf##
