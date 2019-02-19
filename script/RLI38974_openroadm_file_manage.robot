@@ -132,16 +132,14 @@ perform rpc create tech info
 perform rpc transfer warm reload
     [Documentation]  Warm reboot system via transfer rpc
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc8   done
-    Rpc Command For Warm Reload device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}
-    Mount To Controller and Verify
+    [Tags]           Sanity   tc8   reload
+    Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}
 
 perform rpc transfer cold reload
     [Documentation]  Cold reboot system via transfer rpc
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc9   done
-    Rpc Command For Cold Reload device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}
-    Mount To Controller and Verify 
+    [Tags]           Sanity   tc9   reload
+    Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}
 
 
 *** Keywords ***
@@ -171,10 +169,6 @@ Testbed Init
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}   ${rpc_session}
     Set Suite Variable    ${odl_sessions}
     
-    Mount To Controller and Verify
-
-
-Mount To Controller and Verify
     Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     sleep   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
