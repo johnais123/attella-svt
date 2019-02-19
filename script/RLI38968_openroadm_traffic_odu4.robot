@@ -76,7 +76,7 @@ TC1
 
 TC2
     [Documentation]  Traffic Verification
-    [Tags]  Sanity
+    [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
     Verify Traffic Is OK
 
