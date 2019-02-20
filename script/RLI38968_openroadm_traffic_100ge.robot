@@ -361,11 +361,11 @@ Verify Traffic Is One Way Through
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
 	
-	@{lTx}=  create list  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle1}
+	@{lTx}=  create list  ${testSetHandle1}
+    @{lRx}=  create list  ${testSetHandle2}
 	
-    @{lTxFail}=  create list  ${testSetHandle1}
-    @{lRxFail}=  create list  ${testSetHandle2}
+    @{lTxFail}=  create list  ${testSetHandle2}
+    @{lRxFail}=  create list  ${testSetHandle1}
     
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
