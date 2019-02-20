@@ -86,7 +86,7 @@ TC2
 TC3
     [Documentation]  Disable Client Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc3
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
     
     @{interface_info}    create list  ${intf}
@@ -95,12 +95,12 @@ TC3
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc4
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
     
     @{interface_info}    create list  ${intf}
@@ -115,7 +115,7 @@ TC4
 TC5
     [Documentation]  Disable Line Odu Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc5
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=outOfService
     
@@ -125,12 +125,12 @@ TC5
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC6
     [Documentation]  Enable Line Odu Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc6
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
     
@@ -145,7 +145,7 @@ TC6
 TC7
     [Documentation]  Disable Line Otu Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc7
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=outOfService
@@ -156,12 +156,12 @@ TC7
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC8
     [Documentation]  Enable Line Otu Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc8
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=inService
@@ -177,7 +177,7 @@ TC8
 TC9
     [Documentation]  Disable Line Och Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc9
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -189,12 +189,12 @@ TC9
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC10
     [Documentation]  Enable Line Och Interface And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc10
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -212,7 +212,7 @@ TC10
 TC11
     [Documentation]  Service De-provision
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc11
 
 	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
@@ -222,14 +222,14 @@ TC11
 TC12
     [Documentation]  Traffic Verification After Service De-provision
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc12
     Log To Console  Verify Traffic
     Verify Traffic Is Blocked
 	
 TC13
     [Documentation]  Recreate Service And Verify Traffic
     ...              RLI38968 5.1-8
-    [Tags]  Sanity
+    [Tags]  Sanity  tc13
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
@@ -241,7 +241,7 @@ TC13
 TC14
     [Documentation]  Service De-provision
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc15
+    [Tags]  Sanity  tc14
 	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
     Remove 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
@@ -345,6 +345,34 @@ Verify Traffic Is OK
    
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
+Verify Traffic Is One Way Through
+    Log To Console  Verify Traffic Is One Way Through
+    
+    Sleep  10    
+
+    Clear Statistic And Alarm  ${testSetHandle1}
+    Clear Statistic And Alarm  ${testSetHandle2}
+       
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
+   
+    Sleep  30
+   
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
+
+	@{lTx}=  create list  ${testSetHandle1}
+    @{lRx}=  create list  ${testSetHandle2}
+	
+    @{lTxFail}=  create list  ${testSetHandle2}
+    @{lRxFail}=  create list  ${testSetHandle1}
+    
+    @{EMPTY LIST}=  create list
+    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
+    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+	
+	
+	
 Verify Traffic Is Blocked
     Log To Console  Verify Traffic Is Blocked
     
@@ -360,7 +388,7 @@ Verify Traffic Is Blocked
    
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
-   
+	
     @{lTxFail}=  create list  ${testSetHandle1}  ${testSetHandle2}
     @{lRxFail}=  create list  ${testSetHandle2}  ${testSetHandle1}
     
