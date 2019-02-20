@@ -369,7 +369,7 @@ Verify Traffic Is OK
    
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
-Verify Traffic Is Blocked
+Verify Traffic Is One Way Through
     Log To Console  Verify Traffic Is Blocked
     
     Sleep  20
@@ -385,10 +385,12 @@ Verify Traffic Is Blocked
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
    
-  
-    @{lTxFail}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRxFail}=  create list  ${testSetHandle2}  ${testSetHandle1}
+	@{lTx}=  create list  ${testSetHandle1}
+    @{lRx}=  create list  ${testSetHandle2}
+	
+    @{lTxFail}=  create list  ${testSetHandle2}
+    @{lRxFail}=  create list  ${testSetHandle1}
     
     @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
+    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
