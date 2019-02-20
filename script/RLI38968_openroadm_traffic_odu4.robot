@@ -95,7 +95,7 @@ TC3
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc4
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
     
     @{interface_info}    create list  ${intf}
@@ -108,7 +108,7 @@ TC4
     
 TC5
     [Documentation]  Disable Client Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc5
     ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}  interface-administrative-state=outOfService
     
@@ -122,7 +122,7 @@ TC5
 
 TC6
     [Documentation]  Enable Client Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc6
     ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}  interface-administrative-state=inService
     
@@ -137,7 +137,7 @@ TC6
     
 TC7
     [Documentation]  Disable Line Odu Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc7
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=outOfService
     
@@ -151,7 +151,7 @@ TC7
     
 TC8
     [Documentation]  Enable Line Odu Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc8
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
     
@@ -165,7 +165,7 @@ TC8
     
 TC9
     [Documentation]  Disable Line Otu Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc9
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=outOfService
@@ -180,7 +180,7 @@ TC9
     
 TC10
     [Documentation]  Enable Line Otu Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc10
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=inService
@@ -195,7 +195,7 @@ TC10
     
 TC11
     [Documentation]  Disable Line Och Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc11
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -211,7 +211,7 @@ TC11
     
 TC12
     [Documentation]  Enable Line Och Interface And Verify Traffic
-    [Tags]  Sanity
+    [Tags]  Sanity  tc12
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -242,7 +242,7 @@ TC14
     
 TC15
     [Documentation]  Recreate Service And Verify Traffic
-    [Tags]  Sanity  tc1
+    [Tags]  Sanity  tc15
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
@@ -252,7 +252,7 @@ TC15
 	
 TC16
     [Documentation]  Service De-provision
-    [Tags]  Sanity  tc13
+    [Tags]  Sanity  tc16
     Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
 	Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
     Remove OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
