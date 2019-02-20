@@ -91,7 +91,7 @@ TC3
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
@@ -118,7 +118,7 @@ TC5
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
 
 TC6
     [Documentation]  Enable Client Interface And Verify Traffic
@@ -147,7 +147,7 @@ TC7
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC8
     [Documentation]  Enable Line Odu Interface And Verify Traffic
@@ -176,7 +176,7 @@ TC9
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC10
     [Documentation]  Enable Line Otu Interface And Verify Traffic
@@ -207,7 +207,7 @@ TC11
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is Blocked
+    Verify Traffic Is One Way Through
     
 TC12
     [Documentation]  Enable Line Och Interface And Verify Traffic
@@ -370,7 +370,7 @@ Verify Traffic Is OK
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
 Verify Traffic Is One Way Through
-    Log To Console  Verify Traffic Is Blocked
+    Log To Console  Verify Traffic Is One Way Through
     
     Sleep  20
     
@@ -393,4 +393,27 @@ Verify Traffic Is One Way Through
     
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
+    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+	
+Verify Traffic Is Blocked
+    Log To Console  Verify Traffic Is Blocked
+    
+    Sleep  20
+    
+    Clear Statistic And Alarm  ${testSetHandle1}
+    Clear Statistic And Alarm  ${testSetHandle2}
+       
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
+   
+    Sleep  30
+   
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
+   
+    @{lTxFail}=  create list  ${testSetHandle1}  ${testSetHandle2}
+    @{lRxFail}=  create list  ${testSetHandle2}  ${testSetHandle1}
+    
+    @{EMPTY LIST}=  create list
+    ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
