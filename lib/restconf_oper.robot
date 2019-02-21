@@ -240,9 +240,9 @@ RPC Create Tech Info
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
 
 
-Rpc Command For Warm Reload device
+Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
-    [Arguments]    ${odl_sessions}   ${node}   
+    [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>warm</option></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
@@ -250,11 +250,14 @@ Rpc Command For Warm Reload device
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     Reconnect Device And Verification reboot successful 
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${node}
+    sleep   15s 
+    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${node}
 
 
-Rpc Command For Cold Reload device
+Rpc Command For Cold Reload Device
     [Documentation]   Restart a resource with cold option via Rpc command
-    [Arguments]    ${odl_sessions}   ${node}
+    [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>cold</option></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}  
@@ -262,6 +265,9 @@ Rpc Command For Cold Reload device
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     Reconnect Device And Verification reboot successful 
+    Mount vAttella On ODL Controller    ${odl_sessions}    ${timeout}    ${interval}   ${node}
+    sleep   15s 
+    Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${timeout}    ${interval}   ${node}
 
 
 Mount vAttella On ODL Controller
