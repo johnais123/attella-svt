@@ -11,7 +11,7 @@ Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Library         attella_keyword.py
 Library         random
-# Library        ../lib/PowerModule.py   172.27.90.188   WITH NAME   powersv
+
 
 *** Variables ***
 &{put_headers}               Accept=application/xml   Content-Type=application/xml
@@ -242,14 +242,16 @@ RPC Create Tech Info
 
 Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
-    [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}
+    ...                    Args:
+    ...                    | - deviceName : device0 or device1
+    [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}   ${deviceName}
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>warm</option></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     check status line    ${resp}     200  
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    Reconnect Device And Verification reboot successful 
+    Reconnect Device And Verification reboot successful    ${deviceName}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${node}
     sleep   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${node}
@@ -257,14 +259,14 @@ Rpc Command For Warm Reload Device
 
 Rpc Command For Cold Reload Device
     [Documentation]   Restart a resource with cold option via Rpc command
-    [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}
+    [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}   ${deviceName}
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>cold</option></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}  
     check status line    ${resp}     200  
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    Reconnect Device And Verification reboot successful 
+    Reconnect Device And Verification reboot successful    ${deviceName}
     Mount vAttella On ODL Controller    ${odl_sessions}    ${timeout}    ${interval}   ${node}
     sleep   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${timeout}    ${interval}   ${node}
@@ -322,7 +324,104 @@ Check Mount Status Of Device on ODL Controller
     ${con_status}           Get Element Text    ${root}    connection-status
     Log To Console             Node-id ${node} connection status: ${con_status}
     Should Be Equal As Strings    ${con_status}    connected
+
+
+Get Current All Pm Information On Target Resource
+    [Documentation]        Get Pm On Target
+    ...                    Fails if doesn't exist this kind of resouce pm
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node : mount node in ODL
+    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}
     
+    &{payload}   create_dictionary   current-pm-list=${null}
+    ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${payload}
+    ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
+    ${root}=                 Parse XML    ${resp_content}
+   
+    @{currentPmRes}  Get Elements  ${root}  current-pm-entry
+    Log  ${currentPmRes}
+
+    :FOR  ${pmRes}  IN  @{currentPmRes}
+    \   ${restype}=  Get Element  ${pmRes}  pm-resource-type
+    \   ${restype_ext}=  Get Element  ${pmRes}  pm-resource-type-extension
+    \   ${resinst}=  Get Element  ${pmRes}  pm-resource-instance
+    \   Log  ${restype.text}
+    \   Log  ${resinst.text}
+    \   @{ret}     Split String      ${resinst.text}    name=
+    \   ${lastRes}     Get From List     ${ret}    -1
+    \   ${res}     Get Substring     ${lastRes}  0  -1
+    \   Run Keyword If  ${res} == '${targetResource}'    EXIT For Loop
+    # ${args}   run keyword if   '${score}' == '${score1}'   Run Keywords    set variable   dsfsfs  AND  log  222222 
+    # \   Log  ${raiseTime.text}
+    # \   Log  ${additional_detail.text}
+    # \   Log  ${severity.text}
+    # \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}
+    # \   Log  ${resource}
+    # \   ${len}=  Get Length    ${resource}
+    # \   Run Keyword If  '${len}' != '1'  Run Keywords  Log  Get $(len) resources in one active Alarm entity
+    # \   ...   AND  FAIL
+    # \   ${resource}=  Get Element  ${activeAlarm}  resource/resource/*
+    # \   Log  ${resource.tag}
+    # \   ${resource_name}=  Get Element  ${activeAlarm}  resource/resource/${resource.tag}
+    # \   Log  ${resource_name.text}
+    # \   Run Keyword If  '${resource_name.text}' == '${targetResource}'  Append To List  ${activeAlarmList}  ${additional_detail.text}
+    
+    # Log  ${activeAlarmList}
+    log    ${pmRes}
+    [return]  ${pmRes}
+
+Get Current Spefic Pm Entry
+    [Documentation]        Get special Pm On Target
+    ...                    Fails if it doesn't exist special pm statistics on this resource
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node :Under testing Device
+    ...                    |  
+    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${targetPmEntry}
+    ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
+    @{currentPmRes}  Get Elements  ${underTestRes}  current-pm
+    :FOR  ${pmEntry}  IN  @{currentPmRes}
+    \   ${pmtype}=  Get Element  ${pmEntry}  type
+    \   ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+    \   Log  ${pmtype.text}
+    \   Log  ${expmtype_ext.text} 
+    \   Run Keyword If  '${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}'  EXIT For Loop
+    log    ${pmEntry}
+    [return]  ${pmEntry}
+
+
+Get current Spefic Pm Statistic 
+    [Documentation]        Get special Pm Statistics On Target
+    ...                    Fails if it doesn't exist special pm statistics on this resource
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node :Under testing Device
+    ...                    |  
+    [Arguments]             ${odl_sessions}   ${node}    ${targetResource}   ${targetPmEntry}   ${pmInterval}    ${tarPmLoc}  ${tarPmDirect}
+    ${underTestPmEntry}=     Get Current Spefic Pm Entry    ${odl_sessions}   ${node}   ${targetResource}    ${targetPmEntry}
+    # :FOR  ${pmEntryatt}  IN  @{underTestPmEntry}
+    ${pmlocation}=   Get Element  ${underTestPmEntry}   location
+    ${pmdirection}=  Get Element  ${underTestPmEntry}   direction
+    log    ${pmlocation.text}
+    log    ${pmdirection.text}
+    Run keyword If  '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'  log  current resouce ${targetResource} and current pm ${targetPmEntry} entry exsits ${pmdirection.text} pm on ${pmlocation.text}
+    ...       ELSE   Run Keywords    Fail  no pm statistics on current ${targetResource} and current ${targetPmEntry} pm 
+    @{currentPmStatis}  Get Elements  ${underTestPmEntry}   measurement
+    :FOR  ${pmStat}  IN  @{currentPmStatis}
+    \   ${pmGranularity}=  Get Element  ${pmStat}     granularity
+    \   ${pmParameterUnit}=  Get Element  ${pmStat}   pmParameterUnit
+    \   ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
+    \   ${pmvalidity}=  Get Element  ${pmStat}          validity
+    \   Log  ${pmGranularity.text}
+    \   Log  ${pmParameterUnit.text} 
+    \   Log  ${pmParameterValue.text} 
+    \   Log  ${pmvalidity.text}
+    \   Run keyword If  '${pmGranularity.text}' == '${pmInterval}'   EXIT For Loop
+    Log   ${pmParameterValue.text} 
+    [return]   ${pmParameterValue.text} 
+
+
 Get Alarms On Resource
     [Documentation]        Get Alarms On Target
     ...                    Fails if status is not connected
