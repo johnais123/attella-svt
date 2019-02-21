@@ -50,7 +50,7 @@ Power cycle
 Reconnect Device And Verification reboot successful 
     [Documentation]   Perform power cycle via software
     ...                    Args:
-    ...                    | - node : device0 or device1
+    ...                    |- node : device0 or device1
     [Arguments]      ${node} 
     Log           Begin to do reload via rpc command
     Sleep   300s     reason=Wait before trying to reconnect after reboot

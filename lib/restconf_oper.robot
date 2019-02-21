@@ -242,6 +242,8 @@ RPC Create Tech Info
 
 Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
+    ...                    Args:
+    ...                    | - deviceName : device0 or device1
     [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}   ${deviceName}
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>warm</option></input>
