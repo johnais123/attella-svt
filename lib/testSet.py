@@ -87,7 +87,8 @@ def verifyTraffic(lTxPort, lRxPort, lTxPortFail=[], lRxPortFail=[]):
             rxResult = lRxPort[i].getTestResult()["TEST_STATUS"]
             print("  --%s TEST_STATUS : %s"%(lTxPort[i], txResult))
             print("  --%s TEST_STATUS : %s"%(lRxPort[i], rxResult))
-            if not ("PASS" == txResult and "PASS" == rxResult):
+            # if not ("PASS" == txResult and "PASS" == rxResult):
+            if not ("PASS" == rxResult):
                 print("the traffic should OK but there is error in traffic flow")
                 result = "FAIL"
         for i in range(len(lTxPortFail)):
@@ -96,7 +97,8 @@ def verifyTraffic(lTxPort, lRxPort, lTxPortFail=[], lRxPortFail=[]):
             rxResult = lRxPortFail[i].getTestResult()["TEST_STATUS"]
             print("  --%s TEST_STATUS : %s"%(lTxPortFail[i], txResult))
             print("  --%s TEST_STATUS : %s"%(lRxPortFail[i], rxResult))
-            if not ("FAIL" == txResult and "FAIL" == rxResult):
+            # if not ("FAIL" == txResult and "FAIL" == rxResult):
+            if not ("FAIL" == rxResult):
                 print("the traffic should blocked but it is not")
                 result = "FAIL"
     else:
