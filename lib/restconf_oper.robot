@@ -11,7 +11,7 @@ Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Library         attella_keyword.py
 Library         random
-# Library        ../lib/PowerModule.py   172.27.90.188   WITH NAME   powersv
+
 
 *** Variables ***
 &{put_headers}               Accept=application/xml   Content-Type=application/xml

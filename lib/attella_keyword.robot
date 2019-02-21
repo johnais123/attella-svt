@@ -46,9 +46,11 @@ Power cycle
     \       ${result}=   powersv.set Outlet Ctrl State   ${Outlet_id}   ${Outlet_Status_ON}  
     powersv.close
     
-# device0 need to be argurment to pass this function 
+
 Reconnect Device And Verification reboot successful 
     [Documentation]   Perform power cycle via software
+    ...                    Args:
+    ...                    | - node : device0 or device1
     [Arguments]      ${node} 
     Log           Begin to do reload via rpc command
     Sleep   300s     reason=Wait before trying to reconnect after reboot
