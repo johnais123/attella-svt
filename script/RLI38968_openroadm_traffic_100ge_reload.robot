@@ -87,7 +87,7 @@ TC2
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
     
-	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}
+	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 	Log To Console  Verify Traffic after Cold Reload device
 	Verify Traffic Is OK
 	
@@ -104,7 +104,7 @@ TC3
     Start Traffic  ${testSetHandle1}
     Start Traffic  ${testSetHandle2}
    
-	Rpc Command For Warm Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}
+	Rpc Command For Warm Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 	
     Sleep  60
    
@@ -161,7 +161,7 @@ TC6
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
     
-	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}
+	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 	Log To Console  Verify Traffic after Cold Reload device
 	Verify Traffic Is OK
 	
@@ -178,7 +178,7 @@ TC7
     Start Traffic  ${testSetHandle1}
     Start Traffic  ${testSetHandle2}
    
-	Rpc Command For Warm Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}
+	Rpc Command For Warm Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 	
     Sleep  60
    
