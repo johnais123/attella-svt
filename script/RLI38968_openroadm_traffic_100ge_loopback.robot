@@ -83,6 +83,31 @@ TC2
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
+    # Verify Traffic Is OK
+	
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
+	# Verify Traffic Is One Way Through
+	
+	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
+	# Verify Traffic Is OK
+	
+
+	
+TC3
+    [Documentation]  Service Provision
+    ...              RLI38968 5.1-8
+    [Tags]  Sanity  tc3
+	Log To Console  Create OTU4 Service
+    Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
+    
+    Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
+
+
+TC4
+    [Documentation]  Traffic Verification
+    ...              RLI38968 5.1-8
+    [Tags]  Sanity  tc4
+    Log To Console  Verify Traffic
     Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
