@@ -85,10 +85,10 @@ TC2
     Log To Console  Verify Traffic
     Verify Traffic Is OK
 	
-	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
-	Verify Traffic Is Remote To Local One Way Through
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  term
+	Verify Traffic Is Local To Remote One Way Through
 	
-	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  off
 	Verify Traffic Is OK
 	
 
@@ -101,10 +101,10 @@ TC3
     Log To Console  Verify Traffic
     Verify Traffic Is OK
 	
-	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
-	Verify Traffic Is Local To Remote One Way Through
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  fac
+	Verify Traffic Is Remote To Local One Way Through
 	
-	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  off
 	Verify Traffic Is OK
 	
 TC4
@@ -115,10 +115,10 @@ TC4
     Verify Traffic Is OK
 	
 	${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  term
-	Verify Traffic Is Remote To Local One Way Through
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  term
+	Verify Traffic Is Local To Remote One Way Through
 	
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  off
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  off
 	Verify Traffic Is OK
 	
 
@@ -133,11 +133,20 @@ TC5
 	
 	${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
 	
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  fac
-	Verify Traffic Is Local To Remote One Way Through
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  fac
+	Verify Traffic Is Remote To Local One Way Through
 	
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  off
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  off
 	Verify Traffic Is OK
+	
+	
+TC6
+    [Documentation]  Service De-provision
+    [Tags]  Sanity  tc6
+    Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+	Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+    Remove OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
+
 	
 	
 
