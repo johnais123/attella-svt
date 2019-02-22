@@ -72,10 +72,11 @@ TC1
     [Documentation]  Service Provision
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc1
-	Log To Console  Create 100GE Service
-    # Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
+	Log To Console  Create OTU4 Service
+    Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
-    # Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
+    Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
+
 
 TC2
     [Documentation]  Traffic Verification
@@ -87,18 +88,15 @@ TC2
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
 	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
     
-
-    
 *** Keywords ***
 Test Bed Init
     Set Log Level  DEBUG
     # Initialize
     Log To Console      create a restconf operational session
-    
+
     @{dut_list}    create list    device0  device1
     Preconfiguration netconf feature    @{dut_list}
-
-
+    
     ${opr_session}    Set variable      operational_session
     Create Session          ${opr_session}    http://${tv['uv-odl-server']}/restconf/operational/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
     Set Suite Variable    ${opr_session}
@@ -112,10 +110,10 @@ Test Bed Init
     Set Suite Variable    ${odl_sessions}
     
     
-    ${client intf}=  Get Ethernet Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
+    ${client intf}=  Get Otu4 Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
     Set Suite Variable    ${client intf}
     
-    ${remote client intf}=  Get Ethernet Intface Name From Client Intface  ${tv['device1__client_intf__pic']}
+    ${remote client intf}=  Get Otu4 Intface Name From Client Intface  ${tv['device1__client_intf__pic']}
     Set Suite Variable    ${remote client intf}
     
     
@@ -123,29 +121,44 @@ Test Bed Init
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
-    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}    
     
 	Log To Console  de-provision on both device0 and device1
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
 
-	
-    
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle1}
+    Log To Console      Init Test Equipment ${testEquipmentInfo}: protocol otu4
+    Init Test Equipment  ${testSetHandle1}  otu4
     
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
-           
-    Init Test Equipment  ${testSetHandle1}  100ge
-    Init Test Equipment  ${testSetHandle2}  100ge
+    Log To Console      Init Test Equipment ${testEquipmentInfo}: protocol otu4
+    Init Test Equipment  ${testSetHandle2}  otu4
+	
+	
+	Set OTU FEC  ${testSetHandle1}  ${tv['uv-client_fec']}
+	Set OTU FEC  ${testSetHandle2}  ${tv['uv-client_fec']}
+	set OTU SM TTI Traces  ${testSetHandle1}  OPERATOR  ${null}  tx-operator-val
+	set OTU SM TTI Traces  ${testSetHandle1}  sapi  Expected  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle1}  dapi  Expected  tx-dapi-val
+	set OTU SM TTI Traces  ${testSetHandle1}  sapi  Received  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle1}  dapi  Received  tx-dapi-val
+
+	set OTU SM TTI Traces  ${testSetHandle2}  OPERATOR  ${null}  tx-operator-val
+	set OTU SM TTI Traces  ${testSetHandle2}  sapi  Expected  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle2}  dapi  Expected  tx-dapi-val
+	set OTU SM TTI Traces  ${testSetHandle2}  sapi  Received  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle2}  dapi  Received  tx-dapi-val
+    
 
 Verify Traffic Is OK
     Log To Console  Verify Traffic Is OK
     : FOR    ${nLoop}    IN RANGE    1    6
-    \    Sleep  10
+    \    Sleep  20
     \    Log To Console  Check Traffic Status for the ${nLoop} time
     \    Clear Statistic And Alarm  ${testSetHandle1}  
     \    Clear Statistic And Alarm  ${testSetHandle2}
@@ -189,8 +202,8 @@ Verify Traffic Is OK
 Verify Traffic Is One Way Through
     Log To Console  Verify Traffic Is One Way Through
     
-    Sleep  10    
-
+    Sleep  20
+    
     Clear Statistic And Alarm  ${testSetHandle1}
     Clear Statistic And Alarm  ${testSetHandle2}
        
@@ -201,7 +214,7 @@ Verify Traffic Is One Way Through
    
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
-
+   
 	@{lTx}=  create list  ${testSetHandle1}
     @{lRx}=  create list  ${testSetHandle2}
 	
@@ -212,13 +225,11 @@ Verify Traffic Is One Way Through
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
 	
-	
-	
 Verify Traffic Is Blocked
     Log To Console  Verify Traffic Is Blocked
     
-    Sleep  10    
-
+    Sleep  20
+    
     Clear Statistic And Alarm  ${testSetHandle1}
     Clear Statistic And Alarm  ${testSetHandle2}
        
@@ -229,10 +240,12 @@ Verify Traffic Is Blocked
    
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
-	
+
     @{lTxFail}=  create list  ${testSetHandle1}  ${testSetHandle2}
     @{lRxFail}=  create list  ${testSetHandle2}  ${testSetHandle1}
     
     @{EMPTY LIST}=  create list
+
     ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
+
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
