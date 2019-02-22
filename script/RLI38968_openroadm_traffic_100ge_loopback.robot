@@ -86,6 +86,7 @@ TC2
     # Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
+	Verify Traffic Is One Way Through
 	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
     
 *** Keywords ***
@@ -158,7 +159,7 @@ Test Bed Init
 Verify Traffic Is OK
     Log To Console  Verify Traffic Is OK
     : FOR    ${nLoop}    IN RANGE    1    6
-    \    Sleep  20
+    \    Sleep  10
     \    Log To Console  Check Traffic Status for the ${nLoop} time
     \    Clear Statistic And Alarm  ${testSetHandle1}  
     \    Clear Statistic And Alarm  ${testSetHandle2}
@@ -202,7 +203,7 @@ Verify Traffic Is OK
 Verify Traffic Is One Way Through
     Log To Console  Verify Traffic Is One Way Through
     
-    Sleep  20
+    Sleep  10
     
     Clear Statistic And Alarm  ${testSetHandle1}
     Clear Statistic And Alarm  ${testSetHandle2}
@@ -215,10 +216,10 @@ Verify Traffic Is One Way Through
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
    
-	@{lTx}=  create list  ${testSetHandle1}
+	@{lTx}=  create list  ${testSetHandle2}
     @{lRx}=  create list  ${testSetHandle2}
 	
-    @{lTxFail}=  create list  ${testSetHandle2}
+    @{lTxFail}=  create list  ${testSetHandle1}
     @{lRxFail}=  create list  ${testSetHandle1}
     
     @{EMPTY LIST}=  create list
@@ -228,7 +229,7 @@ Verify Traffic Is One Way Through
 Verify Traffic Is Blocked
     Log To Console  Verify Traffic Is Blocked
     
-    Sleep  20
+    Sleep  10
     
     Clear Statistic And Alarm  ${testSetHandle1}
     Clear Statistic And Alarm  ${testSetHandle2}

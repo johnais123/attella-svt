@@ -363,8 +363,8 @@ Set Loopback To ODU Interface
     @{interface_info}    create list    ${interface}
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
-	
+    # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+	Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
 	
 Set Loopback To OTU Interface
     [Documentation]   Set Loopback To OTU Interface
@@ -376,4 +376,5 @@ Set Loopback To OTU Interface
     @{interface_info}    create list    ${interface}
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+    # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+    Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
