@@ -83,10 +83,14 @@ TC2
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
-    # Verify Traffic Is OK
+    Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
 	Verify Traffic Is One Way Through
+	
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
+	Verify Traffic Is OK
+	
 	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
     
 *** Keywords ***
@@ -216,11 +220,11 @@ Verify Traffic Is One Way Through
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
    
-	@{lTx}=  create list  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}
+	@{lTx}=  create list  ${testSetHandle1}
+    @{lRx}=  create list  ${testSetHandle1}
 	
-    @{lTxFail}=  create list  ${testSetHandle1}
-    @{lRxFail}=  create list  ${testSetHandle1}
+    @{lTxFail}=  create list  ${testSetHandle2}
+    @{lRxFail}=  create list  ${testSetHandle2}
     
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
