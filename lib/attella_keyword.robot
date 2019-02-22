@@ -358,7 +358,7 @@ Set Loopback To ODU Interface
 	&{enable_loopback}  create_dictionary  otu-maint-enabled=true  odu-maint-type=${loopback mode}
     # &{disable_loopback_interface}    create_dictionary   interface-name=${intf}  otu-maint-enabled=false
     # &{enable_loopback_interface}    create_dictionary   interface-name=${intf}  otu-maint-enabled=true  otu-maint-type=${loopback mode}
-    &{loopback}=  Set Variable If  '${loopback mode}' == 'off'  ${disable_loopback_interface}  ${enable_loopback_interface}
+    &{loopback}=  Set Variable If  '${loopback mode}' == 'off'  ${disable_loopback}  ${enable_loopback}
 	${interface}=  create_dictionary  interface-name=${intf}  maint-testsignal=${loopback}
     @{interface_info}    create list    ${interface}
     &{dev_info}   create_dictionary   interface=${interface_info}       

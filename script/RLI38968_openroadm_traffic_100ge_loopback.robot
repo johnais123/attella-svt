@@ -72,16 +72,17 @@ TC1
     [Documentation]  Service Provision
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc1
-    Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
+	Log To Console  Create 100GE Service
+    # Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
-    Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
+    # Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 
 TC2
     [Documentation]  Traffic Verification
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
-    Verify Traffic Is OK
+    # Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
 	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
