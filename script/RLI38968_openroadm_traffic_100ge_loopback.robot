@@ -83,35 +83,26 @@ TC2
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
-    # Verify Traffic Is OK
+    Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
-	# Verify Traffic Is One Way Through
+	Verify Traffic Is Remote To Local Through One Way
 	
-	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
-	# Verify Traffic Is OK
+	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
+	Verify Traffic Is OK
 	
 
 	
+
 TC3
-    [Documentation]  Service Provision
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc3
-	Log To Console  Create OTU4 Service
-    Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
-    
-    Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
-
-
-TC4
     [Documentation]  Traffic Verification
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc4
+    [Tags]  Sanity  tc3
     Log To Console  Verify Traffic
     Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
-	Verify Traffic Is One Way Through
+	Verify Traffic Is Local To Remote Through One Way 
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
 	Verify Traffic Is OK
@@ -229,7 +220,7 @@ Verify Traffic Is OK
    
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
-Verify Traffic Is One Way Through
+Verify Traffic Is Local To Remote One Way Through
     Log To Console  Verify Traffic Is One Way Through
     
     Sleep  10
@@ -250,6 +241,32 @@ Verify Traffic Is One Way Through
 	
     @{lTxFail}=  create list  ${testSetHandle2}
     @{lRxFail}=  create list  ${testSetHandle2}
+    
+    @{EMPTY LIST}=  create list
+    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
+    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+	
+Verify Traffic Is Remote To Local One Way Through
+    Log To Console  Verify Traffic Is One Way Through
+    
+    Sleep  10
+    
+    Clear Statistic And Alarm  ${testSetHandle1}
+    Clear Statistic And Alarm  ${testSetHandle2}
+       
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
+   
+    Sleep  30
+   
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
+   
+	@{lTx}=  create list  ${testSetHandle2}
+    @{lRx}=  create list  ${testSetHandle2}
+	
+    @{lTxFail}=  create list  ${testSetHandle1}
+    @{lRxFail}=  create list  ${testSetHandle1}
     
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
