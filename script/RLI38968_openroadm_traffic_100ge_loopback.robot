@@ -86,7 +86,7 @@ TC2
     Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
-	Verify Traffic Is Remote To Local Through One Way
+	Verify Traffic Is Remote To Local One Way Through
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
 	Verify Traffic Is OK
@@ -102,13 +102,45 @@ TC3
     Verify Traffic Is OK
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  fac
-	Verify Traffic Is Local To Remote Through One Way 
+	Verify Traffic Is Local To Remote One Way Through
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  off
 	Verify Traffic Is OK
 	
-	# Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}  term
-    
+TC4
+    [Documentation]  Traffic Verification
+    ...              RLI38968 5.1-8
+    [Tags]  Sanity  tc4
+    Log To Console  Verify Traffic
+    Verify Traffic Is OK
+	
+	${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  term
+	Verify Traffic Is Remote To Local One Way Through
+	
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  off
+	Verify Traffic Is OK
+	
+
+	
+
+TC5
+    [Documentation]  Traffic Verification
+    ...              RLI38968 5.1-8
+    [Tags]  Sanity  tc5
+    Log To Console  Verify Traffic
+    Verify Traffic Is OK
+	
+	${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
+	
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  fac
+	Verify Traffic Is Local To Remote One Way Through
+	
+	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}  off
+	Verify Traffic Is OK
+	
+	
+
 *** Keywords ***
 Test Bed Init
     Set Log Level  DEBUG
