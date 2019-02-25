@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    This is Attella 100ge traffic Scripts
+Documentation    This is Attella 100ge traffic reload Scripts
 ...              If you are reading this then you need to learn Toby
 ...              Description  : RLI-38968: OpenROADM Device Data Model for 800G transparent transponder targeting Metro/DCI applications
 ...              Author: Jack Wu
@@ -69,195 +69,149 @@ ${timeout}  300
 
 *** Test Cases ***     
 TC1
-    [Documentation]  Service Provision
+    [Documentation]  100ge Service Provision
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc1
+    [Tags]  Sanity  tc1  100ge
+	
+	Init Test Equipment  ${testSetHandle1}  100ge
+    Init Test Equipment  ${testSetHandle2}  100ge
+	
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 
 TC2
-    [Documentation]  Traffic Verification
+    [Documentation]  100ge Traffic Verification After Cold Reload device
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc2
-    Log To Console  Verify Traffic
+    [Tags]  Sanity  tc2  100ge
+    Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
     
+	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
+	Log To Console  Verify Traffic after Cold Reload device
+	Verify Traffic Is OK
+	
 TC3
-    [Documentation]  Disable Client Interface And Verify Traffic
+    [Documentation]  100ge Traffic Verification during Warm Reload device
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc3
-    &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
+    [Tags]  Sanity  tc3  100ge
+    Log To Console  Verify Traffic before Cold Reload device
+    Verify Traffic Is OK
+	
+	Clear Statistic And Alarm  ${testSetHandle1}  
+    Clear Statistic And Alarm  ${testSetHandle2}
     
-    @{interface_info}    create list  ${intf}
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
+   
+	Rpc Command For Warm Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
+	
+    Sleep  60
+   
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
     
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is One Way Through
-    
+    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
+    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
+    @{EMPTY LIST}=  create list
+    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
+   
+    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+	
+
 TC4
-    [Documentation]  Enable Client Interface And Verify Traffic
+    [Documentation]  100ge Service De-provision
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc4
-    &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
-    
-    @{interface_info}    create list  ${intf}
-    
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is OK
-    
-    
+    [Tags]  Sanity  tc4  100ge
+	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+    Remove 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
+
+	
+
+	
 TC5
-    [Documentation]  Disable Line Odu Interface And Verify Traffic
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc5
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=outOfService
+    [Documentation]  otu4 Service Provision
+    [Tags]  Sanity  tc5  otu4
+	Init Test Equipment  ${testSetHandle1}  otu4
+	Init Test Equipment  ${testSetHandle2}  otu4
+	
+	Set OTU FEC  ${testSetHandle1}  ${tv['uv-client_fec']}
+	Set OTU FEC  ${testSetHandle2}  ${tv['uv-client_fec']}
+	set OTU SM TTI Traces  ${testSetHandle1}  OPERATOR  ${null}  tx-operator-val
+	set OTU SM TTI Traces  ${testSetHandle1}  sapi  Expected  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle1}  dapi  Expected  tx-dapi-val
+	set OTU SM TTI Traces  ${testSetHandle1}  sapi  Received  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle1}  dapi  Received  tx-dapi-val
+
+	set OTU SM TTI Traces  ${testSetHandle2}  OPERATOR  ${null}  tx-operator-val
+	set OTU SM TTI Traces  ${testSetHandle2}  sapi  Expected  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle2}  dapi  Expected  tx-dapi-val
+	set OTU SM TTI Traces  ${testSetHandle2}  sapi  Received  tx-sapi-val
+	set OTU SM TTI Traces  ${testSetHandle2}  dapi  Received  tx-dapi-val
+	
+    Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
-    @{interface_info}    create list  ${intf}
-    
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is One Way Through
-    
+    Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
+
 TC6
-    [Documentation]  Enable Line Odu Interface And Verify Traffic
+    [Documentation]  otu4 Traffic Verification After Cold Reload device
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc6
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
-    
-    @{interface_info}    create list  ${intf}
-    
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
+    [Tags]  Sanity  tc6  otu4
+    Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
     
+	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
+	Log To Console  Verify Traffic after Cold Reload device
+	Verify Traffic Is OK
+	
 TC7
-    [Documentation]  Disable Line Otu Interface And Verify Traffic
+    [Documentation]  otu4 Traffic Verification during Warm Reload device
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc7
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=outOfService
+    [Tags]  Sanity  tc7  otu4
+    Log To Console  Verify Traffic before Cold Reload device
+    Verify Traffic Is OK
+	
+	Clear Statistic And Alarm  ${testSetHandle1}  
+    Clear Statistic And Alarm  ${testSetHandle2}
     
-    @{interface_info}    create list  ${intf}
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
+   
+	Rpc Command For Warm Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
+	
+    Sleep  60
+   
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
     
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is One Way Through
-    
+    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
+    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
+    @{EMPTY LIST}=  create list
+    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
+   
+    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+	
+	
 TC8
-    [Documentation]  Enable Line Otu Interface And Verify Traffic
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc8
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=inService
-    
-    @{interface_info}    create list  ${intf}
-    
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is OK
-    
-TC9
-    [Documentation]  Disable Line Och Interface And Verify Traffic
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc9
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    &{intf}=   create_dictionary   interface-name=${och intf}  interface-administrative-state=outOfService
-    
-    @{interface_info}    create list  ${intf}
-    
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is One Way Through
-    
-TC10
-    [Documentation]  Enable Line Och Interface And Verify Traffic
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc10
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    &{intf}=   create_dictionary   interface-name=${och intf}  interface-administrative-state=inService
-    
-    @{interface_info}    create list  ${intf}
-    
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-    
-    Verify Traffic Is OK
-    
-    
-TC11
-    [Documentation]  Service De-provision
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc11
-
-	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
-    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
-    Remove 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
-
-    
-TC12
-    [Documentation]  Traffic Verification After Service De-provision
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc12
-    Log To Console  Verify Traffic
-    Verify Traffic Is Blocked
-	
-TC13
-    [Documentation]  Recreate Service And Verify Traffic
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc13
-    Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
-    
-    Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
-
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
-	
-	
-TC14
-    [Documentation]  Service De-provision
-    ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc14
-	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
-    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
-    Remove 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
-
+    [Documentation]  otu4 Service De-provision
+    [Tags]  Sanity  tc8  otu4
+    Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+	Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+    Remove OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
 
     
 *** Keywords ***
 Test Bed Init
     Set Log Level  DEBUG
     # Initialize
-    Log To Console      create a restconf operational session
+	
     
     @{dut_list}    create list    device0  device1
     Preconfiguration netconf feature    @{dut_list}
-
-
+	
+	
+    Log To Console      create a restconf operational session
     ${opr_session}    Set variable      operational_session
     Create Session          ${opr_session}    http://${tv['uv-odl-server']}/restconf/operational/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
     Set Suite Variable    ${opr_session}
@@ -265,9 +219,15 @@ Test Bed Init
     Log To Console      create a restconf config session
     ${cfg_session}    Set variable      config_session
     Create Session          ${cfg_session}    http://${tv['uv-odl-server']}/restconf/config/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
+
     Set Suite Variable    ${cfg_session}
+	
+    Log To Console      create a restconf rpc session
+    ${rpc_session}    Set variable      rpc_session
+    Create Session          ${rpc_session}    http://${tv['uv-odl-server']}/restconf/operations/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
+    Set Suite Variable    ${rpc_session}
     
-    @{odl_sessions}    create list   ${opr_session}   ${cfg_session}
+    @{odl_sessions}    create list   ${opr_session}   ${cfg_session}  ${rpc_session}
     Set Suite Variable    ${odl_sessions}
     
     
@@ -298,8 +258,6 @@ Test Bed Init
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
            
-    Init Test Equipment  ${testSetHandle1}  100ge
-    Init Test Equipment  ${testSetHandle2}  100ge
 
 Verify Traffic Is OK
     Log To Console  Verify Traffic Is OK
@@ -360,7 +318,7 @@ Verify Traffic Is One Way Through
    
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
-
+	
 	@{lTx}=  create list  ${testSetHandle1}
     @{lRx}=  create list  ${testSetHandle2}
 	

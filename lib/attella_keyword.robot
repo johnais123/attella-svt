@@ -179,7 +179,7 @@ Get The Next Frequency
 	${resp}=  getNextFrequency  ${frequency}
 	[return]  ${resp}
 	
-	
+
 Create 100GE Service
     [Documentation]   Create 100GE Service
     [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}
@@ -345,4 +345,35 @@ Remove OTU4 Service
     ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
+
+	
+Set Loopback To ODU Interface
+    [Documentation]   Set Loopback To OTU Interface
+    [Arguments]    ${odl_sessions}  ${node}  ${intf}  ${loopback mode}
+	# &{disable_loopback}  create_dictionary  otu-maint-enabled=false
+	# &{enable_loopback}  create_dictionary  otu-maint-enabled=true  odu-maint-type=${loopback mode}
+    &{disable_loopback_interface}    create_dictionary   interface-name=${intf}  odu-maint-enabled=false
+    &{enable_loopback_interface}    create_dictionary   interface-name=${intf}  odu-maint-enabled=true   odu-maint-type=${loopback mode}
+    &{interface}=  Set Variable If  '${loopback mode}' == 'off'  ${disable_loopback_interface}  ${enable_loopback_interface}
+	
+    @{interface_info}    create list    ${interface}
+    &{dev_info}   create_dictionary   interface=${interface_info}       
+    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+	Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
+	
+Set Loopback To OTU Interface
+    [Documentation]   Set Loopback To OTU Interface
+    [Arguments]    ${odl_sessions}  ${node}  ${intf}  ${loopback mode}
+
+    &{disable_loopback_interface}    create_dictionary   interface-name=${intf}  otu-maint-enabled=false
+    &{enable_loopback_interface}    create_dictionary   interface-name=${intf}  otu-maint-enabled=true  otu-maint-type=${loopback mode}
+    &{interface}=  Set Variable If  '${loopback mode}' == 'off'  ${disable_loopback_interface}  ${enable_loopback_interface}
+    @{interface_info}    create list    ${interface}
+    &{dev_info}   create_dictionary   interface=${interface_info}       
+    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+    Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
+

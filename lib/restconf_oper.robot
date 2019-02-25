@@ -249,7 +249,9 @@ Rpc Command For Warm Reload Device
     check status line    ${resp}     200  
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+
     Reconnect Device And Verification reboot successful    ${deviceName}
+
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${node}
     sleep   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${node}
@@ -257,14 +259,18 @@ Rpc Command For Warm Reload Device
 
 Rpc Command For Cold Reload Device
     [Documentation]   Restart a resource with cold option via Rpc command
+
     [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}   ${deviceName}
+
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>cold</option></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}  
     check status line    ${resp}     200  
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+
     Reconnect Device And Verification reboot successful    ${deviceName}
+
     Mount vAttella On ODL Controller    ${odl_sessions}    ${timeout}    ${interval}   ${node}
     sleep   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${timeout}    ${interval}   ${node}
@@ -496,6 +502,8 @@ Verify Alarms On Resource
     [Arguments]             ${odl_sessions}  ${node}  ${targetResource}  ${expectAlarmList}
     @{activeAlarmList}=  Get Alarms On Resource  ${odl_sessions}  ${node}  ${targetResource}
     
+	@{activeAlarmList}=  Sort List  ${activeAlarmList}
+	@{expectAlarmList}=  Sort List  ${expectAlarmList}
     Lists Should Be Equal  ${activeAlarmList}  ${expectAlarmList}  msg=the expect alarm list is ${expectAlarmList} while actually the active alarm list is ${activeAlarmList}
     
     
