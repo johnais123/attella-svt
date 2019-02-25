@@ -11,7 +11,7 @@ Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Library         attella_keyword.py
 Library         random
-
+# Library        ../lib/PowerModule.py   172.27.90.188   WITH NAME   powersv
 
 *** Variables ***
 &{put_headers}               Accept=application/xml   Content-Type=application/xml
@@ -242,8 +242,6 @@ RPC Create Tech Info
 
 Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
-    ...                    Args:
-    ...                    | - deviceName : device0 or device1
     [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}   ${deviceName}
     ${urlhead}   set variable    org-openroadm-de-operations:restart
     ${data}      set variable    <input xmlns="http://org/openroadm/de/operations"><option>warm</option></input>
@@ -338,7 +336,7 @@ Get Current All Pm Information On Target Resource
     ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${payload}
     ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
     ${root}=                 Parse XML    ${resp_content}
-   
+    ${sflag}     set variable    False
     @{currentPmRes}  Get Elements  ${root}  current-pm-entry
     Log  ${currentPmRes}
 
@@ -351,25 +349,16 @@ Get Current All Pm Information On Target Resource
     \   @{ret}     Split String      ${resinst.text}    name=
     \   ${lastRes}     Get From List     ${ret}    -1
     \   ${res}     Get Substring     ${lastRes}  0  -1
+    \   log    ${res} 
+    \   log    ${targetResource}
+    \   ${sflag}   Run Keyword If   ${res} == '${targetResource}'    set variable   True
+    \   ...        ELSE      set variable    False         
     \   Run Keyword If  ${res} == '${targetResource}'    EXIT For Loop
-    # ${args}   run keyword if   '${score}' == '${score1}'   Run Keywords    set variable   dsfsfs  AND  log  222222 
-    # \   Log  ${raiseTime.text}
-    # \   Log  ${additional_detail.text}
-    # \   Log  ${severity.text}
-    # \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}
-    # \   Log  ${resource}
-    # \   ${len}=  Get Length    ${resource}
-    # \   Run Keyword If  '${len}' != '1'  Run Keywords  Log  Get $(len) resources in one active Alarm entity
-    # \   ...   AND  FAIL
-    # \   ${resource}=  Get Element  ${activeAlarm}  resource/resource/*
-    # \   Log  ${resource.tag}
-    # \   ${resource_name}=  Get Element  ${activeAlarm}  resource/resource/${resource.tag}
-    # \   Log  ${resource_name.text}
-    # \   Run Keyword If  '${resource_name.text}' == '${targetResource}'  Append To List  ${activeAlarmList}  ${additional_detail.text}
-    
-    # Log  ${activeAlarmList}
+    log   ${sflag}
+    Run Keyword If  '${sflag}' != 'True'    FAIL    no any pm statistics on current ${targetResource}
     log    ${pmRes}
     [return]  ${pmRes}
+
 
 Get Current Spefic Pm Entry
     [Documentation]        Get special Pm On Target
@@ -378,15 +367,24 @@ Get Current Spefic Pm Entry
     ...                    | - odl_sessions : config/operational sessions to ODL controller
     ...                    | - node :Under testing Device
     ...                    |  
-    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${targetPmEntry}
+    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${targetPmEntry}  ${tarPmLoc}  ${tarPmDirect}
+    ${sflag}     set variable    False
     ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
     @{currentPmRes}  Get Elements  ${underTestRes}  current-pm
     :FOR  ${pmEntry}  IN  @{currentPmRes}
     \   ${pmtype}=  Get Element  ${pmEntry}  type
     \   ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+    \   ${pmlocation}=   Get Element  ${pmEntry}   location
+    \   ${pmdirection}=  Get Element  ${pmEntry}   direction
     \   Log  ${pmtype.text}
-    \   Log  ${expmtype_ext.text} 
-    \   Run Keyword If  '${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}'  EXIT For Loop
+    \   Log  ${expmtype_ext.text}
+    \   Log    ${pmlocation.text}
+    \   log    ${pmdirection.text}
+    \   ${sflag}   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   set variable   True
+    \   ...        ELSE      set variable    False 
+    \   Run Keyword If  ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'  EXIT For Loop
+    log   ${sflag}
+    Run Keyword If  '${sflag}' != 'True'    FAIL   no ${targetPmEntry} statistics with ${pmlocation.text} and ${pmdirection.text} on current ${targetResource}
     log    ${pmEntry}
     [return]  ${pmEntry}
 
@@ -397,16 +395,9 @@ Get current Spefic Pm Statistic
     ...                    Args:
     ...                    | - odl_sessions : config/operational sessions to ODL controller
     ...                    | - node :Under testing Device
-    ...                    |  
-    [Arguments]             ${odl_sessions}   ${node}    ${targetResource}   ${targetPmEntry}   ${pmInterval}    ${tarPmLoc}  ${tarPmDirect}
-    ${underTestPmEntry}=     Get Current Spefic Pm Entry    ${odl_sessions}   ${node}   ${targetResource}    ${targetPmEntry}
-    # :FOR  ${pmEntryatt}  IN  @{underTestPmEntry}
-    ${pmlocation}=   Get Element  ${underTestPmEntry}   location
-    ${pmdirection}=  Get Element  ${underTestPmEntry}   direction
-    log    ${pmlocation.text}
-    log    ${pmdirection.text}
-    Run keyword If  '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'  log  current resouce ${targetResource} and current pm ${targetPmEntry} entry exsits ${pmdirection.text} pm on ${pmlocation.text}
-    ...       ELSE   Run Keywords    Fail  no pm statistics on current ${targetResource} and current ${targetPmEntry} pm 
+    ...                    | - granularity :  15min  , 24h , notApplicable
+    [Arguments]             ${odl_sessions}   ${node}    ${targetResource}   ${targetPmEntry}    ${tarPmLoc}   ${tarPmDirect}   ${pmInterval}  
+    ${underTestPmEntry}=     Get Current Spefic Pm Entry    ${odl_sessions}   ${node}   ${targetResource}    ${targetPmEntry}   ${tarPmLoc}  ${tarPmDirect}
     @{currentPmStatis}  Get Elements  ${underTestPmEntry}   measurement
     :FOR  ${pmStat}  IN  @{currentPmStatis}
     \   ${pmGranularity}=  Get Element  ${pmStat}     granularity
@@ -420,6 +411,34 @@ Get current Spefic Pm Statistic
     \   Run keyword If  '${pmGranularity.text}' == '${pmInterval}'   EXIT For Loop
     Log   ${pmParameterValue.text} 
     [return]   ${pmParameterValue.text} 
+
+
+Verify Pm Statistic 
+    [Documentation]        Verify pm statstics On Target resource
+    ...                    Fails if given error expect value
+    [Arguments]            ${expectValue}   ${realValue}
+    ${len}=  Get Length    ${expectValue}
+    Run Keyword If         ${len}==1     Verify Pm Should Be Equal   ${expectValue}     ${realValue}  
+    ...         ELSE IF    ${len}==2     Verify Pm Should Be In Range   ${expectValue}     ${realValue}  
+    ...         ELSE       FAIL    Please check correct expect Vaule
+
+
+Verify Pm Should Be Equal
+    [Documentation]        Verify pm statstics On Target resource
+    ...                    Fails if real value is not the same as expect value
+    [Arguments]            ${expectValue}   ${realValue}
+    Run Keyword If         '@{expectValue}[0]'=='${realValue}'   log   pm statistics is ok:  \n The expect value is @{expectValue}[0] \n The real value is ${realValue}
+    ...         ELSE       FAIL    Check pm statistics fail: \n The expect value is @{expectValue}[0]\n The real value is ${realValue}
+
+
+Verify Pm Should Be In Range
+    [Documentation]        Verify pm statstics On Target resource
+    ...                    Fails if real value is not in expect range
+    [Arguments]            ${expectValue}   ${realValue}
+    ${minValue}             set variable     @{expectValue}[0]
+    ${maxValue}             set variable     @{expectValue}[1]
+    Run Keyword If         ${maxValue} >=  ${realValue} >= ${minValue}  log   pm statistics is ok:  \n The expect range value is ${minValue} to ${maxValue} \n The real value is ${realValue}
+    ...         ELSE       FAIL    Check pm statistics fail: \n The expect range value is ${minValue} to ${maxValue}\n The real value is ${realValue}
 
 
 Get Alarms On Resource
@@ -466,8 +485,8 @@ Get Alarms On Resource
     Log  ${activeAlarmList}
     
     [return]  ${activeAlarmList}
-    
-    
+
+
 Verify Alarms On Resource
     [Documentation]        Get Alarms On Target
     ...                    Fails if status is not connected
