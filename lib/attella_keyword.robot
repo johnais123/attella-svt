@@ -10,8 +10,6 @@ Library         String
 Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Library         random
-# Library        ../lib/PowerModule.py   ${Power_Manager}   WITH NAME   powersv
-
 
 *** Variables ***
 
@@ -46,7 +44,6 @@ Power cycle
     \       ${result}=   powersv.set Outlet Ctrl State   ${Outlet_id}   ${Outlet_Status_ON}  
     powersv.close
     
-
 Reconnect Device And Verification reboot successful 
     [Documentation]   Perform power cycle via software
     ...                    Args:
@@ -348,6 +345,7 @@ Remove OTU4 Service
     ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
 
 	
@@ -378,3 +376,4 @@ Set Loopback To OTU Interface
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
     Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
+
