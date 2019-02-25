@@ -420,7 +420,7 @@ class ExfoPort():
 
         "ERROR_ETHERNET_BER_BITERROR":"BER",
 
-        "ERROR_ETHERNET_PCS_BLK":"",
+        "ERROR_ETHERNET_PCS_BLK":"BLOCk",
         "ERROR_ETHERNET_PCS_INVALIDMARKER":"",
         "ERROR_ETHERNET_PCS_PCSBIP8":"",
         
@@ -789,6 +789,12 @@ class ExfoPort():
         elif self.DICT_ERROR[strErrorType] in  ["FCCW", "FCSYMB", "FCBIT", "FUCW", "FCSTRESS"]:
             self.__target.startInjectOTNError("OTU4", "FEC", 
                                             self.DICT_ERROR[strErrorType], strErrorParam)
+        elif self.DICT_ERROR[strErrorType] in ["BLOCk"]:
+            strProtocol = self.getProtocol().split("_")[0]
+            if strProtocol in ["100GE"]:
+                self.__target.injectEthernePcsError(self.DICT_ERROR[strErrorType], strErrorParam)
+            else:
+                raise TestPortException("unsupport protocol type")
         else:
             raise TestPortException("unknown error type")
     
@@ -854,6 +860,12 @@ class ExfoPort():
         elif self.DICT_ERROR[strErrorType] in  ["FCCW", "FCSYMB", "FCBIT", "FUCW", "FCSTRESS"]:
             self.__target.stopInjectOTNError("OTU4", "FEC", 
                                             self.DICT_ERROR[strErrorType])
+        elif self.DICT_ERROR[strErrorType] in ["BLOCk"]:
+            strProtocol = self.getProtocol().split("_")[0]
+            if strProtocol in ["100GE"]:
+                self.__target.stopInjectEthernePcsError(self.DICT_ERROR[strErrorType])
+            else:
+                raise TestPortException("unsupport protocol type")
         else:
             raise TestPortException("unknown error type")
     
