@@ -483,6 +483,8 @@ Verify Alarms On Resource
     [Arguments]             ${odl_sessions}  ${node}  ${targetResource}  ${expectAlarmList}
     @{activeAlarmList}=  Get Alarms On Resource  ${odl_sessions}  ${node}  ${targetResource}
     
+	@{activeAlarmList}=  Sort List  ${activeAlarmList}
+	@{expectAlarmList}=  Sort List  ${expectAlarmList}
     Lists Should Be Equal  ${activeAlarmList}  ${expectAlarmList}  msg=the expect alarm list is ${expectAlarmList} while actually the active alarm list is ${activeAlarmList}
     
     
