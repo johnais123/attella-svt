@@ -540,7 +540,7 @@ Verify Interface Operational Status
 	...                    | - status : expected Interface Operational Status
     [Arguments]             ${odl_sessions}  ${node}  ${interface}  ${status}
 	
-	&{intf}  Create Dictionary  interface-name=${interface}  interface-administrative-state=${status}
+	&{intf}  Create Dictionary  interface-name=${interface}  interface-operational-state=${status}
 	@{intf_info}    Create List    ${intf}
     &{dev_info}   Create Dictionary   interface=${intf_info}       
     &{payload}   Create Dictionary   org-openroadm-device=${dev_info}
