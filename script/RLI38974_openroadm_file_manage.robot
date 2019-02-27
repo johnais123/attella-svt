@@ -133,13 +133,13 @@ perform rpc transfer warm reload
     [Documentation]  Warm reboot system via transfer rpc
     ...              RLI38974 5.1-1
     [Tags]           Sanity   tc8   reload
-    Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}
+    Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}     device0
 
 perform rpc transfer cold reload
     [Documentation]  Cold reboot system via transfer rpc
     ...              RLI38974 5.1-1
     [Tags]           Sanity   tc9   reload
-    Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}
+    Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}     device0
 
 
 *** Keywords ***
