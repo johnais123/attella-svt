@@ -185,7 +185,7 @@ TC8
     \                @{client-type}              create list            ${supported-client}
     \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}                 slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
     \                @{pic0_cport_info}          create list            ${cp-port}
-    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}     model-cp=${tv['uv-attella_def_circuit_pack_model']}
+    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}     model-cp=${tv['uv-attella_def_circuit_pack_model_pic']}
     \                ...                              operational-state-cp=${tv['uv-attella_def_operational_state']}               type-cp=PIC
     \                ...                         software-load-version=${osVersion.text}                      type-cp-category=${tv['uv-attella_def_circuit_pack_category']}                    
     \                ...                         cp-slots=${pic0_cport_info}
@@ -224,7 +224,7 @@ TC10
     \                @{line-type}               create list           ${supported-line}
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
-    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model']}
+    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model_pic']}
     \                ...                            operational-state-cp=${tv['uv-attella_def_operational_state']}                type-cp=PIC
     \                ...                        software-load-version=${osVersion.text}                               type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
