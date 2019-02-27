@@ -8,7 +8,7 @@ device0 {
   system {
     model ("ACX6160-T");
     fv-tags "dut";
-    name "Gemini04";
+    # name "Gemini04";
   }
 }
 
