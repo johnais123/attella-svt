@@ -30,6 +30,8 @@ Documentation    This is Attella shelf Scripts
 ...              THIRDPARTY LICENSE NAME    : None
 ...              THIRDPARTY LICENSE VERSION : None
 
+
+
 Resource    jnpr/toby/Master.robot
 Library         BuiltIn
 Library         String
@@ -38,11 +40,12 @@ Library         OperatingSystem
 Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Resource        ../lib/restconf_oper.robot
+Resource        ../lib/attella_keyword.robot
 
 
 Suite Setup   Run Keywords
 ...              Toby Suite Setup
-...              MyInit
+...              Testbed Init
 
 Test Setup  Run Keywords
 ...              Toby Test Setup
@@ -71,11 +74,11 @@ ${INVALID_ADMINISTRATIVE_STATE_SHELVES}  invalid_state
 ${interval}  120
 ${timeout}  120
 
+
+
+
+
 *** Test Cases ***       
-
-
-
-    
 TC1
    [Documentation]  Verify shelf-name can be set via openRoadm leaf    
    ...              Mapping  RLI38968  5.2-1 
@@ -84,8 +87,8 @@ TC1
    &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   shelf-type=${tv['uv-shelf_type']}
    @{shelves}    create list   ${shelf}
    &{dev_shelves}   create_dictionary   shelves=${shelves}
-   &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-   Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+   &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+   Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
  
 
 	
@@ -98,13 +101,11 @@ TC1
     #&{shelf}   create_dictionary    shelf-name=${INVALID_SHELF_name} 
     #@{shelves}    create list   ${shelf}
     #&{dev_shelves}   create_dictionary   shelves=${shelves}
-    #&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	
-    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    #&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}	
+    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
     #check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400 
 
 
-      
 	
  
 TC3
@@ -115,8 +116,8 @@ TC3
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   shelf-type=${tv['uv-shelf_type']}
     @{shelves}    create list   ${shelf}
     &{dev_shelves}   create_dictionary   shelves=${shelves}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
     
     
@@ -128,9 +129,8 @@ TC3
     #&{shelf}   create_dictionary   shelf-name=shelf-0   shelf-type=${INVALID_SHELF_TYPE} 
     #@{shelves}    create list   ${shelf}
     #&{dev_shelves}   create_dictionary   shelves=${shelves}
-    #&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	
-    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    #&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}	
+    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
     #check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400    
     
 	
@@ -142,8 +142,8 @@ TC5
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   rack=${tv['uv-rack']}
     @{shelves}    create list   ${shelf}
     &{dev_shelves}   create_dictionary   shelves=${shelves}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	
 
 TC6
@@ -151,11 +151,11 @@ TC6
     ...              Mapping  RLI38968  5.2-6
     [Tags]           Sanity  TC6    
     Log              setting shelf-position via Restconf patch method
-    &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   shelf-position=${tv['uv-shelf_position']}
+    &{shelf}   create dictionary   shelf-name=${tv['uv-shelf_name']}   shelf-position=${tv['uv-shelf_position']}
     @{shelves}    create list   ${shelf}
     &{dev_shelves}   create_dictionary   shelves=${shelves}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	
     
 #TC7
@@ -166,9 +166,8 @@ TC6
     #&{shelf}   create_dictionary   shelf-name=shelf-0  shelf-position=${INVALID_SHELF_POSITION}  
     #@{shelves}    create list   ${shelf}
     #&{dev_shelves}   create_dictionary   shelves=${shelves}
-    #&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	
-    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    #&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}	
+    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
     #check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400    
 
 
@@ -183,8 +182,8 @@ TC8
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   administrative-state-shelves=${administrative_state_for_shelf}
     @{shelves}    create list   ${shelf}
     &{dev_shelves}   create_dictionary   shelves=${shelves}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}   
+    &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}   
 
 
     
@@ -194,12 +193,10 @@ TC8
 	#[Tags]           Negative  TC9
     #Log              Limitation test for shelf administrative-state via Restconf patch method
     #&{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   administrative-state-shelves=${INVALID_ADMINISTRATIVE_STATE_SHELVES}
-	#@{shelves}    create list   ${shelf}
-	
+	#@{shelves}    create list   ${shelf}	
 	#&{dev_shelves}   create_dictionary   shelves=${shelves}
-	#&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	
-    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+	#&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}	
+    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	#check status line  ${patch_resp}  400  set administrative-state with invalid value should failed and return status code 400
 	
 	
@@ -213,8 +210,8 @@ TC10
      &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   equipment-state-shelves=${equipment_state_for_shelf}
      @{shelves}    create list   ${shelf}
      &{dev_shelves}   create_dictionary   shelves=${shelves}
-     &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-     Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}	
+     &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+     Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}	
 
 
 #TC11
@@ -223,13 +220,10 @@ TC10
     #[Tags]           Negative  TC11
     #Log              Limitation test for shelf equipment-state via Restconf patch method      
     #&{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   equipment-state-shelves=${INVALID_EQUIPMENT_STATE_SHELVES}
-
-	#@{shelves}    create list   ${shelf}
-	
+	#@{shelves}    create list   ${shelf}	
 	#&{dev_shelves}   create_dictionary   shelves=${shelves}
-	#&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	
-    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+	#&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}	
+    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	#check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400
 
 	
@@ -242,8 +236,9 @@ TC12
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   due-date-shelves=${tv['uv-valid_due_date']}
     @{shelves}    create list   ${shelf}
     &{dev_shelves}   create_dictionary   shelves=${shelves}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
+
 
 
 #TC13
@@ -252,11 +247,10 @@ TC12
     #[Tags]           Negative   TC13
     #Log              Limitation test for shelf due-date via Restconf patch method
     #&{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   due-date-shelves=${INVALID_DUE_DATE}
-
     #@{shelves}    create list   ${shelf}	
     #&{dev_shelves}   create_dictionary   shelves=${shelves}
-    #&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    #&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
     #check status line  ${patch_resp}  400  set due-date with invalid value should failed and return status code 400	
 
 	
@@ -267,11 +261,10 @@ TC14
 	[Tags]           Negative   TC14
     Log              Limitation test for shelf due-date via Restconf patch method
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   due-date-shelves=${INVALID_FORMAT_DUE_DATE}
-
 	@{shelves}    create list   ${shelf}	
 	&{dev_shelves}   create_dictionary   shelves=${shelves}
-	&{netconfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+	&{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+	${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	check status line  ${patch_resp}  400
 
     
@@ -304,6 +297,7 @@ TC16
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}   
 
 
+
 TC17
 	[Documentation]  This test case mapping to 5.4-1 ~~~~ 5.4-10 and 5.4-23 for JTMS RLI-38968
 	[Tags]           Sanity   TC17   
@@ -321,45 +315,28 @@ TC17
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}     
 
 
+
+
 TC18
-    [Documentation]  Verify shelf info can be deleted via openRoadm leaf      
-    ...              Mapping RLI38968   5.2-27
-    [Tags]           Sanity  TC18 
-    Log                     Delete shelf via ResTConf paTCh method
-    &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}
-    @{shelves}    create list   ${shelf}
-    &{dev_shelves}   create_dictionary   shelves=${shelves}
-    &{neTConfParams}   create_dictionary   org-openroadm-device=${dev_shelves}
-	
-    ${paTCh_resp}  Send Delete Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${neTConfParams}
-    check status line  ${paTCh_resp}  200
-	
-    ${paTCh_resp}  Send Delete Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${neTConfParams}
-    check status line  ${paTCh_resp}  404
-
-
-TC19
 	[Documentation]  Verify can retrieve shelf R/W values via openRoadm leaf   
                 ...              Mapping RLI38968   5.2-26
-	[Tags]        Sanity   TC19    
+	[Tags]        Sanity   TC18    
     Log                     FeTChing shelf all values via ResTConf GET method 
     ${administrative_state_for_shelf}    Set variable    inService    
     ${equipment_state_for_shelf}     Set variable    reserved-for-facility-planned
-
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}    rack=${tv['uv-rack']}     equipment-state-shelves=${equipment_state_for_shelf}  
 	...     shelf-type=${tv['uv-shelf_type']}    shelf-position=${tv['uv-shelf_position']}   administrative-state-shelves=${administrative_state_for_shelf}
 	...     due-date-shelves=${tv['uv-valid_due_date']}   
-	&{neTConfParams}   create_dictionary   org-openroadm-device=${dev_info}
-
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${neTConfParams}
+	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
 
 
  
-TC20
+TC19
 	[Documentation]  Verify can retrieve shelf readonly info via openRoadm leaf      
-               ...              Mapping RLI38968   5.2-10  5.2-11  5.2-12  5.2-13   5.2-14   5.2-15   5.2-16   5.2-17   5.2-18  5.2-23   5.2-24   5.2-25
-	[Tags]          Sanity  TC20  
+    ...              Mapping RLI38968   5.2-10  5.2-11  5.2-12  5.2-13   5.2-14   5.2-15   5.2-16   5.2-17   5.2-18  5.2-23   5.2-24   5.2-25
+	[Tags]          Sanity  TC19  
     Log                     FeTChing shelf operational values via ResTConf GET method
 	&{slot0}	  create_dictionary   slot-name=${tv['uv-attella_def_slot0_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}  
 	&{slot1}	  create_dictionary   slot-name=${tv['uv-attella_def_slot1_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  
@@ -369,16 +346,67 @@ TC20
 	&{slot5}	  create_dictionary   slot-name=${tv['uv-attella_def_slot5_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot5_provisioned_circuit_pack']}  
 	&{slot6}	  create_dictionary   slot-name=${tv['uv-attella_def_slot6_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot6_provisioned_circuit_pack']}  
 	&{slot7}	  create_dictionary   slot-name=${tv['uv-attella_def_slot7_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}  
-	
-	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}
-	
-    &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${tv['uv-attella_def_model']}  
-	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${tv['uv-attella_def_product_code']}  
-	...     clei=${tv['uv-attella_def_clei']}  hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
+	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}	
+    &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${ATTELLA_DEF_MODEL.text}  
+	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
+	...     clei=${ATTELLA_DEF_CLEI.text}  hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
 	...     slots=${slots}
-	&{neTConfParams}   create_dictionary   org-openroadm-device=${dev_info}
+	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
-    Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${neTConfParams}
+
+
+TC20
+    [Documentation]  Verify shelf info can be deleted via openRoadm leaf      
+    ...              Mapping RLI38968   5.2-27
+    [Tags]           Sanity  TC20 
+    Log                     Delete shelf via ResTConf paTCh method
+    &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}
+    @{shelves}    create list   ${shelf}
+    &{dev_shelves}   create_dictionary   shelves=${shelves}
+    &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
+    ${paTCh_resp}  Send Delete Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
+    check status line  ${paTCh_resp}  200	
+    ${paTCh_resp}  Send Delete Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
+    check status line  ${paTCh_resp}  404
+
+
+TC21
+	[Documentation]  Verify can retrieve shelf R/W values via openRoadm leaf   
+    ...              Mapping RLI38968   5.2-26
+	[Tags]        Sanity   TC21    
+    Log                     FeTChing shelf all values via ResTConf GET method 
+    ${administrative_state_for_shelf}    Set variable    inService    
+    ${equipment_state_for_shelf}     Set variable    reserved-for-facility-planned
+    &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}    rack=${tv['uv-rack']}     equipment-state-shelves=${equipment_state_for_shelf}  
+	...     shelf-type=${tv['uv-shelf_type']}    shelf-position=${tv['uv-shelf_position']}   administrative-state-shelves=${administrative_state_for_shelf}
+	...     due-date-shelves=${tv['uv-valid_due_date']}   
+	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
+
+
+
+ 
+TC22
+	[Documentation]  Verify can retrieve shelf readonly info via openRoadm leaf      
+    ...              Mapping RLI38968   5.2-10  5.2-11  5.2-12  5.2-13   5.2-14   5.2-15   5.2-16   5.2-17   5.2-18  5.2-23   5.2-24   5.2-25
+	[Tags]          Sanity  TC22  
+    Log                     FeTChing shelf operational values via ResTConf GET method
+	&{slot0}	  create_dictionary   slot-name=${tv['uv-attella_def_slot0_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}  
+	&{slot1}	  create_dictionary   slot-name=${tv['uv-attella_def_slot1_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  
+	&{slot2}	  create_dictionary   slot-name=${tv['uv-attella_def_slot2_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  
+	&{slot3}	  create_dictionary   slot-name=${tv['uv-attella_def_slot3_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot3_provisioned_circuit_pack']}  
+	&{slot4}	  create_dictionary   slot-name=${tv['uv-attella_def_slot4_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot4_provisioned_circuit_pack']}  
+	&{slot5}	  create_dictionary   slot-name=${tv['uv-attella_def_slot5_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot5_provisioned_circuit_pack']}  
+	&{slot6}	  create_dictionary   slot-name=${tv['uv-attella_def_slot6_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot6_provisioned_circuit_pack']}  
+	&{slot7}	  create_dictionary   slot-name=${tv['uv-attella_def_slot7_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}  
+	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}
+    &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${ATTELLA_DEF_MODEL.text}  
+	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
+	...     clei=${ATTELLA_DEF_CLEI.text}  hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
+	...     slots=${slots}
+	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
 
   
@@ -389,42 +417,44 @@ TC20
     
     
 *** Keywords ***
-MyInit
+Testbed Init
 	Set Log Level  DEBUG
     Initialize
     Log To Console      Loading Baseline configurations
     ${device0} =     Get Handle      resource=device0
-    
-	${Hardware} =  Execute cli command on device    device=${device0}    command=show chassis hardware   format=xml
-	
+    @{dut_list}    create list    device0
+    Preconfiguration netconf feature    @{dut_list}
+    ${Hardware} =  Execute cli command on device    device=${device0}    command=show chassis hardware   format=xml	
     ${ATTELLA_DEF_SERIAL_ID}        Get Element   ${Hardware}  chassis-inventory/chassis/serial-number
-    Log To Console   ${ATTELLA_DEF_SERIAL_ID.text}
-     
+    Log To Console   ${ATTELLA_DEF_SERIAL_ID.text}     
     ${ATTELLA_DEF_HARDWARE_VERSION}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/version
     Log To Console   ${ATTELLA_DEF_HARDWARE_VERSION.text}
+    ${ATTELLA_DEF_PRODUCT_CODE}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/part-number
+    Log To Console   ${ATTELLA_DEF_PRODUCT_CODE.text}
+    ${ATTELLA_DEF_CLEI}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/clei-code
+    Log To Console   ${ATTELLA_DEF_CLEI.text}
+    ${ATTELLA_DEF_MODEL}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/description
+    Log To Console   ${ATTELLA_DEF_MODEL.text}
     
     
-    Set Global Variable  ${ATTELLA_DEF_SERIAL_ID.text}
-    
+    Set Global Variable  ${ATTELLA_DEF_SERIAL_ID.text}    
     Set Global Variable  ${ATTELLA_DEF_HARDWARE_VERSION.text}
+    Set Global Variable  ${ATTELLA_DEF_PRODUCT_CODE.text}
+    Set Global Variable  ${ATTELLA_DEF_CLEI.text}
+    Set Global Variable  ${ATTELLA_DEF_MODEL.text}
     
     
     Log To Console      create a restconf operational session
-	
 	${opr_session}    Set variable      operational_session
     Create Session          ${opr_session}    http://${tv['uv-odl-server']}/restconf/operational/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
     Set Suite Variable    ${opr_session}
 	
+    
 	Log To Console      create a restconf config session
     ${cfg_session}    Set variable      config_session
     Create Session          ${cfg_session}    http://${tv['uv-odl-server']}/restconf/config/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
     Set Suite Variable    ${cfg_session}
-	
 	@{odl_sessions}    create list   ${opr_session}   ${cfg_session}
 	Set Suite Variable    ${odl_sessions}
 	
-	
-	
-    # Mount vAttella On ODL Controller    ${tv['device0__re0__mgt-ip']}  ${tv['uv-odl-server']}  ${timeout}  ${interval}
-
 	Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
