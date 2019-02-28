@@ -479,7 +479,7 @@ Get Alarms On Resource
     \   Log  ${additional_detail.text}
     \   Log  ${severity.text}
 
-    \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}  @{resource_shelf}
+    \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}  ${resource_shelf}
     \   Log  ${resource}
     \   ${len}=  Get Length    ${resource}
     \   Run Keyword If  '${len}' != '1'  Run Keywords  Log  Get $(len) resources in one active Alarm entity
