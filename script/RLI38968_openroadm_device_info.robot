@@ -155,7 +155,7 @@ Get-all-info-leaf
     ...   current-prefix-length=${tv['uv-attella_def_info_current_prefix_length']}
     ...   current-defaultGateway=${tv['uv-attella_def_info_current_defaultgateway']}   openroadm-version=${tv['uv-attella_def_info_openroadm_version']}
     ...   softwareVersion=${version_info}     max-srgs=0   max-degrees=0  max-num-bin-15min-historical-pm=96
-    ...   max-num-bin-24hour-historical-pm=2
+    ...   max-num-bin-24hour-historical-pm=1
     #  ...   macAddress=${macadd_info}
     &{netconfParams}   create dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${netconfParams}
@@ -293,7 +293,7 @@ Retrieve-device-info
     ...   prefix-length=${grandom-length}
     ...   current-defaultGateway=${tv['uv-attella_def_info_current_defaultgateway']}   openroadm-version=${tv['uv-attella_def_info_openroadm_version']}
     ...   softwareVersion=${version_info}   max-srgs=0   max-degrees=0  max-num-bin-15min-historical-pm=96
-    ...   max-num-bin-24hour-historical-pm=2
+    ...   max-num-bin-24hour-historical-pm=1
     # ...    macAddress=${macadd_info}  
     &{netconfParams}   create dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${netconfParams}    

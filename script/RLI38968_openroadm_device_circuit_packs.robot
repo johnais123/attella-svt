@@ -81,7 +81,7 @@ TC2
     &{cp-port2}      create dictionary    slot-name-cp=slot-0/1        label-cp=1          slot-type=other
     @{fpc_cport_info}    create list    ${cp-port1}   ${cp-port2}
     &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model']}
-    ...              clei-cp=DUMMY_CLEI   operational-state-cp=${tv['uv-attella_def_operational_state']}                  type-cp=FPC                                vendor-cp=${tv['uv-attella_def_vendor']}
+    ...                 operational-state-cp=${tv['uv-attella_def_operational_state']}                  type-cp=FPC                                vendor-cp=${tv['uv-attella_def_vendor']}
     ...              serial-id-cp=${ATTELLA_DEF_FPC_SERIAL_ID.text}    software-load-version=${osVersion.text}            type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     ...              cp-slots=${fpc_cport_info}
     @{fpc_info}      create list    ${fpckey}
@@ -120,7 +120,7 @@ TC4
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
-    \                ...   type-cp=FTU  type-cp-category=fan  clei-cp=DUMMY_CLEI                   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}
+    \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}
     \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state']}
     \                @{Fan_info}      create list    ${Fan0_info}
     \                &{static_info}   create dictionary       circuit-packs=${Fan_info}
@@ -185,8 +185,8 @@ TC8
     \                @{client-type}              create list            ${supported-client}
     \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}                 slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
     \                @{pic0_cport_info}          create list            ${cp-port}
-    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}     model-cp=${tv['uv-attella_def_circuit_pack_model']}
-    \                ...                         clei-cp=DUMMY_CLEI     operational-state-cp=${tv['uv-attella_def_operational_state']}               type-cp=PIC
+    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}     model-cp=${tv['uv-attella_def_circuit_pack_model_pic']}
+    \                ...                              operational-state-cp=${tv['uv-attella_def_operational_state']}               type-cp=PIC
     \                ...                         software-load-version=${osVersion.text}                      type-cp-category=${tv['uv-attella_def_circuit_pack_category']}                    
     \                ...                         cp-slots=${pic0_cport_info}
     \                @{pic_info}                 create list            ${pickey}
@@ -224,8 +224,8 @@ TC10
     \                @{line-type}               create list           ${supported-line}
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
-    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model']}
-    \                ...                        clei-cp=DUMMY_CLEI    operational-state-cp=${tv['uv-attella_def_operational_state']}                type-cp=PIC
+    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model_pic']}
+    \                ...                            operational-state-cp=${tv['uv-attella_def_operational_state']}                type-cp=PIC
     \                ...                        software-load-version=${osVersion.text}                               type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
     \                @{pic_info}                create list           ${pickey}
