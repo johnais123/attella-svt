@@ -23,6 +23,7 @@ ${OPR_SESSEION_INDEX}  0
 ${CFG_SESSEION_INDEX}  1
 ${RPC_SESSEION_INDEX}  2
 ${succ_meg}        Successful
+@{ignorePmList}      preFECCorrectedErrors    nearEnd    rx 
 
 *** Keywords ***
 check status line
@@ -239,7 +240,16 @@ RPC Create Tech Info
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
 
-
+    
+RPC Clear Pm Statistics
+    [Documentation]   Command to initialize PM data
+    [Arguments]    ${odl_sessions}   ${node}    ${pmtype}    ${pmInter}
+    ${urlhead}   set variable    org-openroadm-pm:clear-pm
+    ${data}      set variable   <input xmlns="http://org/openroadm/pm"><pm-type>${pmtype}</pm-type><granularity>${pmInter}</granularity></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+    check status line    ${resp}     200 
+    
+    
 Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
     [Arguments]    ${odl_sessions}   ${node}   ${timeout}    ${interval}   ${deviceName}
@@ -310,28 +320,26 @@ Verfiy Device Mount status on ODL Controller
     Wait Until Keyword Succeeds    ${timeout}   ${interval}    Check Mount Status Of Device on ODL Controller   ${odl_sessions}  ${node}
 
     
-Check Mount Status Of Device on ODL Controller
+Ensure Pm Statistics In the Same Bin During Testing Pm 
     [Documentation]        Checks the mount status of junos device on ODL controller
     ...                    Fails if status is not connected
     ...                    Args:
     ...                    | - odl_sessions : config/operational sessions to ODL controller
     ...                    | - node : mount node in ODL
-    [Arguments]             ${odl_sessions}  ${node}
-    
-    Log             Checking Mount status for node ${node}
-    
-    
-    ${resp}                 Get Request    @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}     headers=${get_headers}
-    ${resp_content}              Decode Bytes To String  ${resp.content}    UTF-8
-    ${root}                 Parse XML    ${resp_content}
+    [Arguments]             ${odl_sessions}   ${node}   
+    Log             Retrieve ${node} Current System Time
+    ${urlhead}      Set Variable     org-openroadm-device:org-openroadm-device/info
+    ${resp}=        Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
+    check status line    ${resp}     200 
+    ${currentTime}=    get element text  ${resp.text}  current-datetime 
+    ${getmin}    Evaluate       '${currentTime}'.split(":")[1]   string
+    ${getmin}=   Convert To Integer  ${getmin} 
+    run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  15 
+    ...    ELSE    log   Continue to test   
 
-    ${con_status}           Get Element Text    ${root}    connection-status
-    Log To Console             Node-id ${node} connection status: ${con_status}
-    Should Be Equal As Strings    ${con_status}    connected
-
-
+    
 Get Current All Pm Information On Target Resource
-    [Documentation]        Get Pm On Target
+    [Documentation]        Get Pm On Target, include port and interface(OCH,OTU4,ODU4)
     ...                    Fails if doesn't exist this kind of resouce pm
     ...                    Args:
     ...                    | - odl_sessions : config/operational sessions to ODL controller
@@ -350,13 +358,9 @@ Get Current All Pm Information On Target Resource
     \   ${restype}=  Get Element  ${pmRes}  pm-resource-type
     \   ${restype_ext}=  Get Element  ${pmRes}  pm-resource-type-extension
     \   ${resinst}=  Get Element  ${pmRes}  pm-resource-instance
-    \   Log  ${restype.text}
-    \   Log  ${resinst.text}
     \   @{ret}     Split String      ${resinst.text}    name=
     \   ${lastRes}     Get From List     ${ret}    -1
     \   ${res}     Get Substring     ${lastRes}  0  -1
-    \   log    ${res} 
-    \   log    ${targetResource}
     \   ${sflag}   Run Keyword If   ${res} == '${targetResource}'    set variable   True
     \   ...        ELSE      set variable    False         
     \   Run Keyword If  ${res} == '${targetResource}'    EXIT For Loop
@@ -366,66 +370,98 @@ Get Current All Pm Information On Target Resource
     [return]  ${pmRes}
 
 
-Get Current Spefic Pm Entry
-    [Documentation]        Get special Pm On Target
+Get All Under Test Pm Entry
+    [Documentation]        one by one to reterive all pm entries which be provide by testcase
+    [Arguments]     ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater}
+    ${pmtype}=  Get Element  ${pmEntry}  type
+    ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+    ${pmlocation}=   Get Element  ${pmEntry}   location
+    ${pmdirection}=  Get Element  ${pmEntry}   direction
+    :FOR  ${pm1Entry}  IN  @{Providedpmlist}
+    \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
+    \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
+    \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
+    \   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
+    \   ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
+    Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
+    Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
+    ...     ELSE    Log   no ignore pm statistics
+
+
+Get Current All Pm Entry On Target Resource
+    [Documentation]        Get ALL special Pm On Target
     ...                    Fails if it doesn't exist special pm statistics on this resource
     ...                    Args:
     ...                    | - odl_sessions : config/operational sessions to ODL controller
     ...                    | - node :Under testing Device
     ...                    |  
-    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${targetPmEntry}  ${tarPmLoc}  ${tarPmDirect}
+    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
     ${sflag}     set variable    False
+    @{testPmList}    Create list    
+    @{OthersTestPmList}   Create list  
     ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
     @{currentPmRes}  Get Elements  ${underTestRes}  current-pm
     :FOR  ${pmEntry}  IN  @{currentPmRes}
-    \   ${pmtype}=  Get Element  ${pmEntry}  type
-    \   ${expmtype_ext}=  Get Element  ${pmEntry}  extension
-    \   ${pmlocation}=   Get Element  ${pmEntry}   location
-    \   ${pmdirection}=  Get Element  ${pmEntry}   direction
-    \   Log  ${pmtype.text}
-    \   Log  ${expmtype_ext.text}
-    \   Log    ${pmlocation.text}
-    \   log    ${pmdirection.text}
-    \   ${sflag}   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   set variable   True
-    \   ...        ELSE      set variable    False 
-    \   Run Keyword If  ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'  EXIT For Loop
-    log   ${sflag}
-    Run Keyword If  '${sflag}' != 'True'    FAIL   no ${targetPmEntry} statistics with ${pmlocation.text} and ${pmdirection.text} on current ${targetResource}
-    log    ${pmEntry}
-    [return]  ${pmEntry}
+    \     Get All Under Test Pm Entry    ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater} 
+    ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
+    :FOR   ${pmitem}  IN  @${testPmList}
+    \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
+    log    ${testPmList}
+    log    ${OthersTestPmList}
+    Set Global variable    ${testPmList}
+    Set Global variable    ${OthersTestPmList}
 
 
-Get current Spefic Pm Statistic 
+Get All current Special Pm Statistic
+    [Documentation]        one by one to reterive under testing pm entries
+    ...                    Args:
+    ...                    | - udtPm: under testing pm entry object
+    ...                    | - pmInterval :   under teting pm interval
+    ...                    | - PmStatisList :  store under testing pm statitics
+    [Arguments]     ${udtPm}    ${pmInterval}   ${PmStatisList}
+    @{currentPmStatis}  Get Elements  ${udtPm}  measurement
+    :FOR  ${pmStat}  IN  @{currentPmStatis}
+    \     ${pmGranularity}=  Get Element  ${pmStat}     granularity
+    \     ${pmParameterUnit}=  Get Element  ${pmStat}   pmParameterUnit
+    \     ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
+    \     ${pmvalidity}=  Get Element  ${pmStat}          validity
+    \     Log  ${pmGranularity.text}
+    \     Log  ${pmParameterValue.text} 
+    \     Run keyword If  '${pmGranularity.text}' == '${pmInterval}'    Append To List   ${PmStatisList}   ${pmParameterValue.text}
+
+
+Get current Spefic Pm Statistic
     [Documentation]        Get special Pm Statistics On Target
     ...                    Fails if it doesn't exist special pm statistics on this resource
     ...                    Args:
     ...                    | - odl_sessions : config/operational sessions to ODL controller
     ...                    | - node :Under testing Device
-    ...                    | - granularity :  15min  , 24h , notApplicable
-    [Arguments]             ${odl_sessions}   ${node}    ${targetResource}   ${targetPmEntry}    ${tarPmLoc}   ${tarPmDirect}   ${pmInterval}  
-    ${underTestPmEntry}=     Get Current Spefic Pm Entry    ${odl_sessions}   ${node}   ${targetResource}    ${targetPmEntry}   ${tarPmLoc}  ${tarPmDirect}
-    @{currentPmStatis}  Get Elements  ${underTestPmEntry}   measurement
-    :FOR  ${pmStat}  IN  @{currentPmStatis}
-    \   ${pmGranularity}=  Get Element  ${pmStat}     granularity
-    \   ${pmParameterUnit}=  Get Element  ${pmStat}   pmParameterUnit
-    \   ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
-    \   ${pmvalidity}=  Get Element  ${pmStat}          validity
-    \   Log  ${pmGranularity.text}
-    \   Log  ${pmParameterUnit.text} 
-    \   Log  ${pmParameterValue.text} 
-    \   Log  ${pmvalidity.text}
-    \   Run keyword If  '${pmGranularity.text}' == '${pmInterval}'   EXIT For Loop
-    Log   ${pmParameterValue.text} 
-    [return]   ${pmParameterValue.text} 
+    ...                    | - pmInterval :   under teting pm interval
+    [Arguments]               ${pmInterval}  
+    @{PmStatisList}    create list  
+    log   ${testPmList}
+    :FOR  ${udtPm}  IN  @{testPmList}
+    \    ${pmtype}=  Get Element  ${udtPm}  type
+    \    ${expmtype_ext}=  Get Element  ${udtPm}  extension
+    \    ${pmlocation}=   Get Element  ${udtPm}   location
+    \    ${pmdirection}=  Get Element  ${udtPm}   direction
+    \    Log    ${pmtype.text}
+    \    Log    ${expmtype_ext.text}
+    \    Log    ${pmlocation.text}
+    \    log    ${pmdirection.text}
+    \     Get All current Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
+    Log     ${PmStatisList} 
+    [return]   ${PmStatisList}
 
 
 Verify Pm Statistic 
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if given error expect value
-    [Arguments]            ${expectValue}   ${realValue}
+    [Arguments]            ${expectValue}   ${realValue}    ${operation}
     ${len}=  Get Length    ${expectValue}
-    Run Keyword If         ${len}==1     Verify Pm Should Be Equal   ${expectValue}     ${realValue}  
-    ...         ELSE IF    ${len}==2     Verify Pm Should Be In Range   ${expectValue}     ${realValue}  
+    Run Keyword If         ${len}==1 and '${operation}'=='equal'    Verify Pm Should Be Equal   ${expectValue}     ${realValue}  
+    ...         ELSE IF    ${len}==1 and '${operation}'=='increasing'    Verify Pm Should Be Increased   ${expectValue}     ${realValue}
+    ...         ELSE IF    ${len}==2 and '${operation}'=='in-range'    Verify Pm Should Be In Range   ${expectValue}     ${realValue}   
     ...         ELSE       FAIL    Please check correct expect Vaule
 
 
@@ -433,8 +469,16 @@ Verify Pm Should Be Equal
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if real value is not the same as expect value
     [Arguments]            ${expectValue}   ${realValue}
-    Run Keyword If         '@{expectValue}[0]'=='${realValue}'   log   pm statistics is ok:  \n The expect value is @{expectValue}[0] \n The real value is ${realValue}
+    Run Keyword If         '@{expectValue}[0]'=='${realValue}'   log   pm statistics is ok\nThe expect value is @{expectValue}[0]\nThe real value is ${realValue}
     ...         ELSE       FAIL    Check pm statistics fail: \n The expect value is @{expectValue}[0]\n The real value is ${realValue}
+
+
+Verify Pm Should Be Increased
+    [Documentation]        Verify pm statstics can be increased by the minute On Target resource 
+    ...                    Fails if real value is not the same as expect value
+    [Arguments]             ${nextRealValue}    ${realValue}
+    Run Keyword If         '@{nextRealValue}[0]'>'${realValue}'   log   pm statistics is increasing\nThe previous pm value is ${realValue}\nThe current pm value is @{nextRealValue}[0]
+    ...         ELSE       FAIL    Check pm statistics is not increasing: \n The previous pm value is ${realValue}\n The current pm value is  @{nextRealValue}[0]
 
 
 Verify Pm Should Be In Range
@@ -443,8 +487,48 @@ Verify Pm Should Be In Range
     [Arguments]            ${expectValue}   ${realValue}
     ${minValue}             set variable     @{expectValue}[0]
     ${maxValue}             set variable     @{expectValue}[1]
-    Run Keyword If         ${maxValue} >=  ${realValue} >= ${minValue}  log   pm statistics is ok:  \n The expect range value is ${minValue} to ${maxValue} \n The real value is ${realValue}
+    log    ${realValue}
+    Run Keyword If         ${maxValue} >= ${realValue} >= ${minValue}    log   pm statistics is ok\nThe expect range value is ${minValue} to ${maxValue}\n The real value is ${realValue}
     ...         ELSE       FAIL    Check pm statistics fail: \n The expect range value is ${minValue} to ${maxValue}\n The real value is ${realValue}
+
+
+Verify others Pm Statistic shoule not be changed
+    [Documentation]        Verify others Pm Statistic shoule not be changed only for interface resource
+    ...                    Fails if it doesn't exist other pm statistics on this resource
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node :Under testing Device
+    ...                    | - pmInterval :   under teting pm interval
+    [Arguments]             ${pmInterval} 
+    @{PmStatisList}    create list  
+    # log   ${OthersTestPmList}
+    :FOR  ${udtPm}  IN  @{OthersTestPmList}
+    \     Get others Pm statistcis   ${udtPm}   ${pmInterval}  
+
+
+Get others Pm statistcis
+    [Documentation]        Get and verify others Pm Statistic shoule be zero
+    ...                    Fails if it exist other pm statistics on this resource
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node :Under testing Device
+    ...                    | - pmInterval :   under teting pm interval
+    [Arguments]             ${udtPm}    ${pmInterval}  
+    ${pmtype}=  Get Element  ${udtPm}  type
+    ${expmtype_ext}=  Get Element  ${udtPm}  extension
+    ${pmlocation}=   Get Element  ${udtPm}   location
+    ${pmdirection}=  Get Element  ${udtPm}   direction
+    @{currentPmStatis}  Get Elements  ${udtPm}  measurement
+    :FOR  ${othersPmStat}  IN  @{currentPmStatis}
+    \     ${pmGranularity}=  Get Element  ${othersPmStat}        granularity
+    \     ${pmParameterUnit}=  Get Element  ${othersPmStat}   pmParameterUnit
+    \     ${pmParameterValue}=  Get Element  ${othersPmStat}     pmParameterValue
+    \     ${pmvalidity}=  Get Element  ${othersPmStat}           validity
+    \     Log many   ${pmtype.text}   ${expmtype_ext.text}  ${pmlocation.text}  ${pmdirection.text}   ${pmGranularity.text} 
+    \     Log  ${pmParameterValue.text}
+    \     Run keyword If  '${pmGranularity.text}' == '${pmInterval}' and '${pmParameterValue.text}' == '0'   Log   Correct and no ${pmtype.text} ${pmlocation.text} ${pmdirection.text} pm statistics on test resource
+    \     ...  ELSE IF   '${pmGranularity.text}' == '${pmInterval}' and '${pmParameterValue.text}' != '0'     FAIL    Found ${pmtype.text} ${pmlocation.text} ${pmdirection.text} pm statistics on test resource: \n The expect value is 0\n The real value is ${pmParameterValue.text}
+    \     ...  ELSE    Log   other granularity pm statistics
 
 
 Get Alarms On Resource
