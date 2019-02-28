@@ -473,11 +473,13 @@ Get Alarms On Resource
     \   @{resource_port}=  Get Elements  ${activeAlarm}  resource/resource/port-name
     \   @{resource_xc}=  Get Elements  ${activeAlarm}  resource/resource/connection-name
     \   @{resource_intf}=  Get Elements  ${activeAlarm}  resource/resource/interface-name
+	\   @{resource_shelf}=  Get Elements  ${activeAlarm}  resource/resource/shelf-name
     \   Log  ${id.text}
     \   Log  ${raiseTime.text}
     \   Log  ${additional_detail.text}
     \   Log  ${severity.text}
-    \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}
+
+    \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}  ${resource_shelf}
     \   Log  ${resource}
     \   ${len}=  Get Length    ${resource}
     \   Run Keyword If  '${len}' != '1'  Run Keywords  Log  Get $(len) resources in one active Alarm entity
