@@ -288,7 +288,8 @@ Test Bed Init
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
 
-	
+	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
     
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
