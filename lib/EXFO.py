@@ -1570,39 +1570,60 @@ class ExfoModule(object):
             else:
                 print("retrieved error type as BERRor not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
                 result = False
+                
+                
+            if "MAX" == num:
+                command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TEL:OTN:ERR:"+errorLayer + ":AUT:CONT ON"
+                self._session.send(command)
+                output = self._session.output.strip()
+                matchobj = re.search(r'.*ommand executed successfully', output)
+                if matchobj:
+                    print("set automated continuous ON successfully on module: " + str(self.shelf) + " " + str(self._slot))
+                else:
+                    print("set automated continuous ON successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                    result = False
 
-            command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TEL:OTN:ERR:"+errorLayer + ":AUT:CONT OFF"
-            self._session.send(command)
-
-
-            command = "LINS" + str(self.shelf) + str(self._slot) + ":SOUR:DATA:TEL:OTN:ERR:"+ errorLayer + ":AUTomated:RATE " + str(num)
-            self._session.send(command)
-            output = self._session.output.strip()
-            matchobj = re.search(r'.*ommand executed successfully', output)
-            if matchobj:
-                print("set error rate =" + str(num) + " successfully on module: " + str(self.shelf) + " " + str(self._slot))
+                command = "LINS" + str(self.shelf) + str(self._slot) + ":SOUR:DATA:TEL:OTN:ERR:" + errorLayer+":AUT:CONT?"
+                self._session.send(command)
+                output = self._session.output.strip()
+                if "1" == output:
+                    print("retrieved automated continuous successfully on module: "+ str(self.shelf) + " " + str(self._slot))
+                else:
+                    print("retrieved automated continuous not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                    result = False
             else:
-                print("set error rate =" + str(num) + " not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
-                result = False
+                command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TEL:OTN:ERR:"+errorLayer + ":AUT:CONT OFF"
+                self._session.send(command)
 
-            command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TEL:OTN:ERR:"+errorLayer + ":AUT:CONT ON"
-            self._session.send(command)
-            output = self._session.output.strip()
-            matchobj = re.search(r'.*ommand executed successfully', output)
-            if matchobj:
-                print("set automated continuous ON successfully on module: " + str(self.shelf) + " " + str(self._slot))
-            else:
-                print("set automated continuous ON successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
-                result = False
 
-            command = "LINS" + str(self.shelf) + str(self._slot) + ":SOUR:DATA:TEL:OTN:ERR:" + errorLayer+":AUT:CONT?"
-            self._session.send(command)
-            output = self._session.output.strip()
-            if "1" == output:
-                print("retrieved automated continuous successfully on module: "+ str(self.shelf) + " " + str(self._slot))
-            else:
-                print("retrieved automated continuous not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
-                result = False
+                command = "LINS" + str(self.shelf) + str(self._slot) + ":SOUR:DATA:TEL:OTN:ERR:"+ errorLayer + ":AUTomated:RATE " + str(num)
+                self._session.send(command)
+                output = self._session.output.strip()
+                matchobj = re.search(r'.*ommand executed successfully', output)
+                if matchobj:
+                    print("set error rate =" + str(num) + " successfully on module: " + str(self.shelf) + " " + str(self._slot))
+                else:
+                    print("set error rate =" + str(num) + " not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                    result = False
+
+                command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TEL:OTN:ERR:"+errorLayer + ":AUT:CONT ON"
+                self._session.send(command)
+                output = self._session.output.strip()
+                matchobj = re.search(r'.*ommand executed successfully', output)
+                if matchobj:
+                    print("set automated continuous ON successfully on module: " + str(self.shelf) + " " + str(self._slot))
+                else:
+                    print("set automated continuous ON successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                    result = False
+
+                command = "LINS" + str(self.shelf) + str(self._slot) + ":SOUR:DATA:TEL:OTN:ERR:" + errorLayer+":AUT:CONT?"
+                self._session.send(command)
+                output = self._session.output.strip()
+                if "1" == output:
+                    print("retrieved automated continuous successfully on module: "+ str(self.shelf) + " " + str(self._slot))
+                else:
+                    print("retrieved automated continuous not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                    result = False
 
             command = "LINS" + str(self.shelf) + str(self._slot) + ":SOUR:DATA:TEL:OTN:ERR:"+errorLayer + ":AUT ON"
             self._session.send(command)
@@ -1693,26 +1714,47 @@ class ExfoModule(object):
         elif "ODU2E" == errorLayer:
             errorLayer == "ODU2:E"
         layer = layer.split("_")[1]
+        
+        # command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ERRor:" + errorLayer+":AUTomated:CONTinuous?"
+        # self._session.send(command)
+        # output = self._session.output.strip()
+        # if "1" == output:
+            # print("Automated is running now,you can stop now: "+ str(self.shelf) + " " + str(self._slot))
+            # command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ERRor:"+errorLayer + ":AUTOmated:CONTinuous OFF"
+            # self._session.send(command)
+            # output = self._session.output.strip()
+            # matchobj = re.search(r'.*ommand executed successfully', output)
+            # if matchobj:
+                # print("enabled automated error successfully on module: " + str(self.shelf) + " " + str(self._slot))
+
+            # else:
+                # print("enabled automated error not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                # return False
+        # else:
+            # print("it's not automated continuous error injection currently, don't need to stop it: " + str(self.shelf) + " " + str(self._slot) + output + ", you may need to check your testing logic")
+
+
 
         command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ERRor:" + errorLayer+":AUTomated?"
         self._session.send(command)
         output = self._session.output.strip()
         if "1" == output:
             print("Automated is running now,you can stop now: "+ str(self.shelf) + " " + str(self._slot))
+            command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ERRor:"+errorLayer + ":AUTOmated OFF"
+            self._session.send(command)
+            output = self._session.output.strip()
+            matchobj = re.search(r'.*ommand executed successfully', output)
+            if matchobj:
+                print("enabled automated error successfully on module: " + str(self.shelf) + " " + str(self._slot))
+                
+            else:
+                print("enabled automated error not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
+                return False
         else:
             print("it's not automated continuous error injection currently, don't need to stop it: " + str(self.shelf) + " " + str(self._slot) + output + ", you may need to check your testing logic")
 
+        return True
 
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ERRor:"+errorLayer + ":AUTOmated OFF"
-        self._session.send(command)
-        output = self._session.output.strip()
-        matchobj = re.search(r'.*ommand executed successfully', output)
-        if matchobj:
-            print("enabled automated error successfully on module: " + str(self.shelf) + " " + str(self._slot))
-            return True
-        else:
-            print("enabled automated error not successfully on module: " + str(self.shelf) + " " + str(self._slot) + output)
-            return False
 
 
     def injectSonetB3Ber(self, num):
