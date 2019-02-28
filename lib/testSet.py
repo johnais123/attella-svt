@@ -1290,7 +1290,7 @@ class ExfoPort():
                 return "ON"
             else:
                 return "OFF"
-        elif self.DICT_ALARM[strAlarmType] == "ODU4_OAIS":
+        elif self.DICT_ALARM[strAlarmType] in ["ODU4_OAIS", "ODU4_OBDI"]:
             if "PRESENT" == self.__target.getCurrentODU4Alarm(self.DICT_ALARM[strAlarmType].split("_")[1]):
                 return "ON"
             else:
@@ -1300,11 +1300,11 @@ class ExfoPort():
                 return "ON"
             else:
                 return "OFF"
-        elif self.DICT_ALARM[strAlarmType] == "ODU4_OBDI":
-            if "PRESENT" == self.__target.getCurrentODU4Alarm():
+        elif self.DICT_ALARM[strAlarmType] == "OTU4_OBDI":
+            if "PRESENT" == self.__target.getCurrentOTU4Alarm("OBDI"):
                 return "ON"
             else:
-                return "OFF"                
+                return "OFF"
         elif self.DICT_ALARM[strAlarmType] == "ODU2_OBDI":
             if "PRESENT" == self.__target.getCurrentODU2Alarm(self.DICT_ALARM[strAlarmType]):
                 return "ON"

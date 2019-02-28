@@ -1068,7 +1068,8 @@ class ExfoModule(object):
         else:
             print("Failed to set ethernet error type as PCS on module: " + str(self._slot))
             result = False
-
+        
+        
         command = "LINS" + str(self._slot) + ":SOUR:DATA:TEL:ETH:ERR:PHYS:AUT:TYPE " + str(strType)
         self._session.send(command)
         output = self._session.output.strip()
@@ -1079,16 +1080,27 @@ class ExfoModule(object):
             print("Failed to configure ethernet PCS error amount =" + str(strAmount) + " on module: " + str(self._slot))
             result = False
 
-        command = "LINS" + str(self._slot) + ":SOUR:DATA:TEL:ETH:ERR:PHYS:AUT:RATE " + str(strAmount)
-        self._session.send(command)
-        output = self._session.output.strip()
-        matchobj = re.search(r'.*ommand executed successfully', output)
-        if matchobj:
-            print("Inject ethernet PCS error amount =" + str(strAmount) + " successfully on module: " + str(self._slot))
+        if str(strAmount) == "MAX":
+            command = "LINS" + str(self._slot) + ":SOUR:DATA:TEL:ETH:ERR:PHYS:AUT:CONTinuous ON"
+            self._session.send(command)
+            output = self._session.output.strip()
+            matchobj = re.search(r'.*ommand executed successfully', output)
+            if matchobj:
+                print("Inject ethernet PCS error amount =" + str(strAmount) + " successfully on module: " + str(self._slot))
+            else:
+                print("Failed to Inject ethernet PCS error amount =" + str(strAmount) + " on module: " + str(self._slot))
+                result = False
         else:
-            print("Failed to Inject ethernet PCS error amount =" + str(strAmount) + " on module: " + str(self._slot))
-            result = False
-
+            command = "LINS" + str(self._slot) + ":SOUR:DATA:TEL:ETH:ERR:PHYS:AUT:RATE " + str(strAmount)
+            self._session.send(command)
+            output = self._session.output.strip()
+            matchobj = re.search(r'.*ommand executed successfully', output)
+            if matchobj:
+                print("Inject ethernet PCS error amount =" + str(strAmount) + " successfully on module: " + str(self._slot))
+            else:
+                print("Failed to Inject ethernet PCS error amount =" + str(strAmount) + " on module: " + str(self._slot))
+                result = False
+                
         command = "LINS" + str(self._slot) + ":SOUR:DATA:TEL:ETH:ERR:PHYS:AUT ON"
         self._session.send(command)
         output = self._session.output.strip()
@@ -1098,6 +1110,8 @@ class ExfoModule(object):
         else:
             print("Failed to Inject ethernet PCS error amount =" + str(strAmount) + " on module: " + str(self._slot))
             result = False
+                
+        
         return result
         
     def stopInjectEthernePcsError(self, strType):
@@ -2140,7 +2154,7 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
@@ -2157,12 +2171,12 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
             raise Exception("get alarm =" + alarmName + " not successfully on module: " + " " + str(self._slot) + " " + output)
-
+            
 
     def getCurrentODU4Alarmloopback(self,alarmName ="OBDi"):
         '''
@@ -2174,7 +2188,7 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
@@ -2190,7 +2204,7 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
@@ -2207,7 +2221,7 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
@@ -2224,7 +2238,7 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
@@ -2242,7 +2256,7 @@ class ExfoModule(object):
         if output == "PRESENT":
             print("get alarm =" + alarmName + " successfully on module: " + " " + str(self._slot))
             return output
-        elif output == "ABSENT":
+        elif output in ["ABSENT", "MASKED"]:
             print("alarm =" + alarmName + " does not exists on module: " + " " + str(self._slot))
             return output
         else:
