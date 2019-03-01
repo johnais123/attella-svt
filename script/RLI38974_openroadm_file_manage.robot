@@ -64,7 +64,7 @@ ${interval}  120
 ${timeout}   120
 ${remotesftpPath}   sftp://atlas:atlas@10.228.0.25/attella_log/Wh_team
 # filename should be include number 1 for below testing 
-@{remoteTestFile}        test1.txt   test1q.log
+@{remoteTestFile}     pm1.gz    config1.txt
 
 *** Test Cases ***     
 perform rpc transfer download file
@@ -115,31 +115,44 @@ perform rpc transfer delete special file
 perform rpc transfer delete file via wild-card
     [Documentation]  Delete special transfer file via rpc command 
     ...              RLI38974 5.1-3
-    [Tags]           Sanity   tc6  
+    [Tags]           Sanity   tc6   done
     @{filename}    create list    test*
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
 
 
 perform rpc create tech info
-    [Documentation]  Warm reboot system via transfer rpc
+    [Documentation]  produce tech info file in a special directory
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc7
+    [Tags]           Sanity   tc7   done
     ${shelfid}      set variable    shelf-0
     ${logoption}    set variable    all
     RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}
 
 
-perform rpc transfer warm reload
+perform rpc transfer can work after warm reload
     [Documentation]  Warm reboot system via transfer rpc
-    ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc8   reload
-    Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}     device0
+    ...              RLI38974 5.1-1  
+    [Tags]           Sanity   tc8   reload   done  
+    Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}   device0
+    @{filename}    create list   
+    :For  ${extrafile}   in   @{remoteTestFile}
+    \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
+    \   Append To List   ${filename}   ${extrafile}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${remotesftpPath}  
 
-perform rpc transfer cold reload
+
+perform rpc transfer can work after cold reload
     [Documentation]  Cold reboot system via transfer rpc
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc9   reload
-    Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}     device0
+    [Tags]           Sanity   tc9   reload  done
+    Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}    device0
+    @{filename}    create list   
+    :For  ${extrafile}   in   @{remoteTestFile}
+    \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
+    \   Append To List   ${filename}   ${extrafile}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${remotesftpPath}  
 
 
 *** Keywords ***

@@ -148,6 +148,7 @@ Rpc Command For Show File
     \    check status line    ${resp}     200  
     \    ${elem} =  get element text  ${resp.text}    status
     \    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     \    ${elem2} =     get elements texts    ${resp.text}    status-message
     \    List Should Contain Value    ${elem2}    ${FileNm}
 
@@ -161,6 +162,7 @@ Rpc Command For Show All File
     check status line    ${resp}     200       
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     ${elem2} =     get elements texts    ${resp.text}    status-message
     ${allfilelist}=    Remove Duplicates    ${allfilelist}
     Sort List   ${elem2}    
@@ -179,14 +181,8 @@ Rpc Command For Delete File
     \     check status line    ${resp}     200    
     \     ${elem} =  get element text  ${resp.text}    status
     \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    \     ${urlhead}    set variable    org-openroadm-file-transfer:delete-file
-    \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><filename>${FileNm}</filename></input>
-    \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
-    \     check status line    ${resp}     200  
-    \     ${elem} =  get element text  ${resp.text}    status
-    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    \     ${elem2} =     get elements texts    ${resp.text}    status-message
-    \     List Should Not Contain Value    ${elem2}    ${FileNm}
+    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    \     Sleep   10
 
     
 Rpc Command For Upload File
@@ -201,11 +197,14 @@ Rpc Command For Upload File
     \     check status line    ${resp}     200 
     \     ${elem} =  get element text  ${resp.text}    status
     \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    \     sleep  10
     \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><action>download</action><local-file-path>${FileNm}</local-file-path><remote-file-path>${fullremotePath}</remote-file-path></input>
     \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     \     check status line    ${resp}     200 
     \     ${elem} =  get element text  ${resp.text}    status
     \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     \     sleep  10
     \     ${urlhead}   set variable    org-openroadm-file-transfer:show-file
     \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><filename>${FileNm}</filename></input>
@@ -213,9 +212,10 @@ Rpc Command For Upload File
     \     check status line    ${resp}     200  
     \     ${elem} =  get element text  ${resp.text}    status
     \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     \     ${elem2} =     get elements texts    ${resp.text}    status-message
     \     List Should Contain Value    ${elem2}    ${FileNm}
-
+    \     Sleep   10 
     
 Rpc Command For Download File
     [Documentation]   Upload file via file transfer Rpc command 
@@ -228,10 +228,12 @@ Rpc Command For Download File
     \     check status line    ${resp}     200 
     \     ${elem} =  get element text  ${resp.text}    status
     \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    \     Sleep  10
 
 
 RPC Create Tech Info
-    [Documentation]   Collects all log data for debugging and place it in a location accessible via RPC create-tech-info 
+    [Documentation]   Collects all logs data for debugging and place it in a location accessible via RPC create-tech-info 
     [Arguments]    ${odl_sessions}   ${node}   ${shelfid}   ${logoption}
     ${urlhead}   set variable    org-openroadm-device:create-tech-info
     ${data}      set variable   <input xmlns="http://org/openroadm/device"><shelf-id>${shelfid}</shelf-id><log-option>${logoption}</log-option></input>
@@ -239,7 +241,8 @@ RPC Create Tech Info
     check status line    ${resp}     200 
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    
     
 RPC Clear Pm Statistics
     [Documentation]   Command to initialize PM data
