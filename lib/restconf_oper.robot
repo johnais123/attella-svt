@@ -320,6 +320,26 @@ Verfiy Device Mount status on ODL Controller
     Wait Until Keyword Succeeds    ${timeout}   ${interval}    Check Mount Status Of Device on ODL Controller   ${odl_sessions}  ${node}
 
     
+Check Mount Status Of Device on ODL Controller
+    [Documentation]        Checks the mount status of junos device on ODL controller
+    ...                    Fails if status is not connected
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node : mount node in ODL
+    [Arguments]             ${odl_sessions}  ${node}
+    
+    Log             Checking Mount status for node ${node}
+    
+    
+    ${resp}                 Get Request    @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}     headers=${get_headers}
+    ${resp_content}              Decode Bytes To String  ${resp.content}    UTF-8
+    ${root}                 Parse XML    ${resp_content}
+
+    ${con_status}           Get Element Text    ${root}    connection-status
+    Log To Console             Node-id ${node} connection status: ${con_status}
+    Should Be Equal As Strings    ${con_status}    connected
+
+    
 Ensure Pm Statistics In the Same Bin During Testing Pm 
     [Documentation]        Checks the mount status of junos device on ODL controller
     ...                    Fails if status is not connected
