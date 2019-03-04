@@ -62,13 +62,14 @@ Suite Teardown  Run Keywords
 @{auth}     admin    admin
 ${interval}  120
 ${timeout}   120
-@{pmInterval}   15min    24Hour 
+@{pmInterval}   15min    24Hour   notApplicable
+
 
 *** Test Cases ***     
 Verify current 15min severely Errored Seconds pm statistics on line otu4 port
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc1  done
+    [Tags]           Sanity   tc1 
     ${pmEntryRes}       set variable      otu-0/1/1:0:0
     @{pmEntryParmater}       Create List     severelyErroredSeconds    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSeconds    nearEnd    rx 
@@ -86,26 +87,26 @@ Verify current 15min severely Errored Seconds pm statistics on line otu4 port
     Verify others Pm Statistic shoule not be changed   ${pmInterval} 
 
 
-Verify current 15min total BIPErrorCounter pm statistics on Client port
+Verify current total totalOpticalPowerInput pm statistics on Client port
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-2
     [Tags]           Sanity   tc2  done
-    ${pmEntryRes}       set variable      ett-0/0/2
-    @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
-    # @{pmParmater}       Create List     port-0/1/3   totalOpticalPowerInput    nearEnd    rx    notApplicable
-    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater} 
+    ${pmEntryRes}       set variable      port-0/1/1
+    @{pmEntryParmater}        Create List        totalOpticalPowerInput       nearEnd    rx  
+    @{pmEntryParmaterlist}    Create List        ${pmEntryParmater}
+    RPC Clear Pm Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   current  
+    Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  
     Get Current All Pm Entry On Target Resource    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${pmEntryRes}    ${pmEntryParmaterlist} 
-    @{realpm}=    Get current Spefic Pm Statistic   @{pmInterval}[0] 
+    @{realpm}=    Get current Spefic Pm Statistic   @{pmInterval}[2]
     log  ${realpm}
-    @{expectValue}       Create List   0
-    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    equal
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0] 
+    @{expectValue}       Create List   -3.49     -3.30
+    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    in-range
 
 
 Verify current 15min backgroundBlockErrors pm statistics on line odu4 port
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-2
-    [Tags]           Sanity   tc3  done
+    [Tags]           Sanity   tc3  
     ${pmEntryRes}       set variable      odu-0/1/1:0:0:0
     @{pmEntryParmater}       Create List     backgroundBlockErrors    nearEnd    rx 
     # @{pmParmater}       Create List     port-0/1/3   totalOpticalPowerInput    nearEnd    rx    notApplicable
@@ -119,16 +120,17 @@ Verify current 15min backgroundBlockErrors pm statistics on line odu4 port
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]  
 
 
-Verify current 15min total BIPErrorCounter pm statistics on Client port
+# This example for 100GE port, need 100ge traffic envrionment
+Verify current 15min total BIPErrorCounter and erroredSecondsEthernet pm statistics on Client port
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-2
-    [Tags]           Sanity   tc4  done
+    [Tags]           Sanity   tc4   done
     ${pmEntryRes}       set variable      ett-0/0/2
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
-    RPC Clear Pm Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   current   @{pmInterval}[0]
+    RPC Clear Pm Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   current  
     Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   2
     Sleep   5
