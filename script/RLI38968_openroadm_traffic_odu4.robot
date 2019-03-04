@@ -300,13 +300,13 @@ Test Bed Init
 	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
-    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}
+    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraParam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle1}
     Log To Console      Init Test Equipment ${testEquipmentInfo}: protocol otu4
     Init Test Equipment  ${testSetHandle1}  otu4
     
-    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}
+    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}  ${tv['uv-test-eqpt-port2-extraParam']}
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
     Log To Console      Init Test Equipment ${testEquipmentInfo}: protocol otu4
