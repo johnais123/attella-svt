@@ -46,7 +46,9 @@ uv-client_fec "rsfec";
 uv-test-eqpt-port1-ip "172.27.93.131";
 uv-test-eqpt-port1-type "EXFO";
 uv-test-eqpt-port1-number "0";
+uv-test-eqpt-port1-extraParam "QSFPP2";
 
 uv-test-eqpt-port2-ip "172.27.93.131";
 uv-test-eqpt-port2-type "EXFO";
 uv-test-eqpt-port2-number "2";
+uv-test-eqpt-port2-extraParam "QSFPP2";
