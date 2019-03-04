@@ -1,0 +1,88 @@
+--- 
+jaas: 
+  params: /homes/tsyong/jenkins/workspace/Attella-Sanity/script/RLI38966_openroadm_line_port_alarm.params
+  plite: /homes/tsyong/jenkins/workspace/Attella-Sanity/script/RLI38966_openroadm_line_port_alarm.params.plite
+t: 
+  framework_variables: 
+    fv-connect-controllers: all
+    fv-tags: dut
+  resources: 
+    device0: 
+      interfaces: 
+        client_intf: 
+          link: device0client_intf
+          management: 0
+          name: ett-0/0/2
+          pic: ett-0/0/2
+          type: 
+            - traffic
+            - ett
+          unit: 0
+        line_intf: 
+          link: connect
+          management: 0
+          name: och-0/1/1:0.0
+          pic: och-0/1/1:0
+          type: 
+            - och
+          unit: 0
+      system: 
+        primary: 
+          controllers: 
+            re0: 
+              con-ip: 172.27.93.8:4002
+              domain: englab.juniper.net
+              hostname: gemini02
+              mgt-intf-name: mgmtre0
+              mgt-ip: 172.27.90.161
+              mgt-ipv6: abcd::172.27.90.161
+              osname: JunOS
+          make: juniper
+          model: acx6160-t
+          name: gemini02
+          osname: JunOS
+    device1: 
+      interfaces: 
+        client_intf: 
+          link: device1client_intf
+          management: 0
+          name: ett-0/0/2
+          pic: ett-0/0/2
+          type: 
+            - traffic
+            - ett
+          unit: 0
+        line_intf: 
+          link: connect
+          management: 0
+          name: och-0/1/1:0.0
+          pic: och-0/1/1:0
+          type: 
+            - och
+          unit: 0
+      system: 
+        primary: 
+          controllers: 
+            re0: 
+              con-ip: 172.27.93.8:4003
+              domain: englab.juniper.net
+              hostname: gemini03
+              mgt-intf-name: mgmtre0
+              mgt-ip: 172.27.90.162
+              mgt-ipv6: abcd::172.27.90.162
+              osname: JunOS
+          make: juniper
+          model: acx6160-t
+          name: gemini03
+          osname: JunOS
+  user_variables: 
+    uv-client_fec: rsfec
+    uv-frequency: '192.50'
+    uv-odl-server: 172.27.80.27:18181
+    uv-service-description: traffic_provision
+    uv-test-eqpt-port1-ip: 172.27.93.131
+    uv-test-eqpt-port1-number: 0
+    uv-test-eqpt-port1-type: EXFO
+    uv-test-eqpt-port2-ip: 172.27.93.131
+    uv-test-eqpt-port2-number: 2
+    uv-test-eqpt-port2-type: EXFO

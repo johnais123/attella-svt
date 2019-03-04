@@ -66,6 +66,7 @@ ${OPER_STATUS_ON}           inService
 ${OPER_STATUS_OFF}          outOfService
 ${interval}                 10
 ${timeout}                  300
+&{delete_headers}           Accept=application/xml
 
 *** Test Cases ***
 TC1
@@ -93,9 +94,9 @@ TC1
    @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
    
-#   Log               Verify OTU-BDI was raised on Test1.
-#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
 
    Log               Verify ODU4-AIS was raised on Test2.
    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -964,9 +965,9 @@ TC15
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}  ${expectedAlarms_remote_line}
    
     
-#    Log              Verify ODU4-AIS was raised on Test2.
-#    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-#    Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
+    Log              Verify ODU4-AIS was raised on Test2.
+    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+    Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
     Log              Verify ODU4-AIS was raised on Test1.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS  
@@ -977,16 +978,7 @@ TC15
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}   ${OPER_STATUS_OFF}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_OFF}
 
-    Log              Re-configure OCH/OTU4/ODU4 on Lx 
-#    &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
-#    ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}  modulation-format=${modulation}
-#    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}  frequency=${frequency}000
-#    ...    interface-circuit-id=1234
-#    @{interface_info}    create list    ${Och_interface} 
-#    &{dev_info}   create dictionary   interface=${interface_info}       
-#    &{payload}   create dictionary   org-openroadm-device=${dev_info}
-#    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}    
-
+    Log              Re-configure OCH/OTU4/ODU4 on Lx  
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  qpsk
 
     
@@ -1028,9 +1020,9 @@ TC16
    @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
    
-#   Log               Verify OTU-BDI was raised on Test1.
-#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
 
    Log               Verify ODU4-AIS was raised on Test2.
    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -1047,9 +1039,9 @@ TC16
    @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
    
-#   Log               Verify OTU-BDI was raised on Test1.
-#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
 
    Log               Verify ODU4-AIS was raised on Test2.
    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -1126,9 +1118,9 @@ TC17
    @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
    
-#   Log               Verify OTU-BDI was raised on Test1.
-#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
 
    Log               Verify ODU4-AIS was raised on Test2.
    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -1145,9 +1137,9 @@ TC17
    @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
    
-#   Log               Verify OTU-BDI was raised on Test1.
-#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
 
    Log               Verify ODU4-AIS was raised on Test2.
    ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -1230,6 +1222,8 @@ Test Bed Init
 #    @{odl_sessions}    create list   ${opr_session}   ${cfg_session}
     Set Suite Variable    ${odl_sessions}
     
+    Delete openroadm-device      ${odl_sessions}
+
     
     ${client intf}       Get Otu4 Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
     ${client otu intf}   Get OTU Intface Name From ODU Intface  ${client intf}
@@ -1291,6 +1285,7 @@ Test Bed Init
     
     Start Traffic  ${testSetHandle1}
     Start Traffic  ${testSetHandle2}
+
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  qpsk
     
@@ -1523,3 +1518,18 @@ Verify Client Interfaces In Traffic Chain Are Up
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}    ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}    ${OPER_STATUS_ON}
 
+	
+Delete openroadm-device
+    [Documentation]   delete configuration	
+    [Arguments]    ${odl_sessions}  
+    Log             delete configuration 
+	@{device_index}      Create List             ${tv['device0__re0__mgt-ip']}   ${tv['device1__re0__mgt-ip']}
+	:FOR            ${node}          IN          ${device_index}
+    \               ${urlhead}   set variable   org-openroadm-device:org-openroadm-device
+    \               ${resp}=         Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}   
+	\  ...          headers=${delete_headers}              allow_redirects=False
+    \               check status line    ${resp}     200  
+	
+
+
+	
