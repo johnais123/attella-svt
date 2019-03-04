@@ -246,7 +246,7 @@ RPC Create Tech Info
     
 RPC Clear Pm Statistics
     [Documentation]   Command to initialize PM data
-    [Arguments]    ${odl_sessions}   ${node}    ${pmtype}    ${pmInter}
+    [Arguments]    ${odl_sessions}   ${node}    ${pmtype}    ${pmInter}=15min
     ${urlhead}   set variable    org-openroadm-pm:clear-pm
     ${data}      set variable   <input xmlns="http://org/openroadm/pm"><pm-type>${pmtype}</pm-type><granularity>${pmInter}</granularity></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
@@ -262,7 +262,7 @@ Rpc Command For Warm Reload Device
     check status line    ${resp}     200  
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     Reconnect Device And Verification reboot successful    ${deviceName}
 
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${node}
@@ -281,7 +281,7 @@ Rpc Command For Cold Reload Device
     check status line    ${resp}     200  
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     Reconnect Device And Verification reboot successful    ${deviceName}
 
     Mount vAttella On ODL Controller    ${odl_sessions}    ${timeout}    ${interval}   ${node}
@@ -410,7 +410,7 @@ Get All Under Test Pm Entry
     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
     ...     ELSE    Log   no ignore pm statistics
 
-
+# This example for 100GE port, need 100ge traffic envrionment
 Get Current All Pm Entry On Target Resource
     [Documentation]        Get ALL special Pm On Target
     ...                    Fails if it doesn't exist special pm statistics on this resource
@@ -637,8 +637,7 @@ Load Pre Default Provision
     ${resp}=  Patch Request   @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/org-openroadm-device:org-openroadm-device   data=${data}    headers=${patch_headers}    allow_redirects=False
 
 	check status line    ${resp}     200
-	
-	
+
 	
 Verify Interface Operational Status
     [Documentation]        Verify Interface Operational Status 

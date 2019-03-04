@@ -64,7 +64,7 @@ ${interval}  120
 ${timeout}   120
 ${remotesftpPath}   sftp://atlas:atlas@10.228.0.25/attella_log/Wh_team
 # filename should be include number 1 for below testing 
-@{remoteTestFile}     pm1.gz    config1.txt
+@{remoteTestFile}     tempm1.gz    tempconfig1.txt
 
 *** Test Cases ***     
 perform rpc transfer download file
@@ -191,6 +191,8 @@ Get Default Openroadm File
     @{nulllist}  create list 
     ${one}     set variable   ''
     Execute shell command on device     device=${r0}       command=cd /var/openroadm
+    Execute shell command on device     device=${r0}       command=rm -rf tempconfig*
+    Execute shell command on device     device=${r0}       command=rm -rf tempm*
     ${cmd1}=     Execute shell command on device     device=${r0}     command=ls
     @{deffilelist}     split string    ${cmd1}    ${SPACE}${SPACE}
     ${legth}=   get length   @{deffilelist}[0]

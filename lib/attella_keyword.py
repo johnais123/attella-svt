@@ -12,6 +12,8 @@ def getXMLFileNameFromModuleName(strModuleName):
         return "org-openroadm-device.xml"
     elif strModuleName in ["active-alarm-list"]:
         return "org-openroadm-alarm.xml"
+    elif strModuleName in ["current-pm-list"]:
+        return "org-openroadm-pm.xml"
 
         
 def getOperXml(targetEt, param_key, param_value="", namespace=""):
