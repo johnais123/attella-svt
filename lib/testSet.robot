@@ -92,6 +92,11 @@ Set OTU Traces
     [Arguments]    ${testSetHandle}  ${strMode}  ${strDirection}  ${strValue}
 	set OTU SM TTI Traces  ${testSetHandle}  ${strMode}  ${strDirection}  ${strValue}
 	
+Set ODU Traces
+	[Documentation]   Set ODU Traces
+    [Arguments]    ${testSetHandle}  ${strMode}  ${strDirection}  ${strValue}
+	set ODU SM TTI Traces  ${testSetHandle}  ${strMode}  ${strDirection}  ${strValue}
+	
 Set OTU FEC
 	[Documentation]   Set OTU FEC
     [Arguments]    ${testSetHandle}  ${strMode}
