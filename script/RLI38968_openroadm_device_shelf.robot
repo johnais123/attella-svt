@@ -349,7 +349,7 @@ TC19
 	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}	
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${ATTELLA_DEF_MODEL.text}  
 	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
-	...     clei=${ATTELLA_DEF_CLEI.text}  hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
+	...     hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
 	...     slots=${slots}
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
@@ -403,7 +403,7 @@ TC22
 	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${ATTELLA_DEF_MODEL.text}  
 	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
-	...     clei=${ATTELLA_DEF_CLEI.text}  hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
+	...     hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
 	...     slots=${slots}
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
@@ -431,8 +431,6 @@ Testbed Init
     Log To Console   ${ATTELLA_DEF_HARDWARE_VERSION.text}
     ${ATTELLA_DEF_PRODUCT_CODE}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/part-number
     Log To Console   ${ATTELLA_DEF_PRODUCT_CODE.text}
-    ${ATTELLA_DEF_CLEI}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/clei-code
-    Log To Console   ${ATTELLA_DEF_CLEI.text}
     ${ATTELLA_DEF_MODEL}       Get Element   ${Hardware}  chassis-inventory/chassis/chassis-module[3]/description
     Log To Console   ${ATTELLA_DEF_MODEL.text}
     
@@ -440,7 +438,6 @@ Testbed Init
     Set Global Variable  ${ATTELLA_DEF_SERIAL_ID.text}    
     Set Global Variable  ${ATTELLA_DEF_HARDWARE_VERSION.text}
     Set Global Variable  ${ATTELLA_DEF_PRODUCT_CODE.text}
-    Set Global Variable  ${ATTELLA_DEF_CLEI.text}
     Set Global Variable  ${ATTELLA_DEF_MODEL.text}
     
     
