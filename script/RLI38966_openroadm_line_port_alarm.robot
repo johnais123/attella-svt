@@ -67,6 +67,7 @@ ${OPER_STATUS_OFF}          outOfService
 ${interval}                 10
 ${timeout}                  300
 &{delete_headers}           Accept=application/xml
+${CFG_SESSEION_INDEX}       1
 
 *** Test Cases ***
 TC1
@@ -1221,10 +1222,12 @@ Test Bed Init
     
 #    @{odl_sessions}    create list   ${opr_session}   ${cfg_session}
     Set Suite Variable    ${odl_sessions}
+	Log   ${odl_sessions}
     
-    Delete openroadm-device      ${odl_sessions}
-
-    
+#    Delete openroadm-device      ${odl_sessions}
+    Send Delete Request With Complete Url    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
+    Send Delete Request With Complete Url    ${odl_sessions}    ${tv['device1__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
+	
     ${client intf}       Get Otu4 Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
     ${client otu intf}   Get OTU Intface Name From ODU Intface  ${client intf}
     ${line odu intf}     Get Line ODU Intface Name From Client Intface  ${client intf}
@@ -1256,16 +1259,16 @@ Test Bed Init
     
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-    
-    
-    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}
+
+    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle1}
-    
-    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}
+
+    @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}  ${tv['uv-test-eqpt-port2-extraparam']}
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
-           
+
+	
     Init Test Equipment  ${testSetHandle1}  otu4
     Init Test Equipment  ${testSetHandle2}  otu4
     
@@ -1408,49 +1411,7 @@ Create OTU4 Service
     @{interface_info}    create list    ${client_otu_interface}    ${client_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload} 
-    
-
-
-    
-    
-Create 100GE Service
-    [Documentation]   Retrieve system configuration and state information
-    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}
-    ${rate}=  Set Variable  100G
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    ${line support port}=  Get Supporting Port  ${och intf}
-    ${line circuit pack}=  Get getSupporting Circuit Pack Name  ${och intf}
-    ${client support port}=  Get Supporting Port  ${client intf}
-    ${client circuit pack}=  Get getSupporting Circuit Pack Name  ${client intf}
-    ${client rate}=  Speed To Client Rate  ${rate}
-    ${odu rate}=  Speed To ODU Rate  ${rate}
-    ${otu rate}=  Speed To OTU Rate  ${rate}
-    ${och rate}=  Speed To OCH Rate  ${rate}
-    
-    &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
-    ...    interface-administrative-state=inService   speed=${client rate}
-    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
-
-    &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
-    ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}  frequency=${frequency}000
-    
-    &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}    interface-type=otnOtu    
-    ...    interface-administrative-state=inService    supporting-interface=${och intf}  otu-rate=${otu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-    
-    &{odu_interface}    create_dictionary   interface-name=${odu intf}     description=odu-${discription}    interface-type=otnOdu    
-    ...    interface-administrative-state=inService    supporting-interface=${otu intf}     odu-rate=${odu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-    
-    
-    @{interface_info}    create list    ${client_interface}    ${och_interface}    ${otu_interface}    ${odu_interface} 
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}     
 
     
 Verify Traffic Is OK
@@ -1519,17 +1480,18 @@ Verify Client Interfaces In Traffic Chain Are Up
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}    ${OPER_STATUS_ON}
 
 	
-Delete openroadm-device
-    [Documentation]   delete configuration	
-    [Arguments]    ${odl_sessions}  
-    Log             delete configuration 
-	@{device_index}      Create List             ${tv['device0__re0__mgt-ip']}   ${tv['device1__re0__mgt-ip']}
-	:FOR            ${node}          IN          ${device_index}
-    \               ${urlhead}   set variable   org-openroadm-device:org-openroadm-device
-    \               ${resp}=         Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}   
-	\  ...          headers=${delete_headers}              allow_redirects=False
-    \               check status line    ${resp}     200  
-	
+#Dlete openroadm-device
+#    [Documentation]   delete configuration	
+#    [Arguments]    ${odl_sessions}  
+#    Log             delete configuration 
+#	@{device_index}      Create List             ${tv['device0__re0__mgt-ip']}   ${tv['device1__re0__mgt-ip']}
+#	:FOR            ${asnode}          IN          @{device_index}
+#    \               ${urlhead}   set variable   org-openroadm-device:org-openroadm-device
+#	\               log     ${asnode} 
+#    \               ${resp}=    Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${asnode}/yang-ext:mount/${urlhead}   
+#	\  ...          headers=${delete_headers}              allow_redirects=False
+#    \               check status line    ${resp}     200  
+#	
 
 
 	
