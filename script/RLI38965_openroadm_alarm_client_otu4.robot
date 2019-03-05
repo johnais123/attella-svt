@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    This is Attella otu4 client interface Scripts
+Documentation    This is Attella otu4 client interface alarm Scripts
 ...              If you are reading this then you need to learn Toby
 ...              Description  : RLI-38965: OpenROADM Device Data Model for 800G transparent transponder targeting Metro/DCI applications
 ...              Author: Jack Wu
@@ -1289,11 +1289,241 @@ TC22
 
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
+
+TC23
+   [Documentation]  After Attella system warm reload,the LOS alarm on OTU4 interface still ca be raised.
+   [Tags]           Sanity  tc23 
+
+   
+    Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
+    Verify Interfaces In Traffic Chain Are Alarm Free
+    
+    Log               Wait a random time to keep the alarm stable on Attella    
+	${random}=  Evaluate  random.randint(60, 120)  modules=random
+	Sleep  ${random}
+    
+    Log To Console    Verify Interfaces In Traffic Chain Are Alarm Free
+    Verify Interfaces In Traffic Chain Are Alarm Free
+	
+	Log              Turn tester Laser off
+	Set Laser State  ${testSetHandle1}  OFF
+	
+	Log              Verify los alarm raise on local otu4 interface
+	@{expectedAlarms}  Create List  Loss of Signal
+	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+	
+    Log              Wait a random time to keep the alarm stable on Attella
+	${random}=  Evaluate  random.randint(1, 60)  modules=random
+	Sleep  ${random}
+	@{expectedAlarms}  Create List  Loss of Signal
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}   
+   
+    Log               Warm reload the remote Attella NE   
+    Rpc Command For warm Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0 
+    
+    Log              Verify LOS Alarm was raised  
+    @{expectedAlarms}  Create List  Loss of Signal
+    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
+        
+    Log              Wait a random time to keep the alarm stable on Attella
+    ${random}=  Evaluate  random.randint(30,90)  modules=random
+    Sleep  ${random}       
+        
+    Log              Verify OTU4/ODU4 operation status on local are outOfService
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+    
+
+    Log              Verify OTU4/ODU4 operation status on Ly are inService
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
+       
+    Log              Turn Laser on
+    Set Laser State  ${testSetHandle1}  ON
+    
+    Log              Verify Alarms In Traffic Chain Are Alarm Free
+    Wait Until Interfaces In Traffic Chain Are Alarm Free
+    
+    Log              Wati a random time the check wether the alarm still exist or not
+    ${random}=       Evaluate  random.randint(1, 60)  modules=random
+    Sleep            ${random}
+    
+    Log              Verify interface alarm are error free
+    Verify Interfaces In Traffic Chain Are Alarm Free
+       
+    Log To Console   Verify Traffic Is OK
+    Verify Traffic Is OK
+    
+    [Teardown]  Set Laser State  ${testSetHandle1}  ON    
+
+
+
+TC24
+   [Documentation]  After Attella system warm reload,the ODU-AIS alarm still ca be raised.
+   [Tags]           Sanity  tc16 
+
+    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
+    Verify Interfaces In Traffic Chain Are Alarm Free	
+    
+    Log             Injecting ODU4 AIS alarm from tester
+    Start Inject Alarm On Test Equipment   ${testSetHandle1}   ALARM_OTU4_ODU4_AIS
+    
+    Log              Verify AIS alarm raise on local ODU4 interface    
+	@{expectedAlarms}  Create List   ODU Alarm Indication Signal
+	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+	
+    Log              Wait a random time to keep the alarm stable on Attella    
+	${random}=  Evaluate  random.randint(1, 60)  modules=random
+	Sleep  ${random}
+	@{expectedAlarms}  Create List  ODU Alarm Indication Signal
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  
+   
+    Log               Cold reload the remote Attella NE   
+    Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0 
+    
+    Log              Verify ODU-AIS Alarm was raised  
+    @{expectedAlarms}  Create List  Loss of Signal
+    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
+        
+    Log              Wait a random time to keep the alarm stable on Attella
+    ${random}=  Evaluate  random.randint(30,90)  modules=random
+    Sleep  ${random}       
+        
+    Log              Verify OTU4/ODU4 operation status on local are outOfService
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+    
+
+    Log              Verify OTU4/ODU4 operation status on Ly are inService
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
+       
+    Log              Turn Laser on
+    Set Laser State  ${testSetHandle1}  ON
+    
+    Log              Verify Alarms In Traffic Chain Are Alarm Free
+    Wait Until Interfaces In Traffic Chain Are Alarm Free
+    
+    Log              Wati a random time the check wether the alarm still exist or not
+    ${random}=       Evaluate  random.randint(1, 60)  modules=random
+    Sleep            ${random}
+    
+    Log              Verify interface alarm are error free
+    Verify Interfaces In Traffic Chain Are Alarm Free
+       
+    Log To Console   Verify Traffic Is OK
+    Verify Traffic Is OK
+    
+    [Teardown]  Set Laser State  ${testSetHandle1}  ON    
+
+
+
+
+
+TC24
+   [Documentation]  After Attella system warm reload,the ODU-AIS alarm still ca be raised.
+
+   [Tags]           Sanity  tc16   
+    
+   Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
+   Verify Interfaces In Traffic Chain Are Alarm Free
+   
+   Log              Turn Laser off
+   Set Laser State  ${testSetHandle1}  OFF
+
+   Log              Wait a random time to keep the alarm stable on Attella
+   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   Sleep  ${random}   
+   
+   Log              Verify LOS Alarm was raised on Cx 
+   @{expectedAlarms}  Create List  Loss of Signal
+   Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
+   
+   Log              Verify ODU-AIS wasi raised on Ly
+   @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
+   Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
+   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+
+   Log               Verify ODU4-AIS was raised on Test2.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
+   Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}  
+   
+   Log               Warm reload the remote Attella NE   
+   Rpc Command For Warm Reload Device   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}    ${interval}   device1
+   
+   Log              Verify LOS Alarm was raised on Cx 
+   @{expectedAlarms}  Create List  Loss of Signal
+   Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
+   
+   Log              Verify ODU-AIS wasi raised on Ly
+   @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
+   Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
+   
+   Log               Verify OTU-BDI was raised on Test1.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+
+   Log               Verify ODU4-AIS was raised on Test2.
+   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
+   Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}    
+
+   Log              Wait a random time to keep the alarm stable on Attella
+   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   Sleep  ${random}    
+   
+   Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
+
+   Log              Verify OTU4/ODU4 operation status on Cx are outOfService
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+
+
+   Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}   ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}   
+
+   Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
+
+
+   Log              Turn Laser on
+   Set Laser State  ${testSetHandle1}  ON
+
+   Log              Verify Alarms In Traffic Chain Are Alarm Free
+   Wait Until Interfaces In Traffic Chain Are Alarm Free
+
+   Log              Wati a random time the check wether the alarm still exist or not
+   ${random}=       Evaluate  random.randint(30, 90)  modules=random
+   Sleep            ${random}
+   
+   Log              Verify Cx/Lx and Cy/Ly are error free
+   Verify Interfaces In Traffic Chain Are Alarm Free
+
+   Log              Verify Cx/Lx and Cy/Ly are up
+   Verify Client Interfaces In Traffic Chain Are Up
+   
+   Log To Console   Verify Traffic Is OK
+   Verify Traffic Is OK
+   
+   [Teardown]  Set Laser State  ${testSetHandle1}  ON    
+
+
+	
+
  
  
  
  
 *** Keywords ***
+Test Bed Init
     Set Log Level  DEBUG
     Log To Console      create a restconf operational session
     
