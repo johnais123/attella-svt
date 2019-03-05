@@ -535,3 +535,12 @@ def getNextFrequency(strFrequency):
         strNextFrequency += '0'
     
     return strNextFrequency
+
+def getdefaultOpenroamdfile(shellreturn):
+    if shellreturn=="":
+        print ("log file in openroadm directory")
+        defile= []
+    else:
+        handleReturn= shellreturn.replace("\r\n","  ").replace("\t","")
+        defile=  handleReturn.split("  ")        
+    return defile
