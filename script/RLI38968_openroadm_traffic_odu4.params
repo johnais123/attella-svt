@@ -47,6 +47,12 @@ uv-frequency "192.50";
 uv-service-description "traffic_provision";
 uv-client_fec "rsfec";
 
+uv-odl-interval: 10
+      uv-odl-password: admin
+      uv-odl-server: 172.27.80.27:18181
+      uv-odl-timeout: 600
+      uv-odl-username: admin
+
 uv-test-eqpt-port1-ip "172.27.93.131";
 uv-test-eqpt-port1-type "EXFO";
 uv-test-eqpt-port1-number "0";
