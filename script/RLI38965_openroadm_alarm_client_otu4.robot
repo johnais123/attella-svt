@@ -1848,15 +1848,3 @@ Verify Client Interfaces In Traffic Chain Are Up
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}    ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}    ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}    ${OPER_STATUS_ON}
-
-	
-Delete openroadm-device
-    [Documentation]   delete configuration	
-    [Arguments]    ${odl_sessions}  
-    Log             delete configuration 
-	@{device_index}      Create List             ${tv['device0__re0__mgt-ip']}   ${tv['device1__re0__mgt-ip']}
-	:FOR            ${node}          IN          ${device_index}
-    \               ${urlhead}   set variable   org-openroadm-device:org-openroadm-device
-    \               ${resp}=         Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}   
-	\  ...          headers=${delete_headers}              allow_redirects=False
-    \               check status line    ${resp}     200  
