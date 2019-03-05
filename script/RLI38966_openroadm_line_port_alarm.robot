@@ -1218,15 +1218,12 @@ Test Bed Init
         
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}   ${rpc_session}
 
-
-    
-#    @{odl_sessions}    create list   ${opr_session}   ${cfg_session}
     Set Suite Variable    ${odl_sessions}
 	Log   ${odl_sessions}
     
-#    Delete openroadm-device      ${odl_sessions}
-    Send Delete Request With Complete Url    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
-    Send Delete Request With Complete Url    ${odl_sessions}    ${tv['device1__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
+    Log   Delete openroadm-device      
+    Send Delete OpenRoadm Request     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
+    Send Delete OpenRoadm Request     ${odl_sessions}    ${tv['device1__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
 	
     ${client intf}       Get Otu4 Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
     ${client otu intf}   Get OTU Intface Name From ODU Intface  ${client intf}

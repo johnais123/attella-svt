@@ -32,6 +32,14 @@ check status line
     ${status_is_expected}              Run Keyword And Return Status    Should Be Equal As Strings    ${get_resp.status_code}    ${statusId} 
     Run Keyword If          '${status_is_expected}' != 'True'    Run Keywords     Fail     check status line and status id isn't ${statusId}    
     ...                                   AND     Log   Response: ${get_resp.content}
+
+check delete OpenRoadm tatus line 
+    [Documentation]   check restconf operation return status line
+    [Arguments]    ${get_resp}    ${statusId}  
+	Log    ${get_resp.status_code}  
+	${status_is_expected}    evaluate    str(${get_resp.status_code})  in   @{statusId}
+    Run Keyword If          '${status_is_expected}' != 'True'    Run Keywords     Fail     check status line and status id isn't ${statusId}    
+    ...   
     
 
 Send Get Request
@@ -109,6 +117,16 @@ Send Delete Request With Complete Url
     check status line    ${resp}     200     
     [return]  ${resp}
 
+Send Delete OpenRoadm Request 
+    [Documentation]   delete configuration
+    [Arguments]    ${odl_sessions}  ${node}  ${fullUrl}
+    Log                     delete configuration
+    ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${fullUrl}    headers=${delete_headers}    allow_redirects=False
+	@{responseID}   create list   200    404
+    check delete OpenRoadm tatus line     ${resp}     ${responseID}   
+    [return]  ${resp}		
+	
+	
 
 Send Put Request
     [Documentation]   Edit system configuration
