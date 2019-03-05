@@ -1,5 +1,9 @@
 fv-connect-controllers "all";
 uv-odl-server "172.27.80.27:18181";
+uv-odl-username "admin";
+uv-odl-password "admin";
+uv-odl-interval 10;
+uv-odl-timeout 300;
 
 fv-tags  "dut";
 
@@ -8,7 +12,6 @@ fv-tags  "dut";
 #fv-connect-controllers "all";
 
 #fv-core-check "enable";
-
 
 
 device0 {
