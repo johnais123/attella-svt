@@ -1,6 +1,13 @@
 fv-connect-controllers "all";
 uv-odl-server "172.27.80.27:18181";
 
+uv-odl-interval  "10";
+uv-odl-password  "admin";
+uv-odl-server    "172.27.80.27:18181";
+uv-odl-timeout   "600";
+uv-odl-username  "admin";
+
+
 fv-tags  "dut";
 
 #fv-load-baseline-config-from "default";
