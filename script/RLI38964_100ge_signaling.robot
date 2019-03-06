@@ -241,11 +241,11 @@ TC5
 *** Keywords ***
 Test Bed Init
     Set Log Level  DEBUG
-    # Initialize
+#    Initialize
     Log To Console      create a restconf operational session
 
     @{dut_list}    create list    device0  device1
-    Preconfiguration netconf feature    @{dut_list}
+#    Preconfiguration netconf feature    @{dut_list}
 
     @{auth}=  Create List  ${tv['uv-odl-username']}  ${tv['uv-odl-password']}
 
@@ -272,8 +272,12 @@ Test Bed Init
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
-    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
-    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+    Log To Console  de-provision on both device0 and device1
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    
+    Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
     
     
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}

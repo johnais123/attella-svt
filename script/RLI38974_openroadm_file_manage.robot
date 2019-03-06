@@ -96,13 +96,14 @@ perform rpc transfer upload file
     [Documentation]  Upload file via transfer rpc
     ...              RLI38974 5.1-1
     [Tags]           Sanity   tc4   done
-    @{filename}    create list   
+    @{filename2}    create list   
     :For  ${extrafile}   in   @{remoteTestFile}
     \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
-    \   Append To List   ${filename}   ${extrafile}
-    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${remotesftpPath}  
-
+    \   Append To List   ${filename2}   ${extrafile}
+    Set Suite Variable    ${filename2}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename2}   ${remotesftpPath}  
+    
     
 perform rpc transfer delete special file
     [Documentation]  Delete special transfer file via rpc command 
@@ -110,29 +111,30 @@ perform rpc transfer delete special file
     [Tags]           Sanity   tc5   done
     @{filename}    create list    @{remoteTestFile}
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}  
+    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename2} 
 
 
 perform rpc transfer delete file via wild-card
     [Documentation]  Delete special transfer file via rpc command 
     ...              RLI38974 5.1-3
-    [Tags]           Sanity   tc6   done
-    @{filename}    create list    test*
+    [Tags]           Sanity   tc6    
+    @{filename}    create list    temp*
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
 
 
 perform rpc create tech info
     [Documentation]  produce tech info file in a special directory
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc7   done
+    [Tags]           Sanity   tc7    
     ${shelfid}      set variable    shelf-0
-    ${logoption}    set variable    all
+    ${logoption}    set variable    all  
     RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}
 
 
 perform rpc transfer can work after warm reload
     [Documentation]  Warm reboot system via transfer rpc
     ...              RLI38974 5.1-1  
-    [Tags]           Sanity   tc8   reload   done  
+    [Tags]           Sanity   tc8   reload    
     Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}   device0
     @{filename}    create list   
     :For  ${extrafile}   in   @{remoteTestFile}
@@ -145,7 +147,7 @@ perform rpc transfer can work after warm reload
 perform rpc transfer can work after cold reload
     [Documentation]  Cold reboot system via transfer rpc
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc9   reload  done
+    [Tags]           Sanity   tc9   reload  
     Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}    device0
     @{filename}    create list   
     :For  ${extrafile}   in   @{remoteTestFile}
@@ -189,14 +191,7 @@ Testbed Init
 
 Get Default Openroadm File 
     @{nulllist}  create list 
-    ${one}     set variable   ''
     Execute shell command on device     device=${r0}       command=cd /var/openroadm
-    Execute shell command on device     device=${r0}       command=rm -rf tempconfig*
-    Execute shell command on device     device=${r0}       command=rm -rf tempm*
     ${cmd1}=     Execute shell command on device     device=${r0}     command=ls
-    @{deffilelist}     split string    ${cmd1}    ${SPACE}${SPACE}
-    ${legth}=   get length   @{deffilelist}[0]
-    log    ${legth}
-    @{deffilelist}=    Set Variable if    ${legth} == 0    ${nulllist}   ${deffilelist}
-    ${length}=   get length   ${deffilelist}
+    ${deffilelist}=     getdefaultOpenroamdfile   ${cmd1}
     Set Suite Variable    ${deffilelist}

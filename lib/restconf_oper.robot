@@ -32,6 +32,14 @@ check status line
     ${status_is_expected}              Run Keyword And Return Status    Should Be Equal As Strings    ${get_resp.status_code}    ${statusId} 
     Run Keyword If          '${status_is_expected}' != 'True'    Run Keywords     Fail     check status line and status id isn't ${statusId}    
     ...                                   AND     Log   Response: ${get_resp.content}
+
+check delete OpenRoadm tatus line 
+    [Documentation]   check restconf operation return status line
+    [Arguments]    ${get_resp}    ${statusId}  
+	Log    ${get_resp.status_code}  
+	${status_is_expected}    evaluate    str(${get_resp.status_code})  in   @{statusId}
+    Run Keyword If          '${status_is_expected}' != 'True'    Run Keywords     Fail     check status line and status id isn't ${statusId}    
+    ...   
     
 
 Send Get Request
@@ -109,6 +117,16 @@ Send Delete Request With Complete Url
     check status line    ${resp}     200     
     [return]  ${resp}
 
+Send Delete OpenRoadm Request 
+    [Documentation]   delete configuration
+    [Arguments]    ${odl_sessions}  ${node}  ${fullUrl}
+    Log                     delete configuration
+    ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${fullUrl}    headers=${delete_headers}    allow_redirects=False
+	@{responseID}   create list   200    404
+    check delete OpenRoadm tatus line     ${resp}     ${responseID}   
+    [return]  ${resp}		
+	
+	
 
 Send Put Request
     [Documentation]   Edit system configuration
@@ -164,7 +182,7 @@ Rpc Command For Show All File
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     ${elem2} =     get elements texts    ${resp.text}    status-message
-    ${allfilelist}=    Remove Duplicates    ${allfilelist}
+    Log    ${elem2} 
     Sort List   ${elem2}    
     Sort List   ${allfilelist}
     log many    ${elem2}    ${allfilelist}
@@ -436,7 +454,7 @@ Get Current All Pm Entry On Target Resource
 
 
 Get All current Special Pm Statistic
-    [Documentation]        one by one to reterive under testing pm entries
+    [Documentation]        one by one to reterive under testing pm entries base on pm interval
     ...                    Args:
     ...                    | - udtPm: under testing pm entry object
     ...                    | - pmInterval :   under teting pm interval
@@ -457,8 +475,6 @@ Get current Spefic Pm Statistic
     [Documentation]        Get special Pm Statistics On Target
     ...                    Fails if it doesn't exist special pm statistics on this resource
     ...                    Args:
-    ...                    | - odl_sessions : config/operational sessions to ODL controller
-    ...                    | - node :Under testing Device
     ...                    | - pmInterval :   under teting pm interval
     [Arguments]               ${pmInterval}  
     @{PmStatisList}    create list  
@@ -480,6 +496,10 @@ Get current Spefic Pm Statistic
 Verify Pm Statistic 
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if given error expect value
+    ...                    Args:
+    ...                    | - expectValue :   expect value is list and via test set/sfs/configuartion produce
+    ...                    | - realValue :     real value is a variable and  via restconf request retrieve
+    ...                    | - operation :     expect verify result means 
     [Arguments]            ${expectValue}   ${realValue}    ${operation}
     ${len}=  Get Length    ${expectValue}
     Run Keyword If         ${len}==1 and '${operation}'=='equal'    Verify Pm Should Be Equal   ${expectValue}     ${realValue}  
@@ -519,8 +539,6 @@ Verify others Pm Statistic shoule not be changed
     [Documentation]        Verify others Pm Statistic shoule not be changed only for interface resource
     ...                    Fails if it doesn't exist other pm statistics on this resource
     ...                    Args:
-    ...                    | - odl_sessions : config/operational sessions to ODL controller
-    ...                    | - node :Under testing Device
     ...                    | - pmInterval :   under teting pm interval
     [Arguments]             ${pmInterval} 
     @{PmStatisList}    create list  
@@ -533,8 +551,6 @@ Get others Pm statistcis
     [Documentation]        Get and verify others Pm Statistic shoule be zero
     ...                    Fails if it exist other pm statistics on this resource
     ...                    Args:
-    ...                    | - odl_sessions : config/operational sessions to ODL controller
-    ...                    | - node :Under testing Device
     ...                    | - pmInterval :   under teting pm interval
     [Arguments]             ${udtPm}    ${pmInterval}  
     ${pmtype}=  Get Element  ${udtPm}  type

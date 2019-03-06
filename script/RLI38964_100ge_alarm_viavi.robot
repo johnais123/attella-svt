@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    This is Attella 100ge Alarm Scripts
+Documentation    This is Attella Signaling Scripts
 ...              If you are reading this then you need to learn Toby
 ...              Description  : RLI-38964: ACX6180-T: Attella 4x100GE base transponder capability
 ...              Author: Linda Li
@@ -117,7 +117,7 @@ TC1
     Verify Client Interfaces In Traffic Chain Are Up
     
     Log To Console  Verify Traffic
-    Verify Traffic Is OK
+#    Verify Traffic Is OK
     
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
@@ -210,82 +210,6 @@ TC3
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
 
 
-TC4
-    [Documentation]  Verify HI BER ALARM in 100ge Client Interface
-    ...              RLI38964  
-    [Tags]  Sanity 
-    Log To Console  near-end inject HI BER
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  1.0E-02
-    Sleep   ${period}
-    
-    Log To Console  Verify Alarms
-    @{expectedAlarms}  Create List  High Bit Error Ratio Rx  Remote Fault Rx
-    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
-    
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_OFF}
-    
-    
-    Log To Console  near-end stop inject HI BER
-    Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK 
-    Sleep   ${period}
-    
-    Log To Console  Verify Alarms
-    Wait Until Interfaces In Traffic Chain Are Alarm Free
-    
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    Verify Client Interfaces In Traffic Chain Are Up
-    
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
-    
-    [Teardown]  Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK 
-
-
-TC5
-    [Documentation]  Verify Loss of Alignment in 100ge Client Interface
-    ...              RLI38964  
-    [Tags]  Sanity 
-    Log To Console  near-end inject Loss of Alignment
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  MAX
-    Sleep   ${period}
-    
-    Log To Console  Verify Alarms
-    @{expectedAlarms}  Create List  Loss of Alignment Rx  Remote Fault Rx
-    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
-    
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_OFF}
-    
-    
-    Log To Console  near-end stop inject Loss of Alignment
-    Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
-    Sleep   ${period}
-    
-    Log To Console  Verify Alarms
-    Wait Until Interfaces In Traffic Chain Are Alarm Free
-    
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    Verify Client Interfaces In Traffic Chain Are Up
-    
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
-    
-    [Teardown]  Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
-
-
 TC6
     [Documentation]  Verify tx LF mask tx RF in 100ge Client Interface
     ...              RLI38964  
@@ -348,18 +272,17 @@ TC6
 TC7
     [Documentation]  Verify Los alarm after warm reload in 100ge client interface
     ...              RLI38964  
-    [Tags]  
+    [Tags]  Sanity 
     Log To Console  turn Laser off
     Set Laser State  ${testSetHandle1}  OFF
     
-    Log To Console  Verify LOS Alarms in near-end client
+    Log To Console  Verify Alarms
     @{expectedAlarms}  Create List  Loss of Signal  Remote Fault Tx
     Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
     
     Log To Console  Warm Reload Device
     Rpc Command For Warm Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
     
-    Log To Console  Verify LOS Alarms in near-end client after warm reload
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
     Sleep  ${random}
     
@@ -370,7 +293,7 @@ TC7
     Log To Console  turn Laser on
     Set Laser State  ${testSetHandle1}  ON
     
-    Log To Console  Verify Alarms Free
+    Log To Console  Verify Alarms
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -379,7 +302,7 @@ TC7
     
     Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console  Verify Traffic OK
+    Log To Console  Verify Traffic
     Verify Traffic Is OK
     
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
@@ -388,32 +311,36 @@ TC7
 TC8
     [Documentation]  Verify Local Fault Rx/Tx alarm after cold reload in Client Interface
     ...              RLI38964  
-    [Tags]  
+    [Tags]  Sanity 
     Log To Console  near-end inject LFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
     
-    Log To Console  Verify LF RX Alarms in near-end client
+    Log To Console  Verify Alarms
     @{expectedAlarms1}  Create List  Local Fault Rx  Remote Fault Tx
     Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms1}  ${ALARM CHECK TIMEOUT}
     
-    Log To Console  Verify Alarms LF TX Alarms in far-end client
+    Log To Console  Verify Alarms
     @{expectedAlarms2}  Create List  Local Fault Tx  Remote Fault Rx
     Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${expectedAlarms2}  ${ALARM CHECK TIMEOUT}
     
     Log To Console  Cold Reload Device
     Rpc Command For Cold Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 
+    Log To Console  Verify Alarms
+    @{expectedAlarms1}  Create List  Local Fault Rx  Remote Fault Tx
+    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms1}  ${ALARM CHECK TIMEOUT}
+    
+    Log To Console  Verify Alarms
+    @{expectedAlarms2}  Create List  Local Fault Tx  Remote Fault Rx
+    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${expectedAlarms2}  ${ALARM CHECK TIMEOUT}
 
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
     Sleep  ${random}
-    Log To Console  Verify LF RX Alarms in near-end client after cold reload
-    @{expectedAlarms1}  Create List  Local Fault Rx  Remote Fault Tx    
+    
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms1}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
-
-    Log To Console  Verify Alarms LF TX Alarms in far-end client after cold reload
-    @{expectedAlarms2}  Create List  Local Fault Tx  Remote Fault Rx    
+    
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${expectedAlarms2}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
     
@@ -421,7 +348,7 @@ TC8
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
     
-    Log To Console  Verify Alarms Free
+    Log To Console  Verify Alarms
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -430,7 +357,7 @@ TC8
     
     Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console  Verify Traffic OK
+    Log To Console  Verify Traffic
     Verify Traffic Is OK
     
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -443,7 +370,7 @@ Test Bed Init
     Log To Console      create a restconf operational session
 
     @{dut_list}    create list    device0  device1
-#    Preconfiguration netconf feature    @{dut_list}
+    Preconfiguration netconf feature    @{dut_list}
 
     @{auth}=  Create List  ${tv['uv-odl-username']}  ${tv['uv-odl-password']}
 
@@ -491,7 +418,7 @@ Test Bed Init
     Log To Console  de-provision on both device0 and device1
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
-    
+
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
     
