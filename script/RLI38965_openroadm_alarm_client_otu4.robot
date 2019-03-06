@@ -1552,9 +1552,6 @@ Test Bed Init
     Set Suite Variable    ${odl_sessions}
 	Log   ${odl_sessions}
     
-#    Log   Delete openroadm-device      
-#    Send Delete OpenRoadm Request     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
-#    Send Delete OpenRoadm Request     ${odl_sessions}    ${tv['device1__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
 	
     ${client intf}       Get Otu4 Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
     ${client otu intf}   Get OTU Intface Name From ODU Intface  ${client intf}
@@ -1654,48 +1651,48 @@ Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
     
-#    Stop Traffic  ${testSetHandle1}
-#    Stop Traffic  ${testSetHandle2}
-#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-#    
-#    &{intf}=   create_dictionary   interface-name=${odu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${otu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${och intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${client intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    
-#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
-#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-#    
-#    &{intf}=   create_dictionary   interface-name=${odu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${otu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${och intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${remote client intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
+    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
+    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
+    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
+    
+    &{intf}=   create_dictionary   interface-name=${odu intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    
+    &{intf}=   create_dictionary   interface-name=${otu intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    
+    &{intf}=   create_dictionary   interface-name=${och intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    
+    &{intf}=   create_dictionary   interface-name=${client intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    
+    
+    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
+    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
+    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
+    
+    &{intf}=   create_dictionary   interface-name=${odu intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+    
+    &{intf}=   create_dictionary   interface-name=${otu intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+    
+    &{intf}=   create_dictionary   interface-name=${och intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+    
+    &{intf}=   create_dictionary   interface-name=${remote client intf}
+    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
 
 #	Log To Console  de-provision on both device0 and device1
 #    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
