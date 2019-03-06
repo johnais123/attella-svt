@@ -104,13 +104,13 @@ TC1
    Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}  
 
    Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
 
    Log              Verify OTU4/ODU4 operation status on Cx are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
 
 
    Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
@@ -175,9 +175,9 @@ TC2
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
     
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are outOfService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_OFF}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_OFF}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_OFF}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_OFF}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_OFF}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_OFF}
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -234,11 +234,11 @@ TC3
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
    Log              Verify OTU4/ODU4 operation status on Lx are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_OFF}
 
    Log              Verify OCH operation status on Lx is inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
    
    Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -296,11 +296,11 @@ TC4
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
    Log              Verify OTU4/ODU4 operation status on Lx are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_OFF}
 
    Log              Verify OCH/OTU4 operation status on Lx is inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
    
    Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -360,9 +360,9 @@ TC5
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -422,9 +422,9 @@ TC6
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -485,9 +485,9 @@ TC7
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -549,9 +549,9 @@ TC8
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -612,9 +612,9 @@ TC9
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -668,9 +668,9 @@ TC10
 
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -723,9 +723,9 @@ TC11
 
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -779,9 +779,9 @@ TC12
 
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -834,9 +834,9 @@ TC13
 
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -889,9 +889,9 @@ TC14
 
 
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
@@ -931,7 +931,6 @@ TC15
 
     Log              Delete OCH on Lx
     &{Och_interface}      create dictionary        interface-name=${line och intf}   
-#    &{Och_interface}      create dictionary        interface-name=${line och intf}   och=${null}	
     @{interface_info}     create list              ${Och_interface} 
     &{dev_info}           create dictionary        interface=${interface_info}       
     &{payload}            create dictionary        org-openroadm-device=${dev_info}
@@ -939,8 +938,7 @@ TC15
     check status line  ${patch_resp}  200       
 
     Log              Delete OTU4 on Lx
-    &{Och_interface}      create dictionary        interface-name=${line otu intf}     
-#    &{Och_interface}      create dictionary        interface-name=${line otu intf}   och=${null}	
+    &{Och_interface}      create dictionary        interface-name=${line otu intf}     	
     @{interface_info}     create list              ${Och_interface} 
     &{dev_info}           create dictionary        interface=${interface_info}       
     &{payload}            create dictionary        org-openroadm-device=${dev_info}
@@ -948,8 +946,7 @@ TC15
     check status line  ${patch_resp}  200	
 
     Log              Delete ODU4 on Lx
-    &{Och_interface}      create dictionary        interface-name=${line odu intf}     
-#    &{Och_interface}      create dictionary        interface-name=${line odu intf}   och=${null} 	
+    &{Och_interface}      create dictionary        interface-name=${line odu intf}     	
     @{interface_info}     create list              ${Och_interface} 
     &{dev_info}           create dictionary        interface=${interface_info}       
     &{payload}            create dictionary        org-openroadm-device=${dev_info}
@@ -1053,13 +1050,13 @@ TC16
    Sleep  ${random}    
    
    Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
 
    Log              Verify OTU4/ODU4 operation status on Cx are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
 
 
    Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
@@ -1151,13 +1148,13 @@ TC17
    Sleep  ${random}       
    
    Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
 
    Log              Verify OTU4/ODU4 operation status on Cx are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
 
 
    Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
@@ -1219,11 +1216,7 @@ Test Bed Init
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}   ${rpc_session}
 
     Set Suite Variable    ${odl_sessions}
-	Log   ${odl_sessions}
-    
-    Log   Delete openroadm-device      
-    Send Delete OpenRoadm Request     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
-    Send Delete OpenRoadm Request     ${odl_sessions}    ${tv['device1__re0__mgt-ip']}   org-openroadm-device:org-openroadm-device
+	Log   ${odl_sessions}    
 	
     ${client intf}       Get Otu4 Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
     ${client otu intf}   Get OTU Intface Name From ODU Intface  ${client intf}
@@ -1253,6 +1246,10 @@ Test Bed Init
 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${tv['uv-odl-timeout']}    ${tv['uv-odl-interval']}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${tv['uv-odl-timeout']}    ${tv['uv-odl-interval']}   ${tv['device1__re0__mgt-ip']}
+
+	Log To Console  de-provision on both device0 and device1
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
@@ -1260,15 +1257,15 @@ Test Bed Init
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle1}
-
+    Log To Console      Init Test Equipment ${testEquipmentInfo}: protocol otu4
+    Init Test Equipment  ${testSetHandle1}  otu4
+    
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}  ${tv['uv-test-eqpt-port2-extraparam']}
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
-
-	
-    Init Test Equipment  ${testSetHandle1}  otu4
-    Init Test Equipment  ${testSetHandle2}  otu4
-    
+    Log To Console      Init Test Equipment ${testEquipmentInfo}: protocol otu4
+    Init Test Equipment  ${testSetHandle2}  otu4	
+	    
     Set OTU FEC            ${testSetHandle1}  ${tv['uv-client_fec']}
     Set OTU FEC            ${testSetHandle2}  ${tv['uv-client_fec']}  
     set OTU SM TTI Traces  ${testSetHandle1}  OPERATOR  ${null}      tx-operator-val
@@ -1277,11 +1274,26 @@ Test Bed Init
     set OTU SM TTI Traces  ${testSetHandle1}  sapi      Received     tx-sapi-val
     set OTU SM TTI Traces  ${testSetHandle1}  dapi      Received     tx-dapi-val
 
+    set ODU SM TTI Traces  ${testSetHandle1}  OPERATOR  ${null}  tx-operator-val
+    set ODU SM TTI Traces  ${testSetHandle1}  sapi  Expected  tx-sapi-val
+    set ODU SM TTI Traces  ${testSetHandle1}  dapi  Expected  tx-dapi-val
+    set ODU SM TTI Traces  ${testSetHandle1}  sapi  Received  tx-sapi-val
+    set ODU SM TTI Traces  ${testSetHandle1}  dapi  Received  tx-dapi-val
+	
+	
+
     set OTU SM TTI Traces  ${testSetHandle2}  OPERATOR  ${null}      tx-operator-val
     set OTU SM TTI Traces  ${testSetHandle2}  sapi      Expected     tx-sapi-val
     set OTU SM TTI Traces  ${testSetHandle2}  dapi      Expected     tx-dapi-val
     set OTU SM TTI Traces  ${testSetHandle2}  sapi      Received     tx-sapi-val
-    set OTU SM TTI Traces  ${testSetHandle2}  dapi      Received     tx-dapi-val    
+    set OTU SM TTI Traces  ${testSetHandle2}  dapi      Received     tx-dapi-val  
+
+    set ODU SM TTI Traces  ${testSetHandle2}  OPERATOR  ${null}  tx-operator-val
+    set ODU SM TTI Traces  ${testSetHandle2}  sapi  Expected  tx-sapi-val
+    set ODU SM TTI Traces  ${testSetHandle2}  dapi  Expected  tx-dapi-val
+    set ODU SM TTI Traces  ${testSetHandle2}  sapi  Received  tx-sapi-val
+    set ODU SM TTI Traces  ${testSetHandle2}  dapi  Received  tx-dapi-val
+	
     
     Start Traffic  ${testSetHandle1}
     Start Traffic  ${testSetHandle2}
@@ -1347,8 +1359,10 @@ Test Bed Teardown
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
 
-    
-    
+#	Log To Console  de-provision on both device0 and device1
+#    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+#    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/    
+#    
 Create OTU4 Service
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}  ${modulation}
@@ -1477,18 +1491,7 @@ Verify Client Interfaces In Traffic Chain Are Up
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}    ${OPER_STATUS_ON}
 
 	
-#Dlete openroadm-device
-#    [Documentation]   delete configuration	
-#    [Arguments]    ${odl_sessions}  
-#    Log             delete configuration 
-#	@{device_index}      Create List             ${tv['device0__re0__mgt-ip']}   ${tv['device1__re0__mgt-ip']}
-#	:FOR            ${asnode}          IN          @{device_index}
-#    \               ${urlhead}   set variable   org-openroadm-device:org-openroadm-device
-#	\               log     ${asnode} 
-#    \               ${resp}=    Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${asnode}/yang-ext:mount/${urlhead}   
-#	\  ...          headers=${delete_headers}              allow_redirects=False
-#    \               check status line    ${resp}     200  
-#	
+	
 
 
 	
