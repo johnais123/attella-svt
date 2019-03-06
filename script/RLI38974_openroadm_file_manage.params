@@ -2,7 +2,7 @@
 #fv-load-baseline-config-from  "default";
 #fv-core-check   "enable";
 
-uv-odl-server "172.27.80.27:18181";
+
 
 device0 {
   system {
@@ -11,4 +11,12 @@ device0 {
     # name "Gemini05";
   }
 }
+
+
+
+uv-odl-interval: 10
+uv-odl-password: admin
+uv-odl-server: 172.27.80.27:18181
+uv-odl-timeout: 600
+uv-odl-username: admin
 

@@ -195,3 +195,4 @@ Get Default Openroadm File
     ${cmd1}=     Execute shell command on device     device=${r0}     command=ls
     ${deffilelist}=     getdefaultOpenroamdfile   ${cmd1}
     Set Suite Variable    ${deffilelist}
+    log     ${deffilelist}
