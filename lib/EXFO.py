@@ -3837,11 +3837,10 @@ class ExfoModule(object):
             raise Exception("execute cmd %s on %s failed"%(self, command))
 
             
-            
-            
-            
-    def getODUSMTTITracesExpected(self, strMode):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM1:TTI:%s:EXPected?"%strMode.upper()
+         
+
+    def getODUPMTTITracesExpected(self, strMode):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TTI:%s:EXPected?"%strMode.upper()
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -3849,40 +3848,8 @@ class ExfoModule(object):
         
         return  output
         
-    def setODUSMTTITracesExpected(self, strMode, strValue):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM1:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM2:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM3:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM4:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM5:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM6:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
+    def setODUPMTTITracesExpected(self, strMode, strValue):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TTI:%s:EXPected %s"%(strMode.upper(), strValue)
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -3891,56 +3858,8 @@ class ExfoModule(object):
         return  True
         
         
-    def getODUSMTTITracesReceived(self, strMode):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM1:%s:B?"%strMode.upper()
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-        return  output
-        
-    def setODUSMTTITracesReceived(self, strMode, strValue):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM1:%s:B %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM2:%s:B %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM3:%s:B %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM4:%s:B %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM5:%s:B %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM6:%s:B %s"%(strMode.upper(), strValue)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-        
-        return  True
-        
-        
-    def getODUSMTTITracesOperator(self, strMode):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM1:OPSPec:B?"
+    def getODUPMTTITracesReceived(self, strMode):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B16?"%strMode.upper()
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -3948,78 +3867,27 @@ class ExfoModule(object):
         
         return  output
         
-    def setODUSMTTITracesOperator(self, strValue):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM1:OPSPec:B %s"%strValue
+    def setODUPMTTITracesReceived(self, strMode, strValue):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B16 %s"%(strMode.upper(), strValue)
         self._session.send(command)
         output = self._session.output
         if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM2:OPSPec:B %s"%strValue
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM3:OPSPec:B %s"%strValue
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM4:OPSPec:B %s"%strValue
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM5:OPSPec:B %s"%strValue
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:TCM6:OPSPec:B %s"%strValue
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            print("execute cmd %s on %s failed"%(command, self))
+            raise Exception("execute cmd %s on %s failed"%(self, command))
         
         return  True
-
-    def setODUSMTTITracesStatus(self ,strMode, strStatus):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM1:TTI:TIM %s, %s"%(strMode, strStatus)
+        
+        
+    def getODUPMTTITracesOperator(self, strMode):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B32?"
         self._session.send(command)
         output = self._session.output
         if "error" in output:
             raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM2:TTI:TIM %s, %s"%(strMode, strStatus)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM3:TTI:TIM %s, %s"%(strMode, strStatus)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM4:TTI:TIM %s, %s"%(strMode, strStatus)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM5:TTI:TIM %s, %s"%(strMode, strStatus)
-        self._session.send(command)
-        output = self._session.output
-        if "error" in output:
-            raise Exception("execute cmd %s on %s failed"%(self, command))
-            
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM6:TTI:TIM %s, %s"%(strMode, strStatus)
+        
+        return  output
+        
+    def setODUPMTTITracesOperator(self, strValue):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B32 %s"%strValue
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -4027,8 +3895,19 @@ class ExfoModule(object):
         
         return  True
 
-    def getODUSMTTITracesStatus(self, strMode):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TCM1:TTI:TIM? %s"%strMode
+    def setODUPMTTITracesStatus(self ,strMode, strStatus):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TTI:TIM %s, %s"%(strMode, strStatus)
+        self._session.send(command)
+        output = self._session.output
+        if "error" in output:
+            raise Exception("execute cmd %s on %s failed"%(self, command))
+        
+        return  True
+        
+        
+
+    def getODUPMTTITracesStatus(self, strMode):
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SENSe:DATA:TELecom:OTN:ODU4:TTI:TIM? %s"%strMode
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -4040,7 +3919,6 @@ class ExfoModule(object):
             return "OFF"
         else:
             raise Exception("execute cmd %s on %s failed"%(self, command))
-            
             
     def setODU4TCMStatus(self, nIndex, strStatus):
         command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:CONFig:TCM%d %s"%(nIndex, strStatus)

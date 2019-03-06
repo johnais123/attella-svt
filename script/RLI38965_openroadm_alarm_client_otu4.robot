@@ -1609,11 +1609,11 @@ Test Bed Init
     set OTU SM TTI Traces  ${testSetHandle1}  sapi      Received     tx-sapi-val
     set OTU SM TTI Traces  ${testSetHandle1}  dapi      Received     tx-dapi-val
 
-    set ODU SM TTI Traces  ${testSetHandle1}  OPERATOR  ${null}  tx-operator-val
-    set ODU SM TTI Traces  ${testSetHandle1}  sapi  Expected  tx-sapi-val
-    set ODU SM TTI Traces  ${testSetHandle1}  dapi  Expected  tx-dapi-val
-    set ODU SM TTI Traces  ${testSetHandle1}  sapi  Received  tx-sapi-val
-    set ODU SM TTI Traces  ${testSetHandle1}  dapi  Received  tx-dapi-val
+    set ODU PM TTI Traces  ${testSetHandle1}  OPERATOR  ${null}  tx-operator-val
+    set ODU PM TTI Traces  ${testSetHandle1}  sapi  Expected  tx-sapi-val
+    set ODU PM TTI Traces  ${testSetHandle1}  dapi  Expected  tx-dapi-val
+    set ODU PM TTI Traces  ${testSetHandle1}  sapi  Received  tx-sapi-val
+    set ODU PM TTI Traces  ${testSetHandle1}  dapi  Received  tx-dapi-val
 	
 	
 
@@ -1623,11 +1623,11 @@ Test Bed Init
     set OTU SM TTI Traces  ${testSetHandle2}  sapi      Received     tx-sapi-val
     set OTU SM TTI Traces  ${testSetHandle2}  dapi      Received     tx-dapi-val  
 
-    set ODU SM TTI Traces  ${testSetHandle2}  OPERATOR  ${null}  tx-operator-val
-    set ODU SM TTI Traces  ${testSetHandle2}  sapi  Expected  tx-sapi-val
-    set ODU SM TTI Traces  ${testSetHandle2}  dapi  Expected  tx-dapi-val
-    set ODU SM TTI Traces  ${testSetHandle2}  sapi  Received  tx-sapi-val
-    set ODU SM TTI Traces  ${testSetHandle2}  dapi  Received  tx-dapi-val
+    set ODU PM TTI Traces  ${testSetHandle2}  OPERATOR  ${null}  tx-operator-val
+    set ODU PM TTI Traces  ${testSetHandle2}  sapi  Expected  tx-sapi-val
+    set ODU PM TTI Traces  ${testSetHandle2}  dapi  Expected  tx-dapi-val
+    set ODU PM TTI Traces  ${testSetHandle2}  sapi  Received  tx-sapi-val
+    set ODU PM TTI Traces  ${testSetHandle2}  dapi  Received  tx-dapi-val
 	
     
     Start Traffic  ${testSetHandle1}

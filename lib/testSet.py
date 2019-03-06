@@ -625,13 +625,13 @@ class ExfoPort():
             for key in kw.keys():
                 if "FECTYPE" == key.upper():
                     self.__target.setOtnfec(kw[key])
-            if lProtocol[0] in ["OTU4"]:
-                self.__target.setODU4TCMStatus(1, "ON")
-                self.__target.setODU4TCMStatus(2, "ON")
-                self.__target.setODU4TCMStatus(3, "ON")
-                self.__target.setODU4TCMStatus(4, "ON")
-                self.__target.setODU4TCMStatus(5, "ON")
-                self.__target.setODU4TCMStatus(6, "ON")
+            # if lProtocol[0] in ["OTU4"]:
+                # self.__target.setODU4TCMStatus(1, "ON")
+                # self.__target.setODU4TCMStatus(2, "ON")
+                # self.__target.setODU4TCMStatus(3, "ON")
+                # self.__target.setODU4TCMStatus(4, "ON")
+                # self.__target.setODU4TCMStatus(5, "ON")
+                # self.__target.setODU4TCMStatus(6, "ON")
 
         if lProtocol[0] in ["OTU2", "OTU2E", "OTU4", "100GE", "40GE", "10GE", "10GELAN", "10GEWAN", "OC192", "STM64"]:
             result = result and self.__target.setBertDisruptionMonitoringStatus("ON")
@@ -1342,15 +1342,15 @@ class ExfoPort():
         else:
             raise TestPortException("unknown strMode -- %s"%strMode)
             
-    def setODUSMTTITraces(self, strMode, strDirection, strValue):
+    def setODUPMTTITraces(self, strMode, strDirection, strValue):
         if  strMode.upper() in ["DAPI", "SAPI"]:
             if "Expected" == strDirection:
-                self.__target.setODUSMTTITracesStatus(strMode, "ON")
-                self.__target.setODUSMTTITracesExpected(strMode, strValue)
+                self.__target.setODUPMTTITracesStatus(strMode, "ON")
+                self.__target.setODUPMTTITracesExpected(strMode, strValue)
             elif "Received" == strDirection:
-                self.__target.setODUSMTTITracesReceived(strMode, strValue)
+                self.__target.setODUPMTTITracesReceived(strMode, strValue)
         elif "OPERATOR" == strMode.upper():
-            self.__target.setODUSMTTITracesOperator(strValue)
+            self.__target.setODUPMTTITracesOperator(strValue)
         else:
             raise TestPortException("unknown strMode -- %s"%strMode)
 
@@ -3902,12 +3902,12 @@ def checkAlarm(testSetHandle, strAlarmType):
         
 def tearDown(testSetHandle):
     return testSetHandle.tearDown()
-
+    
 def setOTUSMTTITraces(testSetHandle, strMode, strDirection, strValue):
     return testSetHandle.setOTUSMTTITraces(strMode, strDirection, strValue)
     
-def setODUSMTTITraces(testSetHandle, strMode, strDirection, strValue):
-    return testSetHandle.setODUSMTTITraces(strMode, strDirection, strValue)
+def setODUPMTTITraces(testSetHandle, strMode, strDirection, strValue):
+    return testSetHandle.setODUPMTTITraces(strMode, strDirection, strValue)
 
     
 def setOTNFEC(testSetHandle, strMode):
