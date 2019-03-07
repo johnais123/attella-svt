@@ -2751,7 +2751,7 @@ class ViaviPort():
         
         "ERROR_ETHERNET_PCS_BLK":"",
         "ERROR_ETHERNET_PCS_INVALIDMARKER":"",
-        "ERROR_ETHERNET_PCS_PCSBIP8":"",
+        "ERROR_ETHERNET_PCS_PCSBIP8":"BIP8",
         
         # OTU4 error
         "ERROR_OTU4_OTU4_BIP8":"SM_BIP",
@@ -2827,9 +2827,10 @@ class ViaviPort():
             if "PHYS_PCSL_MAC_100GE" == self.DICT_PROTOCOL[strProtocol]:
                 self.__target.setPhys1xxgCFP2TxBitrate("ETH_100G")
                 self.__target.setPhys1xxgCFP2RxBitrate("ETH_100G")
-                self.__target.setPhysCFPMDIOCHGridSpacing("B001")
-                self.__target.setPhysCFPMDIOCHNo(44)
                 
+                # self.__target.setPhysCFPMDIOCHGridSpacing("B001")
+                # self.__target.setPhysCFPMDIOCHNo(44)
+
                 self.__target.setPhysCFPMDIOStartAddr("900B")
                 
             elif "PHYS_PCSL_MAC_40GE" == self.DICT_PROTOCOL[strProtocol]:
@@ -3019,14 +3020,15 @@ class ViaviPort():
         elif self.DICT_ALARM[strAlarmType] in ["LOBL", "LOAML"]:
             # if "PHYS_PCSL_MAC" == self.getProtocol(): 
             if "PHYS_PCSL_MAC" in self.getProtocol():
-                if "LOBL" == self.DICT_ALARM[strAlarmType]:
+                # if "LOBL" == self.DICT_ALARM[strAlarmType]:
+                if self.DICT_ALARM[strAlarmType] in ["LOBL", "LOAML"]:
                     self.__target.setPcsLane100GeAlarmInsertCfg(self.DICT_ALARM[strAlarmType])
                     self.__target.setPcsLane100GeAlarmInsertRange("ALL", "0")
                     self.__target.setPcsLane100GeAlarmInsertState("ON")
-                elif "LOAML" == self.DICT_ALARM[strAlarmType]:
-                    self.__target.setPcsLane100GeErrorInsertCfg("SYNC_HEADER_INV", "BURST_CONT", 1, 1)
-                    self.__target.setPcsLane100GeErrorInsertRange("ALL", "0")
-                    self.__target.setPcsLane100GeErrorInsertState("ON")
+                # elif "LOAML" == self.DICT_ALARM[strAlarmType]:
+                    # self.__target.setPcsLane100GeErrorInsertCfg("SYNC_HEADER_INV", "BURST_CONT", 1, 1)
+                    # self.__target.setPcsLane100GeErrorInsertRange("ALL", "0")
+                    # self.__target.setPcsLane100GeErrorInsertState("ON")
             elif self.getProtocol() in ["PHYS_PCS1G_FC2", "PHYS_PCS_FC2"]:
                 self.__target.setPcsAlarmInsertCfg(self.DICT_ALARM[strAlarmType], "CONT", "-1", "-1")
                 self.__target.setPcsAlarmInsertState("ON")
@@ -3085,6 +3087,12 @@ class ViaviPort():
         print("start to inject error on %s %s slot %s"%(self.__equipmentType__, self.__IP, self.__location))
         # print "#########################"
         # print self.DICT_ERROR[strErrorType]
+        r = re.match(r"^(\d).(\d)[eE]-0(\d)$", strErrorParam)
+        if r:
+            strErrorParam = strErrorParam[:5] + strErrorParam[-1]
+        else:
+            raise TestPortException("error rate is not support -- %s"%strErrorParam)
+        
         if self.DICT_ERROR[strErrorType] in ["MFAS", "SM_BIP", "SM_BEI", "PM_BIP", "PM_BEI", "FEC_CORR", "FEC_ADV", "FEC_UNCORR"]:
             if str(strErrorParam).isdigit():
                 if self.DICT_ERROR[strErrorType] in ["FEC_CORR", "FEC_ADV", "FEC_UNCORR"]: 
@@ -3114,7 +3122,13 @@ class ViaviPort():
                 self.__target.setErrorInsState("ON")
             else:
                 raise TestPortException("%s error is not available when %s is on %s protocol"%(self.DICT_ERROR[strErrorType], self, self.getProtocol()))
-                
+        elif "BIP8" == self.DICT_ERROR[strErrorType]:
+            if str(strErrorParam).isdigit():
+                self.__target.setPcsLane100GeErrorInsertCfg("BIP8", "BURST_ONCE", str(strErrorParam))
+            else:
+                self.__target.setPcsLane100GeErrorInsertCfg("BIP8", "RATE", errorInsertionRate=str(strErrorParam))
+            self.__target.setPcsLane100GeErrorInsertRange("ALL", "0")
+            self.__target.setPcsLane100GeErrorInsertState("ON")
         else:
             raise TestPortException("unknown error type")
     # stop injecting alarm
@@ -3131,10 +3145,11 @@ class ViaviPort():
         elif self.DICT_ALARM[strAlarmType] in ["LOBL", "LOAML"]:
             # if "PHYS_PCSL_MAC" == self.getProtocol(): 
             if "PHYS_PCSL_MAC" in self.getProtocol():
-                if "LOBL" == self.DICT_ALARM[strAlarmType]:
+                # if "LOBL" == self.DICT_ALARM[strAlarmType]:
+                if self.DICT_ALARM[strAlarmType] in ["LOBL", "LOAML"]:
                     self.__target.setPcsLane100GeAlarmInsertState("OFF")
-                elif "LOAML" == self.DICT_ALARM[strAlarmType]:
-                    self.__target.setPcsLane100GeErrorInsertState("OFF")
+                # elif "LOAML" == self.DICT_ALARM[strAlarmType]:
+                    # self.__target.setPcsLane100GeErrorInsertState("OFF")
             elif self.getProtocol() in ["PHYS_PCS1G_FC2", "PHYS_PCS_FC2"]:
                 self.__target.setPcsAlarmInsertState("OFF")
             else:
@@ -3188,6 +3203,8 @@ class ViaviPort():
                 self.__target.setErrorInsState("OFF")
             else:
                 raise TestPortException("%s error is not available when %s is on %s protocol"%(self.DICT_ERROR[strErrorType], self, self.getProtocol()))
+        elif "BIP8" == self.DICT_ERROR[strErrorType]:
+            self.__target.setPcsLane100GeErrorInsertState("OFF")
         else:
             raise TestPortException("unknown error type")
                 

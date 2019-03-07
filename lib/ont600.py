@@ -2641,7 +2641,8 @@ class Ont600(object):
             
         self.__login("SCPI")
         
-        print(self.__viaviSession.send(":SOUR:DATA:TEL:PHYS:CFP:MDIO:CH:CTRL:GRID?"))
+        # comment this command because response for this command is error
+        # print(self.__viaviSession.send(":SOUR:DATA:TEL:PHYS:CFP:MDIO:CH:CTRL:GRID?"))
         
         self.__viaviSession.send(":SOUR:DATA:TEL:PHYS:CFP:MDIO:CH:CTRL:GRID %s"%strSpacing)
 
@@ -2661,13 +2662,13 @@ class Ont600(object):
                    
         self.__login("SCPI")
         
-        print(self.__viaviSession.send(":SOUR:DATA:TEL:PHYS:CFP:MDIO:CH:CTRL:CHNB?"))
+        # comment this command because response for this command is error
+        # print(self.__viaviSession.send(":SOUR:DATA:TEL:PHYS:CFP:MDIO:CH:CTRL:CHNB?"))
         
         self.__viaviSession.send(":SOUR:DATA:TEL:PHYS:CFP:MDIO:CH:CTRL:CHNB %d"%num)
 
-            
         self.__login("TCL_LAYERED_APPLICATION_DRIVER")
-        
+
         
     def setPhys1xxgCFP2RxBitrate(self, bitrate):
         if bitrate not in ["ETH_40G", "ETH_100G"]:
