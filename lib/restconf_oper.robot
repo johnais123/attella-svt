@@ -49,9 +49,10 @@ Send Get Request
     ${urlhead}=    Retrieve URL Parent  ${dictNetconfParams}
 
     ${resp}=             Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
+	Log  ${resp.content}
     [return]  ${resp}
 
-    
+
 Send Get Request And Verify Status Of Response Is OK
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${dictNetconfParams}
