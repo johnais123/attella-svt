@@ -203,6 +203,9 @@ TC2
     Log             Verify Traffic Is OK
     Verify Traffic Is OK    
 
+   [Teardown]  	Enable interface   ${line och intf}
+	
+	
 TC3
     [Documentation]  Disable near-end Line OUT4 interface
     ...              RLI-38966    
@@ -264,7 +267,8 @@ TC3
    Log              Verify Traffic Is OK
    Verify Traffic Is OK        
 
-
+   [Teardown]  	Enable interface   ${line otu intf}
+   
 TC4
     [Documentation]  Disable near-end Line ODU4 interface
     ...              RLI-38966     
@@ -326,6 +330,8 @@ TC4
    Log              Verify Traffic Is OK
    Verify Traffic Is OK        
 
+   [Teardown]  	Enable interface   ${line odu intf}    
+   
 TC5
     [Documentation]  <tim-detect-mode>Enabled and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI
     ...              RLI-38966
@@ -386,8 +392,10 @@ TC5
     Verify Client Interfaces In Traffic Chain Are Up
     
     Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK            
-    
+    Verify Traffic Is OK 
+	
+   [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf}  
+   
 TC6
     [Documentation]  <tim-detect-mode>Enabled and <tim-act-enabled>true : Near-end line OTU4 send wrong DAPI
     ...              RLI-38966  
@@ -450,11 +458,13 @@ TC6
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK     
 
+   [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
+	
 TC7
     [Documentation]  <tim-detect-mode>SAPI-and-DAPI and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI and DAPI
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
-    ...              Modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
+    ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
     [Tags]           Sanity  tc7
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
@@ -513,6 +523,7 @@ TC7
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK   
 
+   [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
     
 TC8
     [Documentation]  <tim-detect-mode>SAPI and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI
@@ -577,6 +588,8 @@ TC8
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK 
 
+   [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
+	
 TC9
     [Documentation]  <tim-detect-mode>DAPI and <tim-act-enabled>true : Near-end line OTU4 send wrong DAPI
     ...              RLI-38966   
@@ -640,6 +653,7 @@ TC9
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK    
 
+   [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 
 TC10
     [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-sapi> value
@@ -696,8 +710,10 @@ TC10
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK 
 
+   [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}
+	
 TC11
-    [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-dapi> value
+    [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Far-end line ODU4 <expected-dapi> value
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
@@ -711,7 +727,7 @@ TC11
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
 
     Log              Wait a random time to keep the alarm stable on Attella
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -751,6 +767,9 @@ TC11
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK    
 	
+
+   [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
+
 	
 TC12
     [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-sapi>/<expected-dapi> value
@@ -767,7 +786,7 @@ TC12
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
 
     Log              Wait a random time to keep the alarm stable on Attella
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -806,14 +825,17 @@ TC12
     
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK 
- 
+
+   [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}
+
+	
 TC13
     [Documentation]  <tim-detect-mode> SAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-sapi> value
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
     [Tags]           Sanity  tc13
-    Log              Modify the <expected-sapi> value for OTU4 on Ly,Ly will raise TTIM on ODU layer
+    Log              Modify the <expected-sapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
 
@@ -822,7 +844,7 @@ TC13
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
 
     Log              Wait a random time to keep the alarm stable on Attella
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -862,6 +884,8 @@ TC13
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK 
 
+   [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
+	
 TC14
     [Documentation]  <tim-detect-mode>DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-dapi> value
     ...              RLI-38966   
@@ -877,7 +901,7 @@ TC14
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
 
     Log              Wait a random time to keep the alarm stable on Attella
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -917,11 +941,12 @@ TC14
     Log To Console   Verify Traffic Is OK 
     Verify Traffic Is OK   
 
+   [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
  
 TC15
     [Documentation]  Delete Near-end OCH/OTU4/ODU4
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test LOS alarm on line port
-    ...              Delete OCH on Lx, the remote OCH will raise LOS alarm on Ly
+    ...              Delete OCH/OTU/ODU on Lx, the remote OCH will raise LOS alarm on Ly
     ...              RLI 38966
                
     [Tags]           Sanity  tc15   Blocked by PR-1419722
@@ -992,7 +1017,8 @@ TC15
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK    
 
-
+   [Teardown]  	  Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  qpsk
+	
 TC16
    [Documentation]  After Attella system warm reload,the ODU-AIS alarm still ca be raised.
    ...              RLI-38966
@@ -1028,6 +1054,10 @@ TC16
    
    Log               Warm reload the remote Attella NE   
    Rpc Command For Warm Reload Device   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}    ${interval}   device1
+
+   Log To Console  Verify LOS Alarms in near-end client after warm reload
+   ${random}=  Evaluate  random.randint(20, 60)  modules=random
+   Sleep  ${random}
    
    Log              Verify LOS Alarm was raised on Cx 
    @{expectedAlarms}  Create List  Loss of Signal
@@ -1088,7 +1118,7 @@ TC16
    Log To Console   Verify Traffic Is OK
    Verify Traffic Is OK
    
-   [Teardown]  Set Laser State  ${testSetHandle1}  ON    
+   [Teardown]  Set Laser State  ${testSetHandle1}  ON     
     
 
 TC17
@@ -1125,7 +1155,11 @@ TC17
    Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}  
    
    Log               Warm reload the remote Attella NE   
-   Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device1 
+   Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}  device1 
+   
+   Log              Wait a random time to keep the alarm stable on Attella
+   ${random}=  Evaluate  random.randint(90,120)  modules=random
+   Sleep  ${random}   
    
    Log              Verify LOS Alarm was raised on Cx 
    @{expectedAlarms}  Create List  Loss of Signal
@@ -1318,51 +1352,51 @@ Test Bed Teardown
     
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    
-    &{intf}=   create_dictionary   interface-name=${odu intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-    
-    &{intf}=   create_dictionary   interface-name=${otu intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-    
-    &{intf}=   create_dictionary   interface-name=${och intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-    
-    &{intf}=   create_dictionary   interface-name=${client intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-    
-    
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    
-    &{intf}=   create_dictionary   interface-name=${odu intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-    
-    &{intf}=   create_dictionary   interface-name=${otu intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-    
-    &{intf}=   create_dictionary   interface-name=${och intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-    
-    &{intf}=   create_dictionary   interface-name=${remote client intf}
-    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-
-#	Log To Console  de-provision on both device0 and device1
-#    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
-#    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/    
+#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
+#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
+#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
 #    
+#    &{intf}=   create_dictionary   interface-name=${odu intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+#    
+#    &{intf}=   create_dictionary   interface-name=${otu intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+#    
+#    &{intf}=   create_dictionary   interface-name=${och intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+#    
+#    &{intf}=   create_dictionary   interface-name=${client intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+#    
+#    
+#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
+#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
+#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
+#    
+#    &{intf}=   create_dictionary   interface-name=${odu intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+#    
+#    &{intf}=   create_dictionary   interface-name=${otu intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+#    
+#    &{intf}=   create_dictionary   interface-name=${och intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+#    
+#    &{intf}=   create_dictionary   interface-name=${remote client intf}
+#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+
+	Log To Console  de-provision on both device0 and device1
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/    
+    
 Create OTU4 Service
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}  ${modulation}
@@ -1491,7 +1525,33 @@ Verify Client Interfaces In Traffic Chain Are Up
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}    ${OPER_STATUS_ON}
 
 	
+Recover OTU TTI on Attella
+    [Documentation]   Retrieve system configuration and state information
+    [Arguments]       ${InterfaceName}     
+    &{intf}           create dictionary   interface-name=${InterfaceName}   otu-tim-detect-mode=SAPI-and-DAPI  otu-expected-sapi=tx-sapi-val     otu-expected-dapi=tx-dapi-val   otu-tx-sapi=tx-sapi-val      otu-tx-dapi=tx-dapi-val
+    @{interface_info}    create list  ${intf}    
+    &{dev_info}      create_dictionary   interface=${interface_info}       
+    &{payload}       create_dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
+
+	
+Recover ODU TTI on Attella
+    [Documentation]   Retrieve system configuration and state information
+    [Arguments]       ${InterfaceName}     
+    &{intf}           create dictionary   interface-name=${InterfaceName}   odu-tim-detect-mode=SAPI-and-DAPI   odu-expected-sapi=tx-sapi-val     odu-expected-dapi=tx-dapi-val
+    @{interface_info}    create list  ${intf}    
+    &{dev_info}      create_dictionary   interface=${interface_info}       
+    &{payload}       create_dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
 	
 
-
+Enable interface 
+    [Arguments]       ${interface_name}     
+    &{intf}          create dictionary   interface-name=${interface_name}  interface-administrative-state=inService
+    @{interface_info}    create list     ${intf}    
+    &{dev_info}      create_dictionary   interface=${interface_info}       
+    &{payload}       create_dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}	
+	
+	
 	
