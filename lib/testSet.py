@@ -2831,7 +2831,7 @@ class ViaviPort():
                 # self.__target.setPhysCFPMDIOCHGridSpacing("B001")
                 # self.__target.setPhysCFPMDIOCHNo(44)
 
-                self.__target.setPhysCFPMDIOStartAddr("900B")
+                # self.__target.setPhysCFPMDIOStartAddr("900B")
                 
             elif "PHYS_PCSL_MAC_40GE" == self.DICT_PROTOCOL[strProtocol]:
                 self.__target.setPhys1xxgCFP2TxBitrate("ETH_40G")
