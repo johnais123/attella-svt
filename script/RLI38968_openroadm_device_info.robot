@@ -231,10 +231,10 @@ InvalidDefGateway
 SetGeoLoclatit
     [Documentation]  Verify can configure geoLocation latitude info via openRoadm
     ...              RLI38968 5.1-26
-    [Tags]           Sanity   tc15   limitation  unsupport
+    [Tags]           Sanity   tc15   limitation  
     Log           Configure geoLocation latitude via Restconf Patch method
     ${random-float}   evaluate    random.randint(-89,89) + random.random()    random 
-    ${random-latit}       evaluate    '%.5f'%(${random-float})       string    
+    ${random-latit}       evaluate    '%.16f'%(${random-float})       string    
     &{dev_info}   create dictionary       latitude=${random-latit} 
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
@@ -243,10 +243,10 @@ SetGeoLoclatit
 SetGeoLoclongitu
     [Documentation]  Verify can configure geoLocation longitudeinfo via openRoadm
     ...              RLI38968 5.1-27
-    [Tags]           Sanity   tc16   limitation  unsupport 
+    [Tags]           Sanity   tc16   limitation  
     Log           Configure geoLocation longitude via Restconf Patch method
     ${random-float}   evaluate    random.randint(-179,179) + random.random()    random    
-    ${random-longitu}   evaluate    '%.5f'%(${random-float})       string 
+    ${random-longitu}   evaluate    '%.16f'%(${random-float})       string 
     &{dev_info}   create dictionary    longitude=${random-longitu}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload} 
@@ -263,15 +263,15 @@ Delete-device-info
 Set-all-info
     [Documentation]  Setting for org-openroadm-device all info leaves
     ...              RLI38968 5.1-15
-    [Tags]           Sanity   tc18   tests
+    [Tags]           Sanity   tc18   
     Log           Configure default Gateway via Restconf Patch method
     ${random-int}    Evaluate    random.randint(0,128)     random 
     ${grandom-length} =   convert To String     ${random-int}
     Set Suite Variable     ${grandom-length}
     ${random-float}   evaluate    random.randint(-89,89) + random.random()    random 
-    ${random-latit}       evaluate    '%.5f'%(${random-float})       string 
+    ${random-latit}       evaluate    '%.16f'%(${random-float})       string 
     ${random-float2}   evaluate    random.randint(-179,179) + random.random()    random    
-    ${random-longitu}   evaluate    '%.5f'%(${random-float2})       string 
+    ${random-longitu}   evaluate    '%.16f'%(${random-float2})       string 
     ${NodeNb}      Convert to string     ${tv['uv-attella_def_info_node_number']}
     &{dev_info}   create dictionary    node-id=${tv['uv-attella_def_info_node_id']}   node-number=${NodeNb}   defaultGateway=${tv['uv-attella_def_info_defaultgateway']}
     ...  node-type=${tv['uv-attella_def_info_node_type']}   clli=${tv['uv-attella_def_info_clli']}   ipAddress=${tv['uv-attella_def_info_ipaddress']}  prefix-length=${grandom-length}
@@ -283,7 +283,7 @@ Set-all-info
 Retrieve-device-info 
     [Documentation]  Verify can retrieve all info leaves
     ...              RLI38968 5.1-32
-    [Tags]           Sanity   tc19  tests
+    [Tags]           Sanity   tc19  
     Log             Fetching all info leave via Restconf GET method
     &{dev_info}   create dictionary   node-id=${tv['uv-attella_def_info_node_id']}   node-number=${tv['uv-attella_def_info_node_number']}
     ...   node-type=${tv['uv-attella_def_info_node_type']}   clli=${tv['uv-attella_def_info_clli']}
