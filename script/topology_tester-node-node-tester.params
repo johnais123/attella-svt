@@ -23,7 +23,7 @@ device0 {
   }
   interfaces {
     client_intf {
-      type "traffic";
+      type "traffic-near";
     }
     line_intf {
       type "och";
@@ -37,7 +37,7 @@ device1 {
   }
   interfaces {
     client_intf {
-      type "traffic";
+      type "traffic-far";
     }
     line_intf {
       type "och";
