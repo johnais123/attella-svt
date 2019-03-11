@@ -45,7 +45,6 @@ Resource        ../lib/restconf_oper.robot
 Resource        ../lib/testSet.robot
 Resource        ../lib/attella_keyword.robot
 
-Variables         ../cfg/equipment_vars.py
 
 
 Suite Setup   Run Keywords
@@ -260,15 +259,27 @@ Test Bed Init
     
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}
     Set Suite Variable    ${odl_sessions}
-    
-    
+
+
     ${client intf}=  Get Ethernet Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
+    ${line odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
+    ${line otu intf}=  Get OTU Intface Name From ODU Intface  ${line odu intf}
+    ${line och intf}=  Get OCH Intface Name From OTU Intface  ${line otu intf}
+
     Set Suite Variable    ${client intf}
+    Set Suite Variable    ${line odu intf}
+    Set Suite Variable    ${line otu intf}
+    Set Suite Variable    ${line och intf}
     
     ${remote client intf}=  Get Ethernet Intface Name From Client Intface  ${tv['device1__client_intf__pic']}
+    ${remote line odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
+    ${remote line otu intf}=  Get OTU Intface Name From ODU Intface  ${remote line odu intf}
+    ${remote line och intf}=  Get OCH Intface Name From OTU Intface  ${remote line otu intf}
     Set Suite Variable    ${remote client intf}
-    
-    
+    Set Suite Variable    ${remote line odu intf}
+    Set Suite Variable    ${remote line otu intf}
+    Set Suite Variable    ${remote line och intf}
+
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
@@ -294,7 +305,10 @@ Test Bed Init
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
-    
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+
+
 Create 100GE Service
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}
@@ -399,3 +413,4 @@ Verify Traffic Is Blocked
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails After Service De-provision
+
