@@ -45,8 +45,6 @@ Resource        ../lib/restconf_oper.robot
 Resource        ../lib/testSet.robot
 Resource        ../lib/attella_keyword.robot
 
-Variables         ../cfg/equipment_vars.py
-
 
 Suite Setup   Run Keywords  Toby Suite Setup
 ...              Test Bed Init
@@ -510,7 +508,8 @@ Test Bed Init
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
-
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
 
 Create 100GE Service
     [Documentation]   Retrieve system configuration and state information
