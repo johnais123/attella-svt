@@ -82,7 +82,7 @@ TC2
 
 TC3
     [Documentation]  Disable Client Interface And Verify Traffic
-    [Tags]  Sanity  tc3
+    [Tags]  tc3
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
     
     @{interface_info}    create list  ${intf}
@@ -95,7 +95,7 @@ TC3
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
-    [Tags]  Sanity  tc4
+    [Tags]  tc4
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
     
     @{interface_info}    create list  ${intf}
@@ -165,7 +165,7 @@ TC8
     
 TC9
     [Documentation]  Disable Line Otu Interface And Verify Traffic
-    [Tags]  Sanity  tc9
+    [Tags]  tc9
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=outOfService
@@ -180,7 +180,7 @@ TC9
     
 TC10
     [Documentation]  Enable Line Otu Interface And Verify Traffic
-    [Tags]  Sanity  tc10
+    [Tags]  tc10
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=inService
@@ -195,7 +195,7 @@ TC10
     
 TC11
     [Documentation]  Disable Line Och Interface And Verify Traffic
-    [Tags]  Sanity  tc11
+    [Tags]  tc11
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -211,7 +211,7 @@ TC11
     
 TC12
     [Documentation]  Enable Line Och Interface And Verify Traffic
-    [Tags]  Sanity  tc12
+    [Tags]  tc12
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -228,7 +228,7 @@ TC12
     
 TC13
     [Documentation]  Service De-provision
-    [Tags]  Sanity  tc13
+    [Tags]  tc13
     Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
 	Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
     Remove OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
@@ -236,13 +236,13 @@ TC13
     
 TC14
     [Documentation]  Traffic Verification After Service De-provision
-    [Tags]  Sanity  tc14
+    [Tags]  tc14
     Log To Console  Verify Traffic
     Verify Traffic Is Blocked
     
 TC15
     [Documentation]  Recreate Service And Verify Traffic
-    [Tags]  Sanity  tc15
+    [Tags]  tc15
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}

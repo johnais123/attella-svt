@@ -97,7 +97,7 @@ TC2
 TC3
     [Documentation]  Traffic Verification
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc3
+    [Tags]  tc3
     Log To Console  Verify Traffic
     Verify Traffic Is OK
 	
@@ -110,7 +110,7 @@ TC3
 TC4
     [Documentation]  Traffic Verification
     ...              RLI38968 5.1-8
-    [Tags]  Sanity  tc4
+    [Tags]  tc4
     Log To Console  Verify Traffic
     Verify Traffic Is OK
 	
