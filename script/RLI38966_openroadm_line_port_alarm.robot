@@ -949,7 +949,7 @@ TC15
     ...              Delete OCH/OTU/ODU on Lx, the remote OCH will raise LOS alarm on Ly
     ...              RLI 38966
                
-    [Tags]           tc15   Blocked by PR1419722
+    [Tags]           tc15   Blocked by PR 1419722
     Log              Delete OCH/OTU4/ODU4 on Lx, the remote OCH will raise LOS alarm on Ly    
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
