@@ -66,8 +66,10 @@ Suite Teardown  Run Keywords
 @{auth}    admin    admin
 ${interval}  120
 ${timeout}  120
-${period}  15
+${period}  20
 
+${OPER_STATUS_ON}  inService
+${OPER_STATUS_OFF}  outOfService
 *** Test Cases ***     
 TC0
     [Documentation]  Service Provision
@@ -84,7 +86,7 @@ TC0
 TC1
     [Documentation]  near-end inject LF to Client Interface
     ...              RLI38964  
-    [Tags]  Sanity
+    [Tags]
     Log To Console  near-end inject LFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
@@ -104,6 +106,7 @@ TC1
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
+    Verify Client Interfaces In Traffic Chain Are Up
 
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
 
@@ -111,7 +114,7 @@ TC1
 TC2
     [Documentation]  near-end inject RF to Client Interface
     ...              RLI38964 
-    [Tags]  Sanity
+    [Tags]
     Log To Console  near-end inject RFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     Sleep   ${period}
@@ -127,13 +130,14 @@ TC2
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
+    Verify Client Interfaces In Traffic Chain Are Up
 
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
 
 TC3
     [Documentation]  fiber break at client side
     ...              RLI38964  
-    [Tags]  Sanity
+    [Tags]
     Log To Console  near-end fiber break at client side
     Set Laser State  ${testSetHandle1}  OFF
     Sleep   ${period}
@@ -153,14 +157,15 @@ TC3
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
-    
+    Verify Client Interfaces In Traffic Chain Are Up
+
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
 
 TC4
     [Documentation]  Admin OOS at Client Interface
     ...              RLI38964
-    [Tags]  Sanity4
+    [Tags]  Sanity 
     Log To Console  Disable near-end client
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
 
@@ -191,7 +196,8 @@ TC4
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
-    
+    Verify Client Interfaces In Traffic Chain Are Up
+
     [Teardown]
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
 
@@ -232,6 +238,7 @@ TC5
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
+    Verify Client Interfaces In Traffic Chain Are Up
 
     [Teardown]
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
@@ -240,7 +247,6 @@ TC5
 *** Keywords ***
 Test Bed Init
     Set Log Level  DEBUG
-#    Initialize
     Log To Console      create a restconf operational session
 
     @{dut_list}    create list    device0  device1
@@ -280,14 +286,19 @@ Test Bed Init
     Set Suite Variable    ${remote line otu intf}
     Set Suite Variable    ${remote line och intf}
 
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']} 
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
     Log To Console  de-provision on both device0 and device1
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
-    
+
+    Log To Console  load pre-default provision on device0
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Log To Console  load pre-default provision on device1
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
     
     
@@ -298,7 +309,8 @@ Test Bed Init
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}  ${tv['uv-test-eqpt-port2-extraparam']}
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
-           
+    
+    Log To Console  init test set to 100ge
     Init Test Equipment  ${testSetHandle1}  100ge
     Init Test Equipment  ${testSetHandle2}  100ge
 
@@ -414,3 +426,10 @@ Verify Traffic Is Blocked
     ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails After Service De-provision
 
+
+Verify Client Interfaces In Traffic Chain Are Up
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}  ${OPER_STATUS_ON}
+
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${OPER_STATUS_ON}
