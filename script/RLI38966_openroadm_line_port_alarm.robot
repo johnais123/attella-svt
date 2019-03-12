@@ -150,7 +150,7 @@ TC2
     ...              RLI-38966  
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
     ...              Disable OCH on Lx, Ly will raise ODU-AIS alarm and Test2 will raise ODU4-AIS alarm
-    [Tags]           Sanity  tc2
+    [Tags]           tc2
 
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free  
@@ -211,7 +211,7 @@ TC3
     ...              RLI-38966    
     ...              Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port
     ...              Disable OTU4 on Lx, Ly will raise ODU-AIS alarm and Test 2 will raise ODU4-AIS alarm
-    [Tags]           Sanity  tc3
+    [Tags]           tc3
     Log              Disable local line OTU4, remote Line will raise ODU-AIS and Remote Test will raise ODU4-AIS
 
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -274,7 +274,7 @@ TC4
     ...              RLI-38966     
     ...              Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port
     ...              Disable ODU4 on Lx, Ly will raise ODU-AIS alarm and Test 2 will raise ODU4-AIS alarm
-    [Tags]           Sanity  tc4
+    [Tags]           tc4
     Log              Disable local ODU4 on Lx, remote Line will raise ODU-AIS and Remote Test will raise ODU4-AIS
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -401,7 +401,7 @@ TC6
     ...              RLI-38966  
     ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI,Test2 raise ODU-AIS    
-    [Tags]           Sanity  tc6
+    [Tags]           tc6
     Log              Modify tx-dapi value for OTU4 ON Lx,Ly will raise TTIM and Test2 raise ODU-AIS alarm.
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -466,7 +466,7 @@ TC7
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
-    [Tags]           Sanity  tc7
+    [Tags]           tc7
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -531,7 +531,7 @@ TC8
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
-    [Tags]           Sanity  tc8
+    [Tags]           tc8
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -596,7 +596,7 @@ TC9
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm			
-    [Tags]           Sanity  tc9
+    [Tags]           tc9
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -660,7 +660,7 @@ TC10
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           Sanity  tc10
+    [Tags]           tc10
     Log              Modify the <expected-sapi> value for OTU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -670,7 +670,7 @@ TC10
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
 
     Log              Wait a random time to keep the alarm stable on Attella
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
@@ -717,7 +717,7 @@ TC11
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           Sanity  tc11
+    [Tags]           tc11
     Log              Modify the <expected-dapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -776,7 +776,7 @@ TC12
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           Sanity  tc12
+    [Tags]           tc12
     Log              Modify the <expected-sapi>/<expected-dapi> value for ODU4 on LY,Ly will raise TTIM alarm on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -834,7 +834,7 @@ TC13
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           Sanity  tc13
+    [Tags]           tc13
     Log              Modify the <expected-sapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -891,7 +891,7 @@ TC14
     ...              RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           Sanity  tc14
+    [Tags]           tc14
     Log              Modify the <expected-dapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -949,7 +949,7 @@ TC15
     ...              Delete OCH/OTU/ODU on Lx, the remote OCH will raise LOS alarm on Ly
     ...              RLI 38966
                
-    [Tags]           Sanity  tc15   Blocked by PR-1419722
+    [Tags]           tc15   Blocked by PR 1419722
     Log              Delete OCH/OTU4/ODU4 on Lx, the remote OCH will raise LOS alarm on Ly    
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -1024,7 +1024,7 @@ TC16
    ...              RLI-38966
    ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
    ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm. After warm reloadd the Alarm in traffic chain still exist.
-   [Tags]           Sanity  tc16   
+   [Tags]           tc16   
     
    Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
    Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1126,7 +1126,7 @@ TC17
    ...              RLI-38966
    ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
    ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm. After cold reload the Alarm in traffic chain still exist.
-   [Tags]           Sanity  tc17   
+   [Tags]           tc17   
     
    Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
    Verify Interfaces In Traffic Chain Are Alarm Free
