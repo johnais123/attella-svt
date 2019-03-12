@@ -167,7 +167,7 @@ TC2
 TC3
     [Documentation]  Verify Remote Fault Rx/Tx alarm in Client Interface
     ...              RLI38964  
-    [Tags]  Sanity 
+    [Tags]
     Log To Console  near-end inject RFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     Sleep   ${period}
@@ -211,7 +211,7 @@ TC3
 TC4
     [Documentation]  Verify HI BER ALARM in 100ge Client Interface
     ...              RLI38964  
-    [Tags]  Sanity 
+    [Tags]
     Log To Console  near-end inject HI BER
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  1.0E-02
     Sleep   ${period}
@@ -249,7 +249,7 @@ TC4
 TC5
     [Documentation]  Verify Loss of Alignment in 100ge Client Interface
     ...              RLI38964  
-    [Tags]  Sanity 
+    [Tags]
     Log To Console  near-end inject Loss of Alignment
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  MAX
     Sleep   ${period}
@@ -437,7 +437,6 @@ TC8
 *** Keywords ***
 Test Bed Init
     Set Log Level  DEBUG
-#    Initialize
     Log To Console      create a restconf operational session
 
     @{dut_list}    create list    device0  device1
@@ -482,7 +481,6 @@ Test Bed Init
     Set Suite Variable    ${remote line otu intf}
     Set Suite Variable    ${remote line och intf}
     
-    
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
@@ -490,7 +488,9 @@ Test Bed Init
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     
+    Log To Console  load pre-default provision on device0
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Log To Console  load pre-default provision on device1
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
     
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
@@ -501,6 +501,7 @@ Test Bed Init
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
     
+    Log To Console  init test set to 100ge
     Init Test Equipment  ${testSetHandle1}  100ge
     Init Test Equipment  ${testSetHandle2}  100ge
 
@@ -510,6 +511,7 @@ Test Bed Teardown
     Log To Console  Remove Service
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+
 
 Create 100GE Service
     [Documentation]   Retrieve system configuration and state information
