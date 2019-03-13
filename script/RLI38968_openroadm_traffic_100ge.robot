@@ -95,7 +95,8 @@ TC3
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is One Way Through
+    # Verify Traffic Is One Way Through
+	Verify Traffic Is Blocked
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
@@ -362,11 +363,11 @@ Verify Traffic Is One Way Through
     stop Traffic  ${testSetHandle1}
     stop Traffic  ${testSetHandle2}
 
-	@{lTx}=  create list  ${testSetHandle1}
-    @{lRx}=  create list  ${testSetHandle2}
+	@{lTx}=  create list  ${testSetHandle2}
+    @{lRx}=  create list  ${testSetHandle1}
 	
-    @{lTxFail}=  create list  ${testSetHandle2}
-    @{lRxFail}=  create list  ${testSetHandle1}
+    @{lTxFail}=  create list  ${testSetHandle1}
+    @{lRxFail}=  create list  ${testSetHandle2}
     
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
