@@ -54,7 +54,7 @@ Test Setup  Run Keywords  Toby Test Setup
 Test Teardown  Run Keywords  Toby Test Teardown
 
 Suite Teardown  Run Keywords
-#...              Test Bed Teardown
+...              Test Bed Teardown
 ...              Toby Suite Teardown
 
 
@@ -123,7 +123,7 @@ TC1
 TC2
     [Documentation]  Verify Local Fault Rx/Tx alarm in Client Interface
     ...              RLI38964  
-    [Tags]  Sanity 
+    [Tags]
     Log To Console  near-end inject LFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
@@ -481,6 +481,9 @@ Test Bed Init
     Set Suite Variable    ${remote line otu intf}
     Set Suite Variable    ${remote line och intf}
     
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
+
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
