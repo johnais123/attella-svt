@@ -3926,3 +3926,44 @@ class ExfoModule(object):
         output = self._session.output
         if "error" in output:
             raise Exception("execute cmd %s on %s failed"%(self, command))
+            
+            
+    def setEtherRFEState(self, mode="ON"):
+        ''' set the configure Remote Fault Emulation for high rate (40/100G) to ON|OFF
+        @type mode: string
+        @param mode:  ON|OFF
+        @rtype: Boolean
+        @return: True|False
+        '''
+        mode = str(mode)
+        assert (mode in ["ON","OFF"]),"The mode should be ON|OFF only"
+        command = "LINS" + str(self._slot) + ":SOURce:DATA:TELecom:ETHernet:HRATe:RFE:ENABle " + str(mode)
+        self._session.send(command)
+        output = self._session.output
+
+        matchobj = re.search(r'.*ommand executed successfully', output)
+        if matchobj:
+            print("set Remote Fault Emulation " + mode + " successfully on module: " + str(self._slot))
+            return True
+        else:
+            print("set Remote Fault Emulation " + mode + " successfully on module: " + str(self._slot) + output)
+            return False
+
+    def getEtherRFEState(self):
+        ''' to check the configure Remote Fault Emulation for high rate (40/100G)
+        @rtype: Boolean
+        @return: True|False
+        '''
+        command = "LINS" + str(self._slot) + ":SOURce:DATA:TELecom:ETHernet:HRATe:RFE:ENABle?"
+        self._session.send(command)
+        output = self._session.output.strip()
+
+        if "0" == output:
+            print("Remote Fault Emulation is OFF on module: " + str(self._slot))
+            return "OFF"
+        elif "1" == output:
+            print("Remote Fault Emulation is ON on module: " + str(self._slot))
+            return "ON"
+        else:
+            raise Exception("Retrieving Laser status failed" + output)
+
