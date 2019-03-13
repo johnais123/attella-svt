@@ -641,6 +641,8 @@ class ExfoPort():
         
         time.sleep(3)
         if "EBERT" == self.__target.getApplication():
+            if lProtocol[0] in ["100GE", "40GE"]:
+                result = result and self.__target.setEtherRFEState("ON")
             result = result and self.__target.startTest()
             result = result and self.__target.setEthTrafficTx("OFF")
             result = result and self.clear()
