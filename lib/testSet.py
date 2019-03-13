@@ -641,6 +641,8 @@ class ExfoPort():
         
         time.sleep(3)
         if "EBERT" == self.__target.getApplication():
+            if lProtocol[0] in ["100GE", "40GE"]:
+                result = result and self.__target.setEtherRFEState("ON")
             result = result and self.__target.startTest()
             result = result and self.__target.setEthTrafficTx("OFF")
             result = result and self.clear()
@@ -3090,7 +3092,7 @@ class ViaviPort():
         r = re.match(r"^(\d).(\d)[eE]-0(\d)$", strErrorParam)
         if r:
             strErrorParam = strErrorParam[:5] + strErrorParam[-1]
-        else:
+        elif not str(strErrorParam).isdigit():
             raise TestPortException("error rate is not support -- %s"%strErrorParam)
         
         if self.DICT_ERROR[strErrorType] in ["MFAS", "SM_BIP", "SM_BEI", "PM_BIP", "PM_BEI", "FEC_CORR", "FEC_ADV", "FEC_UNCORR"]:
