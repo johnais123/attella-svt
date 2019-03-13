@@ -54,11 +54,12 @@ Suite Setup   Run Keywords
 
 Test Setup  Run Keywords
 ...              Toby Test Setup
- 
+
 Test Teardown  Run Keywords
 ...              Toby Test Teardown
 
 Suite Teardown  Run Keywords
+...              Test Bed Teardown
 ...              Toby Suite Teardown
 
 
@@ -93,21 +94,21 @@ TC1
     
     Log To Console  check far-end tester raise LFAULT
     ${result1}=  Is Alarm Raised  ${testSetHandle2}  ALARM_ETHERNET_ETH_LF
-
+    
     Log To Console  check near-end tester raise RFAULT
     ${result2}=  Is Alarm Raised  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
+    
+    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise LFAULT fails
+    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise RFAULT fails
     
     Log To Console  near-end stop inject LFAULT
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
-
-    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise LFAULT fails
-    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise RFAULT fails
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
-
+    
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
 
 
@@ -122,16 +123,16 @@ TC2
     Log To Console  check far-end tester raise RFAULT
     ${result}=  Is Alarm Raised  ${testSetHandle2}  ALARM_ETHERNET_ETH_RF
     
+    Run Keyword Unless  '${result}' == 'True'  FAIL  far-end tester raise RFAULT fails
+    
     Log To Console  near-end stop inject RFAULT
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     Sleep   ${period}
-
-    Run Keyword Unless  '${result}' == 'True'  FAIL  far-end tester raise RFAULT fails
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
-
+    
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
 
 TC3
@@ -144,21 +145,21 @@ TC3
     
     Log To Console  check far-end tester raise LFAULT
     ${result1}=  Is Alarm Raised  ${testSetHandle2}  ALARM_ETHERNET_ETH_LF
-
+    
     Log To Console  check near-end tester raise RFAULT
     ${result2}=  Is Alarm Raised  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
+    
+    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise LFAULT fails
+    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise RFAULT fails
     
     Log To Console  near-end fiber recovery
     Set Laser State  ${testSetHandle1}  ON
     Sleep   ${period}
-
-    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise LFAULT fails
-    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise RFAULT fails
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
-
+    
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
 
@@ -168,19 +169,22 @@ TC4
     [Tags]  Sanity 
     Log To Console  Disable near-end client
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
-
+    
     @{interface_info}    create list  ${intf}
     
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     Sleep   ${period}   
-
+    
     Log To Console  check far-end tester raise RFAULT
     ${result1}=  Is Alarm Raised  ${testSetHandle2}  ALARM_ETHERNET_ETH_RF
     
     Log To Console  check near-end tester raise LFAULT
     ${result2}=  Is Alarm Raised  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
+    
+    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise RFAULT fails
+    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise LFAULT fails
     
     Log To Console  Enable near-end client
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
@@ -190,14 +194,11 @@ TC4
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
-
-    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise RFAULT fails
-    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise LFAULT fails
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
-
+    
     [Teardown]
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
 
@@ -223,6 +224,9 @@ TC5
     Log To Console  check near-end tester raise RFAULT
     ${result2}=  Is Alarm Raised  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     
+    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise LFAULT fails
+    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise RFAULT fails
+    
     Log To Console  Disable near-end och
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
     
@@ -232,14 +236,11 @@ TC5
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     Sleep   ${period}   
-
-    Run Keyword Unless  '${result1}' == 'True'  FAIL  far-end tester raise LFAULT fails
-    Run Keyword Unless  '${result2}' == 'True'  FAIL  near-end tester raise RFAULT fails
     
     Log To Console  Verify Traffic
     Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
-
+    
     [Teardown]
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
 
@@ -286,7 +287,7 @@ Test Bed Init
     Set Suite Variable    ${remote line otu intf}
     Set Suite Variable    ${remote line och intf}
 
-    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']} 
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
