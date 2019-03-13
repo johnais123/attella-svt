@@ -299,20 +299,22 @@ TC16
 
 
 TC17
-	[Documentation]  This test case mapping to 5.4-1 ~~~~ 5.4-10 and 5.4-23 for JTMS RLI-38968
-	[Tags]           Sanity   TC17   
-    Log              Configure all R/W leaves for circuit-pack PSM via Restconf 
-	${administrative_state_for_psm}    evaluate    random.choice(["inService", "outOfService", "maintenance"])     random
-    &{psmkey}    create_dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply  shelf=shelf-0  slot=slot-1
-    ...         administrative-state-cp=${administrative_state_for_psm}    equipment-state-cp=reserved-for-facility-available   circuit-pack-product-code=NON-JNPR 
-    ...         circuit-pack-mode=NORMAL   subSlot=slot-0    is-pluggable-optics=false   due-date-cp=${tv['uv-valid_due_date']} 
-    &{psmkey1}    create_dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply  shelf=shelf-0  slot=slot-2 
-    ...         administrative-state-cp=${administrative_state_for_psm}    equipment-state-cp=reserved-for-facility-available   circuit-pack-product-code=NON-JNPR 
-    ...         circuit-pack-mode=NORMAL   subSlot=slot-0    is-pluggable-optics=false   due-date-cp=${tv['uv-valid_due_date']}  
-    @{psm_info}    create list    ${psmkey}  ${psmkey1} 
-    &{dev_info}   create_dictionary   circuit-packs=${psm_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}     
+    [Documentation]  This test case mapping to 5.4-1 ~~~~ 5.4-10 and 5.4-23 for JTMS RLI-38968
+    [Tags]           Sanity   TC5   set-CP-PSM
+    Log              Configure all R/W leaves for circuit-pack PSM via Restconf
+    ${administrative_state_for_psm}       evaluate                random.choice(["inService", "outOfService", "maintenance"])     random
+    &{psmkey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply     shelf=shelf-0  slot=slot-1
+    ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available   due-date-cp=${tv['uv-valid_due_date']}     
+	...              circuit-pack-product-code=NON-JNPR
+    ...              circuit-pack-mode=NORMAL   subSlot=slot-0      
+    &{psmkey1}       create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply     shelf=shelf-0  slot=slot-2
+    ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available      circuit-pack-product-code=NON-JNPR
+    ...              circuit-pack-mode=NORMAL   subSlot=slot-0      
+	...              due-date-cp=${tv['uv-valid_due_date']}
+    @{psm_info}      create list          ${psmkey}  ${psmkey1}
+    &{dev_info}      create dictionary    circuit-packs=${psm_info}
+    &{payload}       create dictionary    org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}    
 
 
 

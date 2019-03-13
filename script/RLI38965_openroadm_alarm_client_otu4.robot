@@ -279,14 +279,14 @@ TC4
 	Verify Traffic Is OK
 	
   [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_BDI	
-  
+   
 
 
 
 
 #TC5
 #   [Documentation]  Test IAE alarm raised/clear on OTU4 client port     
-#   [Tags]           Sanity  tc5
+#   [Tags]           tc5
 
 
 #   Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -339,7 +339,7 @@ TC4
 
 #TC6
 #    [Documentation]  Test BIAE alarm raised/clear on OTU4 client port     
-#   [Tags]           Sanity  tc6
+#    [Tags]           tc6
 #
 #
 #    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -794,7 +794,7 @@ TC13
 	
    [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_ODU4_AIS
 
- 
+
 
 TC14
    [Documentation]  Test OCI alarm raised/clear on ODU4 client port     
@@ -903,7 +903,7 @@ TC15
  
 TC16
    [Documentation]  Test BDI alarm raised/clear on ODU4 client port     
-   [Tags]           tc16
+   [Tags]           Sanity  tc16
 
 
    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -940,25 +940,25 @@ TC16
 	Wait Until Interfaces In Traffic Chain Are Alarm Free
 
 
-   Log             Wait a random time to keep the alarm clear on Attella
+    Log             Wait a random time to keep the alarm clear on Attella
 	${random}=  Evaluate  random.randint(1, 60)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
    
-   Log             Verify the OTU4 interface status is inService
+    Log             Verify the OTU4 interface status is inService
 	Verify Client Interfaces In Traffic Chain Are Up
 	
 	Log             Verify Traffic Is OK
 	Verify Traffic Is OK
 	
-  [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_ODU4_BDI    
+   [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_ODU4_BDI    
 	          
 
 TC17
     [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-sapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
     
-    [Tags]           Sanity  tc17          
+    [Tags]           tc17          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
@@ -1342,11 +1342,11 @@ TC23
    Sleep  ${random}       
        
    Log              Verify OTU4/ODU4 operation status on local are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
    
 
-   Log              Verify OTU4/ODU4 operation status on Ly are inService
+   Log              Verify OTU4/ODU4 operation status on remote are inService
    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
       
@@ -1402,11 +1402,11 @@ TC24
    Sleep  ${random}       
        
    Log              Verify OTU4/ODU4 operation status on local are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}         ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}     ${OPER_STATUS_OFF}
    
 
-   Log              Verify OTU4/ODU4 operation status on Ly are inService
+   Log              Verify OTU4/ODU4 operation status on remote are inService
    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
     
