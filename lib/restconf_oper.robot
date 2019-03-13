@@ -271,6 +271,20 @@ RPC Clear Pm Statistics
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     check status line    ${resp}     200 
     
+
+RPC Collect Historical Pm
+    [Documentation]   Command to collect history pm
+    [Arguments]    ${odl_sessions}   ${node}    ${frombin}   ${endbin}  ${granularity}=15min
+    ${urlhead}   set variable    org-openroadm-pm:collect-historical-pm-file
+    ${data}      set variable   <input xmlns="http://org/openroadm/pm"><from-bin-number>${frombin}</from-bin-number><to-bin-number>${endbin}</to-bin-number><granularity>${granularity}</granularity></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+    check status line    ${resp}     200 
+    ${elem} =  get element text  ${resp.text}    status
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    ${hispmfile} =  get element text  ${resp.text}    pm-filename
+    log    ${hispmfile}
+    [return]     ${hispmfile}
     
 Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
@@ -376,8 +390,9 @@ Ensure Pm Statistics In the Same Bin During Testing Pm
     ${currentTime}=    get element text  ${resp.text}  current-datetime 
     ${getmin}    Evaluate       '${currentTime}'.split(":")[1]   string
     ${getmin}=   Convert To Integer  ${getmin} 
-    run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  15 
+    run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  120  AND  LOG  wait for 120s
     ...    ELSE    log   Continue to test   
+    [return]  ${getmin}  
 
     
 Get Current All Pm Information On Target Resource
@@ -429,7 +444,7 @@ Get All Under Test Pm Entry
     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
     ...     ELSE    Log   no ignore pm statistics
 
-# This example for 100GE port, need 100ge traffic envrionment
+
 Get Current All Pm Entry On Target Resource
     [Documentation]        Get ALL special Pm On Target
     ...                    Fails if it doesn't exist special pm statistics on this resource
@@ -454,7 +469,7 @@ Get Current All Pm Entry On Target Resource
     Set Global variable    ${OthersTestPmList}
 
 
-Get All current Special Pm Statistic
+Get All Current Special Pm Statistic
     [Documentation]        one by one to reterive under testing pm entries base on pm interval
     ...                    Args:
     ...                    | - udtPm: under testing pm entry object
@@ -467,12 +482,11 @@ Get All current Special Pm Statistic
     \     ${pmParameterUnit}=  Get Element  ${pmStat}   pmParameterUnit
     \     ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
     \     ${pmvalidity}=  Get Element  ${pmStat}          validity
-    \     Log  ${pmGranularity.text}
-    \     Log  ${pmParameterValue.text} 
+    \     Log many    ${pmGranularity.text}   ${pmParameterValue.text}
     \     Run keyword If  '${pmGranularity.text}' == '${pmInterval}'    Append To List   ${PmStatisList}   ${pmParameterValue.text}
 
 
-Get current Spefic Pm Statistic
+Get Current Spefic Pm Statistic
     [Documentation]        Get special Pm Statistics On Target
     ...                    Fails if it doesn't exist special pm statistics on this resource
     ...                    Args:
@@ -485,11 +499,8 @@ Get current Spefic Pm Statistic
     \    ${expmtype_ext}=  Get Element  ${udtPm}  extension
     \    ${pmlocation}=   Get Element  ${udtPm}   location
     \    ${pmdirection}=  Get Element  ${udtPm}   direction
-    \    Log    ${pmtype.text}
-    \    Log    ${expmtype_ext.text}
-    \    Log    ${pmlocation.text}
-    \    log    ${pmdirection.text}
-    \     Get All current Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
+    \    Log many    ${pmtype.text}   ${expmtype_ext.text}   ${pmlocation.text}   ${pmdirection.text}
+    \     Get All Current Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
     Log     ${PmStatisList} 
     [return]   ${PmStatisList}
 
@@ -529,8 +540,8 @@ Verify Pm Should Be In Range
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if real value is not in expect range
     [Arguments]            ${expectValue}   ${realValue}
-    ${minValue}             set variable     @{expectValue}[0]
-    ${maxValue}             set variable     @{expectValue}[1]
+    ${maxValue}             set variable     @{expectValue}[0]
+    ${minValue}             set variable     @{expectValue}[1]
     log    ${realValue}
     Run Keyword If         ${maxValue} >= ${realValue} >= ${minValue}    log   pm statistics is ok\nThe expect range value is ${minValue} to ${maxValue}\n The real value is ${realValue}
     ...         ELSE       FAIL    Check pm statistics fail: \n The expect range value is ${minValue} to ${maxValue}\n The real value is ${realValue}
