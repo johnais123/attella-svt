@@ -126,7 +126,8 @@ TC5
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is One Way Through
+    # Verify Traffic Is One Way Through
+	Verify Traffic Is Blocked
     
 TC6
     [Documentation]  Enable Line Odu Interface And Verify Traffic
@@ -157,8 +158,8 @@ TC7
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is One Way Through
-    
+    # Verify Traffic Is One Way Through
+    Verify Traffic Is Blocked
 TC8
     [Documentation]  Enable Line Otu Interface And Verify Traffic
     ...              RLI38968 5.1-8
@@ -190,7 +191,8 @@ TC9
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Verify Traffic Is One Way Through
+    # Verify Traffic Is One Way Through
+	Verify Traffic Is Blocked
     
 TC10
     [Documentation]  Enable Line Och Interface And Verify Traffic

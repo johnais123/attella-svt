@@ -82,8 +82,36 @@ TC2
     [Documentation]  Traffic Verification
     ...              RLI38968 5.1-8
     [Tags]  Sanity  tc2
+	
+	@{EMPTY LIST}=  create list
+	
     Log To Console  Verify Traffic
     Verify Traffic Is OK
+	
+	# Verify Interfaces In Traffic Chain Are Alarm Free
+	
+	# Start Inject Alarm On Test Equipment   ${testSetHandle1}   ALARM_OTU4_ODU4_BDI
+	
+	# Log  Verify BDI alarm raise on local ODU4 interface    
+	# @{expectedAlarms}  Create List   Backward Defect Indication
+	# Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+	
+	# Log  Wait a random time to keep the alarm stable on Attella    
+	# ${random}=  Evaluate  random.randint(1, 60)  modules=random
+	# Sleep  ${random}
+	# @{expectedAlarms}  Create List  Backward Defect Indication
+	# Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}
+   
+	# Log  Verify the local OTU4/ODU4 interface operation status are inService, and otu4 interface is alarm free
+	# Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
+	# Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${EMPTY LIST}
+	# Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${OPER_STATUS_ON}
+
+	# Log  Verify the remote OTU4/ODU4 interface are alarm free and the operation status are inService
+	# Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${EMPTY LIST}
+	# Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
+	# Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${EMPTY LIST}
+	# Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${OPER_STATUS_ON}
 	
 	Set Loopback To ODU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  term
 	Verify Traffic Is Local To Remote One Way Through
@@ -134,7 +162,7 @@ TC5
 	${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
 	
 	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  fac
-	Verify Traffic Is Remote To Local One Way Through
+	Verify Traffic Is OK
 	
 	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  off
 	Verify Traffic Is OK
@@ -188,6 +216,9 @@ Test Bed Init
 	Log To Console  de-provision on both device0 and device1
     Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
     Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+	
+	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
@@ -219,6 +250,9 @@ Test Bed Init
 
 Verify Traffic Is OK
     Log To Console  Verify Traffic Is OK
+	
+	@{EMPTY LIST}=  create list
+
     : FOR    ${nLoop}    IN RANGE    1    6
     \    Sleep  10
     \    Log To Console  Check Traffic Status for the ${nLoop} time
@@ -235,7 +269,6 @@ Verify Traffic Is OK
     \    
     \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
     \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    \    @{EMPTY LIST}=  create list
     \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
 
     \    Exit For Loop If  '${result}' == "PASS"
@@ -256,7 +289,7 @@ Verify Traffic Is OK
     
     @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
     @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
+    
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
    
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
@@ -283,10 +316,9 @@ Verify Traffic Is Local To Remote One Way Through
     @{lTxFail}=  create list  ${testSetHandle2}
     @{lRxFail}=  create list  ${testSetHandle2}
     
-    @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-	
+
 Verify Traffic Is Remote To Local One Way Through
     Log To Console  Verify Traffic Is One Way Through
     
@@ -309,7 +341,6 @@ Verify Traffic Is Remote To Local One Way Through
     @{lTxFail}=  create list  ${testSetHandle1}
     @{lRxFail}=  create list  ${testSetHandle1}
     
-    @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
 	
@@ -337,3 +368,17 @@ Verify Traffic Is Blocked
     ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
 
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+
+	
+Verify Interfaces In Traffic Chain Are Alarm Free
+	@{EMPTY LIST}=  create list
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}             ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}         ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}           ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}           ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}           ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}      ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}    ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}    ${EMPTY LIST}
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}    ${EMPTY LIST}
