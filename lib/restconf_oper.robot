@@ -433,39 +433,62 @@ Get Current All Pm Information On Target Resource
     [return]  ${pmRes}
 
 
-Get All Under Test Pm Entry
-    [Documentation]        one by one to reterive all pm entries which be provide by testcase
-    [Arguments]     ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater}
-    ${pmtype}=  Get Element  ${pmEntry}  type
-    ${expmtype_ext}=  Get Element  ${pmEntry}  extension
-    ${pmlocation}=   Get Element  ${pmEntry}   location
-    ${pmdirection}=  Get Element  ${pmEntry}   direction
+# Get All Under Test Pm Entry
+#     [Documentation]        one by one to reterive all pm entries which be provide by testcase
+#     [Arguments]     ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater}
+#     ${pmtype}=  Get Element  ${pmEntry}  type
+#     ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+#     ${pmlocation}=   Get Element  ${pmEntry}   location
+#     ${pmdirection}=  Get Element  ${pmEntry}   direction
+#     :FOR  ${pm1Entry}  IN  @{Providedpmlist}
+#     \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
+#     \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
+#     \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
+#     \   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
+#     \   ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
+#     Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
+#     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
+#     ...     ELSE    Log   no ignore pm statistics
+# 
+# 
+# Get Current All Pm Entry On Target Resource
+#     [Documentation]        Get ALL special Pm On Target
+#     ...                    Fails if it doesn't exist special pm statistics on this resource
+#     ...                    Args:
+#     ...                    | - odl_sessions : config/operational sessions to ODL controller
+#     ...                    | - node :Under testing Device
+#     ...                    |  
+#     [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
+#     ${sflag}     set variable    False
+#     @{testPmList}    Create list    
+#     @{OthersTestPmList}   Create list  
+#     ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
+#     @{currentPmRes}  Get Elements  ${underTestRes}  current-pm
+#     :FOR  ${pmEntry}  IN  @{currentPmRes}
+#     \     Get All Under Test Pm Entry    ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater} 
+#     ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
+#     :FOR   ${pmitem}  IN  @${testPmList}
+#     \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
+#     log    ${testPmList}
+#     log    ${OthersTestPmList}
+#     Set Global variable    ${testPmList}
+#     Set Global variable    ${OthersTestPmList}
+
+Get Current All Pm Entry On Target Resource
+    [Documentation]       Get ALL special Pm On Target 
+    [Arguments]   ${odl_sessions}    ${node}   ${targetResource}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
+    @{testPmList}    Create list    
+    @{OthersTestPmList}   Create list 
+    ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
+    @{currentPmRes}  Get Elements  ${underTestRes}  current-pm 
     :FOR  ${pm1Entry}  IN  @{Providedpmlist}
     \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
     \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
     \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
-    \   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
-    \   ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
-    Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
-    Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
-    ...     ELSE    Log   no ignore pm statistics
-
-
-Get Current All Pm Entry On Target Resource
-    [Documentation]        Get ALL special Pm On Target
-    ...                    Fails if it doesn't exist special pm statistics on this resource
-    ...                    Args:
-    ...                    | - odl_sessions : config/operational sessions to ODL controller
-    ...                    | - node :Under testing Device
-    ...                    |  
-    [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
-    ${sflag}     set variable    False
-    @{testPmList}    Create list    
-    @{OthersTestPmList}   Create list  
-    ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
-    @{currentPmRes}  Get Elements  ${underTestRes}  current-pm
-    :FOR  ${pmEntry}  IN  @{currentPmRes}
-    \     Get All Under Test Pm Entry    ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater} 
+    \     set global variable   ${targetPmEntry}    
+    \     set global variable    ${tarPmLoc}  
+    \     set global variable    ${tarPmDirect} 
+    \     Get All Under Test Pm Entry      ${currentPmRes}   ${testPmList}   ${OthersTestPmList}   ${ignorePmEntryParmater}
     ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
     :FOR   ${pmitem}  IN  @${testPmList}
     \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
@@ -475,6 +498,27 @@ Get Current All Pm Entry On Target Resource
     Set Global variable    ${OthersTestPmList}
 
 
+Get All Under Test Pm Entry
+    [Documentation]        one by one to reterive all pm entries which be provide by testcase
+    ...                    Fails if it doesn't exist special pm statistics on this resource
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node :Under testing Device
+    ...                    |  
+    [Arguments]           ${currentPmRes}   ${testPmList}   ${OthersTestPmList}   ${ignorePmEntryParmater}
+    :FOR  ${pmEntry}  IN  @{currentPmRes}
+    \     ${pmtype}=  Get Element  ${pmEntry}  type
+    \     ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+    \     ${pmlocation}=   Get Element  ${pmEntry}   location
+    \     ${pmdirection}=  Get Element  ${pmEntry}   direction
+    \     Log many   ${pmtype.text}    ${expmtype_ext.text}    ${pmlocation.text}    ${pmdirection.text}
+    \     Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
+    \     ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
+    \     Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
+    \     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
+    \     ...     ELSE    Log   no ignore pm statistics
+
+    
 Get All Current Special Pm Statistic
     [Documentation]        one by one to reterive under testing pm entries base on pm interval
     ...                    Args:
