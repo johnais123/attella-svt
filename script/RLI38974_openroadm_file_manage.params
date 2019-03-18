@@ -14,7 +14,7 @@ device0 {
 
 
 
-uv-odl-server  "172.27.80.27:18181";
+uv-odl-server  "172.27.93.100:38181";
 uv-odl-interval  "10";
 uv-odl-password  "admin";
 uv-odl-timeout  "600";
