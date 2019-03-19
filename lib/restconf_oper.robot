@@ -341,11 +341,7 @@ Mount vAttella On ODL Controller
     ${fullUrl}                Set Variable    <node xmlns="urn:TBD:params:xml:ns:yang:network-topology"><node-id>${node}
     ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}     headers=${delete_headers}    allow_redirects=False
     # check status line    ${resp}     200 
-<<<<<<< lib/restconf_oper.robot
     ${data}                Set Variable    <node xmlns="urn:TBD:params:xml:ns:yang:network-topology"><node-id>${node}</node-id><port xmlns="urn:opendaylight:netconf-node-topology">830</port><password xmlns="urn:opendaylight:netconf-node-topology">Embe1mpls</password><username xmlns="urn:opendaylight:netconf-node-topology">root</username><tcp-only xmlns="urn:opendaylight:netconf-node-topology">false</tcp-only><host xmlns="urn:opendaylight:netconf-node-topology">${node}</host><keepalive-delay xmlns="urn:opendaylight:netconf-node-topology">0</keepalive-delay><actor-response-wait-time xmlns="urn:opendaylight:netconf-node-topology">100</actor-response-wait-time><schema-cache-directory xmlns="urn:opendaylight:netconf-node-topology">2.2.1</schema-cache-directory><yang-module-capabilities xmlns="urn:opendaylight:netconf-node-topology"><capability>urn:ietf:params:xml:ns:netconf:notification:1.0?module=notifications&amp;revision=2008-07-14</capability><capability>urn:ietf:params:xml:ns:netmod:notification?module=nc-notifications&amp;revision=2008-07-14</capability><capability>urn:ietf:params:xml:ns:netconf:base:1.0?module=ietf-netconf&amp;revision=2011-06-01</capability><capability>urn:ietf:params:xml:ns:yang:ietf-inet-types?module=ietf-inet-types&amp;revision=2013-07-15</capability><capability>urn:ietf:params:xml:ns:yang:ietf-yang-types?module=ietf-yang-types&amp;revision=2013-07-15</capability><capability>urn:ietf:params:xml:ns:yang:iana-afn-safi?module=iana-afn-safi&amp;revision=2013-07-04</capability><capability>http://org/openroadm/user-mgmt?module=org-openroadm-user-mgmt&amp;revision=2017-12-15</capability><capability>http://org/openroadm/tca?module=org-openroadm-tca&amp;revision=2018-10-19</capability><capability>http://org/openroadm/switching-pool-types?module=org-openroadm-switching-pool-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/resource?module=org-openroadm-resource&amp;revision=2018-10-19</capability><capability>http://org/openroadm/resource/types?module=org-openroadm-resource-types&amp;revision=2018-10-19</capability><capability>http://org/openroadm/probableCause?module=org-openroadm-probable-cause&amp;revision=2018-10-19</capability><capability>http://org/openroadm/port/types?module=org-openroadm-port-types&amp;revision=2018-10-19</capability><capability>http://org/openroadm/pm?module=org-openroadm-pm&amp;revision=2018-10-19</capability><capability>http://org/openroadm/pm/types?module=org-openroadm-pm-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/otn-common-types?module=org-openroadm-otn-common-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/manifest-file?module=org-openroadm-manifest-file&amp;revision=2017-12-15</capability><capability>http://org/openroadm/maintenance?module=org-openroadm-maintenance&amp;revision=2018-10-19</capability><capability>http://org/openroadm/layerRate?module=org-openroadm-layerRate&amp;revision=2017-12-15</capability><capability>http://org/openroadm/equipment/states/types?module=org-openroadm-equipment-states-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/common-types?module=org-openroadm-common-types&amp;revision=2018-10-19</capability><capability>http://org/openroadm/alarm?module=org-openroadm-alarm&amp;revision=2018-10-19</capability><capability>http://org/openroadm/database?module=org-openroadm-database&amp;revision=2018-10-19</capability><capability>http://org/openroadm/de/operations?module=org-openroadm-de-operations&amp;revision=2018-10-19</capability><capability>http://org/openroadm/device?module=org-openroadm-device&amp;revision=2018-10-19</capability><capability>http://org/openroadm/ethernet-interfaces?module=org-openroadm-ethernet-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/file-transfer?module=org-openroadm-file-transfer&amp;revision=2018-10-19</capability><capability>http://org/openroadm/fwdl?module=org-openroadm-fwdl&amp;revision=2018-10-19</capability><capability>http://org/openroadm/interfaces?module=org-openroadm-interfaces&amp;revision=2017-06-26</capability><capability>http://org/openroadm/lldp?module=org-openroadm-lldp&amp;revision=2018-10-19</capability><capability>http://org/openroadm/maintenance-loopback?module=org-openroadm-maintenance-loopback&amp;revision=2017-12-15</capability><capability>http://org/openroadm/maintenance-testsignal?module=org-openroadm-maintenance-testsignal&amp;revision=2017-12-15</capability><capability>http://org/openroadm/media-channel-interfaces?module=org-openroadm-media-channel-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/network-media-channel-interfaces?module=org-openroadm-network-media-channel-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/optical-channel-interfaces?module=org-openroadm-optical-channel-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/optical-transport-interfaces?module=org-openroadm-optical-transport-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/otn-common?module=org-openroadm-otn-common&amp;revision=2017-06-26</capability><capability>http://org/openroadm/otn-odu-interfaces?module=org-openroadm-otn-odu-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/otn-otu-interfaces?module=org-openroadm-otn-otu-interfaces&amp;revision=2018-10-19</capability><capability>http://org/openroadm/physical/types?module=org-openroadm-physical-types&amp;revision=2018-10-19</capability><capability>http://org/openroadm/pluggable-optics-holder-capability?module=org-openroadm-pluggable-optics-holder-capability&amp;revision=2018-10-19</capability><capability>http://org/openroadm/port-capability?module=org-openroadm-port-capability&amp;revision=2018-10-19</capability><capability>http://org/openroadm/prot/otn-linear-aps?module=org-openroadm-prot-otn-linear-aps&amp;revision=2018-10-19</capability><capability>http://org/openroadm/rstp?module=org-openroadm-rstp&amp;revision=2018-10-19</capability><capability>http://org/openroadm/de/swdl?module=org-openroadm-swdl&amp;revision=2018-10-19</capability><capability>http://org/openroadm/syslog?module=org-openroadm-syslog&amp;revision=2017-12-15</capability><capability>http://org/openroadm/wavelength-map?module=org-openroadm-wavelength-map&amp;revision=2017-12-15</capability><override>false</override></yang-module-capabilities></node>
-=======
-    ${data}                Set Variable    <node xmlns="urn:TBD:params:xml:ns:yang:network-topology"><node-id>${node}</node-id><port xmlns="urn:opendaylight:netconf-node-topology">830</port><password xmlns="urn:opendaylight:netconf-node-topology">${pwd}</password><username xmlns="urn:opendaylight:netconf-node-topology">${usr}</username><tcp-only xmlns="urn:opendaylight:netconf-node-topology">false</tcp-only><host xmlns="urn:opendaylight:netconf-node-topology">${node}</host><keepalive-delay xmlns="urn:opendaylight:netconf-node-topology">0</keepalive-delay><actor-response-wait-time xmlns="urn:opendaylight:netconf-node-topology">100</actor-response-wait-time><schema-cache-directory xmlns="urn:opendaylight:netconf-node-topology">barry</schema-cache-directory><yang-module-capabilities xmlns="urn:opendaylight:netconf-node-topology"><capability>urn:ietf:params:xml:ns:netconf:base:1.0?module=ietf-netconf&amp;revision=2011-06-01</capability><capability>urn:ietf:params:xml:ns:yang:ietf-inet-types?module=ietf-inet-types&amp;revision=2013-07-15</capability><capability>urn:ietf:params:xml:ns:yang:ietf-yang-types?module=ietf-yang-types&amp;revision=2013-07-15</capability><capability>urn:ietf:params:xml:ns:netconf:base:1.0?module=ietf-netconf&amp;revision=2011-06-01</capability><capability>http://org/openroadm/user-mgmt?module=org-openroadm-user-mgmt&amp;revision=2017-12-15</capability><capability>http://org/openroadm/tca?module=org-openroadm-tca&amp;revision=2017-12-15</capability><capability>http://org/openroadm/switching-pool-types?module=org-openroadm-switching-pool-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/resource?module=org-openroadm-resource&amp;revision=2017-12-15</capability><capability>http://org/openroadm/resource/types?module=org-openroadm-resource-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/probableCause?module=org-openroadm-probable-cause&amp;revision=2017-12-15</capability><capability>http://org/openroadm/port/types?module=org-openroadm-port-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/pm?module=org-openroadm-pm&amp;revision=2017-12-15</capability><capability>http://org/openroadm/pm/types?module=org-openroadm-pm-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/otn-common-types?module=org-openroadm-otn-common-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/manifest-file?module=org-openroadm-manifest-file&amp;revision=2017-12-15</capability><capability>http://org/openroadm/maintenance?module=org-openroadm-maintenance&amp;revision=2017-12-15</capability><capability>http://org/openroadm/layerRate?module=org-openroadm-layerRate&amp;revision=2017-12-15</capability><capability>http://org/openroadm/equipment/states/types?module=org-openroadm-equipment-states-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/common-types?module=org-openroadm-common-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/alarm?module=org-openroadm-alarm&amp;revision=2017-12-15</capability><capability>http://org/openroadm/database?module=org-openroadm-database&amp;revision=2017-12-15</capability><capability>http://org/openroadm/de/operations?module=org-openroadm-de-operations&amp;revision=2017-12-15</capability><capability>http://org/openroadm/device?module=org-openroadm-device&amp;revision=2017-12-15</capability><capability>http://org/openroadm/ethernet-interfaces?module=org-openroadm-ethernet-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/file-transfer?module=org-openroadm-file-transfer&amp;revision=2017-12-15</capability><capability>http://org/openroadm/fwdl?module=org-openroadm-fwdl&amp;revision=2017-12-15</capability><capability>http://org/openroadm/interfaces?module=org-openroadm-interfaces&amp;revision=2017-06-26</capability><capability>http://org/openroadm/lldp?module=org-openroadm-lldp&amp;revision=2017-12-15</capability><capability>http://org/openroadm/maintenance-loopback?module=org-openroadm-maintenance-loopback&amp;revision=2017-12-15</capability><capability>http://org/openroadm/maintenance-testsignal?module=org-openroadm-maintenance-testsignal&amp;revision=2017-12-15</capability><capability>http://org/openroadm/media-channel-interfaces?module=org-openroadm-media-channel-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/network-media-channel-interfaces?module=org-openroadm-network-media-channel-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/optical-channel-interfaces?module=org-openroadm-optical-channel-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/optical-transport-interfaces?module=org-openroadm-optical-transport-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/otn-common?module=org-openroadm-otn-common&amp;revision=2017-06-26</capability><capability>http://org/openroadm/otn-odu-interfaces?module=org-openroadm-otn-odu-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/otn-otu-interfaces?module=org-openroadm-otn-otu-interfaces&amp;revision=2017-12-15</capability><capability>http://org/openroadm/physical/types?module=org-openroadm-physical-types&amp;revision=2017-12-15</capability><capability>http://org/openroadm/pluggable-optics-holder-capability?module=org-openroadm-pluggable-optics-holder-capability&amp;revision=2017-12-15</capability><capability>http://org/openroadm/port-capability?module=org-openroadm-port-capability&amp;revision=2017-12-15</capability><capability>http://org/openroadm/prot/otn-linear-aps?module=org-openroadm-prot-otn-linear-aps&amp;revision=2017-12-15</capability><capability>http://org/openroadm/rstp?module=org-openroadm-rstp&amp;revision=2017-12-15</capability><capability>http://org/openroadm/de/swdl?module=org-openroadm-swdl&amp;revision=2017-12-15</capability><capability>http://org/openroadm/syslog?module=org-openroadm-syslog&amp;revision=2017-12-15</capability><capability>http://org/openroadm/wavelength-map?module=org-openroadm-wavelength-map&amp;revision=2017-12-15</capability><capability>urn:ietf:params:xml:ns:yang:iana-afn-safi?module=iana-afn-safi&amp;revision=2013-07-04</capability><override>false</override></yang-module-capabilities></node>
->>>>>>> lib/restconf_oper.robot
     ${resp}                Put Request    @{odl_sessions}[${CFG_SESSEION_INDEX}]   /node/${node}    data=${data}    headers=${put_headers}
     ${status_is_201}       Run Keyword And Return Status     Should Be Equal As Strings  ${resp.status_code}  201   msg=Failed to add config for mouting new device on ODL controller
 
@@ -390,19 +386,20 @@ Ensure Pm Statistics In the Same Bin During Testing Pm
     [Documentation]        Checks the mount status of junos device on ODL controller
     ...                    Fails if status is not connected
     ...                    Args:
-    ...                    | - odl_sessions : config/operational sessions to ODL controller
-    ...                    | - node : mount node in ODL
-    [Arguments]             ${odl_sessions}   ${node}   
-    Log             Retrieve ${node} Current System Time
-    ${urlhead}      Set Variable     org-openroadm-device:org-openroadm-device/info
-    ${resp}=        Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
-    check status line    ${resp}     200 
-    ${currentTime}=    get element text  ${resp.text}  current-datetime 
-    ${getmin}    Evaluate       '${currentTime}'.split(":")[1]   string
-    ${getmin}=   Convert To Integer  ${getmin} 
+    ...                    | - deviceName : device0 or device1
+    [Arguments]             ${deviceName}=device0  
+    # Log             Retrieve ${node} Current System Time
+    # ${urlhead}      Set Variable     org-openroadm-device:org-openroadm-device/info
+    # ${resp}=        Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
+    # check status line    ${resp}     200 
+    # ${currentTime}=    get element text  ${resp.text}  current-datetime 
+    # ${getmin}    Evaluate       '${currentTime}'.split(":")[1]   string
+    # ${getmin}=   Convert To Integer  ${getmin} 
+    ${getmin}=   Returns the given minute of current time   ${deviceName}
+    ${getmin}=   Convert To Integer  ${getmin}
     run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  120  AND  LOG  wait for 120s
     ...    ELSE    log   Continue to test   
-    [return]  ${getmin}  
+    [return]  ${getmin}
 
     
 Get Current All Pm Information On Target Resource
@@ -522,7 +519,7 @@ Get All Under Test Pm Entry
     \     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
     \     ...     ELSE    Log   no ignore pm statistics
 
-    
+
 Get All Current Special Pm Statistic
     [Documentation]        one by one to reterive under testing pm entries base on pm interval
     ...                    Args:
@@ -536,7 +533,7 @@ Get All Current Special Pm Statistic
     \     ${pmParameterUnit}=  Get Element  ${pmStat}   pmParameterUnit
     \     ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
     \     ${pmvalidity}=  Get Element  ${pmStat}          validity
-    \     Log many    ${pmGranularity.text}   ${pmParameterValue.text}
+    \     Log many    ${pmGranularity.text}    ${pmParameterValue.text} 
     \     Run keyword If  '${pmGranularity.text}' == '${pmInterval}'    Append To List   ${PmStatisList}   ${pmParameterValue.text}
 
 
@@ -553,12 +550,166 @@ Get Current Spefic Pm Statistic
     \    ${expmtype_ext}=  Get Element  ${udtPm}  extension
     \    ${pmlocation}=   Get Element  ${udtPm}   location
     \    ${pmdirection}=  Get Element  ${udtPm}   direction
-    \    Log many    ${pmtype.text}   ${expmtype_ext.text}   ${pmlocation.text}   ${pmdirection.text}
-    \     Get All Current Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
+    \    Log many    ${pmtype.text}    ${expmtype_ext.text}   ${pmlocation.text}   ${pmdirection.text}
+    \    Get All Current Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
     Log     ${PmStatisList} 
     [return]   ${PmStatisList}
 
 
+Get History All Pm Information On Target Resource
+    [Documentation]        Get Pm On Target, include port and interface(OCH,OTU4,ODU4)
+    ...                    Fails if doesn't exist this kind of resouce pm
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node : mount node in ODL
+    [Arguments]             ${targetResource}    ${resp_content}
+    
+    # &{payload}   create_dictionary   current-pm-list=${null}
+    # ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${payload}
+    # ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
+    ${root}=                 Parse XML    ${resp_content}
+    ${sflag}     set variable    False
+    @{hisPmRes}  Get Elements  ${root}  historical-pm-entry
+    Log  ${hisPmRes}
+
+    :FOR  ${pmRes}  IN  @{hisPmRes}
+    \   ${restype}=  Get Element  ${pmRes}  pm-resource-type
+    \   ${restype_ext}=  Get Element  ${pmRes}  pm-resource-type-extension
+    \   ${resinst}=  Get Element  ${pmRes}  pm-resource-instance
+    \   @{ret}     Split String      ${resinst.text}    name=
+    \   ${lastRes}     Get From List     ${ret}    -1
+    \   ${res}     Get Substring     ${lastRes}  0  -1
+    \   ${sflag}   Run Keyword If   ${res} == '${targetResource}'    set variable   True
+    \   ...        ELSE      set variable    False         
+    \   Run Keyword If  ${res} == '${targetResource}'    EXIT For Loop
+    log   ${sflag}
+    Run Keyword If  '${sflag}' != 'True'    FAIL    no any pm statistics on current ${targetResource}
+    log    ${pmRes}
+    [return]  ${pmRes}
+
+
+# Get All Under Test History Pm Entry
+#     [Documentation]        one by one to reterive all pm entries which be provide by testcase
+#     [Arguments]     ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater}
+#     ${pmtype}=  Get Element  ${pmEntry}  type
+#     ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+#     ${pmlocation}=   Get Element  ${pmEntry}   location
+#     ${pmdirection}=  Get Element  ${pmEntry}   direction
+#     :FOR  ${pm1Entry}  IN  @{Providedpmlist}
+#     \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
+#     \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
+#     \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
+#     \   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
+#     \   ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
+#     Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
+#     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
+#     ...     ELSE    Log   no ignore pm statistics
+# 
+# 
+# Get Histroy All Pm Entry On Target Resource
+#     [Documentation]        Get ALL special Pm On Target
+#     ...                    Fails if it doesn't exist special pm statistics on this resource
+#     ...                    Args:
+#     ...                    | - odl_sessions : config/operational sessions to ODL controller
+#     ...                    | - node :Under testing Device
+#     ...                    |  
+#     [Arguments]             ${targetResource}   ${resp_content}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
+#     ${sflag}     set variable    False
+#     @{testPmList}    Create list    
+#     @{OthersTestPmList}   Create list  
+#     ${underTestRes}=      Get History All Pm Information On Target Resource   ${targetResource}  ${resp_content}
+#     @{hisPmRes}  Get Elements  ${underTestRes}  historical-pm
+#     :FOR  ${pmEntry}  IN  @{hisPmRes}
+#     \     Get All Under Test History Pm Entry    ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater} 
+#     ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
+#     :FOR   ${pmitem}  IN  @${testPmList}
+#     \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
+#     log    ${testPmList}
+#     log    ${OthersTestPmList}
+#     Set Global variable    ${testPmList}
+#     Set Global variable    ${OthersTestPmList}
+Get history All Pm Entry On Target Resource
+    [Documentation]       Get ALL special histroy Pm On Target 
+    [Arguments]      ${targetResource}   ${resp_content}  ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
+    @{testPmList}    Create list    
+    @{OthersTestPmList}   Create list 
+    ${underTestRes}=      Get History All Pm Information On Target Resource   ${targetResource}  ${resp_content}
+    @{currentPmRes}  Get Elements  ${underTestRes}  historical-pm
+    :FOR  ${pm1Entry}  IN  @{Providedpmlist}
+    \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
+    \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
+    \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
+    \     set global variable   ${targetPmEntry}    
+    \     set global variable    ${tarPmLoc}  
+    \     set global variable    ${tarPmDirect} 
+    \     Get All Under Test history Pm Entry      ${currentPmRes}   ${testPmList}   ${OthersTestPmList}   ${ignorePmEntryParmater}
+    ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
+    :FOR   ${pmitem}  IN  @${testPmList}
+    \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
+    log    ${testPmList}
+    log    ${OthersTestPmList}
+    Set Global variable    ${testPmList}
+    Set Global variable    ${OthersTestPmList}
+
+
+Get All Under Test history Pm Entry
+    [Documentation]        one by one to reterive all pm entries which be provide by testcase
+    ...                    Fails if it doesn't exist special pm statistics on this resource
+    ...                    Args:
+    ...                    | - odl_sessions : config/operational sessions to ODL controller
+    ...                    | - node :Under testing Device
+    ...                    |  
+    [Arguments]           ${currentPmRes}   ${testPmList}   ${OthersTestPmList}   ${ignorePmEntryParmater}
+    :FOR  ${pmEntry}  IN  @{currentPmRes}
+    \     ${pmtype}=  Get Element  ${pmEntry}  type
+    \     ${expmtype_ext}=  Get Element  ${pmEntry}  extension
+    \     ${pmlocation}=   Get Element  ${pmEntry}   location
+    \     ${pmdirection}=  Get Element  ${pmEntry}   direction
+    \     Log many   ${pmtype.text}    ${expmtype_ext.text}    ${pmlocation.text}    ${pmdirection.text}
+    \     Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
+    \     ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
+    \     Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
+    \     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
+    \     ...     ELSE    Log   no ignore pm statistics
+    
+
+Get All History Special Pm Statistic
+    [Documentation]        one by one to reterive under testing pm entries base on pm interval
+    ...                    Args:
+    ...                    | - udtPm: under testing pm entry object
+    ...                    | - pmInterval :   under teting pm interval
+    ...                    | - PmStatisList :  store under testing pm statitics
+    [Arguments]     ${udtPm}    ${pmInterval}   ${PmStatisList}
+    @{currentPmStatis}  Get Elements  ${udtPm}  measurement
+    :FOR  ${pmStat}  IN  @{currentPmStatis}
+    \     ${pmGranularity}=  Get Element  ${pmStat}     granularity
+    \     ${pmParameterUnit}=  Get Element  ${pmStat}   pmParameterUnit
+    \     ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
+    \     ${pmvalidity}=  Get Element  ${pmStat}          validity
+    \     ${currbin}=  Get Element  ${pmStat}            bin-number
+    \     Log many    ${pmGranularity.text}    ${pmParameterValue.text} 
+    \     Run keyword If  '${pmGranularity.text}' == '${pmInterval}' and '${currbin.text}' == '1'     Append To List   ${PmStatisList}   ${pmParameterValue.text}
+
+
+Get History Spefic Pm Statistic
+    [Documentation]        Get History special Pm Statistics On Target
+    ...                    Fails if it doesn't exist special pm statistics on this resource
+    ...                    Args:
+    ...                    | - pmInterval :   under teting pm interval
+    [Arguments]               ${pmInterval}  
+    @{PmStatisList}    create list  
+    log   ${testPmList}
+    :FOR  ${udtPm}  IN  @{testPmList}
+    \    ${pmtype}=  Get Element  ${udtPm}  type
+    \    ${expmtype_ext}=  Get Element  ${udtPm}  extension
+    \    ${pmlocation}=   Get Element  ${udtPm}   location
+    \    ${pmdirection}=  Get Element  ${udtPm}   direction
+    \    Log many    ${pmtype.text}    ${expmtype_ext.text}   ${pmlocation.text}   ${pmdirection.text}
+    \    Get All History Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
+    Log     ${PmStatisList} 
+    [return]   ${PmStatisList}    
+    
+    
 Verify Pm Statistic 
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if given error expect value
@@ -568,13 +719,13 @@ Verify Pm Statistic
     ...                    | - operation :     expect verify result means 
     [Arguments]            ${expectValue}   ${realValue}    ${operation}
     ${len}=  Get Length    ${expectValue}
-    Run Keyword If         ${len}==1 and '${operation}'=='equal'    Verify Pm Should Be Equal   ${expectValue}     ${realValue}  
+    Run Keyword If         ${len}==1 and '${operation}'=='equal'    Verify Pm Should Be Equals   ${expectValue}     ${realValue}  
     ...         ELSE IF    ${len}==1 and '${operation}'=='increasing'    Verify Pm Should Be Increased   ${expectValue}     ${realValue}
     ...         ELSE IF    ${len}==2 and '${operation}'=='in-range'    Verify Pm Should Be In Range   ${expectValue}     ${realValue}   
     ...         ELSE       FAIL    Please check correct expect Vaule
 
 
-Verify Pm Should Be Equal
+Verify Pm Should Be Equals
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if real value is not the same as expect value
     [Arguments]            ${expectValue}   ${realValue}

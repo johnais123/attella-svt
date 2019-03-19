@@ -43,6 +43,7 @@ Power cycle
     \       Sleep  10
     \       ${result}=   powersv.set Outlet Ctrl State   ${Outlet_id}   ${Outlet_Status_ON}  
     powersv.close
+
     
 Reconnect Device And Verification reboot successful 
     [Documentation]   Perform power cycle via software
@@ -67,6 +68,21 @@ Reconnect Device And Verification reboot successful
     Run Keyword if   '${hours}'== '00' and ${mintus} < 5    log  reload successful   ELSE   Fail   reboot time excess 5 min
     # 02:32:04
 
+    
+Returns the given minute of current time
+    [Documentation]   Returns the given minute of current time
+    ...                    Args:
+    ...                    |- node : device0 or device1
+    [Arguments]      ${node} 
+    ${r0} =     Get Handle      resource=${node}
+    ${sDatestring}=    Execute shell command on device     device=${r0}       command=date
+    # ${sDate}   set variable     Mon Mar 18 01:50:07 UTC 2019
+    ${sTime} =     Evaluate   '${sDatestring}'.split(" ")[3]     string
+    ${sMin} =     Evaluate   '${sDatestring}'.split(":")[1]     string
+    log     ${sMin}
+    [return]  ${sMin}
+
+    
 Get Ethernet Intface Name From Client Intface
     [Documentation]        Get Ethernet Intface Name From Client Intface
     ...                    Args:
