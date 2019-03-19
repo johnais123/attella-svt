@@ -1371,20 +1371,20 @@ TC23
 
 
 TC24
-  [Documentation]  After Attella system warm reload,the ODU-AIS alarm still ca be raised.
+  [Documentation]  After Attella system cold reload,the ODU-AIS alarm still ca be raised.
   [Tags]           tc24 
 
    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
    Verify Interfaces In Traffic Chain Are Alarm Free	
    
-   Log             Injecting ODU4 AIS alarm from tester
-   Start Inject Alarm On Test Equipment   ${testSetHandle1}   ALARM_OTU4_ODU4_AIS
+    Log             Injecting ODU4 AIS alarm from tester
+    Start Inject Alarm On Test Equipment   ${testSetHandle1}   ALARM_OTU4_ODU4_AIS
    
-   Log              Verify AIS alarm raise on local ODU4 interface    
+    Log              Verify AIS alarm raise on local ODU4 interface    
 	@{expectedAlarms}  Create List   ODU Alarm Indication Signal
 	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
 	
-   Log              Wait a random time to keep the alarm stable on Attella    
+    Log              Wait a random time to keep the alarm stable on Attella    
 	${random}=  Evaluate  random.randint(1, 60)  modules=random
 	Sleep  ${random}
 	@{expectedAlarms}  Create List  ODU Alarm Indication Signal
@@ -1402,8 +1402,8 @@ TC24
    Sleep  ${random}       
        
    Log              Verify OTU4/ODU4 operation status on local are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}         ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}     ${OPER_STATUS_OFF}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}         ${OPER_STATUS_ON}
+   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}     ${OPER_STATUS_ON}
    
 
    Log              Verify OTU4/ODU4 operation status on remote are inService
