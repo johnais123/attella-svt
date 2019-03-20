@@ -284,108 +284,108 @@ TC4
 
 
 
-#TC5
-#   [Documentation]  Test IAE alarm raised/clear on OTU4 client port     
-#   [Tags]           tc5
+TC5
+   [Documentation]  Test IAE alarm raised/clear on OTU4 client port     
+   [Tags]           tc5
 
 
-#   Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
-#   Verify Interfaces In Traffic Chain Are Alarm Free	
-    
-#   Log             Injecting OTU4 IAE alarm from tester
-#   Start Inject Alarm On Test Equipment   ${testSetHandle1}  ALARM_OTU4_OTU4_IAE
-    
-#   Log              Verify IAE alarm raise on local OTU4 interface    
-#	@{expectedAlarms}  Create List   Incoming Alignment Error
-#	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+   Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
+   Verify Interfaces In Traffic Chain Are Alarm Free	
+   
+   Log             Injecting OTU4 IAE alarm from tester
+   Start Inject Alarm On Test Equipment   ${testSetHandle1}  ALARM_OTU4_OTU4_IAE
+   
+   Log              Verify IAE alarm raise on local OTU4 interface    
+	@{expectedAlarms}  Create List   Incoming Alignment Error
+	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
 
 
-#   Log              Wait a random time to keep the alarm stable on Attella    
-#	${random}=  Evaluate  random.randint(1, 60)  modules=random
-#	Sleep  ${random}
-#	@{expectedAlarms}  Create List  Incoming Alignment Error
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}
-    
-#    Log             Verify the local OTU4/ODU4 interface operation status are outOfService, and ODU4 interface is alarm free
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${OPER_STATUS_ON}
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${EMPTY LIST}
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
+   Log              Wait a random time to keep the alarm stable on Attella    
+	${random}=  Evaluate  random.randint(1, 60)  modules=random
+	Sleep  ${random}
+	@{expectedAlarms}  Create List  Incoming Alignment Error
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}
+   
+    Log             Verify the local OTU4/ODU4 interface operation status are outOfService, and ODU4 interface is alarm free
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${OPER_STATUS_ON}
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${EMPTY LIST}
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
 
-#    Log             Verify the remote OTU4/ODU4 interface are alarm free and the operation status are inService
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${EMPTY LIST}
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${EMPTY LIST}
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${OPER_STATUS_ON}
+    Log             Verify the remote OTU4/ODU4 interface are alarm free and the operation status are inService
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${EMPTY LIST}
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${EMPTY LIST}
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${OPER_STATUS_ON}
 
-#    Log             Stop injecting OTU4 IAE alarm from tester, verify the IAE alarm is clear
-#    Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_IAE
-#    Log To Console  Verify Alarms
-#	 Wait Until Interfaces In Traffic Chain Are Alarm Free
+    Log             Stop injecting OTU4 IAE alarm from tester, verify the IAE alarm is clear
+    Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_IAE
+    Log To Console  Verify Alarms
+	 Wait Until Interfaces In Traffic Chain Are Alarm Free
 
-#    Log             Wait a random time to keep the alarm clear on Attella
-#	${random}=  Evaluate  random.randint(1, 60)  modules=random
-#	Sleep  ${random}
-#	Verify Interfaces In Traffic Chain Are Alarm Free
-    
-#    Log             Verify the OTU4 interface status is inService
-#	Verify Client Interfaces In Traffic Chain Are Up
+    Log             Wait a random time to keep the alarm clear on Attella
+	${random}=  Evaluate  random.randint(1, 60)  modules=random
+	Sleep  ${random}
+	Verify Interfaces In Traffic Chain Are Alarm Free
+   
+    Log             Verify the OTU4 interface status is inService
+	Verify Client Interfaces In Traffic Chain Are Up
 	
-#	Log             Verify Traffic Is OK
-#	Verify Traffic Is OK
+	Log             Verify Traffic Is OK
+	Verify Traffic Is OK
 	
-#   [Teardown]   Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_IAE
+   [Teardown]   Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_OTU4_IAE
 
 
 
-#TC6
-#    [Documentation]  Test BIAE alarm raised/clear on OTU4 client port     
-#    [Tags]           tc6
-#
-#
-#    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
-#    Verify Interfaces In Traffic Chain Are Alarm Free	
-#   
-#    Log             Injecting OTU4 BIAE alarm from tester
-#    Start Inject Alarm On Test Equipment   ${testSetHandle1}  ALARM_OTU4_OTU4_BIAE
-#   
-#    Log              Verify BIAE alarm raise on local OTU4 interface    
-#	@{expectedAlarms}  Create List   Backward Incoming Alignment Error
-#	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+TC6
+    [Documentation]  Test BIAE alarm raised/clear on OTU4 client port     
+    [Tags]           tc6
 
-#    Log              Wait a random time to keep the alarm stable on Attella    
-#	${random}=  Evaluate  random.randint(1, 60)  modules=random
-#	Sleep  ${random}
-#	@{expectedAlarms}  Create List  Backward Incoming Alignment Error
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}
-#   
-#    Log             Verify the local OTU4/ODU4 interface operation status are inService, and ODU4 interface is alarm free
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${OPER_STATUS_ON}
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${EMPTY LIST}
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
-#
-#    Log             Verify the remote otu4/odu4 interface are alarm free and the operation status are inService
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${EMPTY LIST}
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
-#	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${EMPTY LIST}
-#	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${OPER_STATUS_ON}
-#
-#    Log             Stop injecting otu4 IAE alarm from tester, verify the IAE alarm is clear
-#    Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_BIAE
-#    Log To Console  Verify Alarms
-#	 Wait Until Interfaces In Traffic Chain Are Alarm Free
 
-#    Log            Wait a random time to keep the alarm clear on Attella
-#	${random}=  Evaluate  random.randint(1, 60)  modules=random
-#	Sleep  ${random}
-#	Verify Interfaces In Traffic Chain Are Alarm Free
-#   
-#    Log             Verify the OTU4 interface status is inService
-#	Verify Client Interfaces In Traffic Chain Are Up
-#	
-#	Log             Verify Traffic Is OK
-#	Verify Traffic Is OK
-#	
-#    [Teardown]    Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_BIAE
+    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
+    Verify Interfaces In Traffic Chain Are Alarm Free	
+   
+    Log             Injecting OTU4 BIAE alarm from tester
+    Start Inject Alarm On Test Equipment   ${testSetHandle1}  ALARM_OTU4_OTU4_BIAE
+   
+    Log              Verify BIAE alarm raise on local OTU4 interface    
+	@{expectedAlarms}  Create List   Backward Incoming Alignment Error
+	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+
+    Log              Wait a random time to keep the alarm stable on Attella    
+	${random}=  Evaluate  random.randint(1, 60)  modules=random
+	Sleep  ${random}
+	@{expectedAlarms}  Create List  Backward Incoming Alignment Error
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}
+   
+    Log             Verify the local OTU4/ODU4 interface operation status are inService, and ODU4 interface is alarm free
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${OPER_STATUS_ON}
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${EMPTY LIST}
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
+
+    Log             Verify the remote otu4/odu4 interface are alarm free and the operation status are inService
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${EMPTY LIST}
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
+	Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${EMPTY LIST}
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}  ${OPER_STATUS_ON}
+
+    Log             Stop injecting otu4 IAE alarm from tester, verify the IAE alarm is clear
+    Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_BIAE
+    Log To Console  Verify Alarms
+	 Wait Until Interfaces In Traffic Chain Are Alarm Free
+
+    Log            Wait a random time to keep the alarm clear on Attella
+	${random}=  Evaluate  random.randint(1, 60)  modules=random
+	Sleep  ${random}
+	Verify Interfaces In Traffic Chain Are Alarm Free
+   
+    Log             Verify the OTU4 interface status is inService
+	Verify Client Interfaces In Traffic Chain Are Up
+	
+	Log             Verify Traffic Is OK
+	Verify Traffic Is OK
+	
+    [Teardown]    Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_OTU4_BIAE
 
 
 TC7
