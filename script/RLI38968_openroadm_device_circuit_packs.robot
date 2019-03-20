@@ -80,7 +80,7 @@ TC2
     &{cp-port1}      create dictionary    slot-name-cp=slot-0/0        label-cp=0          slot-type=other
     &{cp-port2}      create dictionary    slot-name-cp=slot-0/1        label-cp=1          slot-type=other
     @{fpc_cport_info}    create list    ${cp-port1}   ${cp-port2}
-    &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
+    &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${tv['uv-attella_def_circuit_pack_model']}
     ...                 operational-state-cp=${tv['uv-attella_def_operational_state2']}                  type-cp=FPC                                vendor-cp=${tv['uv-attella_def_vendor']}
     ...              serial-id-cp=${ATTELLA_DEF_FPC_SERIAL_ID.text}    software-load-version=${osVersion.text}            type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     ...              cp-slots=${fpc_cport_info}
@@ -120,7 +120,7 @@ TC4
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
-    \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}
+    \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${tv['uv-attella_def_fan_product_code']}
     \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state2']}
     \                @{Fan_info}      create list    ${Fan0_info}
     \                &{static_info}   create dictionary       circuit-packs=${Fan_info}
@@ -188,7 +188,7 @@ TC8
     \                @{client-type}              create list            ${supported-client}
     \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}                 slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
     \                @{pic0_cport_info}          create list            ${cp-port}
-    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}     model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
+    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}      model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
     \                ...                              operational-state-cp=${tv['uv-attella_def_operational_state2']}               type-cp=PIC
     \                ...                         software-load-version=${osVersion.text}                      type-cp-category=${tv['uv-attella_def_circuit_pack_category']}                    
     \                ...                         cp-slots=${pic0_cport_info}
@@ -228,7 +228,7 @@ TC10
     \                @{line-type}               create list           ${supported-line}
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
-    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${ATTELLA_DEF_FPC_PRODUCT_CODE.text}   model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
+    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
     \                ...                            operational-state-cp=${tv['uv-attella_def_operational_state2']}                type-cp=PIC
     \                ...                        software-load-version=${osVersion.text}                               type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
@@ -333,12 +333,12 @@ TC16
     [Documentation]  This test case mapping to 5.7-1 in JTMS for RLI-38968
     [Tags]           Sanity  TC16   Get-and-Verify-SN-Number-for-CFP2DCO
     Log              Configure circuit-pack-name via Restconf Patch method, then verify the SN number is right for this CFP2DCO module.
-    &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=qsfp28-port                port-qual=xpdr-client            circuit-id=Client-QSFP28     administrative-state=inService    logical-connection-point=foo
+    &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=cfp2dco-port                port-qual=xpdr-network            circuit-id=CFP2DCO     administrative-state=inService    logical-connection-point=foo
     @{ctransclist}     create list             ${ctransc}
     &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/1/${CFP2_INDEX}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
     ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=NON-JNPR
     ...                circuit-pack-mode=NORMAL              subSlot=slot-0/1/${CFP2_INDEX}     is-pluggable-optics=true    due-date-cp=${tv['uv-valid_due_date']}
-    ...                circuit-pack-name-parent=${tv['uv-attella_def_pic0_name']}             cp-slot-name=slot-0/1/${CFP2_INDEX}    ports=${ctransclist}
+    ...                circuit-pack-name-parent=${tv['uv-attella_def_pic1_name']}             cp-slot-name=slot-0/1/${CFP2_INDEX}    ports=${ctransclist}
     @{ctransc_info}    create list             ${ctransckey}
     &{dev_info}        create dictionary       circuit-packs=${ctransc_info}
     &{payload}         create dictionary       org-openroadm-device=${dev_info}
