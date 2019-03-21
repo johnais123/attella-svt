@@ -1336,11 +1336,11 @@ Test Bed Init
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  qpsk
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  qpsk
-    
-    Verify Client Interfaces In Traffic Chain Are Up
-    
+
     Wait Until Interfaces In Traffic Chain Are Alarm Free
-    
+
+    Verify Client Interfaces In Traffic Chain Are Up
+
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
