@@ -269,11 +269,14 @@ RPC Create Tech Info
     
 RPC Clear Pm Statistics
     [Documentation]   Command to initialize PM data
-    [Arguments]    ${odl_sessions}   ${node}    ${pmtype}    ${pmInter}=15min
+    [Arguments]    ${odl_sessions}   ${node}    ${pmtype}=all    ${pmInter}=notApplicable
     ${urlhead}   set variable    org-openroadm-pm:clear-pm
     ${data}      set variable   <input xmlns="http://org/openroadm/pm"><pm-type>${pmtype}</pm-type><granularity>${pmInter}</granularity></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     check status line    ${resp}     200 
+    ${elem} =  get element text  ${resp.text}    status
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     
 
 RPC Collect Historical Pm
@@ -387,7 +390,7 @@ Ensure Pm Statistics In the Same Bin During Testing Pm
     ...                    Fails if status is not connected
     ...                    Args:
     ...                    | - deviceName : device0 or device1
-    [Arguments]             ${deviceName}=device0  
+    [Arguments]             ${odl_sessions}    ${node}      ${pmtype}=all    ${pmInter}=notApplicable    ${deviceName}=device0  
     # Log             Retrieve ${node} Current System Time
     # ${urlhead}      Set Variable     org-openroadm-device:org-openroadm-device/info
     # ${resp}=        Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
@@ -399,8 +402,8 @@ Ensure Pm Statistics In the Same Bin During Testing Pm
     ${getmin}=   Convert To Integer  ${getmin}
     run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  120  AND  LOG  wait for 120s
     ...    ELSE    log   Continue to test   
+    RPC Clear Pm Statistics   ${odl_sessions}   ${node}  
     [return]  ${getmin}
-
     
 Get Current All Pm Information On Target Resource
     [Documentation]        Get Pm On Target, include port and interface(OCH,OTU4,ODU4)
@@ -434,47 +437,6 @@ Get Current All Pm Information On Target Resource
     [return]  ${pmRes}
 
 
-# Get All Under Test Pm Entry
-#     [Documentation]        one by one to reterive all pm entries which be provide by testcase
-#     [Arguments]     ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater}
-#     ${pmtype}=  Get Element  ${pmEntry}  type
-#     ${expmtype_ext}=  Get Element  ${pmEntry}  extension
-#     ${pmlocation}=   Get Element  ${pmEntry}   location
-#     ${pmdirection}=  Get Element  ${pmEntry}   direction
-#     :FOR  ${pm1Entry}  IN  @{Providedpmlist}
-#     \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
-#     \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
-#     \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
-#     \   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
-#     \   ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
-#     Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
-#     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
-#     ...     ELSE    Log   no ignore pm statistics
-# 
-# 
-# Get Current All Pm Entry On Target Resource
-#     [Documentation]        Get ALL special Pm On Target
-#     ...                    Fails if it doesn't exist special pm statistics on this resource
-#     ...                    Args:
-#     ...                    | - odl_sessions : config/operational sessions to ODL controller
-#     ...                    | - node :Under testing Device
-#     ...                    |  
-#     [Arguments]             ${odl_sessions}  ${node}   ${targetResource}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
-#     ${sflag}     set variable    False
-#     @{testPmList}    Create list    
-#     @{OthersTestPmList}   Create list  
-#     ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
-#     @{currentPmRes}  Get Elements  ${underTestRes}  current-pm
-#     :FOR  ${pmEntry}  IN  @{currentPmRes}
-#     \     Get All Under Test Pm Entry    ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater} 
-#     ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
-#     :FOR   ${pmitem}  IN  @${testPmList}
-#     \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
-#     log    ${testPmList}
-#     log    ${OthersTestPmList}
-#     Set Global variable    ${testPmList}
-#     Set Global variable    ${OthersTestPmList}
-
 Get Current All Pm Entry On Target Resource
     [Documentation]       Get ALL special Pm On Target 
     [Arguments]   ${odl_sessions}    ${node}   ${targetResource}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
@@ -482,6 +444,10 @@ Get Current All Pm Entry On Target Resource
     @{OthersTestPmList}   Create list 
     ${underTestRes}=      Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
     @{currentPmRes}  Get Elements  ${underTestRes}  current-pm 
+    ${lenPmRes}=   Get length     ${currentPmRes}
+    ${underTestRes1}=       Run keyword if     ${lenPmRes}==0    Get Current All Pm Information On Target Resource    ${odl_sessions}   ${node}   ${targetResource} 
+    ...                              ELSE     set variable    ${underTestRes}
+    @{currentPmRes}  Get Elements  ${underTestRes1}  current-pm
     :FOR  ${pm1Entry}  IN  @{Providedpmlist}
     \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
     \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
@@ -542,7 +508,8 @@ Get Current Spefic Pm Statistic
     ...                    Fails if it doesn't exist special pm statistics on this resource
     ...                    Args:
     ...                    | - pmInterval :   under teting pm interval
-    [Arguments]               ${pmInterval}  
+    [Arguments]               ${odl_sessions}    ${node}   ${targetResource}   ${Providedpmlist}    ${pmInterval}   ${ignorePmEntryParmater}=${ignorePmList}
+    Get Current All Pm Entry On Target Resource    ${odl_sessions}    ${node}   ${targetResource}   ${Providedpmlist}    ${ignorePmEntryParmater}
     @{PmStatisList}    create list  
     log   ${testPmList}
     :FOR  ${udtPm}  IN  @{testPmList}
@@ -563,10 +530,7 @@ Get History All Pm Information On Target Resource
     ...                    | - odl_sessions : config/operational sessions to ODL controller
     ...                    | - node : mount node in ODL
     [Arguments]             ${targetResource}    ${resp_content}
-    
-    # &{payload}   create_dictionary   current-pm-list=${null}
-    # ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${payload}
-    # ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
+
     ${root}=                 Parse XML    ${resp_content}
     ${sflag}     set variable    False
     @{hisPmRes}  Get Elements  ${root}  historical-pm-entry
@@ -588,46 +552,6 @@ Get History All Pm Information On Target Resource
     [return]  ${pmRes}
 
 
-# Get All Under Test History Pm Entry
-#     [Documentation]        one by one to reterive all pm entries which be provide by testcase
-#     [Arguments]     ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater}
-#     ${pmtype}=  Get Element  ${pmEntry}  type
-#     ${expmtype_ext}=  Get Element  ${pmEntry}  extension
-#     ${pmlocation}=   Get Element  ${pmEntry}   location
-#     ${pmdirection}=  Get Element  ${pmEntry}   direction
-#     :FOR  ${pm1Entry}  IN  @{Providedpmlist}
-#     \     ${targetPmEntry}=   Get From List   ${pm1Entry}  0
-#     \     ${tarPmLoc}=     Get From List   ${pm1Entry}   1
-#     \     ${tarPmDirect}=   Get From List   ${pm1Entry}   2
-#     \   Run Keyword If    ('${pmtype.text}' == '${targetPmEntry}' or '${expmtype_ext.text}' == '${targetPmEntry}') and '${pmlocation.text}' == '${tarPmLoc}' and '${pmdirection.text}' == '${tarPmDirect}'   Append To List  ${testPmList}   ${pmEntry}
-#     \   ...        ELSE      Append To List  ${OthersTestPmList}   ${pmEntry} 
-#     Log many  @{ignorePmEntryParmater}[0]     @{ignorePmEntryParmater}[1]    @{ignorePmEntryParmater}[2] 
-#     Run Keyword If  ('${pmtype.text}' == '@{ignorePmEntryParmater}[0]' or '${expmtype_ext.text}' == '@{ignorePmEntryParmater}[0]') and '${pmlocation.text}' == '@{ignorePmEntryParmater}[1]' and '${pmdirection.text}' == '@{ignorePmEntryParmater}[2]'    Remove Values From List  ${OthersTestPmList}   ${pmEntry}
-#     ...     ELSE    Log   no ignore pm statistics
-# 
-# 
-# Get Histroy All Pm Entry On Target Resource
-#     [Documentation]        Get ALL special Pm On Target
-#     ...                    Fails if it doesn't exist special pm statistics on this resource
-#     ...                    Args:
-#     ...                    | - odl_sessions : config/operational sessions to ODL controller
-#     ...                    | - node :Under testing Device
-#     ...                    |  
-#     [Arguments]             ${targetResource}   ${resp_content}   ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
-#     ${sflag}     set variable    False
-#     @{testPmList}    Create list    
-#     @{OthersTestPmList}   Create list  
-#     ${underTestRes}=      Get History All Pm Information On Target Resource   ${targetResource}  ${resp_content}
-#     @{hisPmRes}  Get Elements  ${underTestRes}  historical-pm
-#     :FOR  ${pmEntry}  IN  @{hisPmRes}
-#     \     Get All Under Test History Pm Entry    ${pmEntry}    ${Providedpmlist}  ${OthersTestPmList}   ${testPmList}   ${ignorePmEntryParmater} 
-#     ${OthersTestPmList}=    Remove Duplicates    ${OthersTestPmList}
-#     :FOR   ${pmitem}  IN  @${testPmList}
-#     \      Remove Values From List  ${OthersTestPmList}   @{testPmList}
-#     log    ${testPmList}
-#     log    ${OthersTestPmList}
-#     Set Global variable    ${testPmList}
-#     Set Global variable    ${OthersTestPmList}
 Get history All Pm Entry On Target Resource
     [Documentation]       Get ALL special histroy Pm On Target 
     [Arguments]      ${targetResource}   ${resp_content}  ${Providedpmlist}   ${ignorePmEntryParmater}=${ignorePmList}
@@ -679,7 +603,7 @@ Get All History Special Pm Statistic
     ...                    | - udtPm: under testing pm entry object
     ...                    | - pmInterval :   under teting pm interval
     ...                    | - PmStatisList :  store under testing pm statitics
-    [Arguments]     ${udtPm}    ${pmInterval}   ${PmStatisList}
+    [Arguments]      ${udtPm}    ${pmInterval}   ${PmStatisList}
     @{currentPmStatis}  Get Elements  ${udtPm}  measurement
     :FOR  ${pmStat}  IN  @{currentPmStatis}
     \     ${pmGranularity}=  Get Element  ${pmStat}     granularity
@@ -687,7 +611,7 @@ Get All History Special Pm Statistic
     \     ${pmParameterValue}=  Get Element  ${pmStat}  pmParameterValue
     \     ${pmvalidity}=  Get Element  ${pmStat}          validity
     \     ${currbin}=  Get Element  ${pmStat}            bin-number
-    \     Log many    ${pmGranularity.text}    ${pmParameterValue.text} 
+    \     Log many    ${pmGranularity.text}    ${pmParameterValue.text}    ${currbin.text}
     \     Run keyword If  '${pmGranularity.text}' == '${pmInterval}' and '${currbin.text}' == '1'     Append To List   ${PmStatisList}   ${pmParameterValue.text}
 
 
@@ -696,8 +620,9 @@ Get History Spefic Pm Statistic
     ...                    Fails if it doesn't exist special pm statistics on this resource
     ...                    Args:
     ...                    | - pmInterval :   under teting pm interval
-    [Arguments]               ${pmInterval}  
+    [Arguments]              ${targetResource}   ${resp_content}  ${Providedpmlist}    ${pmInterval}   ${ignorePmEntryParmater}=${ignorePmList}
     @{PmStatisList}    create list  
+    Get history All Pm Entry On Target Resource    ${targetResource}   ${resp_content}  ${Providedpmlist}   ${ignorePmEntryParmater}
     log   ${testPmList}
     :FOR  ${udtPm}  IN  @{testPmList}
     \    ${pmtype}=  Get Element  ${udtPm}  type
@@ -707,9 +632,9 @@ Get History Spefic Pm Statistic
     \    Log many    ${pmtype.text}    ${expmtype_ext.text}   ${pmlocation.text}   ${pmdirection.text}
     \    Get All History Special Pm Statistic  ${udtPm}   ${pmInterval}   ${PmStatisList}
     Log     ${PmStatisList} 
-    [return]   ${PmStatisList}    
-    
-    
+    [return]   ${PmStatisList}
+
+
 Verify Pm Statistic 
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if given error expect value
