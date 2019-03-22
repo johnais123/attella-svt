@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     This is Attella interface Scripts
+Documentation     This is Attella info Scripts
 ...              Description  : RLI-38968: OpenROADM Device Data Model for 800G transparent transponder targeting Metro/DCI applications
 ...              Author : liuliuli@juniper.net
 ...              Date   : N/A
@@ -36,7 +36,6 @@ Library         BuiltIn
 Library         String
 Library         Collections
 Library         OperatingSystem
-Library         String
 Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Resource        ../lib/restconf_oper.robot
@@ -67,14 +66,35 @@ ${INVALID_ATTELLA_DEF_INFO_IPADDRESS}  255.255.255
 ## end of variables of limitation test## 
 
 @{auth}    admin    admin
-${interval}  120
-${timeout}  120
+${interval}  10
+${timeout}   300
 
 *** Test Cases ***     
+Set-all-info
+    [Documentation]  Setting for org-openroadm-device all info leaves
+    ...              RLI38968 5.1-1
+    [Tags]           Sanity   tc1   tests
+    Log           Configure default Gateway via Restconf Patch method
+    ${random-int}    Evaluate    random.randint(0,128)     random 
+    ${grandom-length} =   convert To String     ${random-int}
+    Set Suite Variable     ${grandom-length}
+    ${random-float}   evaluate    random.randint(-89,89) + random.random()    random 
+    ${random-latit}       evaluate    '%.16f'%(${random-float})       string 
+    ${random-float2}   evaluate    random.randint(-179,179) + random.random()    random    
+    ${random-longitu}   evaluate    '%.16f'%(${random-float2})       string 
+    ${NodeNb}      Convert to string     ${tv['uv-attella_def_info_node_number']}
+    ${prefix_length}      Convert to string     ${tv['uv-attella_def_info_prefix_length']}
+    ${Template-name}     Evaluate     "".join(random.sample(string.ascii_letters, random.randint(1,10)))      random,string
+    &{dev_info}   create dictionary    node-id=${tv['uv-attella_def_info_node_id']}   node-number=${NodeNb}   defaultGateway=${tv['uv-attella_def_info_defaultgateway']}
+    ...  node-type=${tv['uv-attella_def_info_node_type']}   clli=${tv['uv-attella_def_info_clli']}   ipAddress=${tv['device0__re0__mgt-ip']}   prefix-length=${prefix_length}
+    ...  latitude=${random-latit}      longitude=${random-longitu}   template=${Template-name}.json
+    &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${payload}  
+
 Node-id
     [Documentation]  Setting for org-openroadm-device/info/node-id
-    ...              RLI38968 5.1-1
-    [Tags]           Sanity   tc1  
+    ...              RLI38968 5.1-2
+    [Tags]           Sanity   tc2  
     Log           Configure node-id via Restconf Patch method
     &{dev_info}   create dictionary   node-id=${tv['uv-attella_def_info_node_id']}
     &{payload}    create dictionary   org-openroadm-device=${dev_info}
@@ -83,8 +103,8 @@ Node-id
     
 Invalid-Node-id
     [Documentation]  Reject wrong node-id info via openRoadm 
-    ...              RLI38968 5.1-2
-    [Tags]           Negative   tc2  limitation
+    ...              RLI38968 5.1-3
+    [Tags]           Negative   tc3  limitation
     Log           Configure node-id via Restconf Patch method
     &{dev_info}   create dictionary   node-id=${INVALID_ATTELLA_DEF_INFO_NODE_ID}
     &{payload}    create dictionary   org-openroadm-device=${dev_info}
@@ -94,8 +114,8 @@ Invalid-Node-id
     
 Node-number
     [Documentation]  Setting for org-openroadm-device/info/node-number
-    ...              RLI38968 5.1-3
-    [Tags]           Sanity   tc3
+    ...              RLI38968 5.1-4
+    [Tags]           Sanity   tc4
     Log           Configure node-number via Restconf Patch method
     ${NodeNb}      Convert to string     ${tv['uv-attella_def_info_node_number']}
     &{dev_info}   create dictionary   node-number=${NodeNb}
@@ -105,8 +125,8 @@ Node-number
     
 Invalid-Node-number
     [Documentation]  Reject wrong node-number info via openRoadm
-    ...              RLI38968 5.1-4
-    [Tags]           Negative  tc4  limitation
+    ...              RLI38968 5.1-5
+    [Tags]           Negative  tc5  limitation
     Log           Configure node-number via Restconf Patch method
     &{dev_info}   create dictionary   node-number=${INVALID_ATTELLA_DEF_INFO_NODE_NUMBER}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -116,8 +136,8 @@ Invalid-Node-number
     
 Node-type
     [Documentation]  Setting for org-openroadm-device/info/node-type
-    ...              RLI38968 5.1-5
-    [Tags]           Sanity   tc5
+    ...              RLI38968 5.1-6
+    [Tags]           Sanity   tc6
     Log          Configure node-type via Restconf Patch method
     &{dev_info}   create dictionary   node-type=${tv['uv-attella_def_info_node_type']}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -126,8 +146,8 @@ Node-type
     
 Invalid-Node-type
     [Documentation]  Reject wrong node-type info via openRoadm 
-    ...              RLI38968 5.1-6
-    [Tags]           Negative   tc6   limitation
+    ...              RLI38968 5.1-7
+    [Tags]           Negative   tc7   limitation
     Log          Configure node-type via Restconf Patch method
     &{dev_info}   create dictionary   node-type= ${INVALID_ATTELLA_DEF_INFO_NODE_TYPE}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -137,8 +157,8 @@ Invalid-Node-type
     
 Clli
     [Documentation]  Setting for org-openroadm-device/info/clli
-    ...              RLI38968 5.1-7
-    [Tags]           Sanity   tc7
+    ...              RLI38968 5.1-8
+    [Tags]           Sanity   tc8
     Log          Configure clli via Restconf Patch method
     &{dev_info}   create dictionary    clli=${tv['uv-attella_def_info_clli']}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -148,7 +168,7 @@ Clli
 Get-all-info-leaf
     [Documentation]  Verify can retrieve all readonly info leave
     ...              RLI38968 5.1-8 5.1-9 5.1-10 5.1-17 5.1-18 5.1-19 5.1-20 5.1-21 5.1-22 5.1-23
-    [Tags]           Sanity   tc8 
+    [Tags]           Sanity   tc9 
     Log             Fetching all readonly info leave via Restconf GET method
     &{dev_info}   create dictionary   vendor-info=${tv['uv-attella_def_info_vendor']}   model-info=${tv['uv-attella_def_info_model']} 
     ...   serial-id-info=${serNu_info}  source=static   current-ipAddress=${tv['device0__re0__mgt-ip']}   
@@ -161,20 +181,21 @@ Get-all-info-leaf
     Send Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${netconfParams}
     
     
-Set-IP-Address
-    [Documentation]  Setting for org-openroadm-device/info/ipAddress
-    ...              RLI38968 5.1-11
-    [Tags]           Sanity   tc9
+Set-IP-Address-leaves
+    [Documentation]  Setting for org-openroadm-device/info/ipAddress relate leaves
+    ...              RLI38968 5.1-10
+    [Tags]           Sanity   tc10
     Log           Configure ip Address via Restconf Patch method
-    &{dev_info}   create dictionary   ipAddress=${tv['uv-attella_def_info_ipaddress']}
+    ${prefix_length}      Convert to string     ${tv['uv-attella_def_info_prefix_length']}
+    &{dev_info}   create dictionary   ipAddress=${tv['device0__re0__mgt-ip']}   prefix-length=${prefix_length}  defaultGateway=${tv['uv-attella_def_info_defaultgateway']}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${payload}
 
 
 Invalid-IP-Address
     [Documentation]  Reject wrong ipAddress via openRoadm
-    ...              RLI38968 5.1-12
-    [Tags]           Negative   tc10   limitation
+    ...              RLI38968 5.1-11
+    [Tags]           Negative   tc11   limitation
     Log           Configure ip Address via Restconf Patch method
     &{dev_info}   create dictionary   ipAddress=${INVALID_ATTELLA_DEF_INFO_IPADDRESS}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -182,21 +203,9 @@ Invalid-IP-Address
     check status line    ${resp}     400
 
 
-Prefix-length
-    [Documentation]  Setting for org-openroadm-device/info/prefix-length
-    ...              RLI38968 5.1-13
-    [Tags]           Sanity   tc11
-    Log           Configure prefix-length via Restconf Patch method
-    ${random-int}    Evaluate    random.randint(0,128)     random 
-    ${random-length} =   convert To String     ${random-int}
-    &{dev_info}   create dictionary     prefix-length=${random-length}
-    &{payload}    create dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${payload}
-
-
 InvalidPrelength
     [Documentation]  Reject wrong prefix-length via openRoadm
-    ...              RLI38968 5.1-14
+    ...              RLI38968 5.1-12
     [Tags]           Negative    tc12   limitation
     Log           Configure prefix-length via Restconf Patch method
     ${random-int}    Evaluate    random.randint(130,200)    random 
@@ -207,20 +216,10 @@ InvalidPrelength
     check status line    ${resp}     400
 
 
-Set-default-Gateway
-    [Documentation]  Setting for org-openroadm-device/info/defaultGateway
-    ...              RLI38968 5.1-15
-    [Tags]           Sanity   tc13
-    Log           Configure default Gateway via Restconf Patch method
-    &{dev_info}   create dictionary    defaultGateway=${tv['uv-attella_def_info_defaultgateway']}
-    &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${payload}
-
-
 InvalidDefGateway
     [Documentation]  Reject wrong Gateway via openRoadm
-    ...              RLI38968 5.1-16
-    [Tags]           Negative   tc14   limitation
+    ...              RLI38968 5.1-13
+    [Tags]           Negative   tc13   limitation
     Log           Configure default Gateway via Restconf Patch method
     &{dev_info}   create dictionary    defaultGateway=${INVALID_ATTELLA_DEF_INFO_DEFAULTGATEWAY}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -228,10 +227,21 @@ InvalidDefGateway
     check status line    ${resp}    400
 
 
+Templates
+    [Documentation]  Verify can configure Templates info via openRoadm
+    ...              RLI38968 5.1-26
+    [Tags]           Sanity   tc14  limitation  
+    Log           Configure geoLocation latitude via Restconf Patch method
+    ${Template-name}     Evaluate     "".join(random.sample(string.ascii_letters, random.randint(1,10)))      random,string
+    &{dev_info}   create dictionary       template=${Template-name}.json 
+    &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
+
+
 SetGeoLoclatit
     [Documentation]  Verify can configure geoLocation latitude info via openRoadm
     ...              RLI38968 5.1-26
-    [Tags]           Sanity   tc15   limitation  
+    [Tags]           Sanity   tc15     
     Log           Configure geoLocation latitude via Restconf Patch method
     ${random-float}   evaluate    random.randint(-89,89) + random.random()    random 
     ${random-latit}       evaluate    '%.16f'%(${random-float})       string    
@@ -243,61 +253,33 @@ SetGeoLoclatit
 SetGeoLoclongitu
     [Documentation]  Verify can configure geoLocation longitudeinfo via openRoadm
     ...              RLI38968 5.1-27
-    [Tags]           Sanity   tc16   limitation  
+    [Tags]           Sanity   tc16   
     Log           Configure geoLocation longitude via Restconf Patch method
     ${random-float}   evaluate    random.randint(-179,179) + random.random()    random    
     ${random-longitu}   evaluate    '%.16f'%(${random-float})       string 
     &{dev_info}   create dictionary    longitude=${random-longitu}
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload} 
-
-Delete-device-info
-    [Documentation]  RLI38968 5.1-33
-    [Tags]           Sanity   tc17  test   
-    Log          Delete all device info via Restconf Patch method 
-    ${fullUrl}=    Set variable    org-openroadm-device:org-openroadm-device/info
-    ${resp}   Send Delete Request With Complete Url  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}    ${fullUrl} 
-    check status line    ${resp}     200 
-
-
-Set-all-info
-    [Documentation]  Setting for org-openroadm-device all info leaves
-    ...              RLI38968 5.1-15
-    [Tags]           Sanity   tc18   
-    Log           Configure default Gateway via Restconf Patch method
-    ${random-int}    Evaluate    random.randint(0,128)     random 
-    ${grandom-length} =   convert To String     ${random-int}
-    Set Suite Variable     ${grandom-length}
-    ${random-float}   evaluate    random.randint(-89,89) + random.random()    random 
-    ${random-latit}       evaluate    '%.16f'%(${random-float})       string 
-    ${random-float2}   evaluate    random.randint(-179,179) + random.random()    random    
-    ${random-longitu}   evaluate    '%.16f'%(${random-float2})       string 
-    ${NodeNb}      Convert to string     ${tv['uv-attella_def_info_node_number']}
-    &{dev_info}   create dictionary    node-id=${tv['uv-attella_def_info_node_id']}   node-number=${NodeNb}   defaultGateway=${tv['uv-attella_def_info_defaultgateway']}
-    ...  node-type=${tv['uv-attella_def_info_node_type']}   clli=${tv['uv-attella_def_info_clli']}   ipAddress=${tv['uv-attella_def_info_ipaddress']}  prefix-length=${grandom-length}
-    ...  latitude=${random-latit}      longitude=${random-longitu}
-    &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${payload}      
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}    
 
     
 Retrieve-device-info 
     [Documentation]  Verify can retrieve all info leaves
     ...              RLI38968 5.1-32
-    [Tags]           Sanity   tc19  
+    [Tags]           Sanity   tc17   tests
     Log             Fetching all info leave via Restconf GET method
     &{dev_info}   create dictionary   node-id=${tv['uv-attella_def_info_node_id']}   node-number=${tv['uv-attella_def_info_node_number']}
     ...   node-type=${tv['uv-attella_def_info_node_type']}   clli=${tv['uv-attella_def_info_clli']}
-    ...   ipAddress=${tv['uv-attella_def_info_ipaddress']}   defaultGateway=${tv['uv-attella_def_info_defaultgateway']} 
+    ...   ipAddress=${tv['device0__re0__mgt-ip']}   defaultGateway=${tv['uv-attella_def_info_defaultgateway']} 
     ...   vendor-info=${tv['uv-attella_def_info_vendor']}   model-info=${tv['uv-attella_def_info_model']}  
     ...   serial-id-info=${serNu_info}  source=static   current-ipAddress=${tv['device0__re0__mgt-ip']}   
-    ...   prefix-length=${grandom-length}
+    ...   prefix-length=${tv['uv-attella_def_info_prefix_length']}
     ...   current-defaultGateway=${tv['uv-attella_def_info_current_defaultgateway']}   openroadm-version=${tv['uv-attella_def_info_openroadm_version']}
     ...   softwareVersion=${version_info}   max-srgs=0   max-degrees=0  max-num-bin-15min-historical-pm=96
     ...   max-num-bin-24hour-historical-pm=1
     # ...    macAddress=${macadd_info}  
     &{netconfParams}   create dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${netconfParams}    
-    
+
     
 *** Keywords ***
 Testbed Init
@@ -318,11 +300,10 @@ Testbed Init
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}
     Set Suite Variable    ${odl_sessions}
     
-    Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
-    sleep   15s 
-    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
+    # Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
+    # sleep   15s 
+    # Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
 
-    
 Get System Info
     ${r0} =     Get Handle      resource=device0
     ${label} =  Execute cli command on device    device=${r0}    command=show version   format=xml

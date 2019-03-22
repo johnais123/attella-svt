@@ -57,11 +57,7 @@ Send Get Request And Verify Status Of Response Is OK
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${dictNetconfParams}
     ${resp}=  Send Get Request  ${odl_sessions}  ${node}  ${dictNetconfParams}
-	
-	${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
-    run keyword if  'Request could not be completed because the relevant data model content does not exist' in '${resp_content}'  check status line    ${resp}     404
-	...             ELSE  check status line    ${resp}     200
-
+    check status line    ${resp}     200
     [return]  ${resp}
 
 
