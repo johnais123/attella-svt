@@ -812,3 +812,21 @@ Verify Interface Operational Status
     &{payload}   Create Dictionary   org-openroadm-device=${dev_info}
 	${resp}=  Send Get Request And Verify Output Is Correct  ${odl_sessions}  ${node}  ${payload}
     [Return]  ${resp}
+
+
+Delete all interface
+    [Documentation]   Retrieve system configuration and delete all interfaces
+    [Arguments]       ${odl_sessions}  ${node}
+    Log               Retrieve all exist interfaces and delete them all
+    &{openroadm_xpath}            create dictionary           org-openroadm-device=org-openroadm-device
+    ${resp}=                      Send Get Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${openroadm_xpath}
+	${resp_content}=              Decode Bytes To String   ${resp.content}    UTF-8
+    @{interfaces_name}            Get Elements      ${resp_content}    /org-openroadm-device/interface/name
+	Log List                      ${interfaces_name}
+    : FOR    ${interface_name}    IN   @{interfaces_name}
+	\        Log                  ${interface_name.text}
+    \        &{interface}         create dictionary    interface-name=${interface_name.text}
+    \        @{delinter}          create list    ${interface}
+    \        &{dev_info}          create dictionary   interface=${delinter}
+    \        &{payload}           create dictionary   org-openroadm-device=${dev_info}
+    \        Send Delete Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}    ${payload}
