@@ -829,4 +829,4 @@ Delete all interface
     \        @{delinter}          create list    ${interface}
     \        &{dev_info}          create dictionary   interface=${delinter}
     \        &{payload}           create dictionary   org-openroadm-device=${dev_info}
-    \        ${patch_resp}        Send Delete Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}    ${payload}
+    \        Send Delete Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}    ${payload}
