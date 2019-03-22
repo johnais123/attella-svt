@@ -329,6 +329,18 @@ Rpc Command For Cold Reload Device
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${timeout}    ${interval}   ${node}
 
 
+RPC Set Current Datetime
+    [Documentation]   Set current-datetime for Attella system. The example for ${datetime} is 2019-03-11T17:51:30Z
+    [Arguments]    ${odl_sessions}   ${node}   ${datetime}
+    ${urlhead}   set variable    org-openroadm-device:set-current-datetime
+    ${data}      set variable   <input xmlns="http://org/openroadm/device"><current-datetime>${datetime}</current-datetime></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+    check status line    ${resp}     200
+    ${elem} =  get element text  ${resp.text}    status
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+
+
 Mount vAttella On ODL Controller
     [Documentation]    Mounts vAttella ODl controller and verifies the mounted capabilities of junos device
     ...                    Args:
