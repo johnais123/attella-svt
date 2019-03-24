@@ -67,6 +67,9 @@ Suite Teardown  Run Keywords
 ${interval}  10
 ${timeout}  300
 
+${OPER_STATUS_ON}  inService
+${OPER_STATUS_OFF}  outOfService
+
 *** Test Cases ***     
 TC1
     [Documentation]  Service Provision
@@ -82,6 +85,10 @@ TC2
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
     Verify Traffic Is OK
+	
+	Verify Client Interfaces In Traffic Chain Are Up
+	
+	
     
 TC3
     [Documentation]  Disable Client Interface And Verify Traffic
@@ -95,8 +102,9 @@ TC3
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    # Verify Traffic Is One Way Through
 	Verify Traffic Is Blocked
+	
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_OFF}
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
@@ -111,6 +119,8 @@ TC4
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
     Verify Traffic Is OK
+	
+	Verify Client Interfaces In Traffic Chain Are Up
     
     
 TC5
@@ -126,8 +136,9 @@ TC5
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    # Verify Traffic Is One Way Through
 	Verify Traffic Is Blocked
+	
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${odu intf}  ${OPER_STATUS_OFF}
     
 TC6
     [Documentation]  Enable Line Odu Interface And Verify Traffic
@@ -143,6 +154,8 @@ TC6
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
     Verify Traffic Is OK
+	
+	Verify Client Interfaces In Traffic Chain Are Up
     
 TC7
     [Documentation]  Disable Line Otu Interface And Verify Traffic
@@ -158,8 +171,9 @@ TC7
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    # Verify Traffic Is One Way Through
     Verify Traffic Is Blocked
+	
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${otu intf}  ${OPER_STATUS_OFF}
 TC8
     [Documentation]  Enable Line Otu Interface And Verify Traffic
     ...              RLI38968 5.1-8
@@ -175,6 +189,8 @@ TC8
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
     Verify Traffic Is OK
+	
+	Verify Client Interfaces In Traffic Chain Are Up
     
 TC9
     [Documentation]  Disable Line Och Interface And Verify Traffic
@@ -191,8 +207,9 @@ TC9
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    # Verify Traffic Is One Way Through
 	Verify Traffic Is Blocked
+	
+	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${och intf}  ${OPER_STATUS_OFF}
     
 TC10
     [Documentation]  Enable Line Och Interface And Verify Traffic
@@ -210,6 +227,8 @@ TC10
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
     Verify Traffic Is OK
+	
+	Verify Client Interfaces In Traffic Chain Are Up
     
     
 TC11
@@ -239,6 +258,8 @@ TC13
 
     Log To Console  Verify Traffic
     Verify Traffic Is OK
+	
+	Verify Client Interfaces In Traffic Chain Are Up
 	
 	
 TC14
@@ -275,10 +296,23 @@ Test Bed Init
     
     
     ${client intf}=  Get Ethernet Intface Name From Client Intface  ${tv['device0__client_intf__pic']}
+    ${line odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
+    ${line otu intf}=  Get OTU Intface Name From ODU Intface  ${line odu intf}
+    ${line och intf}=  Get OCH Intface Name From OTU Intface  ${line otu intf}
+
     Set Suite Variable    ${client intf}
+    Set Suite Variable    ${line odu intf}
+    Set Suite Variable    ${line otu intf}
+    Set Suite Variable    ${line och intf}
     
     ${remote client intf}=  Get Ethernet Intface Name From Client Intface  ${tv['device1__client_intf__pic']}
+    ${remote line odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
+    ${remote line otu intf}=  Get OTU Intface Name From ODU Intface  ${remote line odu intf}
+    ${remote line och intf}=  Get OCH Intface Name From OTU Intface  ${remote line otu intf}
     Set Suite Variable    ${remote client intf}
+    Set Suite Variable    ${remote line odu intf}
+    Set Suite Variable    ${remote line otu intf}
+    Set Suite Variable    ${remote line och intf}
     
     
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']} 
@@ -399,3 +433,16 @@ Verify Traffic Is Blocked
     @{EMPTY LIST}=  create list
     ${result}=  Verify Traffic On Test Equipment  ${EMPTY LIST}  ${EMPTY LIST}  ${lTxFail}  ${lRxFail}
     Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+
+	
+	
+Verify Client Interfaces In Traffic Chain Are Up
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}  ${OPER_STATUS_ON}
+
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}  ${OPER_STATUS_ON}
+    Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}  ${OPER_STATUS_ON}
