@@ -1282,8 +1282,8 @@ Test Bed Init
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${tv['uv-odl-timeout']}    ${tv['uv-odl-interval']}   ${tv['device1__re0__mgt-ip']}
 
 	Log To Console  de-provision on both device0 and device1
-    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
-    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
     
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
@@ -1394,8 +1394,8 @@ Test Bed Teardown
 #    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
 
 	Log To Console  de-provision on both device0 and device1
-    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
-    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/    
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}   
     
 Create OTU4 Service
     [Documentation]   Retrieve system configuration and state information

@@ -245,8 +245,8 @@ Test Bed Init
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
     
 	Log To Console  de-provision on both device0 and device1
-    Delete Request  @{odl_sessions}[1]  /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
-    Delete Request  @{odl_sessions}[1]  /node/${tv['device1__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
 	
     
