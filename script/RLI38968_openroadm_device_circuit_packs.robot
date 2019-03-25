@@ -67,7 +67,7 @@ TC1
     ${administrative_state_for_fpc}           evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
     &{fpckey}         create dictionary       circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}                                circuit-pack-type=FPC        shelf=shelf-0     slot=slot-0     subSlot=slot-0
     ...               administrative-state-cp=${administrative_state_for_fpc}                        equipment-state-cp=reserved-for-facility-available    circuit-pack-mode=NORMAL
-    ...                          due-date-cp=${tv['uv-valid_due_date']}     circuit-pack-product-code=${tv['uv-attella_def_model']}
+    ...                          due-date-cp=${tv['uv-valid_due_date']}     circuit-pack-product-code=650-090154
     @{fpc_info}       create list             ${fpckey}
     &{dev_info}       create dictionary       circuit-packs=${fpc_info}
     &{payload}        createdictionary        org-openroadm-device=${dev_info}
@@ -80,7 +80,7 @@ TC2
     &{cp-port1}      create dictionary    slot-name-cp=slot-0/0        label-cp=0          slot-type=other
     &{cp-port2}      create dictionary    slot-name-cp=slot-0/1        label-cp=1          slot-type=other
     @{fpc_cport_info}    create list    ${cp-port1}   ${cp-port2}
-    &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${tv['uv-attella_def_circuit_pack_model']}
+    &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_FPC_MODEL.text}
     ...                 operational-state-cp=${tv['uv-attella_def_operational_state2']}                  type-cp=FPC                                vendor-cp=${tv['uv-attella_def_vendor']}
     ...              serial-id-cp=${ATTELLA_DEF_FPC_SERIAL_ID.text}    software-load-version=${osVersion.text}            type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     ...              cp-slots=${fpc_cport_info}
@@ -95,19 +95,19 @@ TC3
     Log              Configure all R/W leaves for circuit-pack FAN via Restconf
     ${administrative_state_for_fan}             evaluate          random.choice(["inService", "outOfService", "maintenance"])         random
     &{fankey}        create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot3_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-3
-    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0    due-date-cp=${tv['uv-valid_due_date']}
     &{fankey1}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot4_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-4
-    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
     &{fankey2}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot5_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-5
-    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
     &{fankey3}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot6_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-6
-    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
     &{fankey4}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-7
-    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
     @{fan_info}      create list                ${fankey}  ${fankey1}  ${fankey2}  ${fankey3}  ${fankey4}
     &{dev_info}      create dictionary          circuit-packs=${fan_info}
@@ -134,10 +134,10 @@ TC5
     ${administrative_state_for_psm}       evaluate                random.choice(["inService", "outOfService", "maintenance"])     random
     &{psmkey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply     shelf=shelf-0  slot=slot-1
     ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available   due-date-cp=${tv['uv-valid_due_date']}     
-	...              circuit-pack-product-code=NON-JNPR
+	...              circuit-pack-product-code=740-053639
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0      
     &{psmkey1}       create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply     shelf=shelf-0  slot=slot-2
-    ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available      circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available      circuit-pack-product-code=740-053639
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0      
 	...              due-date-cp=${tv['uv-valid_due_date']}
     @{psm_info}      create list          ${psmkey}  ${psmkey1}
@@ -165,7 +165,7 @@ TC7
     [Tags]           Sanity    TC7   Set-CP-PIC0
     Log              Configure all R/W leaves for circuit-pack PIC0 via Restconf
     &{pic0key}       create dictionary            circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-type=${ATTELLA_DEF_PIC0_MODEL.text}      shelf=shelf-0             slot=slot-0
-    ...              administrative-state-cp=inService                 equipment-state-cp=reserved-for-facility-available                                             circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=inService                 equipment-state-cp=reserved-for-facility-available                                             circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL     subSlot=slot-0/0     
 	...              due-date-cp=${tv['uv-valid_due_date']}                cp-slot-name=slot-0/0     circuit-pack-name-parent=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
     @{pic_info}      create list    ${pic0key}
@@ -188,7 +188,7 @@ TC8
     \                @{client-type}              create list            ${supported-client}
     \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}                 slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
     \                @{pic0_cport_info}          create list            ${cp-port}
-    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}      model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
+    \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}      model-cp=${ATTELLA_DEF_PIC0_MODEL.text}
     \                ...                              operational-state-cp=${tv['uv-attella_def_operational_state2']}               type-cp=PIC
     \                ...                         software-load-version=${osVersion.text}                      type-cp-category=${tv['uv-attella_def_circuit_pack_category']}                    
     \                ...                         cp-slots=${pic0_cport_info}
@@ -204,7 +204,7 @@ TC9
     [Tags]           Sanity   TC9   Set-CP-PIC1
     Log              Configure all R/W leaves for circuit-pack PIC1 via Restconf
     &{pic1key}       create dictionary                    circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}   circuit-pack-type=4X200G-CFP2DCO        shelf=shelf-0           slot=slot-0
-    ...              administrative-state-cp=inService    equipment-state-cp=reserved-for-facility-available         circuit-pack-product-code=NON-JNPR
+    ...              administrative-state-cp=inService    equipment-state-cp=reserved-for-facility-available         circuit-pack-product-code=650-090154
     ...              circuit-pack-mode=NORMAL             subSlot=slot-0/1         
 	...              due-date-cp=${tv['uv-valid_due_date']}  cp-slot-name=slot-0/1   circuit-pack-name-parent=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
     @{pic_info}      create list                          ${pic1key}
@@ -228,7 +228,7 @@ TC10
     \                @{line-type}               create list           ${supported-line}
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
-    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${tv['uv-attella_def_circuit_pack_model_fix']}
+    \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_PIC1_MODEL.text}
     \                ...                            operational-state-cp=${tv['uv-attella_def_operational_state2']}                type-cp=PIC
     \                ...                        software-load-version=${osVersion.text}                               type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
@@ -281,7 +281,7 @@ TC13
     \                &{ltransc}        create dictionary     port-name-p=port-0/1/${ClientID}                 port-type=cfp2dco-port      port-qual=xpdr-network   circuit-id=${tv['uv-attella_def_circuit_pack_type_cfp2dco']}   administrative-state=inService    logical-connection-point=foo
     \                @{ltransclist}    create list           ${ltransc}
     \                &{ltransckey}     create dictionary     circuit-pack-name-self=xcvr-0/1/${ClientID}      circuit-pack-type=CFP2DCO   shelf=shelf-0    slot=slot-0
-    \                ...               administrative-state-cp=inService     equipment-state-cp=reserved-for-facility-available           circuit-pack-product-code=NON-JNPR
+    \                ...               administrative-state-cp=inService     equipment-state-cp=reserved-for-facility-available           circuit-pack-product-code=740-075974
     \                ...               circuit-pack-mode=NORMAL              subSlot=slot-0/1/${ClientID}         due-date-cp=${tv['uv-valid_due_date']}
     \                ...               circuit-pack-name-parent=${tv['uv-attella_def_pic1_name']}             cp-slot-name=slot-0/1/${ClientID}             ports=${ltransclist}
     \                @{ltransc_info}   create list           ${ltransckey}
@@ -336,7 +336,7 @@ TC16
     &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=cfp2dco-port                port-qual=xpdr-network            circuit-id=CFP2DCO     administrative-state=inService    logical-connection-point=foo
     @{ctransclist}     create list             ${ctransc}
     &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/1/${CFP2_INDEX}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
-    ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=NON-JNPR
+    ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=740-075974
     ...                circuit-pack-mode=NORMAL              subSlot=slot-0/1/${CFP2_INDEX}     is-pluggable-optics=true    due-date-cp=${tv['uv-valid_due_date']}
     ...                circuit-pack-name-parent=${tv['uv-attella_def_pic1_name']}             cp-slot-name=slot-0/1/${CFP2_INDEX}    ports=${ctransclist}
     @{ctransc_info}    create list             ${ctransckey}
@@ -365,7 +365,7 @@ TC18
     [Documentation]  This test case mapping to 5.3-12 in JTMS for RLI-38968
     [Tags]           Sanity  TC18   Set-CP-Product-Code
     Log              Configure circuit-pack-product-code via Restconf Patch method, here we take PIC0 for example.
-    &{pickey}        create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-product-code=NON-JNPR
+    &{pickey}        create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-product-code=650-090154
     @{pic_info}      create list           ${pickey}
     &{dev_info}      create dictionary     circuit-packs=${pic_info}
     &{payload}       create dictionary     org-openroadm-device=${dev_info}
@@ -687,7 +687,7 @@ TC43
     &{fpckey}        create dictionary     circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   circuit-pack-type=FPC  shelf=shelf-0
     ...              slot=slot-0  subSlot=slot-0
     ...              administrative-state-cp=${administrative_state_for_fpc}     equipment-state-cp=reserved-for-facility-available    circuit-pack-mode=NORMAL
-    ...                due-date-cp=${tv['uv-valid_due_date']}     circuit-pack-product-code=ACX6180-T
+    ...                due-date-cp=${tv['uv-valid_due_date']}     circuit-pack-product-code=650-090154
     @{fpc_info}      create list    ${fpckey}
     &{dev_info}      create dictionary   circuit-packs=${fpc_info}
     &{payload}       create dictionary   org-openroadm-device=${dev_info}
@@ -710,7 +710,7 @@ TC44
     &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   circuit-pack-type=FPC  shelf=shelf-0
     ...              slot=slot-0  subSlot=slot-0
     ...              administrative-state-cp=${administrative_state_for_fpc}     equipment-state-cp=reserved-for-facility-available    circuit-pack-mode=NORMAL
-    ...                 due-date-cp=${tv['uv-valid_due_date']}     circuit-pack-product-code=ACX6180-T
+    ...                 due-date-cp=${tv['uv-valid_due_date']}     circuit-pack-product-code=650-090154
     @{fpc_info}    create list    ${fpckey}
     &{dev_info}      create dictionary   circuit-packs=${fpc_info}
     &{payload}       create dictionary   org-openroadm-device=${dev_info}
@@ -753,6 +753,11 @@ Testbed Init
     ${ATTELLA_DEF_PSM1_HAREWARE_VERSION}   Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[2]/version
     ${ATTELLA_DEF_FPC_PRODUCT_CODE}        Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[3]/part-number
     ${ATTELLA_DEF_FPC_SERIAL_ID}           Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[3]/serial-number
+	
+    ${ATTELLA_DEF_FPC_MODEL}            Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[3]/description
+	
+	
+	
     ${ATTELLA_DEF_FPC_CLEI}                Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[3]/clei-code        
     ${ATTELLA_DEF_FAN_MODEL}               Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[5]/model-number
 	${ATTELLA_DEF_PIC0_MODEL}              Get Element   ${Hardware}   chassis-inventory/chassis/chassis-module[4]/chassis-sub-module[1]/description
@@ -775,6 +780,7 @@ Testbed Init
     Log To Console  ${ATTELLA_DEF_FPC_PRODUCT_CODE.text}
     Log To Console  ${ATTELLA_DEF_FPC_SERIAL_ID.text}
     Log To Console  ${ATTELLA_DEF_FPC_CLEI.text}
+	Log To Console  ${ATTELLA_DEF_FPC_MODEL.text}
     Log To Console  ${ATTELLA_DEF_FAN_MODEL.text}   
     Log To Console  ${ATTELLA_DEF_PIC0_MODEL.text}
     Log To Console  ${ATTELLA_DEF_PIC1_MODEL.text}
@@ -809,6 +815,7 @@ Testbed Init
     Set Suite Variable  ${ATTELLA_DEF_FPC_PRODUCT_CODE.text}
     Set Suite Variable  ${ATTELLA_DEF_FPC_SERIAL_ID.text}
     Set Suite Variable  ${ATTELLA_DEF_FPC_CLEI.text}
+	Set Suite Variable  ${ATTELLA_DEF_FPC_MODEL.text}
     Set Suite Variable  ${ATTELLA_DEF_FAN_MODEL.text}   
     Set Suite Variable  ${ATTELLA_DEF_PIC0_MODEL.text}
     Set Suite Variable  ${ATTELLA_DEF_PIC1_MODEL.text}
