@@ -57,7 +57,7 @@ Send Get Request And Verify Status Of Response Is OK
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${dictNetconfParams}
     ${resp}=  Send Get Request  ${odl_sessions}  ${node}  ${dictNetconfParams}
-    check status line    ${resp}     200
+	check status line    ${resp}     200
     [return]  ${resp}
 
 
@@ -408,9 +408,17 @@ Ensure Pm Statistics In the Same Bin During Testing Pm
     # ${getmin}=   Convert To Integer  ${getmin} 
     ${getmin}=   Returns the given minute of current time   ${deviceName}
     ${getmin}=   Convert To Integer  ${getmin}
-    run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  120  AND  LOG  wait for 120s
-    ...    ELSE    log   Continue to test   
+    # run keyword if	 57<=${getmin}<=59 or 12<=${getmin}<=14 or 42<=${getmin}<=44  Run Keywords   sleep  180  AND  LOG  wait for 120s
+    # ...    ELSE    log   Continue to test  2 minutes 10 seconds
+    ${waiTime}=    run keyword if	60>${getmin}>=58    Evaluate   60-${getmin}
+    ...    ELSE IF  45>${getmin}>=43    evaluate   45-${getmin} 
+    ...    ELSE IF  30>${getmin}>=28    evaluate   30-${getmin}      
+    ...    ELSE IF  15>${getmin}>=13    evaluate   15-${getmin}
+    ...    ELSE    evaluate   0  
+    sleep  ${waiTime} minutes 10 seconds
+    log    Wait for ${waiTime} minutes 10 seconds
     RPC Clear Pm Statistics   ${odl_sessions}   ${node}  
+    sleep  5
     [return]  ${getmin}
     
 Get Current All Pm Information On Target Resource
@@ -662,16 +670,16 @@ Verify Pm Should Be Equals
     [Documentation]        Verify pm statstics On Target resource
     ...                    Fails if real value is not the same as expect value
     [Arguments]            ${expectValue}   ${realValue}
-    Run Keyword If         '@{expectValue}[0]'=='${realValue}'   log   pm statistics is ok\nThe expect value is @{expectValue}[0]\nThe real value is ${realValue}
-    ...         ELSE       FAIL    Check pm statistics fail: \n The expect value is @{expectValue}[0]\n The real value is ${realValue}
+    Run Keyword If         '${expectValue}'=='${realValue}'   log   pm statistics is ok\nThe expect value is ${expectValue}\nThe real value is ${realValue}
+    ...         ELSE       FAIL    Check pm statistics fail: \n The expect value is ${expectValue}\n The real value is ${realValue}
 
 
 Verify Pm Should Be Increased
     [Documentation]        Verify pm statstics can be increased by the minute On Target resource 
     ...                    Fails if real value is not the same as expect value
     [Arguments]             ${nextRealValue}    ${realValue}
-    Run Keyword If         '@{nextRealValue}[0]'>'${realValue}'   log   pm statistics is increasing\nThe previous pm value is ${realValue}\nThe current pm value is @{nextRealValue}[0]
-    ...         ELSE       FAIL    Check pm statistics is not increasing: \n The previous pm value is ${realValue}\n The current pm value is  @{nextRealValue}[0]
+    Run Keyword If         ${nextRealValue}>${realValue}   log   pm statistics is increasing\nThe previous pm value is ${realValue}\nThe current pm value is ${nextRealValue}
+    ...         ELSE       FAIL    Check pm statistics is not increasing: \n The previous pm value is ${realValue}\n The current pm value is ${nextRealValue}
 
 
 Verify Pm Should Be In Range

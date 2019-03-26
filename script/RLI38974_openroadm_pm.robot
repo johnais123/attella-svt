@@ -69,82 +69,44 @@ ${ALARM CHECK TIMEOUT}      5 min
 
 *** Test Cases ***    
 ###  ethernet port test case 
-Verify current 15min total BIPErrorCounter and erroredSecondsEthernet pm statistics on Client port
+Verify current 15min total BIPErrorCounter pm statistics on Client port
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-2
     [Tags]           Sanity   tc1   done
-    @{pmEntryParmater}       Create List     erroredBlockCount   nearEnd    rx 
+    @{pmEntryParmater}       Create List     erroredSecondsEthernet   nearEnd    rx 
     @{pmEntryParmater2}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx   
     Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current 
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   1
-    Sleep   5
-    Get Current All Pm Entry On Target Resource    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ett-0/0/0   ${pmEntryParmaterlist} 
-    @{realpm}=    Get Current Spefic Pm Statistic   @{pmInterval}[0]
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   10
+    Sleep   10
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ett-0/0/6   ${pmEntryParmaterlist}   @{pmInterval}[0]
     log  ${realpm}
-    @{expectValue}       Create List   0
-    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    equal
-    @{expectNextValue}       Create List   0
-    Verify Pm Statistic   ${expectNextValue}     @{realpm}[1]    equal
+    @{expectValue}       Create List   200
+    Verify Pm Should Be Equals  @{expectValue}[0]     @{realpm}[1]  
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0] 
 
 
-Verify current 15min total BIPErrorCounter and erroredSecondsEthernet pm statistics on line port
+Verify current 15min total BIPErrorCounter and erroredSecondsEthernet pm statistics on Client port
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-2
-    [Tags]           Sanity   tc2   done
-    @{pmEntryParmater}       Create List     FECUncorrectableBlocks   nearEnd    rx 
-    @{pmEntryParmater2}       Create List     severelyErroredSeconds    nearEnd    rx 
+    [Tags]           Sanity   tc1   done
+    @{pmEntryParmater}       Create List     erroredSecondsEthernet   nearEnd    rx 
+    @{pmEntryParmater2}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
-    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
-    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   1
-    Sleep   5
-    @{realpm}=    Get Current Spefic Pm Statistic  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/1/0:0:0   ${pmEntryParmaterlist}    @{pmInterval}[0]
-    @{expectValue}       Create List   0
-    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    equal
-    @{expectNextValue}       Create List   0
-    Verify Pm Statistic   ${expectNextValue}     @{realpm}[1]    equal
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0] 
+    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx   
+    Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current 
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   10
+    Sleep   10
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ett-0/0/6   ${pmEntryParmaterlist}   @{pmInterval}[0]
+    log  ${realpm}
+    @{expectValue}       Create List   1   200
+    Lists Should Be Equal   ${realpm}    ${expectValue}
 
 ###  otu4 port test case
-TC1    
-    [Documentation]  Verify current 15min Near-end  OTU erroredBlockCount PM statistics on otu4 Client interface
-    [Tags]           Sanity   tc3   
-    @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
-    @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
-    @{pmEntryParmater3}       Create List     erroredSeconds    nearEnd    rx
-    @{pmEntryParmater4}       Create List      severelyErroredSeconds    nearEnd    rx
-    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
-    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
-    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    10
-    Sleep   10
-    @{realpm}=    Get Current Spefic Pm Statistic  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/0/6:0:0    ${pmEntryParmaterlist}    @{pmInterval}[0]
-    @{expectValue}       Create List   10
-    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    equal
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
-
-TC2   
-    [Documentation]  Verify current 15min Near-end  OTU backgroundBlockErrors PM statistics on otu4 Client interface
-    [Tags]           Sanity   tc3   
-    @{pmEntryParmater}       Create List     backgroundBlockErrors    nearEnd    rx 
-    @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
-    @{pmEntryParmater3}       Create List     erroredSeconds    nearEnd    rx
-    @{pmEntryParmater4}       Create List      severelyErroredSeconds    nearEnd    rx
-    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
-    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
-    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    10
-    Sleep   10
-    @{realpm}=    Get Current Spefic Pm Statistic  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/0/6:0:0    ${pmEntryParmaterlist}    @{pmInterval}[0]
-    @{expectValue}       Create List   10
-    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    equal
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
 TC3   
     [Documentation]  Verify current 15min Near-end  OTU erroredSeconds PM statistics on otu4 Client interface
-    [Tags]           Sanity   tc3   
+    [Tags]           Sanity   tc4   
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -152,29 +114,45 @@ TC3
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
     Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    10
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    5
     Sleep   10
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/0/6:0:0    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${client otu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
     @{expectValue}       Create List   1
-    Verify Pm Statistic   ${expectValue}     @{realpm}[0]    equal
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
+    Verify Pm Should Be Equals    @{expectValue}[0]     @{realpm}[0] 
+    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]  
+    
+    [Teardown]  Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8
 
 TC4   
-    [Documentation]  Verify current 15min Near-end  OTU all PM statistics on otu4 Client interface
-    [Tags]           Sanity   tc3   
-    @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
+    [Documentation]  Verify current 15min Near-end  OTU severelyErroredSeconds PM statistics on otu4 Client interface
+    [Tags]           Sanity   tc4   
+    @{pmEntryParmater}       Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
-    @{pmEntryParmater4}       Create List      severelyErroredSeconds    nearEnd    rx
-    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
-    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
-    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    10
+    @{pmEntryParmater4}       Create List     erroredSeconds     nearEnd    rx
+    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}   ${pmEntryParmater4}
+    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx  
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    2.2E-03
     Sleep   10
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/0/6:0:0    ${pmEntryParmaterlist}    @{pmInterval}[0]
-    @{expectValue}       Create List   1   10   10   0
-    Lists Should Be Equal   ${realpm}    ${expectValue}
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${client otu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    Sleep   5    
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${client otu intf}   ${pmEntryParmaterlist}    @{pmInterval}[0]                 
+    Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
+    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]  
+    [Teardown]  Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8
+
+    
+TC4-1   
+    [Documentation]  Verify current 15min Near-end  OTU erroredSeconds PM statistics on otu4 Client interface
+    [Tags]           Sanity   tc4   
+    @{pmEntryParmater}       Create List     opticalPowerInput      nearEnd    rx 
+    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater} 
+    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   
+    Sleep   10
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    och-0/1/0:0    ${pmEntryParmaterlist}    @{pmInterval}[2]
+    @{expectValue}       Create List   -0.1   -0.5
+    Verify Pm Should Be In Range    ${expectValue}     @{realpm}[0]
 
 
  *** Keywords ***
