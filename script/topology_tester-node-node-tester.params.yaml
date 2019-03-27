@@ -1,0 +1,94 @@
+--- 
+jaas: 
+  params: /homes/tsyong/Attella/script/topology_tester-node-node-tester.params
+  plite: /homes/tsyong/Attella/script/topology_tester-node-node-tester.params.plite
+t: 
+  framework_variables: 
+    fv-connect-controllers: all
+    fv-tags: dut
+  resources: 
+    device0: 
+      interfaces: 
+        client_intf: 
+          link: device0client_intf
+          management: 0
+          name: ett-0/0/0.0
+          pic: ett-0/0/0
+          type: 
+            - traffic-near
+            - ett
+          unit: 0
+        line_intf: 
+          link: connect
+          management: 0
+          name: och-0/1/0:0.0
+          pic: och-0/1/0:0
+          type: 
+            - och
+          unit: 0
+      system: 
+        primary: 
+          controllers: 
+            re0: 
+              con-ip: 172.27.93.8:4004
+              domain: englab.juniper.net
+              hostname: gemini04
+              mgt-intf-name: mgmtre0
+              mgt-ip: 172.27.90.163
+              mgt-ipv6: abcd::172.27.90.163
+              osname: JunOS
+          make: juniper
+          model: acx6160-t
+          name: gemini04
+          osname: JunOS
+    device1: 
+      interfaces: 
+        client_intf: 
+          link: device1client_intf
+          management: 0
+          name: ett-0/0/6.0
+          pic: ett-0/0/6
+          type: 
+            - traffic-far
+            - ett
+          unit: 0
+        line_intf: 
+          link: connect
+          management: 0
+          name: och-0/1/3:0.0
+          pic: och-0/1/3:0
+          type: 
+            - och
+          unit: 0
+      system: 
+        primary: 
+          controllers: 
+            re0: 
+              con-ip: 172.27.93.8:4008
+              domain: englab.juniper.net
+              hostname: gemini05
+              mgt-intf-name: mgmtre0
+              mgt-ip: 172.27.90.164
+              mgt-ipv6: abcd::172.27.90.164
+              osname: JunOS
+          make: juniper
+          model: acx6160-t
+          name: gemini05
+          osname: JunOS
+  user_variables: 
+    uv-client_fec: rsfec
+    uv-frequency: '192.50'
+    uv-odl-interval: 10
+    uv-odl-password: admin
+    uv-odl-server: 172.27.93.100:38181
+    uv-odl-timeout: 300
+    uv-odl-username: admin
+    uv-service-description: traffic_provision
+    uv-test-eqpt-port1-extraparam: QSFPP2
+    uv-test-eqpt-port1-ip: 172.27.93.131
+    uv-test-eqpt-port1-number: 6
+    uv-test-eqpt-port1-type: EXFO
+    uv-test-eqpt-port2-extraparam: QSFPP2
+    uv-test-eqpt-port2-ip: 172.27.93.131
+    uv-test-eqpt-port2-number: 7
+    uv-test-eqpt-port2-type: EXFO 
