@@ -1339,11 +1339,10 @@ Test Bed Init
 
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
-    Verify Client Interfaces In Traffic Chain Are Up
+    Log To Console   Verify Traffic Is OK
+    Verify Traffic Is OK
 
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
+    Verify Client Interfaces In Traffic Chain Are Up
 
     
 Test Bed Teardown
