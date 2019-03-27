@@ -1688,12 +1688,6 @@ Test Bed Init
 
     Verify Client Interfaces In Traffic Chain Are Up
 
-
-    
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-
     
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
