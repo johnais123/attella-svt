@@ -1679,12 +1679,15 @@ Test Bed Init
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
-    
-    Wait Until Interfaces In Traffic Chain Are Alarm Free    
-    
-    
+
+
+    Wait Until Interfaces In Traffic Chain Are Alarm Free
+
+    Log To Console   Verify Traffic Is OK
+    Verify Traffic Is OK
+
     Verify Client Interfaces In Traffic Chain Are Up
-    
+
 
     
     ${random}=  Evaluate  random.randint(1, 60)  modules=random
