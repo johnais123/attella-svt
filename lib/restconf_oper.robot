@@ -336,22 +336,6 @@ RPC Set Current Datetime
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
 
-RPC Change Password
-    [Documentation]   Change passord for Attella system. 
-    ...               Args:
-    ...               | - old_password: plain text of the password 
-    ...               | - new_password: SHA-512/Crypt(3)/$6$ encrypted password and also the following characters are not allowed 
-    ...               | in the password string: \ | ? # @ &, for example,"$6$77ee214844a64bba$qZbg656uG5XHVvP3adQ5XvWusbOvZPGx3jaG.tYLaqQ8mmMe4quXYShI2S07OzDZmoua.PlJ76Y8f4yfmXcP20"
-    ...               | is a valid encrypted code for "Embe1mpls". to try encryption,please try https://quickhash.com/
-    [Arguments]    ${odl_sessions}   ${node}   ${old_password}   ${new_password}
-    ${urlhead}   set variable    org-openroadm-user-mgmt:chg-password
-    ${data}      set variable   <input xmlns="http://org/openroadm/user-mgmt"><currentPassword>${old_password}</currentPassword><newPassword>${new_password}</newPassword><newPasswordConfirm>${new_password}</newPasswordConfirm></input>
-    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
-    check status line    ${resp}     200
-    ${elem} =  get element text  ${resp.text}    status
-    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
-
 
 Mount vAttella On ODL Controller
     [Documentation]    Mounts vAttella ODl controller and verifies the mounted capabilities of junos device
