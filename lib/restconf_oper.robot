@@ -351,6 +351,48 @@ RPC Command For Password Change
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+Rpc Command For DB Backup
+    [Documentation]   backup database via DB Backup Rpc command 
+    [Arguments]    ${odl_sessions}   ${node}   ${filename}
+	
+	Log  ${tv}
+    ${urlhead}    set variable    org-openroadm-database:db-backup 
+
+
+    ${data}      set variable    <input xmlns="http://org/openroadm/database"><filename>${filename}</filename></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+	Log  ${resp.content}
+    check status line    ${resp}     200  
+
+
+
+	
+Rpc Command For DB Restore
+    [Documentation]   restore database via DB Restore Rpc command 
+    [Arguments]    ${odl_sessions}   ${node}   ${filename}  ${nodeIDCheck}=true
+    ${urlhead}    set variable    org-openroadm-database:db-restore 
+
+    ${data}      set variable    <input xmlns="http://org/openroadm/database"><filename>${filename}</filename><nodeIDCheck>${nodeIDCheck}</nodeIDCheck></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+	Log  ${resp.content}
+    check status line    ${resp}     200 
+	
+	
+	${urlhead}    set variable    org-openroadm-database:db-activate
+	# ${data}      set variable    <input xmlns="http://org/openroadm/database"><rollBackTimer>00:00:00</rollBackTimer></input>
+	${data}      set variable    <input xmlns="http://org/openroadm/database"></input>
+	
+	${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+	Log  ${resp.content}
+    check status line    ${resp}     200
+	
+	# ${deviceName}=  Get Device Name From IP  ${tv}  ${node}
+	# Reconnect Device And Verification reboot successful    ${deviceName}
+
+    # Mount vAttella On ODL Controller    ${odl_sessions}    ${timeout}    ${interval}   ${node}
+    # sleep   15s 
+    # Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${timeout}    ${interval}   ${node}
+    
     
     
 Mount vAttella On ODL Controller
@@ -801,8 +843,8 @@ Verify Alarms On Resource
     [Arguments]             ${odl_sessions}  ${node}  ${targetResource}  ${expectAlarmList}
     @{activeAlarmList}=  Get Alarms On Resource  ${odl_sessions}  ${node}  ${targetResource}
     
-	@{activeAlarmList}=  Sort List  ${activeAlarmList}
-	@{expectAlarmList}=  Sort List  ${expectAlarmList}
+	Sort List  ${activeAlarmList}
+	Sort List  ${expectAlarmList}
     Lists Should Be Equal  ${activeAlarmList}  ${expectAlarmList}  msg=the expect alarm list is ${expectAlarmList} while actually the active alarm list is ${activeAlarmList}
     
     
@@ -862,3 +904,17 @@ Delete all interface
     \        &{dev_info}          create dictionary   interface=${delinter}
     \        &{payload}           create dictionary   org-openroadm-device=${dev_info}
     \        Send Delete Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}    ${payload}
+
+Get Running Config
+    [Documentation]   Retrieve system configuration and state information
+    [Arguments]    ${odl_sessions}  ${node}  ${dictNetconfParams}
+    Log  Fetching config via Restconf GET method
+	Log  ${tv}
+    ${urlhead}=    Retrieve URL Parent  ${dictNetconfParams}
+
+    ${resp}=             Get Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
+	
+	check status line    ${resp}     200
+	${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
+	Log  ${resp_content}
+    [return]  ${resp_content}

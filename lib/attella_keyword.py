@@ -546,3 +546,11 @@ def getdefaultOpenroamdfile(shellreturn):
         handleReturn = re.sub(pattern, '  ', handleReturn)
         defile=  handleReturn.split("  ")
     return defile
+
+def getDeviceNameFromMgtIP(dictTV, strIP):
+    for key in dictTV.keys():
+        r = re.match(r"(device\d+)__re[01]__mgt-ip", key)
+        if r:
+            if strIP == dictTV[key]:
+                return r.group(1)
+    return None
