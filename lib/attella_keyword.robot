@@ -396,3 +396,8 @@ Set Loopback To OTU Interface
     # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
     Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
 
+Get Device Name From IP
+	[Documentation]   Get Device Name From IP in global variable tv
+    [Arguments]    ${tv}  ${node}
+	${resp}=  getDeviceNameFromMgtIP  ${tv}  ${node}
+	[return]  ${resp}
