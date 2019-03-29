@@ -69,10 +69,10 @@ ${ALARM CHECK TIMEOUT}      5 min
 
 
 *** Test Cases *** 
-Verify history pm 15min
+Verify ethernet port history pm 15min
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   h1   done
+    [Tags]           Sanity   tc1   done
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -82,21 +82,22 @@ Verify history pm 15min
     sleep  5
     # Retrieve Current Statistics
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   10
+    log to console    send error time
     # Retrieve Current Statistics
     @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ett-0/0/0   ${pmEntryParmaterlist}   @{pmInterval}[0]
     log  ${curealpm}
     # Retrieve Current Statistics
-    ${hisPmString}=     Retrieve History Pm Detail Statistics   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   @{pmInterval}[0]   ${currentMin}
+    ${hisPmString}=     Retrieve History Pm Detail Statistics   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   @{pmInterval}[0]
     @{realpm}=    Get History Spefic Pm Statistic   ett-0/0/0     ${hisPmString}   ${pmEntryParmaterlist}    @{pmInterval}[0]
     log  ${realpm}
     Lists Should Be Equal   ${curealpm}    ${realpm}
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0] 
 
 
-Verify history pm 24hour
+Verify ethernet port history pm 24hour
     [Documentation]  Retrieve severely Errored Seconds pm statistics on resource
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   h1   done
+    [Tags]           Sanity   tc2   done
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -106,15 +107,63 @@ Verify history pm 24hour
     sleep  5
     # Retrieve Current Statistics
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_PCSBIP8   1
+    log to console    send error time
     # Retrieve Current Statistics
-    @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ett-0/0/0   ${pmEntryParmaterlist}   @{pmInterval}[0]
+    @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ett-0/0/0   ${pmEntryParmaterlist}   @{pmInterval}[1]
     log  ${curealpm}
     # Retrieve Current Statistics  
-    ${hisPmString}=     Retrieve History Pm Detail Statistics   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   @{pmInterval}[1]   ${currentMin}
+    ${hisPmString}=     Retrieve History Pm Detail Statistics   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   @{pmInterval}[1]
+    # Retrieve Current Statistics 
     @{realpm}=    Get History Spefic Pm Statistic   ett-0/0/0     ${hisPmString}   ${pmEntryParmaterlist}    @{pmInterval}[1]
     log  ${realpm}
     Lists Should Be Equal   ${curealpm}    ${realpm}
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[1] 
+    [Teardown]  RPC Set Current Datetime   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${currentTime}
+
+
+Verify otu port history pm 15min 
+    [Documentation]  Verify current 15min Near-end  OTU all PM statistics on otu4 Client interface
+    [Tags]           Sanity   tc3   
+    @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
+    @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
+    @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
+    @{pmEntryParmater4}       Create List      severelyErroredSeconds    nearEnd    rx
+    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
+    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
+    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   
+    # Retrieve Current Statistics 
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    5
+    log to console    send error time
+    # Retrieve Current Statistics
+    @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/0/0:0:0    ${pmEntryParmaterlist}     @{pmInterval}[0]
+    # Retrieve Current Statistics  
+    ${hisPmString}=     Retrieve History Pm Detail Statistics   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   @{pmInterval}[0]
+    # Retrieve Current Statistics 
+    @{realpm}=    Get History Spefic Pm Statistic   otu-0/0/0:0:0    ${hisPmString}   ${pmEntryParmaterlist}    @{pmInterval}[0]
+    log  ${realpm}
+    Lists Should Be Equal   ${curealpm}    ${realpm}
+
+Verify otu port history pm 24hour 
+    [Documentation]  Verify current 24Hour Near-end  OTU all PM statistics on otu4 Client interface
+    [Tags]           Sanity   tc4   
+    @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
+    @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
+    @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
+    @{pmEntryParmater4}       Create List      severelyErroredSeconds    nearEnd    rx
+    @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
+    @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
+    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   
+    # Retrieve Current Statistics 
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    5
+    log to console    send error time is
+    # Retrieve Current Statistics
+    @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    otu-0/0/0:0:0    ${pmEntryParmaterlist}     @{pmInterval}[1]
+    # Retrieve Current Statistics  
+    ${hisPmString}=     Retrieve History Pm Detail Statistics   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   @{pmInterval}[1]
+    # Retrieve Current Statistics 
+    @{realpm}=    Get History Spefic Pm Statistic   otu-0/0/0:0:0    ${hisPmString}   ${pmEntryParmaterlist}    @{pmInterval}[1]
+    log  ${realpm}
+    Lists Should Be Equal   ${curealpm}    ${realpm}
     [Teardown]  RPC Set Current Datetime   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${currentTime}
 
 
@@ -133,8 +182,8 @@ Retrieve Current Statistics
 
 Retrieve History Pm Detail Statistics 
     [Documentation]   Retrieve Detail history pm data 
-    [Arguments]     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${pmInterval}    ${currentMin}
-    Run keyword if    '${pmInterval}'=='15min'       Wait For Next Pm Bin    ${currentMin}
+    [Arguments]     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${pmInterval}
+    Run keyword if    '${pmInterval}'=='15min'       Wait For Next Pm Bin
     ...         ELSE IF   '${pmInterval}'=='24Hour'   Jump To Next Day
     ...         ELSE        FAIL   no other types history pm can be checked
     ${hisPmName}=   RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     1   2   ${pmInterval}
@@ -158,7 +207,9 @@ Retrieve History Pm Detail Statistics
 
 Wait For Next Pm Bin   
     [Documentation]   Retrieve Current 15Min Bin completion time
-    [Arguments]    ${currentMin}
+    [Arguments]    ${deviceName}=device0
+    ${currentMin}=   Returns the given minute of current time   ${deviceName}
+    ${currentMin}=   Convert To Integer  ${currentMin}
     ${waiTime}=    run keyword if	14>=${currentMin}>=0    Evaluate   15-${currentMin}
     ...    ELSE IF  29>=${currentMin}>=15    evaluate   30-${currentMin}
     ...    ELSE IF  44>=${currentMin}>=30    evaluate   45-${currentMin}
@@ -238,7 +289,7 @@ Testbed Init
     # ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     # Set Suite Variable    ${testSetHandle2}
          
-    # Init Test Equipment  ${testSetHandle1}   100ge
+    # Init Test Equipment  ${testSetHandle1}   otu4
     # Init Test Equipment  ${testSetHandle2}  100ge
 
     Log To Console  Provide 100ge/otu4 traffic service
