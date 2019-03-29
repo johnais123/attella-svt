@@ -127,7 +127,7 @@ TC3 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-in
 	: FOR		${IDX}   IN RANGE   0   4
 	\		Append To List   ${value_range}   ${ATTELLA_DEF_ODU_IF_NAME_PREFIX}${IDX}:0:0:0
 	: FOR		${IDX}   IN RANGE   0   8
-	\		Append To List   ${value_range}   ${ATTELLA_DEF_ETH_CLIENT_IF_NAME_PREFIX}${IDX}:0:0
+	\		Append To List   ${value_range}   ${ATTELLA_DEF_ETH_CLIENT_IF_NAME_PREFIX}${IDX}
 	: FOR		${IDX}   IN RANGE   0   8
 	\		Append To List   ${value_range}   ${ATTELLA_DEF_OTU_CLIENT_IF_NAME_PREFIX}${IDX}:0:0
 	: FOR		${IDX}   IN RANGE   0   8
