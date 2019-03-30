@@ -897,7 +897,7 @@ TC14
     Verify Interfaces In Traffic Chain Are Alarm Free   
 
     Log              Modify the <expected-dapi> value for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=012345    odu-tim-detect-mode=SAPI
+    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=012345    odu-tim-detect-mode=DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
