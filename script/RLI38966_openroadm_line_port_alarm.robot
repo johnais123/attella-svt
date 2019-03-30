@@ -692,11 +692,11 @@ TC10
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}
 
     Log              Modify the odu-expected-sapi's value back to "tx-sapi-val" for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${line otu intf}   odu-expected-sapi=tx-sapi-val   
+    &{intf}          create dictionary   interface-name=${remote line odu intf}   odu-expected-sapi=tx-sapi-val
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload} 
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
     
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -749,11 +749,11 @@ TC11
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}
 
     Log              Modify the odu-expected-dapi's value back to "tx-dapi-val" for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${line otu intf}   odu-expected-dapi=tx-dapi-val   
+    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=tx-dapi-val
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload} 
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
     
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -808,11 +808,11 @@ TC12
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}
 
     Log              Modify the <expected-sapi>/<expected-dapi> 's value back to "tx-sapi-val"/"tx-dapi-val" for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${line otu intf}   odu-expected-sapi=tx-sapi-val    odu-expected-dapi=tx-dapi-val
+    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-sapi=tx-sapi-val    odu-expected-dapi=tx-dapi-val
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload} 
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
     
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -866,11 +866,11 @@ TC13
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}
 
     Log              Modify the odu-expected-sapi's value back to "tx-sapi-val" for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${line otu intf}   odu-expected-sapi=tx-sapi-val         odu-tim-detect-mode=SAPI-and-DAPI
+    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-sapi=tx-sapi-val         odu-tim-detect-mode=SAPI-and-DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload} 
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
     
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -923,11 +923,11 @@ TC14
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}
 
     Log              Modify the odu-expected-dapi's value back to "tx-dapi-val" for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${line otu intf}   odu-expected-dapi=tx-dapi-val    odu-tim-detect-mode=SAPI-and-DAPI
+    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=tx-dapi-val    odu-tim-detect-mode=SAPI-and-DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload} 
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device1__re0__mgt-ip']}  ${payload}
     
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
