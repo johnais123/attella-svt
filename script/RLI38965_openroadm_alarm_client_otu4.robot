@@ -702,7 +702,7 @@ TC12
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8  MAX
     
     Log              Verify SD alarm raise on local otu4 interface    
-	@{expectedAlarms}  Create List   Loss of Frame    Degraded defect
+	@{expectedAlarms}  Create List     Degraded defect
 	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
     
     Log              Wait a random time to keep the alarm stable on Attella    
@@ -1264,7 +1264,7 @@ TC22
    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8  MAX
    
     Log              Verify SD alarm raise on local ODU4 interface    
-	@{expectedAlarms}  Create List   Loss of Frame    Degraded defect
+	@{expectedAlarms}  Create List     Degraded defect
 	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
     
    Log              Wait a random time to keep the alarm stable on Attella    
@@ -1463,8 +1463,8 @@ TC25
 	@{expectedAlarms}  Create List   Trail Trace Identifier Mismatch
 	Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}      
   
-    Log               Cold reload the remote Attella NE   
-    Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0 
+    Log               Warm reload the remote Attella NE   
+    Rpc Command For warm Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0 
     
     Log               Verify TTIM was raised on local ODU4 client interface
     @{expectedAlarms}      Create List       Trail Trace Identifier Mismatch
@@ -1737,9 +1737,9 @@ Test Bed Teardown
 #    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
 #    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
 
-	Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
+#	Log To Console  de-provision on both device0 and device1
+#    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+#	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
     
 #Create OTU4 Service
 #    [Documentation]   Retrieve system configuration and state information
