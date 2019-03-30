@@ -359,7 +359,7 @@ TC5
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -406,7 +406,7 @@ TC6
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Interfaces In Traffic Chain Are Alarm Free   
 
-    Log              Modify the tx-sapi value for OTU4 on local line port
+    Log              Modify the tx-dapi value for OTU4 on local line port
     &{intf}            create dictionary   interface-name=${line otu intf}    otu-tx-dapi=012345
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
@@ -423,7 +423,7 @@ TC6
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -488,7 +488,7 @@ TC7
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -553,7 +553,7 @@ TC8
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -618,7 +618,7 @@ TC9
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
