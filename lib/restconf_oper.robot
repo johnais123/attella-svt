@@ -113,7 +113,7 @@ Send Delete Request
 Send Delete Request With Complete Url
     [Documentation]   delete configuration
     [Arguments]    ${odl_sessions}  ${node}  ${fullUrl}
-    Log                     delete configuration
+    Log                     Delete configuration  
     ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${fullUrl}    headers=${delete_headers}    allow_redirects=False
     check status line    ${resp}     200     
     [return]  ${resp}
@@ -139,6 +139,12 @@ Send Put Request
     # ${resp}=       Patch Request   @{odl_sessions}[${CFG_SESSEION_INDEX}]   /node/${node}/yang-ext:mount/${urlhead}   data=${data}    headers=${put_headers}    allow_redirects=False
     [Return]  ${resp}
 
+Send Post Request
+    [Documentation]   Edit system configuration
+    [Arguments]     ${odl_sessions}  ${node}    ${urlhead}   ${dictNetconfParams}
+    ${data}=    Retrieve set URL  ${dictNetconfParams}
+    ${resp}=    Post Request    @{odl_sessions}[${CFG_SESSEION_INDEX}]   /node/${node}/yang-ext:mount/${urlhead}     data=${data}    headers=${post_headers}    
+    [Return]  ${resp}
     
 Send Delete Request And Verify Status Of Response Is OK
     [Documentation]   delete configuration
