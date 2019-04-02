@@ -237,11 +237,14 @@ class TRANSFER_NOTIFICATION():
         a = ET.Element('notification', xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0")
         b = ET.SubElement(a, 'transfer-notification', xmlns="http://org/openroadm/file-transfer")
         path = ET.SubElement(b, 'local-file-path')
-        path.text = "/var/openroadm/ttd1.log"
+        path.text = self.path
         status = ET.SubElement(b, 'status')
         status.text = self.status
         statusMsg = ET.SubElement(b, 'status-message')
-        statusMsg.text = "File transfer %s"%self.status.lower()
+        if "Successful" == self.status:
+            statusMsg.text = "File transfer successful"
+        else:
+            statusMsg.text = ".*"
         eventTime = ET.SubElement(a, 'eventTime')
         eventTime.text = "\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}\+\d{2}:\d{2}"
         return str(ET.tostring(a), encoding='utf-8')
@@ -280,6 +283,10 @@ class ALARM_NOTIFICATION():
         severity = ET.SubElement(b, 'severity')
         if "clear" == self.action:
             severity.text = "clear"
+        elif self.alarm in ["ODU Alarm Indication Signal", "Backward Defect Indication", "Degraded defect"]:
+            severity.text = "major"
+        elif self.alarm in ["Incoming Alignment Error"]:
+            severity.text = "warning"
         else:
             severity.text = "critical"
         circuit_id = ET.SubElement(b, 'circuit-id')
