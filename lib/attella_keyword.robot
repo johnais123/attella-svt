@@ -201,7 +201,7 @@ Get The Next Frequency
 
 Create 100GE Service
     [Documentation]   Create 100GE Service
-    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}
+    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}  ${names for interfaces}=default
     ${rate}=  Set Variable  100G
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -214,6 +214,12 @@ Create 100GE Service
     ${odu rate}=  Speed To ODU Rate  ${rate}
     ${otu rate}=  Speed To OTU Rate  ${rate}
     ${och rate}=  Speed To OCH Rate  ${rate}
+	
+	${length}=  Get Length  ${names for interfaces}
+	${client intf}=  Set Variable If  ${length}==4  @{names for interfaces}[3]
+	${odu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[2]
+	${otu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[1]
+	${och intf}=  Set Variable If  ${length}==4  @{names for interfaces}[0]
     
     &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
     ...    interface-administrative-state=inService   speed=${client rate}
@@ -240,7 +246,7 @@ Create 100GE Service
 
 Create OTU4 Service
     [Documentation]   Create OTU4 Service
-    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}  ${client_fec}
+    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}  ${client_fec}  ${names for interfaces}=default
     ${rate}=  Set Variable  100G
     
     Log To Console  ${client intf}
@@ -257,6 +263,15 @@ Create OTU4 Service
     ${odu rate}=  Speed To ODU Rate  ${rate}
     ${otu rate}=  Speed To OTU Rate  ${rate}
     ${och rate}=  Speed To OCH Rate  ${rate}
+	
+	
+	${length}=  Get Length  ${names for interfaces}
+	${client intf}=  Set Variable If  ${length}==5  @{names for interfaces}[4]
+	${client otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[3]
+	${odu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[2]
+	${otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[1]
+	${och intf}=  Set Variable If  ${length}==5  @{names for interfaces}[0]
+	
 
     &{client_otu_interface}    create_dictionary   interface-name=${client otu intf}    description=client-otu-${discription}    interface-type=otnOtu  interface-circuit-id=1234  
     ...    interface-administrative-state=inService   otu-rate=${otu rate}  
