@@ -566,7 +566,8 @@ TC33
     [Tags]           Sanity   tc33  odu
     Log           Configure Odu interface tim-act-enabled via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
-    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    odu-tim-act-enabled=false  
+    \     ${timactst}   Evaluate   random.choice(["true", "false"])     random
+    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    odu-tim-act-enabled=${timactst}
     \     @{interface_info}    create list    ${Odu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -578,8 +579,8 @@ TC34
     [Tags]           Sanity   tc34   odu
     Log           Configure Odu interface tim-detect-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
-    # \     ${timdetmode}   Evaluate   random.choice(["SAPI", "DAPI", "SAPI-and-DAPI", "Disabled"])     random
-    \     ${timdetmode}   Evaluate   random.choice(["SAPI-and-DAPI", "Disabled"])     random
+    \     ${timdetmode}   Evaluate   random.choice(["SAPI", "DAPI", "SAPI-and-DAPI", "Disabled"])     random
+    #\     ${timdetmode}   Evaluate   random.choice(["SAPI-and-DAPI", "Disabled"])     random
     \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    odu-tim-detect-mode=${timdetmode}  
     \     @{interface_info}    create list    ${Odu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
@@ -588,8 +589,46 @@ TC34
 
 
 TC35
+    [Documentation]  Verify can configure Odu interface payload-type via openRoadm leaf
+    [Tags]           Sanity   tc34   odu
+    Log           Configure Opu interface payload-type via Restconf Patch method
+    : FOR    ${INDEX}    IN RANGE    0    4
+    \     ${payloadty}    Evaluate     "".join(random.sample(string.digits, 2))      random,string
+    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    payload-type=${payloadty}  
+    \     @{interface_info}    create list    ${Odu_interface} 
+    \     &{dev_info}   create dictionary   interface=${interface_info}       
+    \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}  
+
+
+TC36
+    [Documentation]  Verify can configure Opu interface exp-payload-type via openRoadm leaf
+    [Tags]           Sanity   tc34   odu
+    Log           Configure Opu interface exp-payload-type via Restconf Patch method
+    : FOR    ${INDEX}    IN RANGE    0    4
+    \     ${expayloadty}   Evaluate     "".join(random.sample(string.digits, 2))      random,string
+    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    exp-payload-type=${expayloadty}  
+    \     @{interface_info}    create list    ${Odu_interface} 
+    \     &{dev_info}   create dictionary   interface=${interface_info}       
+    \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}  
+
+
+TC37
+    [Documentation]  Verify can configure Opu interface payload-interface via openRoadm leaf
+    [Tags]           Sanity   tc34   odu
+    Log           Configure Opu interface payload-interface via Restconf Patch method
+    : FOR    ${INDEX}    IN RANGE    0    4
+    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    payload-interface=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0
+    \     @{interface_info}    create list    ${Odu_interface} 
+    \     &{dev_info}   create dictionary   interface=${interface_info}       
+    \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
+
+
+TC38
     [Documentation]  Verify can delete all odu interface attribute via openRoadm leaf
-    [Tags]           Sanity   tc35   odu
+    [Tags]           Sanity   tc35   odu1
     Log           Delete all Odu interface attribute via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
     \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0   odu=${null}  
@@ -600,7 +639,7 @@ TC35
     \     check status line  ${patch_resp}  200   
 
     
-TC36
+TC39
     [Documentation]  Verify can configure all Odu interface attribute via openRoadm leaf
     [Tags]           Sanity    tc36   odu  
     Log           Configure Odu interface tim-detect-mode via Restconf Patch method
@@ -614,10 +653,13 @@ TC36
     \     ${degpertage}=      Evaluate      random.randint(1, 100)     random
     \     ${deginv}      Convert to string     ${deginv}
     \     ${degpertage}      Convert to string     ${degpertage} 
-    \     ${timdetmode}   Evaluate   random.choice(["SAPI-and-DAPI", "Disabled"])     random
-    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    odu-rate=ODU4    odu-tim-act-enabled=false    odu-tim-detect-mode=${timdetmode}  
+    \     ${timdetmode}   Evaluate   random.choice(["SAPI", "DAPI", "SAPI-and-DAPI", "Disabled"])    random
+    \     ${payloadty}    Evaluate     "".join(random.sample(string.digits, 2))      random,string
+    \     ${expayloadty}   Evaluate     "".join(random.sample(string.digits, 2))      random,string
+    \     &{Odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0    odu-rate=ODU4    odu-tim-act-enabled=true    odu-tim-detect-mode=${timdetmode}  
     \     ...   odu-degm-intervals=${deginv}    odu-degthr-percentage=${degpertage}   monitoring-mode=terminated    proactive-delay-measurement-enabled=false
     \     ...   odu-tx-sapi=${txsapi}    odu-tx-dapi=${txdapi}   odu-tx-operator=${txoper}    odu-expected-sapi=${expsapi}    odu-expected-dapi=${expsdpi}
+    \     ...   payload-type=${payloadty}    exp-payload-type=${expayloadty}    payload-interface=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0
     \     @{interface_info}    create list    ${Odu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -625,7 +667,7 @@ TC36
 
 
 # for Otu port
-TC37
+TC40
     [Documentation]  Verify can configure Otu interface degm-intervals via openRoadm leaf
     [Tags]          Sanity   tc37  otu
     Log           Configure Otu interface degm-intervals via Restconf Patch method  
@@ -641,7 +683,7 @@ TC37
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}    
 
 
-TC38
+TC41
     [Documentation]  Verify can configure Otu interface rate via openRoadm leaf
     [Tags]           Sanity   tc38   otu
     Log           Configure Otu interface rate via Restconf Patch method
@@ -653,7 +695,7 @@ TC38
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC39 
+TC42 
     [Documentation]  Verify can configure Otu interface fec via openRoadm leaf
     [Tags]         Sanity    tc39  otu  
     Log           Configure Otu interface fec via Restconf Patch method
@@ -666,7 +708,7 @@ TC39
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
     
-TC40
+TC43
     [Documentation]  Verify can configure Otu interface tx-sapi via openRoadm leaf
     [Tags]           Sanity   tc40   otu
     Log           Configure Otu interface tx-sapi via Restconf Patch method
@@ -679,7 +721,7 @@ TC40
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC41
+TC44
     [Documentation]  Verify can configure Otu interface tx-dapi via openRoadm leaf
     [Tags]         Sanity  tc41  otu
     Log           Configure Otu interface tx-dapi via Restconf Patch method
@@ -692,7 +734,7 @@ TC41
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC42
+TC45
     [Documentation]  Verify can configure Otu interface tx-operator via openRoadm leaf
     [Tags]          Sanity   tc42   otu
     Log           Configure Otu interface tx-sapi via Restconf Patch method
@@ -705,7 +747,7 @@ TC42
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC43
+TC46
     [Documentation]  Verify can configure Otu interface expected-sapi via openRoadm leaf
     [Tags]           Sanity  tc43  otu
     Log           Configure Otu interface expected-sapi via Restconf Patch method
@@ -718,7 +760,7 @@ TC43
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC44
+TC47
     [Documentation]  Verify can configure Otu interface expected-dapi via openRoadm leaf
     [Tags]        Sanity   tc44   otu
     Log           Configure Otu interface expected-dapi via Restconf Patch method
@@ -731,7 +773,7 @@ TC44
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC45
+TC48
     [Documentation]  Verify can configure Otu interface tim-act-enabled via openRoadm leaf
     [Tags]         Sanity    tc45  otu
     Log           Configure Otu interface tim-act-enabled via Restconf Patch method
@@ -743,20 +785,20 @@ TC45
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
 
-TC46
+TC49
     [Documentation]  Verify can configure Otu interface tim-detect-mode via openRoadm leaf
     [Tags]           Sanity    tc46   otu
     Log           Configure Otu interface tim-detect-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
-    # \     ${timdetmode}   Evaluate   random.choice(["SAPI", "DAPI", "SAPI-and-DAPI", "Disabled"])     random
-    \     ${timdetmode}   Evaluate   random.choice(["SAPI-and-DAPI", "Disabled"])     random
+    \     ${timdetmode}   Evaluate   random.choice(["SAPI", "DAPI", "SAPI-and-DAPI", "Disabled"])     random
+    # \     ${timdetmode}   Evaluate   random.choice(["SAPI-and-DAPI", "Disabled"])     random
     \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-tim-detect-mode=${timdetmode}  
     \     @{interface_info}    create list    ${Otu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}  
 
-TC47
+TC50
     [Documentation]  Verify can delete all otu interface attribute via openRoadm leaf
     [Tags]           Sanity   tc47   otu
     Log           Delete all Otu interface attribute via Restconf Patch method
@@ -768,7 +810,7 @@ TC47
     \     ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
     \     check status line  ${patch_resp}  200   
     
-TC48
+TC51
     [Documentation]  Verify can configure all Otu interface attribute via openRoadm leaf
     [Tags]           Sanity  tc48   otu  
     Log           Configure Otu interface all attributes via Restconf Patch method
@@ -791,14 +833,12 @@ TC48
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}     
 
-    
-#  PR 1403651 [Confidential] - Maint-loopback of OTU interface always display "false" and "fac" via get operation , the case only verify status is false and type is "fac"
-TC49
+
+TC52
     [Documentation]  Verify can Otu interface maint-loopback via openRoadm leaf
     [Tags]           Sanity   tc49   otu
     Log           Enbale Otu interface maint-loopback via Restconf Patch method
-    #${otulbtype}   Evaluate   random.choice(["term", "fac"])     random
-    ${otulbtype}   Evaluate   random.choice(["fac"])     random
+    ${otulbtype}   Evaluate   random.choice(["term", "fac"])     random
     : FOR    ${INDEX}    IN RANGE    0    4
     \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=false     otu-maint-type=${otulbtype}
     \     @{interface_info}    create list    ${Otu_interface} 
@@ -807,12 +847,13 @@ TC49
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
 
 
-TC50
+TC53
     [Documentation]  Verify can enable Otu interface maint-loopback via openRoadm leaf
     [Tags]         Sanity    tc50  otu
     Log           Enbale Otu interface maint-loopback via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
-    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=false
+    \     ${lpstatus}   Evaluate   random.choice(["true", "false"])     random
+    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=${lpstatus}
     \     @{interface_info}    create list    ${Otu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
