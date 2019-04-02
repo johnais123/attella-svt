@@ -192,7 +192,10 @@ def wait4ExpectedNotifications(ncHandle, listNotifications, timeout=60):
             elif "db-backup-notification" == listNotify[0]:
                 pass
             elif "transfer-notification" == listNotify[0]:
-                pass
+                if re.match("%s"%TRANSFER_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
+                    print("the expected notification received!")
+                    lReceivedNotifications.append(listNotify)
+                    break
             elif "db-restore-notification" == listNotify[0]:
                 pass
             else:
