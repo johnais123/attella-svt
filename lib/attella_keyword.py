@@ -8,7 +8,7 @@ ROBOT_LIBRARY_SCOPE = "GLOBAL"
 
 # get xml file name from module name
 def getXMLFileNameFromModuleName(strModuleName):
-    if strModuleName in ["org-openroadm-device"]:
+    if strModuleName in ["org-openroadm-device","users", "user"]:
         return "org-openroadm-device.xml"
     elif strModuleName in ["active-alarm-list"]:
         return "org-openroadm-alarm.xml"

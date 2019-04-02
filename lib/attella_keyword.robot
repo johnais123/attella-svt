@@ -401,3 +401,37 @@ Get Device Name From IP
     [Arguments]    ${tv}  ${node}
 	${resp}=  getDeviceNameFromMgtIP  ${tv}  ${node}
 	[return]  ${resp}
+
+Delete All Users
+    [Documentation]   Delete all created openroadm users
+    [Arguments]    ${odl_sessions}    ${node}    
+    ${resp}        Send Delete Request With Complete Url    ${odl_sessions}    ${node}    org-openroadm-device:org-openroadm-device/users/    
+    [return]    ${resp} 
+
+Delete User
+    [Documentation]   Delete openroadm user
+    [Arguments]    ${odl_sessions}    ${node}     ${username} 
+    ${resp}        Send Delete Request With Complete Url    ${odl_sessions}    ${node}    org-openroadm-device:org-openroadm-device/users/user/${username}    
+    [return]    ${resp} 
+  
+Create New User
+    [Documentation]   Create a new User
+    [Arguments]    ${odl_sessions}    ${node}    ${username}    ${password}    ${group}
+	&{user}    create_dictionary   name=${username}    password=${password}    group=${group}  
+    &{payload}   create_dictionary   user=${user}
+    ${resp}        Send Post Request    ${odl_sessions}   ${node}  org-openroadm-device:org-openroadm-device/users/     ${payload}
+    [return]    ${resp}  
+
+Change User Password
+     [Documentation]   Change an existed user password
+    [Arguments]    ${odl_sessions}    ${node}    ${username}    ${new_password}    
+	&{userattr}    create_dictionary   name=${username}    password=${new_password}    group=sudo  
+    &{payload}   create_dictionary   user=${userattr}
+    ${url}=     Retrieve set URL  ${payload}
+    ${data}=    Set variable    <yang-patch xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-patch"><patch-id>Patch operation</patch-id><edit><edit-id>50</edit-id><operation>merge</operation><target>/</target><value>${url}</value></edit></yang-patch>
+    ${resp}=            Patch Request   @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/org-openroadm-device:org-openroadm-device/users/user/${username}   data=${data}    headers=${patch_headers}    allow_redirects=False
+    [Return]  ${resp}
+  
+
+
+    
