@@ -198,12 +198,21 @@ def wait4ExpectedNotifications(ncHandle, listNotifications, timeout=60):
                     break
             elif "db-restore-notification" == listNotify[0]:
                 pass
+            elif "sw-stage-notification" == listNotify[0]:
+                if re.match("%s"%SW_STAGE_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
+                    print("the expected notification received!")
+                    lReceivedNotifications.append(listNotify)
+                    break
+            elif "sw-activate-notification" == listNotify[0]:
+                if re.match("%s"%SW_ACTIVATE_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
+                    print("the expected notification received!")
+                    lReceivedNotifications.append(listNotify)
+                    break
             else:
                 print("unknown notification type -- %s"%listNotify[0])
         if len(lReceivedNotifications) == len(listNotifications):
             ret = True
             break
-    # ncHandle.close_session()
     
     print("expected notification list is %s; the received list is %s"%(listNotifications, lReceivedNotifications))
     if ret:
@@ -246,6 +255,49 @@ class TRANSFER_NOTIFICATION():
         statusMsg = ET.SubElement(b, 'status-message')
         if "Successful" == self.status:
             statusMsg.text = "File transfer successful"
+        else:
+            statusMsg.text = ".*"
+        eventTime = ET.SubElement(a, 'eventTime')
+        eventTime.text = "\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}\+\d{2}:\d{2}"
+        return str(ET.tostring(a), encoding='utf-8')
+        
+        
+class SW_ACTIVATE_NOTIFICATION():
+    def __init__(self, strType, strStatus):
+        self.type = strType
+        self.status = strStatus
+        
+    def __str__(self):
+        a = ET.Element('notification', xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0")
+        b = ET.SubElement(a, 'sw-activate-notification', xmlns="http://org/openroadm/de/swdl")
+        type = ET.SubElement(b, 'sw-active-notification-type')
+        type.text = self.type
+        status = ET.SubElement(b, 'status')
+        status.text = self.status
+        statusMsg = ET.SubElement(b, 'status-message')
+        if "Successful" == self.status:
+            statusMsg.text = "Database activation event: %s"%self.type
+        else:
+            statusMsg.text = ".*"
+        eventTime = ET.SubElement(a, 'eventTime')
+        eventTime.text = "\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}\+\d{2}:\d{2}"
+        return str(ET.tostring(a), encoding='utf-8')
+        
+class SW_STAGE_NOTIFICATION():
+    def __init__(self, strPath, strStatus):
+        self.path = strPath
+        self.status = strStatus
+        
+    def __str__(self):
+        a = ET.Element('notification', xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0")
+
+        b = ET.SubElement(a, 'sw-stage-notification', xmlns="http://org/openroadm/de/swdl")
+
+        status = ET.SubElement(b, 'status')
+        status.text = self.status
+        statusMsg = ET.SubElement(b, 'status-message')
+        if "Successful" == self.status:
+            statusMsg.text = "Software staged successfully with file %s"%self.path
         else:
             statusMsg.text = ".*"
         eventTime = ET.SubElement(a, 'eventTime')
