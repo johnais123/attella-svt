@@ -216,10 +216,10 @@ Create 100GE Service
     ${och rate}=  Speed To OCH Rate  ${rate}
 	
 	${length}=  Get Length  ${names for interfaces}
-	${client intf}=  Set Variable If  ${length}==4  @{names for interfaces}[3]
-	${odu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[2]
-	${otu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[1]
-	${och intf}=  Set Variable If  ${length}==4  @{names for interfaces}[0]
+	${client intf}=  Set Variable If  ${length}==4  @{names for interfaces}[3]  ${client intf}
+	${odu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[2]  ${odu intf}
+	${otu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[1]  ${otu intf}
+	${och intf}=  Set Variable If  ${length}==4  @{names for interfaces}[0]  ${och intf}
     
     &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
     ...    interface-administrative-state=inService   speed=${client rate}
@@ -266,11 +266,11 @@ Create OTU4 Service
 	
 	
 	${length}=  Get Length  ${names for interfaces}
-	${client intf}=  Set Variable If  ${length}==5  @{names for interfaces}[4]
-	${client otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[3]
-	${odu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[2]
-	${otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[1]
-	${och intf}=  Set Variable If  ${length}==5  @{names for interfaces}[0]
+	${client intf}=  Set Variable If  ${length}==5  @{names for interfaces}[4]  ${client intf}
+	${client otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[3]  ${client otu intf}
+	${odu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[2]  ${odu intf}
+	${otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[1]  ${otu intf}
+	${och intf}=  Set Variable If  ${length}==5  @{names for interfaces}[0]  ${och intf}
 	
 
     &{client_otu_interface}    create_dictionary   interface-name=${client otu intf}    description=client-otu-${discription}    interface-type=otnOtu  interface-circuit-id=1234  
