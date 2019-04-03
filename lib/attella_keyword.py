@@ -310,6 +310,8 @@ def Retrieve_set_URL(dictParams):
         targetEt = ET.Element(keyModule)
         for key, value in dictModule.items():
             # getOperXml(targetEt, key, str(value))
+            if isinstance(value, int):
+                value = str(value)
             getOperXml(targetEt, key, value)
         strRet += ET.tostring(targetEt).decode()
     return strRet.replace("xls=", "xmlns=")
