@@ -1,21 +1,17 @@
-#fv-connect-controllers "all";
-#fv-load-baseline-config-from  "default";
-#fv-core-check   "enable";
-
-
-
 device0 {
   system {
     model ("ACX6160-T");
     fv-tags "dut";
-    # name "Gemini05";
+    fv-connect-user "openroadm";
+    fv-connect-password "openroadm";
+    fv-core-check   "enable";
+    fv-connect-controllers "all";
+    #fv-load-baseline-config-from  "default";
   }
 }
 
 
-
 uv-odl-server  "172.27.93.100:38181";
 uv-odl-interval  "10";
-uv-odl-password  "admin";
 uv-odl-timeout  "600";
-uv-odl-username  "admin";
+uv-remote-sftp-Path  "sftp://atlas:atlas@10.228.0.25/attella_log/Wh_team"; 

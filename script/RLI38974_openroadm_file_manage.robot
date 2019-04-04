@@ -41,7 +41,7 @@ Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Resource        ../lib/restconf_oper.robot
 Resource        ../lib/attella_keyword.robot
-
+Resource        ../lib/notification.robot
 
 Suite Setup   Run Keywords
 ...              Toby Suite Setup
@@ -58,108 +58,255 @@ Suite Teardown  Run Keywords
 
 
 *** Variables ***
+@{auth}    admin   admin
 
-@{auth}     admin    admin
-${interval}  120
-${timeout}   120
-${remotesftpPath}   sftp://atlas:atlas@10.228.0.25/attella_log/Wh_team
-# filename should be include number 1 for below testing 
-@{remoteTestFile}     tempm1.gz    tempconfig1.txt
 
 *** Test Cases ***     
-perform rpc transfer download file
-    [Documentation]  Download file via transfer rpc
+Perform rpc collect history pm 
+    [Documentation]  Collect history pm via rpc request and verfiy reply message
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc1  done
-    @{filename}    create list    @{remoteTestFile} 
-    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${remotesftpPath} 
-    
-    
-perform rpc transfer show special file
-    [Documentation]  display special transfer file via rpc command 
-    ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc2  done 
-    @{filename}    create list    @{remoteTestFile}
-    Rpc Command For Show File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
+    [Tags]           Sanity   tc1 
+    RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     1   96   15min
+    Sleep  10
+    RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     1   1   24Hour
 
 
-perform rpc transfer show all file
-    [Documentation]  display all transfer file via rpc command 
+Verify historical pm file uploaded to special directory
+    [Documentation]  Historical pm file can uploaded to special directory
+    ...              RLI38974 5.1-1 
+    [Tags]           Sanity   tc2
+    ${startbin} =     Evaluate   random.randint(1, 48)    modules=random
+    ${endbin} =     Evaluate   random.randint(48, 96)    modules=random
+    Verify history pm file upload success    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${startbin}   ${endbin}   15min  
+
+
+Check historical pm file bin correctness
+    [Documentation]  check historcial pm file can get pm statistics following configure bin number 
+    ...              RLI38974 5.1-1
+    [Tags]           Sanity   tc3
+    ${startbin} =     Evaluate   random.randint(1, 48)    modules=random
+    ${endbin} =     Evaluate   random.randint(48, 96)    modules=random
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    ${hispmstring}=     Retrieve History Pm Detail Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     ${startbin}   ${endbin}   15min
+    : FOR    ${INDEX}    IN RANGE    ${startbin}    ${endbin}
+    \    Should Contain     ${hispmstring}   <bin-number>${INDEX}</bin-number>
+    ${noChooseBin}=   Evaluate   random.choice((0, ${startbin}-1)+(${endbin}+1,96))    modules=random 
+    Should Not Contain    ${hispmstring}    <bin-number>${noChooseBin}</bin-number>
+
+
+Check historical pm file granularity correctness
+    [Documentation]  check historcial pm file can get pm statistics following configure granularity 
     ...              RLI38974 5.1-2
-    [Tags]           Sanity   tc3  done
-    @{newfilename}    create list    @{remoteTestFile}
-    @{fileall}        Combine Lists    ${deffilelist}   ${newfilename} 
-    Rpc Command For Show All File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${fileall} 
-    
-        
-perform rpc transfer upload file
+    [Tags]           Sanity   tc4
+    @{pmInterList}    Create List    15min
+    ${pmInterval}=   Evaluate   random.choice(${pmInterList})    modules=random 
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    ${hispmstring}=     Retrieve History Pm Detail Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    1   1   ${pmInterval}
+    Should Contain     ${hispmstring}   <granularity>${pmInterval}</granularity>
+    Should Not Contain     ${hispmstring}   <granularity>24Hour</granularity>
+
+
+Perform rpc transfer upload file
     [Documentation]  Upload file via transfer rpc
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc4   done
-    @{filename2}    create list   
-    :For  ${extrafile}   in   @{remoteTestFile}
-    \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
-    \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
-    \   Append To List   ${filename2}   ${extrafile}
-    Set Suite Variable    ${filename2}
-    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename2}   ${remotesftpPath}  
-    
-    
-perform rpc transfer delete special file
-    [Documentation]  Delete special transfer file via rpc command 
-    ...              RLI38974 5.1-3
-    [Tags]           Sanity   tc5   done
-    @{filename}    create list    @{remoteTestFile}
-    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}  
-    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename2} 
+    [Tags]           Sanity   tc5
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
+    @{filelist}      create list    @{curfilelist1}[0] 
+    Set Suite Variable    ${extrafile} 
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filelist}   ${tv['uv-remote-sftp-path']}   ${extrafile}
 
 
-perform rpc transfer delete file via wild-card
-    [Documentation]  Delete special transfer file via rpc command 
-    ...              RLI38974 5.1-3
-    [Tags]           Sanity   tc6    
-    @{filename}    create list    temp*
-    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
+Perform rpc transfer download file
+    [Documentation]  Download file via transfer rpc
+    ...              RLI38974 5.1-1   
+    [Tags]           Sanity   tc6
+    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}    
 
 
-perform rpc create tech info
-    [Documentation]  produce tech info file in a special directory
+Perform rpc transfer show special file
+    [Documentation]  display special transfer file via rpc command 
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc7    
+    [Tags]           Sanity   tc7
+    @{filename}    create list    ${extrafile}
+    Rpc Command For Show File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}
+
+
+Perform rpc transfer show all file
+    [Documentation]  display all transfer file via rpc command 
+    ...              RLI38974 5.1-2
+    [Tags]           Sanity   tc8
+    @{curfilelist}=    Get Default Openroadm File
+    Rpc Command For Show All File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${curfilelist} 
+    
+    
+Perform rpc transfer delete special file
+    [Documentation]  Delete special transfer file via rpc command 
+    ...              RLI38974 5.1-3   
+    [Tags]           Sanity   tc9
+    @{filename}    create list    ${extrafile}
+    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}  
+
+
+Perform rpc transfer delete file via wild-card
+    [Documentation]  Delete special transfer file via rpc command 
+    ...              RLI38974 5.1-3
+    [Tags]           Sanity   tc10
+    @{filename}    create list    pm*
+    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
+    @{curfilelist}=    Get Default Openroadm File
+    Should Not Contain Match    ${curfilelist}   pm*
+
+
+# Perform rpc transfer can work after warm reload
+#     [Documentation]  Warm reboot system via transfer rpc
+#     ...              RLI38974 5.1-1  
+#     [Tags]           reload    
+#     Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}    device0
+#     @{filename}    create list   
+#     :For  ${extrafile}   in   @{remoteTestFile}
+#     \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+#     \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
+#     \   Append To List   ${filename}   ${extrafile}
+#     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${tv['uv-remote-sftp-path']} 
+# 
+# 
+# Perform rpc transfer can work after cold reload
+#     [Documentation]  Cold reboot system via transfer rpc
+#     ...              RLI38974 5.1-1
+#     [Tags]           relod
+#     Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}     device0
+#     @{filename}    create list   
+#     :For  ${extrafile}   in   @{remoteTestFile}
+#     \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+#     \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
+#     \   Append To List   ${filename}   ${extrafile}
+#     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${tv['uv-remote-sftp-path']} 
+  
+
+Enable rpc led control 
+    [Documentation]  produce tech info file without any leaves in a special directory
+    ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
+    ...              RLI38974 5.1-1
+    [Tags]          Sanity    tc13
+    ${shelfnm}   set variable    shelf-0
+    ${ledstatflag}      set variable   true
+    ${resp}=     RPC Led Control    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${shelfnm}    ${ledstatflag}
+    Log              Verify Equipment LED On can be rasied on shelf-0
+    sleep  5
+    @{expectedAlarms_led_on}      Create List       Equipment LED On 
+    @{activeAlarmList}=  Get Alarms On Resource   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfnm}
+    List Should Contain Sub List    ${activeAlarmList}    ${expectedAlarms_led_on}
+
+
+Disable rpc led control 
+    [Documentation]  produce tech info file without any leaves in a special directory
+    ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
+    ...              RLI38974 5.1-1
+    [Tags]          Sanity    tc13
+    ${shelfnm}   set variable    shelf-0
+    ${ledstatflag}      set variable   false
+    ${resp}=     RPC Led Control    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${shelfnm}    ${ledstatflag}
+    sleep  5
+    Log              Verify Equipment LED On can be cleared on shelf-0
+    ${notexpectedAlarms}      set variable      Equipment LED On 
+    @{activeAlarmList}=  Get Alarms On Resource   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfnm}
+    List Should Not Contain Value   ${activeAlarmList}    ${notexpectedAlarms}
+
+
+Perform rpc create tech info
+    [Documentation]  Collect tech info file in a special directory
+    ...              RLI38974 5.1-1
+    [Tags]           Sanity   tc11  tech  
     ${shelfid}      set variable    shelf-0
     ${logoption}    set variable    all  
-    RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}
+    ${debugfileName}=    RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}  
+    Wait Until Keyword Succeeds   300 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
 
 
-perform rpc transfer can work after warm reload
-    [Documentation]  Warm reboot system via transfer rpc
-    ...              RLI38974 5.1-1  
-    [Tags]           Sanity   tc8   reload    
-    Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${timeout}    ${interval}   device0
-    @{filename}    create list   
-    :For  ${extrafile}   in   @{remoteTestFile}
-    \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
-    \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
-    \   Append To List   ${filename}   ${extrafile}
-    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${remotesftpPath}  
 
-
-perform rpc transfer can work after cold reload
-    [Documentation]  Cold reboot system via transfer rpc
+Perform rpc create tech info without any leaves
+    [Documentation]  Collect tech info file without any leaves in a special directory
+    ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
     ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc9   reload  
-    Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${timeout}    ${interval}    device0
-    @{filename}    create list   
-    :For  ${extrafile}   in   @{remoteTestFile}
-    \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
-    \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
-    \   Append To List   ${filename}   ${extrafile}
-    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${remotesftpPath}  
+    [Tags]           Sanity    tc13
+    ${urlhead}   set variable    org-openroadm-device:create-tech-info
+    ${data}      set variable   <input xmlns="http://org/openroadm/device"></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${urlhead}    ${data}
+    check status line    ${resp}     200 
+    ${elem} =  get element text  ${resp.text}    status
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    ${sheflid} =  get element text  ${resp.text}    shelf-id
+    Run Keyword If      '${sheflid}' == 'shelf-0'     Log  the shelf information display correct
+    ...         ELSE    FAIL    Expect shefl id is shelf-0, but get ${sheflid}
+    ${debugfilename} =  get element text  ${resp.text}    log-file-name
+    Wait Until Keyword Succeeds   300 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
+
+
+# Verify historical pm collect notification
+#     [Documentation]  Historical pm file can uploaded to special directory
+#     ...              RLI38974 5.1-1 
+#     [Tags]           Sanity   tc2
+#     @{PmcollectNotification}=  Create List  transfer-notification  yourfilename  Successful(or Failed)
+#     @{Notifications}=  Create List  ${PmcollectNotification}
+#     Verify history pm file upload success    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   1   96  15min  
+#     Notifications Should Raised   ${ncHandle}   ${Notifications}
+
+
+Verify successful transfer upload notification
+    [Documentation]  Verify transfer upload notification can be reported successfully
+    ...              RLI38974 5.1-1
+    [Tags]           Sanity   tc55
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
+    @{filelist}      create list    @{curfilelist1}[0] 
+    Set Suite Variable    ${extrafile}
+    @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]  Successful
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filelist}   ${tv['uv-remote-sftp-path']}   ${extrafile}
+    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
+
+
+Verify failed transfer upload notification with non exist file
+    [Documentation]  Verify transfer upload notification can be reported failed with non-exsit file
+    ...              RLI38974 5.1-1
+    [Tags]           Sanity   tc55
+    ${addstr}=      Generate Random String   3      [NUMBERS]abcdef
+    @{curfilelist1}=  create list    ${addstr}.txt
+    @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]   Failed
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${curfilelist1}   ${tv['uv-remote-sftp-path']}   @{curfilelist1}[0]
+    Notifications Should Raised   ${ncHandle}   ${Notifications}   30
+
+
+Verify transfer download notification
+    [Documentation]  Verify transfer download notification can be reported successfully
+    ...              RLI38974 5.1-1
+    [Tags]           Sanity   tc55
+    @{uploadNotification}=  Create List  transfer-notification  ${extrafile}  Successful
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}
+    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
+
+
+Verify failed transfer download notification with non exist file
+    [Documentation]  Verify transfer download notification can be reported failed with non-exsit file
+    ...              RLI38974 5.1-1
+    [Tags]           Sanity   tc55
+    ${nonexistfile}=      Generate Random String   2      [NUMBERS]abcdef
+    @{uploadNotification}=  Create List  transfer-notification  ${nonexistfile}  Failed
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${nonexistfile}
+    Notifications Should Raised   ${ncHandle}   ${Notifications}   30
 
 
 *** Keywords ***
 Testbed Init
-    # Initialize
     log   retrieve system relate information via CLI
     ${r0} =     Get Handle      resource=device0
     Set Suite Variable    ${r0}
@@ -168,26 +315,28 @@ Testbed Init
     Get Default Openroadm File 
     Log To Console      create a restconf operational session   
     ${opr_session}    Set variable      operational_session
-    Create Session          ${opr_session}    http://${tv['uv-odl-server']}/restconf/operational/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
+    Create Session          ${opr_session}    http://${tv['uv-odl-server']}/restconf/operational/network-topology:network-topology/topology/topology-netconf    auth=${auth}     debug=1
     Set Suite Variable    ${opr_session}
     
     Log To Console      create a restconf config session
     ${cfg_session}    Set variable      config_session
-    Create Session          ${cfg_session}    http://${tv['uv-odl-server']}/restconf/config/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
+    Create Session          ${cfg_session}    http://${tv['uv-odl-server']}/restconf/config/network-topology:network-topology/topology/topology-netconf    auth=${auth}     debug=1
     Set Suite Variable    ${cfg_session}
 
     Log To Console      create a restconf rpc session
     ${rpc_session}    Set variable      rpc_session
-    Create Session          ${rpc_session}    http://${tv['uv-odl-server']}/restconf/operations/network-topology:network-topology/topology/topology-netconf    auth=${auth}    debug=1
+    Create Session          ${rpc_session}    http://${tv['uv-odl-server']}/restconf/operations/network-topology:network-topology/topology/topology-netconf    auth=${auth}      debug=1
     Set Suite Variable    ${rpc_session}
         
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}   ${rpc_session}
     Set Suite Variable    ${odl_sessions}
     
-    Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
-    sleep   15s 
-    Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
+    Mount vAttella On ODL Controller    ${odl_sessions}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}    ${tv['device0__re0__mgt-ip']}
+    sleep   5s 
+    Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}  ${tv['device0__re0__mgt-ip']}
 
+    ${ncHandle}=  Get Netconf Client Handle  ${tv['device0__re0__mgt-ip']}
+    Set Suite Variable    ${ncHandle}
 
 Get Default Openroadm File 
     @{nulllist}  create list 
@@ -196,3 +345,38 @@ Get Default Openroadm File
     ${deffilelist}=     getdefaultOpenroamdfile   ${cmd1}
     Set Suite Variable    ${deffilelist}
     log     ${deffilelist}
+    [return]    ${deffilelist}
+
+
+Verify history pm file upload success
+    [Documentation]   Verify history pm file upload success
+    [Arguments]     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${startbin}   ${endbin}   ${pmInterval}
+    ${hisPmName}=   RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${startbin}   ${endbin}   ${pmInterval}
+    sleep  10
+    Execute shell command on device     device=${r0}       command=cd /var/openroadm
+    ${cmd1}=     Execute shell command on device     device=${r0}     command=ls
+    ${deffilelist}=     getdefaultOpenroamdfile   ${cmd1}
+    List Should Contain Value     ${deffilelist}      ${hisPmName}
+    Set Suite Variable    ${hisPmName}
+    [return]     ${hisPmName}
+
+
+Retrieve History Pm Detail Statistics 
+    [Documentation]   Retrieve Detail history pm data 
+    [Arguments]     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${startbin}   ${endbin}   ${pmInterval}    
+    ${hisPmName}=    Verify history pm file upload success    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${startbin}   ${endbin}   ${pmInterval}   
+    Switch to superuser    device=${r0}
+    Execute shell command on device     device=${r0}       command=who
+    Execute shell command on device     device=${r0}       command=cd /var/openroadm
+    Execute shell command on device     device=${r0}       command=gunzip ${hisPmName}
+    ${gethisNamelem}    Evaluate       '${hisPmName}'.split(".")[0]   string
+    ${pmstring}=    Execute shell command on device     device=${r0}       command=cat ${gethisNamelem}
+    Set Suite Variable    ${pmstring}
+    [return]     ${pmstring}
+
+
+Wait For Collect Tech Info    
+    [Documentation]   Wait for collect tech info file 
+    [Arguments]     ${debugfileName} 
+    @{filelist}=   Get Default Openroadm File 
+    List Should Contain Value     ${filelist}    ${debugfileName}    
