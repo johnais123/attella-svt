@@ -411,8 +411,8 @@ Delete All Users
 Delete User
     [Documentation]   Delete openroadm user
     [Arguments]    ${odl_sessions}    ${node}     ${username} 
-    ${resp}        Send Delete Request With Complete Url    ${odl_sessions}    ${node}    org-openroadm-device:org-openroadm-device/users/user/${username}    
-    [return]    ${resp} 
+    ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/org-openroadm-device:org-openroadm-device/users/user/${username}    headers=${delete_headers}    allow_redirects=False 
+    [return]  ${resp}
   
 Create New User
     [Documentation]   Create a new User
@@ -423,7 +423,7 @@ Create New User
     [return]    ${resp}  
 
 Change User Password
-     [Documentation]   Change an existed user password
+    [Documentation]   Change an existed user password
     [Arguments]    ${odl_sessions}    ${node}    ${username}    ${new_password}    
 	&{userattr}    create_dictionary   name=${username}    password=${new_password}    group=sudo  
     &{payload}   create_dictionary   user=${userattr}
@@ -432,6 +432,17 @@ Change User Password
     ${resp}=            Patch Request   @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/org-openroadm-device:org-openroadm-device/users/user/${username}   data=${data}    headers=${patch_headers}    allow_redirects=False
     [Return]  ${resp}
   
-
+Check User In Openroadm
+    [Documentation]   Check if user exists in openroadm configuration
+    [Arguments]    ${odl_sessions}    ${node}    ${username}   
+    ${resp}=             Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/org-openroadm-device:org-openroadm-device/users/    headers=${get_headers}    allow_redirects=False
+    ${resp_content}=              Decode Bytes To String   ${resp.content}    UTF-8
+    Log       ${resp_content}
+    @{user_names}            Get Elements      ${resp_content}    /users/user/name
+    Log       ${user_names}
+    : FOR    ${name}    IN   @{user_names}  
+	\        Log        ${name.text}
+    \        return from keyword if     """${name.text}""" == """${username}"""     ${TRUE}
+    [Return]   ${FALSE}
 
     
