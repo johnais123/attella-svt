@@ -162,7 +162,11 @@ Send Rpc Command
     
     
 Rpc Command For Show File
-    [Documentation]   display file relate status message via file transfer Rpc command 
+    [Documentation]   Show one or more files in the specified directory
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - testfile  ： Specify file(s) to be listed (* is allowed as wild-card) and the length "1..255"    
     [Arguments]    ${odl_sessions}   ${node}   ${testfile}
     ${urlhead}    set variable    org-openroadm-file-transfer:show-file 
     :For  ${FileNm}  in   @{testfile}
@@ -172,21 +176,25 @@ Rpc Command For Show File
     \    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     \    check status line    ${resp}     200  
     \    ${elem} =  get element text  ${resp.text}    status
-    \    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
     \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     \    ${elem2} =     get elements texts    ${resp.text}    status-message
     \    List Should Contain Value    ${elem2}    ${FileNm}
 
 
 Rpc Command For Show All File
-    [Documentation]   display file relate status message via file transfer Rpc command 
+    [Documentation]   display file relate status message via file transfer Rpc command
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - allfilelist  ： * represent all file need be shown     
     [Arguments]    ${odl_sessions}   ${node}    ${allfilelist}
     ${urlhead}   set variable    org-openroadm-file-transfer:show-file
-    ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><filename>**</filename></input>
+    ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><filename>*</filename></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     check status line    ${resp}     200       
     ${elem} =  get element text  ${resp.text}    status
-    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     ${elem2} =     get elements texts    ${resp.text}    status-message
     Log    ${elem2} 
@@ -197,75 +205,104 @@ Rpc Command For Show All File
 
     
 Rpc Command For Delete File
-    [Documentation]   Delete file via file transfer Rpc command 
-    [Arguments]    ${odl_sessions}   ${node}   ${testfile}
+    [Documentation]   Delete one or more files in the specified directory
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - testfile  ： Specify file(s) to be listed (* is allowed as wild-card) and the length "1..255"    
+    [Arguments]    ${odl_sessions}   ${node}    ${testfile}
     ${urlhead}   set variable    org-openroadm-file-transfer:delete-file
     :For  ${FileNm}  in   @{testfile}
     \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><filename>${FileNm}</filename></input>
     \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     \     check status line    ${resp}     200    
     \     ${elem} =  get element text  ${resp.text}    status
-    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
     \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     \     Sleep   10
 
     
 Rpc Command For Upload File
     # no way to check remote sftp server file ,so i via download to my device again and check new file whether upload to sftp server
-    [Documentation]   Upload file via file transfer Rpc command 
-    [Arguments]    ${odl_sessions}   ${node}   ${filelist}   ${remotePath}
-    :For  ${FileNm}  in   @{filelist}
+    [Documentation]   Upload file via file transfer Rpc command using FTP/SFTP
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - localfilelist  ： under upload file list with local file name, support mutiple files upload
+    ...           | - remotePath  ： Remote file path   Format:sftp://user[:password]@host[:port]/path
+    ...           | - newFileNm  ： rename file and upload to remote server    
+    [Arguments]    ${odl_sessions}   ${node}   ${localfilelist}    ${remotePath}   ${newFileNm}
+    :For  ${FileNm}  in   @{localfilelist}
     \     ${urlhead}   set variable    org-openroadm-file-transfer:transfer
-    \     ${fullremotePath}=    set variable     ${remotesftpPath}/${FileNm}
+    \     ${fullremotePath}=    set variable     ${remotePath}/${newFileNm}
     \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><action>upload</action><local-file-path>${FileNm}</local-file-path><remote-file-path>${fullremotePath}</remote-file-path></input>
     \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}  
     \     check status line    ${resp}     200 
     \     ${elem} =  get element text  ${resp.text}    status
-    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
     \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     \     sleep  10
-    \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><action>download</action><local-file-path>${FileNm}</local-file-path><remote-file-path>${fullremotePath}</remote-file-path></input>
-    \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
-    \     check status line    ${resp}     200 
-    \     ${elem} =  get element text  ${resp.text}    status
-    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
-    \     sleep  10
-    \     ${urlhead}   set variable    org-openroadm-file-transfer:show-file
-    \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><filename>${FileNm}</filename></input>
-    \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
-    \     check status line    ${resp}     200  
-    \     ${elem} =  get element text  ${resp.text}    status
-    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
-    \     ${elem2} =     get elements texts    ${resp.text}    status-message
-    \     List Should Contain Value    ${elem2}    ${FileNm}
-    \     Sleep   10 
     
 Rpc Command For Download File
-    [Documentation]   Upload file via file transfer Rpc command 
-    [Arguments]    ${odl_sessions}   ${node}   ${filelist}   ${remotePath}
+    [Documentation]   Upload file via file transfer Rpc command
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - remotePath  ： Remote file path   Format:sftp://user[:password]@host[:port]/path/filename
+    ...           | - FileNm  ： download specific remote file to local with FileNm         
+    [Arguments]    ${odl_sessions}   ${node}    ${remotePath}    ${FileNm}  
     ${urlhead}   set variable    org-openroadm-file-transfer:transfer
-    :For  ${FileNm}  in   @{filelist}
-    \     ${fullremotePath}=    set variable     ${remotesftpPath}/${FileNm}
-    \     ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><action>download</action><local-file-path>${FileNm}</local-file-path><remote-file-path>${fullremotePath}</remote-file-path></input>
-    \     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
-    \     check status line    ${resp}     200 
-    \     ${elem} =  get element text  ${resp.text}    status
-    \     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    \     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
-    \     Sleep  10
+    ${fullremotePath}=    set variable     ${remotePath}/${FileNm}
+    ${data}      set variable    <input xmlns="http://org/openroadm/file-transfer"><action>download</action><local-file-path>${FileNm}</local-file-path><remote-file-path>${fullremotePath}</remote-file-path></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+    check status line    ${resp}     200 
+    ${elem} =  get element text  ${resp.text}    status
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    Sleep  10
 
 
 RPC Create Tech Info
     [Documentation]   Collects all logs data for debugging and place it in a location accessible via RPC create-tech-info 
+    ...               This model assumes ASYNC operation
+    ...               Refer to org-openroadm-device yang file
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - shelfid  ： This optional field is used to specify the shelf for log collection , only support "shelf-0"
+    ...           | - logoption :  The log type a vendor can specify. Maybe used in future, the default value is "all"              
     [Arguments]    ${odl_sessions}   ${node}   ${shelfid}   ${logoption}
     ${urlhead}   set variable    org-openroadm-device:create-tech-info
     ${data}      set variable   <input xmlns="http://org/openroadm/device"><shelf-id>${shelfid}</shelf-id><log-option>${logoption}</log-option></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
     check status line    ${resp}     200 
     ${elem} =  get element text  ${resp.text}    status
-    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
+    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    ${sheflid} =  get element text  ${resp.text}    shelf-id
+    Run Keyword If      '${sheflid}' == 'shelf-0'     Log  the shelf information display correct
+    ...         ELSE    FAIL    Expect shefl id is shelf-0, but get ${sheflid}
+    ${debugfilename} =  get element text  ${resp.text}    log-file-name
+    log    ${debugfilename}
+    [Return]    ${debugfilename}
+
+
+RPC Led Control
+    [Documentation]   Allow user to find an entity on the NE ,the specified entity will have LED blinking
+    ...               equipmentLedOn alarm will be raised and cleared for the indication via leaf enabled
+    ...               Refer to org-openroadm-device yang file
+    ...           Args:
+    ...           | - odl_sessions : config/operational sessions to ODL controller
+    ...           | - node : mount node in ODL
+    ...           | - shelfnm  ： shelf name for the operation , only support "shelf-0"
+    ...           | - ledstatflag  :  led-control enabled flag     
+    [Arguments]    ${odl_sessions}   ${node}    ${shelfnm}      ${ledstatflag}
+    ${urlhead}   set variable    org-openroadm-device:led-control
+    ${data}      set variable   <input xmlns="http://org/openroadm/device"><shelf-name>${shelfnm}</shelf-name><enabled>${ledstatflag}</enabled></input>
+    ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
+    check status line    ${resp}     200 
+    ${elem} =  get element text  ${resp.text}    status
+    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
     
     
@@ -294,6 +331,7 @@ RPC Collect Historical Pm
     ${hispmfile} =  get element text  ${resp.text}    pm-filename
     log    ${hispmfile}
     [return]     ${hispmfile}
+
     
 Rpc Command For Warm Reload Device
     [Documentation]   Restart a resource with warm option via Rpc command 
@@ -342,6 +380,7 @@ RPC Set Current Datetime
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
 
+    
 RPC Command For Password Change
     [Documentation]   Change passord for Attella system. 
     ...               Args:
@@ -357,20 +396,17 @@ RPC Command For Password Change
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+
+
 Rpc Command For DB Backup
     [Documentation]   backup database via DB Backup Rpc command 
     [Arguments]    ${odl_sessions}   ${node}   ${filename}
-	
-	Log  ${tv}
+		Log  ${tv}
     ${urlhead}    set variable    org-openroadm-database:db-backup 
-
-
     ${data}      set variable    <input xmlns="http://org/openroadm/database"><filename>${filename}</filename></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
 	Log  ${resp.content}
     check status line    ${resp}     200  
-
-
 
 	
 Rpc Command For DB Restore
@@ -382,8 +418,7 @@ Rpc Command For DB Restore
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
 	Log  ${resp.content}
     check status line    ${resp}     200 
-	
-	
+		
 	${urlhead}    set variable    org-openroadm-database:db-activate
 	# ${data}      set variable    <input xmlns="http://org/openroadm/database"><rollBackTimer>00:00:00</rollBackTimer></input>
 	${data}      set variable    <input xmlns="http://org/openroadm/database"></input>
