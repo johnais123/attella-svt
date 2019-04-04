@@ -310,7 +310,7 @@ class ALARM_NOTIFICATION():
         self.res = strRes
         self.alarm = strAlarm
         self.action = strAction
-        
+
     def __str__(self):
         a = ET.Element('notification', xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0")
         b = ET.SubElement(a, 'alarm-notification', xmlns="http://org/openroadm/alarm")
@@ -338,9 +338,9 @@ class ALARM_NOTIFICATION():
         severity = ET.SubElement(b, 'severity')
         if "clear" == self.action:
             severity.text = "clear"
-        elif self.alarm in ["ODU Alarm Indication Signal", "Backward Defect Indication", "Degraded defect"]:
+        elif self.alarm in ["ODU Alarm Indication Signal", "Backward Defect Indication", "Degraded defect", "ODU Open Connection Indication"]:
             severity.text = "major"
-        elif self.alarm in ["Incoming Alignment Error"]:
+        elif self.alarm in ["Incoming Alignment Error", "Backward Incoming Alignment Error"]:
             severity.text = "warning"
         else:
             severity.text = "critical"
