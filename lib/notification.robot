@@ -22,9 +22,9 @@ Notifications Should Raised
     ...                    Args:
     ...                    |- ncHandle : netconf client handle
     ...                    |- Notifications : notification description 
-    ...                    |- timeout : timeout for the notification, default value is 120 seconds
+    ...                    |- timeout : timeout for the notification, default value is 60 seconds
 
-    [Arguments]      ${ncHandle}  ${listNotifications}  ${timeout}=180
+    [Arguments]      ${ncHandle}  ${listNotifications}  ${timeout}=60
 	${resp}=  wait4ExpectedNotifications  ${ncHandle}  ${listNotifications}  ${timeout}
 	Should Be True  ${resp}  Not all the expected notifications are raised
 	
