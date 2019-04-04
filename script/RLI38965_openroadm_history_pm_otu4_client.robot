@@ -417,111 +417,13 @@ Test Bed Teardown
     
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
-#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-#    
-#    &{intf}=   create_dictionary   interface-name=${odu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${otu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${och intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${client intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
-#    
-#    
-#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${remote client intf}
-#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-#    
-#    &{intf}=   create_dictionary   interface-name=${odu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${otu intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${och intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
-#    
-#    &{intf}=   create_dictionary   interface-name=${remote client intf}
-#    &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-#    Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${netconfParams}
+
 
 	Log To Console  de-provision on both device0 and device1
-#   Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-#	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
     
-#Create OTU4 Service
-#    [Documentation]   Retrieve system configuration and state information
-#    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}  ${modulation}
-#    ${rate}=  Set Variable  100G
-#    
-#    Log To Console  ${client intf}
-#    ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
-#    
-#    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-#    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-#    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-#    ${line support port}=  Get Supporting Port  ${och intf}
-#    ${line circuit pack}=  Get getSupporting Circuit Pack Name  ${och intf}
-#    ${client support port}=  Get Supporting Port  ${client intf}
-#    ${client circuit pack}=  Get getSupporting Circuit Pack Name  ${client intf}
-#    ${client rate}=  Speed To Client Rate  ${rate}
-#    ${odu rate}=  Speed To ODU Rate  ${rate}
-#    ${otu rate}=  Speed To OTU Rate  ${rate}
-#    ${och rate}=  Speed To OCH Rate  ${rate}
-#
-#    &{client_otu_interface}    create_dictionary   interface-name=${client otu intf}    description=client-otu-${discription}    interface-type=otnOtu
-#    ...    interface-administrative-state=inService   otu-rate=${otu rate}  otu-tx-sapi=tx-sapi-val  otu-tx-dapi=tx-dapi-val  
-#    ...    otu-expected-sapi=tx-sapi-val  otu-expected-dapi=tx-dapi-val  otu-tim-detect-mode=SAPI-and-DAPI
-#    ...    otu-fec=rsfec
-#    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
-#    ...    interface-circuit-id=1234
-#    
-#    &{client_interface}    create_dictionary   interface-name=${client intf}    description=client-odu-${discription}    interface-type=otnOdu    
-#    ...    interface-administrative-state=inService   odu-rate=${odu rate}  odu-tx-sapi=tx-sapi-val  odu-tx-dapi=tx-dapi-val  
-#    ...    odu-expected-sapi=tx-sapi-val  odu-expected-dapi=tx-dapi-val  odu-tim-detect-mode=SAPI-and-DAPI
-#    ...    interface-circuit-id=1234
-#    ...    supporting-interface=${client otu intf}    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
-#
-#    &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
-#    ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}  modulation-format=${modulation}
-#    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}  frequency=${frequency}000
-#    ...    interface-circuit-id=1234
-#    
-#    &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}    interface-type=otnOtu    
-#    ...    interface-administrative-state=inService    supporting-interface=${och intf}  otu-rate=${otu rate}  otu-tx-sapi=tx-sapi-val  otu-tx-dapi=tx-dapi-val  
-#    ...    otu-expected-sapi=tx-sapi-val  otu-expected-dapi=tx-dapi-val  otu-tim-detect-mode=SAPI-and-DAPI
-#    ...    otu-fec=scfec
-#    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-#    ...    interface-circuit-id=1234
-#    
-#    &{odu_interface}    create_dictionary   interface-name=${odu intf}     description=odu-${discription}    interface-type=otnOdu    
-#    ...    interface-administrative-state=inService    supporting-interface=${otu intf}     odu-rate=${odu rate}  odu-tx-sapi=tx-sapi-val  odu-tx-dapi=tx-dapi-val  
-#    ...    odu-expected-sapi=tx-sapi-val  odu-expected-dapi=tx-dapi-val  odu-tim-detect-mode=SAPI-and-DAPI
-#    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-#    ...    interface-circuit-id=1234
-#    
-#    @{interface_info}    create list    ${och_interface}    ${otu_interface}    ${odu_interface} 
-#    &{dev_info}   create_dictionary   interface=${interface_info}       
-#    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-#    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload} 
-#    
-#    @{interface_info}    create list    ${client_otu_interface}    ${client_interface}
-#    &{dev_info}   create_dictionary   interface=${interface_info}       
-#    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-#    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}     
+  
  
  
  
