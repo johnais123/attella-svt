@@ -398,7 +398,7 @@ RPC Command For Password Change
     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
 
 
-    Rpc Command For DB Backup
+Rpc Command For DB Backup
     [Documentation]   backup database via DB Backup Rpc command 
     [Arguments]    ${odl_sessions}   ${node}   ${filename}
 		Log  ${tv}
