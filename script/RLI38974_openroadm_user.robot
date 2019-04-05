@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     This is Attella alarm Scripts
+Documentation     This is Attella User Mgmt Scripts
 ...              Description  : RLI-38968: OpenROADM Device Data Model for 800G transparent transponder targeting Metro/DCI applications
 ...              Author : vzheng@juniper.net
 ...              Date   : N/A
@@ -268,7 +268,8 @@ Create a new user in openroadm but not existed in os
     Log    Delete openroadm user 
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log to Console    ${result}
-  
+
+#todo 
 #Change user password
 #    [Documentation]  Verify can retrieve all info leaves
 #    ...              RLI38968 5.1-32
