@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     This is Attella alarm Scripts
+Documentation     This is Attella User Mgmt Scripts
 ...              Description  : RLI-38968: OpenROADM Device Data Model for 800G transparent transponder targeting Metro/DCI applications
 ...              Author : vzheng@juniper.net
 ...              Date   : N/A
@@ -124,9 +124,152 @@ Change new created user password
     [Tags]           tests
     Log             Change the passowrd for the new created user
     ${resp}      Change User Password    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${NEW_VALID_ENCRPTED_PASSWORD}    
-    log to console     ${resp.status_code}
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
+
+Delete an existing user
+    [Documentation]  Delete an existing user
+    ...              RLI38968 
+    [Tags]           tests
+    ${random_user}   Generate Random String    8	[LOWER]
+    Log to Console            Use ODL to create user ${random_user} in openroadm
+    
+    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRPTED_PASSWORD}    sudo
+    Log to Console     ${resp.status_code} 
+    Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
+    
+    sleep    10s
+    Log    Check user ${random_user} in openroadm configuration
+    ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console     ${result}
+    Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be provisioned in openroadm after provisioning
+    
+    sleep    120s
+    Log to console     Check user ${random_user} can use netconf to log in after user creation 
+    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
+    
+    Log to Console   Delete openroadm user ${random_user} 
+    ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log     ${result}    
+
+    sleep    5s
+    Log to Console     Check user ${random_user} in openroadm configuration
+    ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console     ${result}
+    Run Keyword If     ${result}!=${FALSE}     FAIL    User ${random_user} should not be in openroadm after deprovisioning
+    
+    sleep    120s    
+    Log to Console    Check user ${random_user} can not use netconf to log in after user deprovisioning
+    ${msg}=    Run Keyword And Expect Error    *    Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
+    Log to Console     ${msg}
+    Should Contain    ${msg}     Could not connect
+    
+
+Delete an inexistent user
+    [Documentation]  Delete an existing user
+    ...              RLI38968 
+    [Tags]           tests
+    ${random_user}   Generate Random String    8	[LOWER]
+    Log to Console             Use ODL to create user ${random_user} in openroadm
+    
+    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRPTED_PASSWORD}    sudo
+    Log to Console     ${resp.status_code} 
+    Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
+    
+    sleep    10s
+    Log to Console   Check user ${random_user} in openroadm configuration
+    ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console     ${result}
+    Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be provisioned in openroadm after provisioning
+    
+    Log to Console   Delete openroadm user ${random_user} 
+    ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}
+    Log to Console     ${result}
+    Run Keyword If     ${result.status_code}!=200    FAIL    User ${random_user} should be deprovisioned by odl    
+        
+
+    sleep    2s
+    Log to Console    Check user ${random_user} in openroadm configuration
+    ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console     ${result}
+    Run Keyword If     ${result}!=${FALSE}     FAIL    User ${random_user} should not be in openroadm after deprovisioning
+     
+    Log to Console   Delete this inexsitent openroadm user ${random_user} 
+    ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to console     ${result.status_code}    
+
+    
+Create a new user in openroadm but existed in os
+    [Documentation]  Create a new user in openroadm but existed in os
+    ...              RLI38968 
+    [Tags]           tests
+    Log             Create a new user in openroadm but existed in os
+    ${random_user}   Generate Random String	8	[LOWER]
+    Log     Use Cli to create user ${random_user}
+    ${r0} =     Get Handle      resource=device0
+    @{cmd_list}    Create List    
+    ...            set system login user ${random_user} class super-user authentication encrypted-password ${VALID_ENCRPTED_PASSWORD}                    
+    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   timeout=${600}
+    sleep    10s
+    Log             Use ODL to create same user ${random_user} in openroadm
+    
+    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRPTED_PASSWORD}    sudo
+    Log To Console     ${resp.status_code} 
+    Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
+    
+    sleep    2s
+    Log    Check user ${random_user} in openroadm configuration
+    ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
+    Log to Console    ${result}
+    
+    sleep    120s
+    Log    Check user ${random_user} can use netconf to log in
+    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
+    
+    Log    Delete openroadm user 
+    ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console    ${result}
+  
+
+Create a new user in openroadm but not existed in os
+    [Documentation]  Create a new user in openroadm but existed in os
+    ...              RLI38968 
+    [Tags]           tests
+    Log             Create a new user in openroadm but existed in os
+    ${random_user}   Generate Random String	8	[LOWER]
+    Log     Use Cli to create user ${random_user}
+    ${r0} =     Get Handle      resource=device0
+    @{cmd_list}    Create List    
+    ...            delete system login user ${random_user}    
+    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   
+    sleep    10s
+    Log             Use ODL to create same user ${random_user} in openroadm
+    
+    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRPTED_PASSWORD}    sudo
+    Log To Console     ${resp.status_code} 
+    Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
+    
+    sleep    2s
+    Log    Check user ${random_user} in openroadm configuration
+    ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console    ${result}
+    Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
+    
+    Log to Console   create it again
+    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRPTED_PASSWORD}    sudo
+    Log To Console     ${resp.status_code} 
+    Run Keyword If     ${resp.status_code}!=409     FAIL    The expected status code is 409:Conflict, but it is ${resp.status_code}
+    
+    sleep    120s
+    Log    Check user ${random_user} can use netconf to log in
+    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
+    
+    Log    Delete openroadm user 
+    ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
+    Log to Console    ${result}
+
+#todo 
 #Change user password
 #    [Documentation]  Verify can retrieve all info leaves
 #    ...              RLI38968 5.1-32
