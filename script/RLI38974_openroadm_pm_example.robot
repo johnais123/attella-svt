@@ -192,13 +192,14 @@ TC4-1
 # 
 #     #  Below code the same as Attella alarm script , include base configuration , test set inital , port/traffic/alarm check
 # 
+#	Log To Console  Load Pre Default Provision on both device0 and device1
+# 	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+#	Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+
 # 	Log To Console  de-provision on both device0 and device1
 #	Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
 #	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-# 
-#     Log To Console  Load Pre Default Provision on both device0 and device1
-# 	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-#     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+
 #     
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
