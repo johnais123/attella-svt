@@ -608,7 +608,7 @@ TC22
     @{pmEntryParmater1}         Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}         Create List      erroredSeconds             nearEnd    rx
     @{pmEntryParmaterlist}      Create List      ${pmEntryParmater1}         ${pmEntryParmater2}   
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']} 
     Retrieve Current Statistics 	
 	
 
@@ -628,9 +628,9 @@ TC22
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    ${remote line otu intf}  ${expectedAlarms_remote_line}
 
     Sleep   10
-    @{realpm}=        Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line otu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    @{realpm}=        Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line otu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
     Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line otu intf}   ${pmEntryParmaterlist}     @{pmInterval}[0]                 
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line otu intf}   ${pmEntryParmaterlist}     @{pmInterval}[0]                 
     Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
     [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf}  
 	
@@ -645,7 +645,7 @@ TC23
     @{pmEntryParmater1}         Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}         Create List      erroredSeconds             nearEnd    rx
     @{pmEntryParmaterlist}      Create List      ${pmEntryParmater1}         ${pmEntryParmater2}   
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']} 
     Retrieve Current Statistics 	
 	
 
@@ -665,9 +665,9 @@ TC23
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    ${remote line otu intf}  ${expectedAlarms_remote_line}
 
     Sleep   10
-    @{realpm}=        Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line otu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
+    @{realpm}=        Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line otu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
     Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line otu intf}   ${pmEntryParmaterlist}     @{pmInterval}[1]                 
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line otu intf}   ${pmEntryParmaterlist}     @{pmInterval}[1]                 
     Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
     [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 
@@ -681,12 +681,12 @@ TC24
     @{pmEntryParmater3}         Create List     backgroundBlockErrors    nearEnd    rx
     @{pmEntryParmater4}         Create List     severelyErroredSeconds   nearEnd    rx
     @{pmEntryParmaterlist}      Create List     ${pmEntryParmater}     ${pmEntryParmater2}    ${pmEntryParmater3}     ${pmEntryParmater4}
-    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
+    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device1__re0__mgt-ip']} 
     Retrieve Current Statistics     
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8   30
     Sleep   10
     Retrieve Current Statistics 
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}     @{pmInterval}[0]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}     @{pmInterval}[0]
     @{expectValue}       Create List   1   30   30   0
     Verify Pm Should Be Equals    @{expectValue}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
@@ -703,14 +703,14 @@ TC25
     @{pmEntryParmater3}          Create List      backgroundBlockErrors      nearEnd    rx
     @{pmEntryParmater4}          Create List      erroredSeconds             nearEnd    rx
     @{pmEntryParmaterlist}       Create List      ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}   ${pmEntryParmater4}
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
     Retrieve Current Statistics     
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8    6.3E-05
     Sleep   10
     Retrieve Current Statistics 
-    @{realpm}=    Get Current Spefic Pm Statistic       ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    @{realpm}=    Get Current Spefic Pm Statistic       ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
     Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]                 
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]                 
     Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]  
 
@@ -726,12 +726,12 @@ TC26
     @{pmEntryParmater3}         Create List     erroredSeconds            farEnd    rx
     @{pmEntryParmater4}         Create List     severelyErroredSeconds    farEnd    rx
     @{pmEntryParmaterlist}      Create List     ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
     Retrieve Current Statistics     
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI    40
     Sleep   10
     Retrieve Current Statistics 
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
     @{expectValue}       Create List   40  40   1   0
     Verify Pm Should Be Equals    @{expectValue}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
@@ -749,14 +749,14 @@ TC27
     @{pmEntryParmater4}         Create List      erroredSeconds             farEnd    rx
     @{pmEntryParmaterlist}      Create List      ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}   ${pmEntryParmater4}
     RPC Clear Pm Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   current  
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
     Retrieve Current Statistics     
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI    6.3E-05
     Sleep   10
     Retrieve Current Statistics 
-    @{realpm}=    Get Current Spefic Pm Statistic       ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    @{realpm}=    Get Current Spefic Pm Statistic       ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]
     Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]                 
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[0]                 
     Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]  
 
@@ -771,12 +771,12 @@ TC28
     @{pmEntryParmater4}         Create List     severelyErroredSeconds   nearEnd    rx
     @{pmEntryParmaterlist}      Create List     ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
     @{ignorePmEntryParmater}    Create List     preFECCorrectedErrors    nearEnd    rx 
-    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8   30
     Sleep   10
     Retrieve Current Statistics
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}     @{pmInterval}[1]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}     @{pmInterval}[1]
     @{expectValue}       Create List   1   30   30   0
     Verify Pm Should Be Equals    @{expectValue}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[1]
@@ -793,14 +793,14 @@ TC29
     @{pmEntryParmater3}         Create List      backgroundBlockErrors      nearEnd    rx
     @{pmEntryParmater4}         Create List      erroredSeconds             nearEnd    rx
     @{pmEntryParmaterlist}      Create List      ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}   ${pmEntryParmater4}
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8    6.3E-05
     Sleep   10
     Retrieve Current Statistics
-    @{realpm}=       Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
+    @{realpm}=       Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
     Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}   ${pmEntryParmaterlist}    @{pmInterval}[1]                 
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}   ${pmEntryParmaterlist}    @{pmInterval}[1]                 
     Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[1]  
 
@@ -816,12 +816,12 @@ TC30
     @{pmEntryParmater3}         Create List     erroredSeconds           farEnd    rx
     @{pmEntryParmater4}         Create List     severelyErroredSeconds   farEnd    rx
     @{pmEntryParmaterlist}      Create List     ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']} 
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI    40
     Sleep   10
     Retrieve Current Statistics
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
     @{expectValue}       Create List   40   40   1   0
     Verify Pm Should Be Equals    @{expectValue}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[1]
@@ -839,14 +839,14 @@ TC31
     @{pmEntryParmater4}         Create List      erroredSeconds             farEnd    rx
     @{pmEntryParmaterlist}      Create List      ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}   ${pmEntryParmater4}
     @{ignorePmEntryParmater}    Create List     preFECCorrectedErrors    farEnd    rx  
-    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI    6.3E-05
     Sleep   10
     Retrieve Current Statistics
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}    ${pmEntryParmaterlist}    @{pmInterval}[1]
     Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${remote line odu intf}   ${pmEntryParmaterlist}    @{pmInterval}[0]                 
+    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${remote line odu intf}   ${pmEntryParmaterlist}    @{pmInterval}[0]                 
     Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
     Verify others Pm Statistic shoule not be changed    @{pmInterval}[1]  
 
