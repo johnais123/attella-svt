@@ -413,10 +413,12 @@ Init Test Set
 
 Configure Service And Init Test Set
 	[Arguments]   ${clientIfType}
+    Log To Console  Load Pre Default Provision on device0
+	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	
 	Log To Console  De-provision interfaces on device0
     Delete All Interface   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}
-    Log To Console  Load Pre Default Provision on device0
-	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}	
+	
  	Configure Service   ${clientIfType}
 	#Init Test Set       ${clientIfType}
 
