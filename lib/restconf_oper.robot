@@ -11,7 +11,6 @@ Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 Library         attella_keyword.py
 Library         random
-# Library        ../lib/PowerModule.py   172.27.90.188   WITH NAME   powersv
 
 *** Variables ***
 &{put_headers}               Accept=application/xml   Content-Type=application/xml
@@ -447,7 +446,7 @@ Mount vAttella On ODL Controller
     ...                    | - pwd: the pwd for logging Attella
     ...                    | Uses global variables "headers", "karaf log file"
 
-    [Arguments]    ${odl_sessions}   ${timeout}  ${interval}  ${node}   ${usr}=root    ${pwd}=Embe1mpls
+    [Arguments]    ${odl_sessions}   ${timeout}  ${interval}  ${node}   ${usr}=openroadm    ${pwd}=openroadm
     ${fullUrl}                Set Variable    <node xmlns="urn:TBD:params:xml:ns:yang:network-topology"><node-id>${node}
     ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}     headers=${delete_headers}    allow_redirects=False
     # check status line    ${resp}     200 
