@@ -208,6 +208,16 @@ def wait4ExpectedNotifications(ncHandle, listNotifications, timeout=60):
                     print("the expected notification received!")
                     lReceivedNotifications.append(listNotify)
                     break
+            elif "historical-pm-collect-result" == listNotify[0]:
+                if re.match("%s"%HISTORICAL_PM_COLLECT_RESULT(listNotify[1]), re.sub(r"\n *", "", notification.notification_xml)):
+                    print("the expected notification received!")
+                    lReceivedNotifications.append(listNotify)
+                    break
+            elif "create-tech-info-notification" == listNotify[0]:
+                if re.match("%s"%CREATE_TECH_INFO_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
+                    print("the expected notification received!")
+                    lReceivedNotifications.append(listNotify)
+                    break
             else:
                 print("unknown notification type -- %s"%listNotify[0])
         if len(lReceivedNotifications) == len(listNotifications):
@@ -234,6 +244,51 @@ class DB_BACKUP_NOTIFICATION():
         status.text = self.status
         statusMsg = ET.SubElement(b, 'status-message')
         statusMsg.text = "Database backed up successfully in file %s"%self.filename
+        eventTime = ET.SubElement(a, 'eventTime')
+        eventTime.text = "\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}\+\d{2}:\d{2}"
+        return str(ET.tostring(a), encoding='utf-8')
+        
+class HISTORICAL_PM_COLLECT_RESULT():
+    def __init__(self, strStatus):
+        self.status = strStatus
+        
+    def __str__(self):
+        a = ET.Element('notification', xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0")
+        b = ET.SubElement(a, 'historical-pm-collect-result', xmlns="http://org/openroadm/pm")
+        pmFilename = ET.SubElement(b, 'pm-filename')
+        pmFilename.text = "pm-history-\d{8}-\d{6}-\d{3}\.gz"
+        status = ET.SubElement(b, 'status')
+        status.text = self.status
+        statusMsg = ET.SubElement(b, 'status-message')
+        if "Successful" == self.status:
+            statusMsg.text = "Collected PM history file"
+        else:
+            statusMsg.text = ".*"
+
+        eventTime = ET.SubElement(a, 'eventTime')
+        eventTime.text = "\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}\+\d{2}:\d{2}"
+        return str(ET.tostring(a), encoding='utf-8')
+
+class CREATE_TECH_INFO_NOTIFICATION():
+    def __init__(self, strShelf, strStatus):
+        self.shelf = strShelf
+        self.status = strStatus
+        
+    def __str__(self):
+        a = ET.Element('notification', xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0")
+        b = ET.SubElement(a, 'create-tech-info-notification', xmlns="http://org/openroadm/pm")
+        shelfId = ET.SubElement(b, 'shelf-id')
+        shelfId.text = self.shelf
+        logFilename = ET.SubElement(b, 'log-file-name')
+        logFilename.text = "debug_collector_\d{4}(-\d{2}){2}(_\d{2}){3}\.tar\.gz"
+        status = ET.SubElement(b, 'status')
+        status.text = self.status
+        statusMsg = ET.SubElement(b, 'status-message')
+        if "Successful" == self.status:
+            statusMsg.text = "Create Tech Info successful"
+        else:
+            statusMsg.text = ".*"
+
         eventTime = ET.SubElement(a, 'eventTime')
         eventTime.text = "\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}\+\d{2}:\d{2}"
         return str(ET.tostring(a), encoding='utf-8')
