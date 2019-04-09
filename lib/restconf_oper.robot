@@ -530,6 +530,7 @@ Get Current All Pm Information On Target Resource
     &{payload}   create_dictionary   current-pm-list=${null}
     ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${payload}
     ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
+    Log  ${resp_content}
     ${root}=                 Parse XML    ${resp_content}
     ${sflag}     set variable    False
     @{currentPmRes}  Get Elements  ${root}  current-pm-entry
