@@ -383,18 +383,16 @@ RPC Set Current Datetime
 RPC Command For Password Change
     [Documentation]   Change passord for Attella system. 
     ...               Args:
-    ...               | - old_password: plain text of the password 
-    ...               | - new_password: SHA-512/Crypt(3)/$6$ encrypted password and also the following characters are not allowed 
+    ...               | - old_password: old password.SHA-512/Crypt(3)/$6$ encrypted password but without invalid character
+    ...               | - new_password: string the sames as new_passwordConfirm  
+    ...               | - new_passwordConfirm  SHA-512/Crypt(3)/$6$ encrypted password and also the following characters are not allowed
     ...               | in the password string: \ | ? # @ &, for example,"$6$77ee214844a64bba$qZbg656uG5XHVvP3adQ5XvWusbOvZPGx3jaG.tYLaqQ8mmMe4quXYShI2S07OzDZmoua.PlJ76Y8f4yfmXcP20"
     ...               | is a valid encrypted code for "Embe1mpls". to try encryption,please try https://quickhash.com/
-    [Arguments]    ${odl_sessions}   ${node}   ${old_password}   ${new_password}
+    [Arguments]    ${odl_sessions}   ${node}   ${old_password}   ${new_password}    ${new_passwordConfirm}
     ${urlhead}   set variable    org-openroadm-user-mgmt:chg-password
-    ${data}      set variable   <input xmlns="http://org/openroadm/user-mgmt"><currentPassword>${old_password}</currentPassword><newPassword>${new_password}</newPassword><newPasswordConfirm>${new_password}</newPasswordConfirm></input>
+    ${data}      set variable   <input xmlns="http://org/openroadm/user-mgmt"><currentPassword>${old_password}</currentPassword><newPassword>${new_password}</newPassword><newPasswordConfirm>${new_passwordConfirm}</newPasswordConfirm></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}    ${node}    ${urlhead}    ${data}
-    check status line    ${resp}     200
-    ${elem} =  get element text  ${resp.text}    status
-    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display correct is Successful
-    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+    [Return]    ${resp}
 
 
 Rpc Command For DB Backup
