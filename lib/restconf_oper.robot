@@ -814,6 +814,7 @@ Get Alarms On Resource
     \   ${additional_detail}=  Get Element  ${activeAlarm}  additional-detail
     \   ${severity}=  Get Element  ${activeAlarm}  severity
     \   ${cause}=  Get Element  ${activeAlarm}  probableCause/cause
+    
 	
     \   @{resource_cp}=  Get Elements  ${activeAlarm}  resource/resource/circuit-pack-name
     \   @{resource_port}=  Get Elements  ${activeAlarm}  resource/resource/port-name
@@ -826,7 +827,9 @@ Get Alarms On Resource
     \   Log  ${additional_detail.text}
     \   Log  ${severity.text}
     \   Log  ${cause.text}
-	\	${alarm}=  Set Variable If '${cause}' == 'vendorExtension'  ${cause.text}  ${additional_detail.text}
+	\   ${extension}=  Run Keyword If  '${cause.text}' == 'vendorExtension'  Get Element  ${activeAlarm}  probableCause/extension
+	
+	\	${alarm}=  Set Variable If  '${cause.text}' == 'vendorExtension'  ${extension.text}  ${additional_detail.text}
 
     \   @{resource}=  Combine Lists  ${resource_cp}  ${resource_port}  ${resource_xc}  ${resource_intf}  ${resource_shelf}
     \   Log  ${resource}

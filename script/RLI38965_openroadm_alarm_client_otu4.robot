@@ -2305,8 +2305,8 @@ Test Bed Init
     Start Traffic  ${testSetHandle2}
 
 
-	@{local interfaces}=  Create List  ${local_line_och_interface}  ${local_line_otu_interface}  ${local_line_odu_interface}  ${local_client_otu_interface}  ${local_client_odu_interface}
-	@{remote interfaces}=  Create List  ${remote_line_och_interface}  ${remote_line_otu_interface}  ${remote_line_odu_interface}  ${remote_client_otu_interface}  ${remote_client_odu_interface}
+	# @{local interfaces}=  Create List  ${local_line_och_interface}  ${local_line_otu_interface}  ${local_line_odu_interface}  ${local_client_otu_interface}  ${local_client_odu_interface}
+	# @{remote interfaces}=  Create List  ${remote_line_och_interface}  ${remote_line_otu_interface}  ${remote_line_odu_interface}  ${remote_client_otu_interface}  ${remote_client_odu_interface}
 
 
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
