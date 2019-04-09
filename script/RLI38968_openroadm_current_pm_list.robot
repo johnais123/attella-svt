@@ -41,6 +41,7 @@ Library         XML    use_lxml=True
 Library			random
 Resource        ../lib/restconf_oper.robot
 Resource        ../lib/attella_keyword.robot
+Resource        ../lib/testSet.robot
 
 
 Suite Setup   Run Keywords
@@ -81,7 +82,7 @@ ${timeout}   60
 *** Test Cases ***     
 TC1 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type
     [Documentation]  Verify leaf "pm-resource-type" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-2
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type exists in Yang Model and return value is legal   
 	@{value_range}=   create list   device   circuit-pack   port   interface
@@ -98,7 +99,7 @@ TC1 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-ty
 
 TC2 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type-extension
 	[Documentation]  Verify leaf "pm-resource-type-extension" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-3
     [Tags]           Sanity   tc1
 	log   Verify pm-resource-type exists in Yang Model and return value is legal   
 	@{value_range}=   create list   none
@@ -112,7 +113,7 @@ TC2 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-ty
     
 TC3 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-instance
     [Documentation]  Verify leaf "pm-resource-instance" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-1
     [Tags]           Sanity   tc1
 	log   Verify "org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-instance" exists in Yang Model and return value is legal
 	@{value_range}   Create List
@@ -144,7 +145,7 @@ TC3 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-in
 
 TC4 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time
 	[Documentation]  Verify leaf "retrieval-time" and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-4
     [Tags]           Sanity   tc1
 	log   Verify Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time exists in Yang Model and return value is legal
 	${xpath}=   set variable   current-pm-entry[${Entry_Idx}]/retrieval-time
@@ -157,7 +158,7 @@ TC4 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time
 
 TC5 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/type
     [Documentation]  Verify leaf "type" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-5
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/type exists in Yang Model and return value is legal
 	@{value_range}   Create List   vendorExtension 
@@ -180,7 +181,7 @@ TC5 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/typ
 
 TC6 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/extension
 	[Documentation]  Verify leaf "extension" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-6
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/extension exists in Yang Model and return value is legal
 	@{value_range}=   create list   backgroundBlockErrors
@@ -197,10 +198,10 @@ TC6 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/ext
 
 TC7 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/location
     [Documentation]  Verify leaf "location" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-7
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/location exists in Yang Model and return value is legal   
-	@{value_range}=   create list   nearEnd   farEnd
+	@{value_range}=   create list   nearEnd   farEnd   notApplicable
 	${xpath}=   set variable   current-pm-entry[${Entry_Idx}]/current-pm[${Pm_Idx}]/location
 	Element Should Exist   ${xmlResult}   ${xpath}   
     ${get_result}=   Get Element   ${xmlResult}   ${xpath}
@@ -211,10 +212,10 @@ TC7 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/loc
 
 TC8 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/direction
     [Documentation]  Verify leaf "direction" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-8
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/direction exists in Yang Model and return value is legal   
-	@{value_range}=   create list   rx   tx
+	@{value_range}=   create list   rx   tx   bidirectional   notApplicable
 	${xpath}=   set variable   current-pm-entry[${Entry_Idx}]/current-pm[${Pm_Idx}]/direction
 	Element Should Exist   ${xmlResult}   ${xpath}   
     ${get_result}=   Get Element   ${xmlResult}   ${xpath}
@@ -225,10 +226,10 @@ TC8 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/dir
 
 TC9 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/granularity
     [Documentation]  Verify leaf "granularity" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-9
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/granularity exists in Yang Model and return value is legal   
-	@{value_range}=   create list   notApplicable   15min   24Hour
+	@{value_range}=   create list   notApplicable   15min   24Hour   notApplicable
 	${xpath}=   set variable   current-pm-entry[${Entry_Idx}]/current-pm[${Pm_Idx}]/measurement[${Meas_Idx}]/granularity
 	Element Should Exist   ${xmlResult}   ${xpath}   
     ${get_result}=   Get Element   ${xmlResult}   ${xpath}
@@ -239,7 +240,7 @@ TC9 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/mea
 
 TC10 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/validity
     [Documentation]  Verify leaf "validity" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-12
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/validity exists in Yang Model and return value is legal   
 	@{value_range}=   create list   complete   partial   suspect
@@ -253,7 +254,7 @@ TC10 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/me
 	
 TC11 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterUnit
     [Documentation]  Verify leaf "pmParameterUnit" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-11
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterUnit exists in Yang Model and return value is legal   
 	@{value_range}   Create List
@@ -271,7 +272,7 @@ TC11 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/me
 
 TC12 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterValue
     [Documentation]  Verify leaf "pmParameterValue" exists and retrieves legal value 
-    ...              RLI38974 5.1-1
+    ...              RLI38968 5.7-10
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterValue exists in Yang Model and return value is legal   
 	${xpath}=   set variable   current-pm-entry[${Entry_Idx}]/current-pm[${Pm_Idx}]/measurement[${Meas_Idx}]/pmParameterValue
@@ -342,10 +343,10 @@ Create Current PM Instances If No One Exists
 	Log   ${resp.content}
 	${xmlResult}=      Decode Bytes To String   ${resp.content}   UTF-8
     ${root}=           Parse XML    ${xmlResult}
-    @{instanceList}=   Get Elements  ${root}  xponder/xpdr-port
+    @{elementList}=   Get Elements  ${root}  xponder/xpdr-port
 	${ifType}=   Evaluate   random.randint(0,1)  modules=random
 	Log To Console   ifType is ${ifType}
-	Run Keyword Unless   ${instanceList}   Configure Service And Init Test Set   ${ifType}
+	Run Keyword Unless   ${elementList}   Configure Service And Init Test Set   ${ifType}
 	${random_interval}=  Evaluate  random.randint(10, 60)  modules=random
     Sleep  ${random_interval}
 
@@ -377,7 +378,6 @@ Configure 100GE Service
 Configure OTU4 Service
 	Log To Console  Provide OTU4 traffic service
 	${client intf}=   Get Otu4 Intface Name From Client Intface   ${tv['device0__client_intf__pic']}
-   #${client otu intf}=   Get OTU Intface Name From ODU Intface   ${client intf}
     ${line odu intf}     Get Line ODU Intface Name From Client Intface   ${client intf}
     ${line otu intf}     Get OTU Intface Name From ODU Intface  ${line odu intf}
     ${line och intf}     Get OCH Intface Name From OTU Intface  ${line otu intf}
@@ -385,7 +385,6 @@ Configure OTU4 Service
     log    ${line transc port}
     ${line transc port}   Evaluate    '${line transc port}'.split(":")[0]        string
     log    ${line transc port}
-	log to console   client int: ${client intf}
 	Create OTU4 Service   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${client intf}   ${tv['uv-frequency']}   ${tv['uv-service-description']}   ${tv['uv-client_fec']} 
 	
 	
@@ -413,12 +412,10 @@ Init Test Set
 
 Configure Service And Init Test Set
 	[Arguments]   ${clientIfType}
-    Log To Console  Load Pre Default Provision on device0
-	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	
 	Log To Console  De-provision interfaces on device0
     Delete All Interface   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}
-	
+    Log To Console  Load Pre Default Provision on device0
+	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}	
  	Configure Service   ${clientIfType}
 	#Init Test Set       ${clientIfType}
 
@@ -432,14 +429,17 @@ Get Current PM YangModel
 	Log   ${resp.content}
 	${xmlResult}=      Decode Bytes To String   ${resp.content}   UTF-8
     ${root}=           Parse XML    ${xmlResult}
-    @{instanceList}=   Get Elements  ${root}  current-pm-entry
-	${Entry_Len}=			   Get Length		${instanceList}
+    @{elementList}=   Get Elements  ${root}  current-pm-entry
+	Should Not Be Empty   ${elementList}   No current-pm-entry has been retrieved
+	${Entry_Len}=			   Get Length		${elementList}
 	${Entry_Idx}=   Evaluate   random.randint(1, ${Entry_Len})  modules=random
-	@{instanceList}=   Get Elements  ${root}  current-pm-entry[${Entry_Idx}]/current-pm
-	${Pm_Len}=			   Get Length		${instanceList}
+	@{elementList}=   Get Elements  ${root}  current-pm-entry[${Entry_Idx}]/current-pm
+	Should Not Be Empty   ${elementList}   No current-pm has been retrieved
+	${Pm_Len}=			   Get Length		${elementList}
 	${Pm_Idx}=   Evaluate   random.randint(1, ${Pm_Len})  modules=random
-	@{instanceList}=   Get Elements  ${root}  current-pm-entry[${Entry_Idx}]/current-pm[${Pm_Idx}]/measurement
-	${Meas_Len}=		   Get Length		${instanceList}
+	@{elementList}=   Get Elements  ${root}  current-pm-entry[${Entry_Idx}]/current-pm[${Pm_Idx}]/measurement
+	Should Not Be Empty   ${elementList}   No measurement has been retrieved
+	${Meas_Len}=		   Get Length		${elementList}
 	${Meas_Idx}=   Evaluate   random.randint(1, ${Meas_Len})  modules=random
 	${Rsrc_Type}   set variable   None
 	${Pm_Type}     set variable   None
