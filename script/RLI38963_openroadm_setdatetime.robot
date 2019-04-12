@@ -64,9 +64,9 @@ ${interval}  10
 ${timeout}   300
 
 *** Test Cases ***     
-Change shelf date and time and check
+current datetime can be set and retrieve
     [Documentation]  set device date and time and check info, alarm, pm
-    ...              RLI38968 
+    ...              RLI38963-1 5.7-1
     [Tags]           tests
     Log             set device date and time and check info, alarm, pm
     Log to console    retrieve current time and remember it
