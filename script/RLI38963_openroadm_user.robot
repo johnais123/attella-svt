@@ -80,7 +80,7 @@ ${timeout}   300
 *** Test Cases ***     
 Create new User with invalid username
     [Documentation]  Create new user with invalid username
-    ...              RLI38968 
+    ...              RLI38963 
     [Tags]           tests
     Log             Create user with invalid username
     :FOR    ${username}    IN    @{INVALID_USER_NAMES}
@@ -91,7 +91,7 @@ Create new User with invalid username
 
 Create new User with invalid non-encrypted password
     [Documentation]  Create new user with invalid non-encrpted password
-    ...              RLI38968
+    ...              RLI38963
     [Tags]           tests
     Log             Create user with invalid non-encrypted password
     :FOR    ${password}    IN    @{INVALID_NON_ENCRYPTED_PASSWORDS}
@@ -102,7 +102,7 @@ Create new User with invalid non-encrypted password
 
 Create new User with invalid encrypted password
     [Documentation]  Create new user with invalid encrypted password
-    ...              RLI38968 
+    ...              RLI38963 
     [Tags]           tests
     Log             Create user with invalid encrypted password
     :FOR    ${password}    IN     @{INVALID_ENCRYPTED_PASSWORDS}
@@ -112,7 +112,7 @@ Create new User with invalid encrypted password
 
 Create new User with valid username and password
     [Documentation]  Create new user with valid username and password
-    ...              RLI38968 
+    ...              RLI38963 
     [Tags]           tests
     Log             Create user with valid username and password
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${VALID_ENCRYPTED_PASSWORD}    sudo
@@ -120,7 +120,7 @@ Create new User with valid username and password
 
 Change new created user password
     [Documentation]  Change new created user password
-    ...              RLI38968 
+    ...              RLI38963 
     [Tags]           tests
     Log             Change the passowrd for the new created user
     ${resp}      Change User Password    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${NEW_VALID_ENCRYPTED_PASSWORD}    
@@ -128,8 +128,8 @@ Change new created user password
 
 Create a new user both openroadm and os
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI38968 
-    [Tags]           tests
+    ...              RLI-38963-1 5.6-1   
+    [Tags]           tests  Sanity
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -161,7 +161,7 @@ Create a new user both openroadm and os
     
 Create a new user in openroadm but already existed in os
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI38968 
+    ...              RLI-38963-1 5.6-2 
     [Tags]           tests
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -194,7 +194,7 @@ Create a new user in openroadm but already existed in os
 
 Create an user already in openroadm but not existed in os
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI38968 
+    ...              RLI-38963-1 5.6-3 
     [Tags]           tests
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -232,7 +232,7 @@ Create an user already in openroadm but not existed in os
 
 Create an user already exsite both in openroadm and os
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI38968 
+    ...              RLI-38963-1 5.6-4 
     [Tags]           tests
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -270,7 +270,7 @@ Create an user already exsite both in openroadm and os
     
 Delete an existing user
     [Documentation]  Delete an existing user
-    ...              RLI38968 
+    ...              RLI-38963-1 5.6-5 
     [Tags]           tests
     ${random_user}   Generate Random String    8	[LOWER]
     Log    Use ODL to create user ${random_user} in openroadm
@@ -308,7 +308,7 @@ Delete an existing user
 
 Delete an inexistent user
     [Documentation]  Delete an existing user
-    ...              RLI38968 
+    ...              RLI-38963-1 5.6-6 
     [Tags]           tests
     ${random_user}   Generate Random String    8	[LOWER]
     Log             Use ODL to create user ${random_user} in openroadm
@@ -341,8 +341,8 @@ Delete an inexistent user
 
 Chg-password rpc successful
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
-    ...              RLI38968 
-    [Tags]           tests
+    ...              RLI-38963-1 5.6-7 
+    [Tags]           tests    Sanity
     Log             Change current user password  
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
@@ -365,7 +365,7 @@ Chg-password rpc successful
 
 Chg-password rpc with wrong currentPassword
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
-    ...              RLI38968 
+    ...              RLI-38963-1 5.6-8 
     [Tags]           tests
     Log             Change current user password with wrong currentPassword  
     ${random_password}   Generate Random String	8	[LOWER]
@@ -393,8 +393,8 @@ Chg-password rpc with wrong currentPassword
 
 Chg-password rpc with wrong newPasswordConfirm
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
-    ...              RLI38968 
-    [Tags]           tests
+    ...              RLI-38963-1 5.6-9 
+    [Tags]           tests    Sanity
     Log             Change current user password with wrong newPasswordConfirm  
     ${random_password}   Generate Random String	8	[LOWER]
     ${r0} =     Get Handle      resource=device0
