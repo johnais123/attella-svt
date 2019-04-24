@@ -83,7 +83,7 @@ TC0
 
 TC1
     [Documentation]  Verify 100ge PM after warm reload
-    ...              RLI38964  
+    ...              RLI38964  5.7-9
     [Tags]           test
     Log To Console  Warm Reload Device
     Rpc Command For Warm Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
@@ -133,7 +133,7 @@ TC1
 
 TC2
     [Documentation]  Verify 100ge PM after cold reload
-    ...              RLI38964  
+    ...              RLI38964  5.7-10  
     [Tags]
     Log To Console  Cold Reload Device
     Rpc Command For Cold Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
@@ -183,7 +183,7 @@ TC2
 
 TC3
     [Documentation]  Verify  100ge History 24Hour PM after warm reload
-    ...              RLI38964  
+    ...              RLI38964   5.7-9
     [Tags]
     Log To Console  Warm Reload Device
     Rpc Command For Warm Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
@@ -233,7 +233,7 @@ TC3
 
 TC4
     [Documentation]  Verify  100ge History 24Hour PM after cold reload
-    ...              RLI38964  
+    ...              RLI38964  5.7-10 
     [Tags]
     Log To Console  Cold Reload Device
     Rpc Command For Cold Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
