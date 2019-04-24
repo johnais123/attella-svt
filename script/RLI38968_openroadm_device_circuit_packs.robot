@@ -61,7 +61,8 @@ ${timeout}  120
 
 *** Test Cases ***
 TC1
-    [Documentation]   This test case mapping to test cases 5.3.1 to 5.3.12 in JTMS for RLI38968
+    [Documentation]   Provsion FPC-0
+    ...               TC 5.1-1  RLI-38963
     [Tags]            Sanity   TC1   Set-CP-FPC
     Log               Configure all R/W leaves for circuit-pack FPC via Restconf
     ${administrative_state_for_fpc}           evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
@@ -74,7 +75,8 @@ TC1
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
 TC2
-    [Documentation]  This test case mapping to test cases 5.3.13 to 5.3-17 ,  5.3-19 to 5.3-22 , 5.3-24 and 5.3-31 in JTMS for RLI38968
+    [Documentation]  Check all read-only leaves for fpc-0
+    ...              TC 5.1-14  RLI-38963
     [Tags]           Sanity  TC2   Get-CP-FPC-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FPC via Restconf
     &{cp-port1}      create dictionary    slot-name-cp=slot-0/0        label-cp=0          slot-type=other
@@ -90,7 +92,8 @@ TC2
     Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
 TC3
-    [Documentation]  This test case mapping to 5.5-1 ~~~~ 5.5-10 for JTMS RLI-38968
+    [Documentation]  Provison Fan Tray Units
+    ...              TC 5.1-9  RLI-38963
     [Tags]           Sanity   TC3   Set-CP-FAN
     Log              Configure all R/W leaves for circuit-pack FAN via Restconf
     ${administrative_state_for_fan}             evaluate          random.choice(["inService", "outOfService", "maintenance"])         random
@@ -115,7 +118,8 @@ TC3
     Send Merge Then Get Request And Verify Output Is Correct      ${odl_sessions}     ${tv['device0__re0__mgt-ip']}     ${payload}
 
 TC4
-    [Documentation]  This test case mapping to 5.5-11 ~~~~ 5.5-21(except 5.5-13 and 5.5-16) for JTMS RLI-38968
+    [Documentation]  Check all read-only leaves for Fan Tray Units
+    ...              TC 5.1-15  RLI-38963
     [Tags]           Sanity  TC4   Get-CP-FAN-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
@@ -128,7 +132,8 @@ TC4
     \                Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
 TC5
-    [Documentation]  This test case mapping to 5.4-1 ~~~~ 5.4-10 and 5.4-23 for JTMS RLI-38968
+    [Documentation]  Provison Power Supply Units
+    ...              TC 5.1-6  RLI-38963
     [Tags]           Sanity   TC5   set-CP-PSM
     Log              Configure all R/W leaves for circuit-pack PSM via Restconf
     ${administrative_state_for_psm}       evaluate                random.choice(["inService", "outOfService", "maintenance"])     random
@@ -146,7 +151,8 @@ TC5
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
 TC6
-    [Documentation]  This test case mapping to 5.4-11 ~~~~ 5.5-21(except 5.4-13 and 5.4-16) for JTMS RLI-38968
+    [Documentation]  Check all read-oly leaves for Provison Power Supply Units
+    ...              TC 5.1-16  RLI-38963
     [Tags]           Sanity   TC6    Get-CP-PSM-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack PSM via Restconf
     &{psm0_info}     create dictionary      circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  vendor-cp=${tv['uv-attella_def_vendor']}   model-cp=${ATTELLA_DEF_PSM0_MODEL.text}
@@ -161,7 +167,8 @@ TC6
     Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
 TC7
-    [Documentation]  This test case mapping to 5.5-1 ~~~~ 5.5-10 and 5.5-23 for JTMS RLI-38968
+    [Documentation]  Provison pic-0/0
+    ...              TC 5.1-3  RLI-38963	
     [Tags]           Sanity    TC7   Set-CP-PIC0
     Log              Configure all R/W leaves for circuit-pack PIC0 via Restconf
     &{pic0key}       create dictionary            circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-type=${ATTELLA_DEF_PIC0_MODEL.text}      shelf=shelf-0             slot=slot-0
@@ -174,7 +181,8 @@ TC7
     Send Merge Then Get Request And Verify Output Is Correct     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
 
 TC8
-    [Documentation]  This test case mapping to 5.7-13 ~~~~ 5.7-25 for JTMS RLI-38968
+    [Documentation]  Check all read-only leaves for  pic-0/0
+    ...              TC 5.1-17  RLI-38963
     [Tags]           Sanity   TC8   Get-CP-PIC0-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack PIC0 via Restconf
 
@@ -200,7 +208,8 @@ TC8
 	
 	
 TC9
-    [Documentation]  This test case mapping to 5.7-36 for JTMS RLI-38968
+    [Documentation]  Provison pic-0/1 
+    ...              TC 5.1-5  RLI-38963
     [Tags]           Sanity   TC9   Set-CP-PIC1
     Log              Configure all R/W leaves for circuit-pack PIC1 via Restconf
     &{pic1key}       create dictionary                    circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}   circuit-pack-type=4X200G-CFP2DCO        shelf=shelf-0           slot=slot-0
@@ -214,7 +223,8 @@ TC9
 
 
 TC10
-    [Documentation]  This test case mapping to 5.7-13 ~~~~ 5.7-25 for JTMS RLI-38968
+    [Documentation]  Check all read-only leaves for  pic-0/1
+    ...              TC 5.1-18  RLI-38963
     [Tags]           Sanity   TC10   Get-CP-PIC1-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack PIC1 via Restconf
 
@@ -239,7 +249,8 @@ TC10
 
 
 TC11
-    [Documentation]  This test case mapping to 5.6-1 ~~~~ 5.6-18 and 5.6-28 for JTMS RLI-38968  Set-CP-QPSK28
+    [Documentation]  Provison QSFP28 transceivers
+    ...              TC 5.1-10  RLI-38963	
     [Tags]           Sanity   TC11   Set-QPSK28-R/W
     Log              Configure all R/W leaves for circuit-pack QSFP28 via Restconf
     : FOR            ${ClientID}        IN RANGE    0    8
@@ -256,7 +267,8 @@ TC11
 
 
 TC12
-    [Documentation]  This test case mapping to 5.6-28 for JTMS RLI-38968
+    [Documentation]  Check all read-only leaves for  QSFP28 transceivers
+    ...              TC 5.1-19  RLI-38963	
     [Tags]           Sanity   TC12   Get-QPSK28-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack QSFP28 via Restconf
     :FOR             ${INDEX}    IN RANGE    0    7    2
@@ -274,7 +286,8 @@ TC12
 
 
 TC13
-    [Documentation]  This test case mapping to 5.6-28 for JTMS RLI-38968  Set-CP-CFP2DCO
+    [Documentation]  Provison CFP2-DCO transceivers
+    ...              TC 5.1-12  RLI-38963
     [Tags]           Sanity   TC13   Set-CFP2DCO-R/W
     Log              Configure all R/W leaves for circuit-pack CFP2DCO via Restconf
     : FOR            ${ClientID}       IN RANGE    0    4
@@ -291,7 +304,8 @@ TC13
 
 
 TC14
-    [Documentation]  This test case mapping to 5.6-28 for JTMS RLI-38968
+    [Documentation]  Check all read-only leaves for  CFP2-DCO transceivers
+    ...              TC 5.1-20  RLI-38963
     [Tags]           Sanity   TC14   Get-CFP2DCO-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack CFP2DCO via Restconf
     : FOR            ${INDEX}    IN RANGE    0    4
@@ -308,7 +322,8 @@ TC14
     \                Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
 TC15
-    [Documentation]  This test case mapping to 5.7-1 in JTMS for RLI-38968
+    [Documentation]  Get-and-Verify-SN-Number-for-QSFP28
+    ...              TC 5.3-6  RLI-38968
     [Tags]           Sanity  TC15   Get-and-Verify-SN-Number-for-QSFP28
     Log              Configure circuit-pack-name via Restconf Patch method, then verify the SN number is right for this QSFP28 module.
     &{ctransc}         create dictionary       port-name-p=port-0/0/${QSFP28_INDEX}      port-type=qsfp28-port                port-qual=xpdr-client            circuit-id=Client-QSFP28     administrative-state=inService    logical-connection-point=foo
@@ -330,7 +345,8 @@ TC15
 
 
 TC16
-    [Documentation]  This test case mapping to 5.7-1 in JTMS for RLI-38968
+    [Documentation]  Get-and-Verify-SN-Number-for-CFP2DCO
+    ...              TC 5.3-6  RLI-38968
     [Tags]           Sanity  TC16   Get-and-Verify-SN-Number-for-CFP2DCO
     Log              Configure circuit-pack-name via Restconf Patch method, then verify the SN number is right for this CFP2DCO module.
     &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=cfp2dco-port                port-qual=xpdr-network            circuit-id=CFP2DCO     administrative-state=inService    logical-connection-point=foo
@@ -351,7 +367,8 @@ TC16
 
 
 TC17
-    [Documentation]  This test case mapping to 5.7-1 in JTMS for RLI-38968
+    [Documentation]  verify the name of circuit-pack can be retrieved and configured
+    ...              TC 5.3-2  RLI-38968
     [Tags]           Sanity  TC17   Set-CP-NAME
     Log              Configure circuit-pack-name via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}   circuit-pack-type=${ATTELLA_DEF_PIC0_MODEL.text}    shelf=shelf-0    slot=slot-0
@@ -362,7 +379,8 @@ TC17
 
 
 TC18
-    [Documentation]  This test case mapping to 5.3-12 in JTMS for RLI-38968
+    [Documentation]  verify the product-code of circuit-pack can be retrieved
+    ...              TC 5.3-8  RLI-38968
     [Tags]           Sanity  TC18   Set-CP-Product-Code
     Log              Configure circuit-pack-product-code via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
@@ -373,7 +391,8 @@ TC18
 
 
 TC19
-    [Documentation]  This test case mapping to 5.7-2 in JTMS for RLI-38968
+    [Documentation]  verify the administrative-state can be retrieved and configured
+    ...              TC 5.3-3  RLI-38968	
     [Tags]           Sanity   TC19   Set-CP-ADMIN-STATUS
     Log              Configure administrative-state via Restconf Patch method, here we take PIC0 for example.
     ${administrative_state}     evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
@@ -385,7 +404,8 @@ TC19
 
 
 TC20
-    [Documentation]  This test case mapping to 5.7-3 in JTMS for RLI-38968
+    [Documentation]  verify the equipment-state of circuit-pack can be retrieved and configured
+    ...              TC 5.3-16  RLI-38968
     [Tags]           Sanity  TC20  Set-CP-Equip-STATUS
     Log              Configure equipment-state via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}    equipment-state-cp=reserved-for-facility-available
@@ -396,7 +416,8 @@ TC20
 
 
 TC21
-    [Documentation]  This test case mapping to 5.7-4 in JTMS for RLI-38968
+    [Documentation]  verify the circuit-pack-mode can be retrieved and configured
+    ...              TC 5.3-17  RLI-38968
     [Tags]           Sanity  TC21   Set-CP-Mode
     Log              Configure circuit-pack-mode via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-mode=NORMAL
@@ -406,7 +427,8 @@ TC21
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
 TC22
-    [Documentation]  This test case mapping to 5.7-7 in JTMS for RLI-38968
+    [Documentation]  verify the subSlot of circuit-pack can be retrieved and configured
+    ...              TC 5.3-20  RLI-38968
     [Tags]           Sanity  TC22   Set-CP-Subslot
     Log              Configure circuit pack subSlot via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}      subSlot=slot-0/0
@@ -417,7 +439,8 @@ TC22
 		
 
 TC24
-    [Documentation]  This test case mapping to 5.7-9 in JTMS for RLI-38968
+    [Documentation]  verify due-date of circuit-pack can be retrieved and configured 
+    ...              TC 5.3-22  RLI-38968
     [Tags]           Sanity  TC24   Set-CP-DueDate
     Log              Configure circuit pack due-date via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     due-date-cp=${tv['uv-valid_due_date']}
@@ -427,7 +450,8 @@ TC24
     Send Merge Then Get Request And Verify Output Is Correct     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
 TC25
-    [Documentation]  This test case mapping to 5.7-12 in JTMS for RLI-38968
+    [Documentation]  verify the slot-name of cp-slot can be retrieved
+    ...              TC 5.3-27  RLI-38968	
     [Tags]           Sanity  TC25   Set-CP-Slot-Name
     Log              Configure circuit pack cp-slot-name via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}      cp-slot-name=slot-0/0
@@ -437,7 +461,8 @@ TC25
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
 TC26
-    [Documentation]  This test case mapping to 5.7-11 in JTMS for RLI-38968
+    [Documentation]  verify parent circuit pack name can be retrieved and configured
+    ...              TC 5.3-23  RLI-38968
     [Tags]           Sanity  TC26   Set-Parent-cp-name
     Log              Configure circuit pack cp-slot-name via Restconf Patch method, here we take PIC0 for example.
     &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}    circuit-pack-name-parent=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
@@ -602,7 +627,8 @@ TC26
 
 
 TC37
-    [Documentation]  This test case mapping to 5.3-25 in JTMS for RLI-38968
+    [Documentation]  De-provison fpc-0 
+    ...              TC 5.1-2  RLI-38968
     [Tags]           Sanity   TC37   Delete-CP-FPC0
     Log              Delete circuit-pack fpc-0 via Restconf patch method
     &{fpc_name}           create dictionary     circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
@@ -623,7 +649,8 @@ TC37
 #    Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
 TC38
-    [Documentation]  This test case mapping to 5.4-22 in JTMS for RLI-38968
+    [Documentation]  de-provison Power Supply Units
+    ...              TC 5.1-21 RLI-38963
     [Tags]           Sanity  TC38   Delete-CP-PSM0
     Log              Delete circuit-pack PSM-0 via Restconf patch method
     &{psm0}              create dictionary     circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}
@@ -637,7 +664,8 @@ TC38
 	
 
 TC39
-    [Documentation]  This test case mapping to 5.5-22 in JTMS for RLI-38968
+    [Documentation]  De-provison Fan Tray Units
+    ...              TC 5.1-9  RLI-38968
     [Tags]           Sanity  TC39   Delete-CP-FAN0
     Log              Delete circuit-pack FAN-0 via Restconf patch method
     &{fan0}              create dictionary     circuit-pack-name-self=${tv['uv-attella_def_slot3_provisioned_circuit_pack']}
@@ -648,7 +676,8 @@ TC39
 
 
 TC40
-    [Documentation]  This test case mapping to 5.7-35 in JTMS for RLI-38968
+    [Documentation]  De-provison pic-0/0
+    ...              TC 5.1-4  RLI-38968
     [Tags]           Sanity  TC40   Delete-CP-PIC0
     Log              Delete circuit-pack PIC-0 via Restconf patch method
     &{pic0}              create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}
@@ -659,7 +688,8 @@ TC40
 
 
 TC41
-    [Documentation]  This test case mapping to 5.5-1 in JTMS for RLI-38968
+    [Documentation]  De-provison QSFP28 transceivers
+    ...              TC 5.1-11  RLI-38968
     [Tags]           Sanity  TC41   Delete-CP-QSFP28
     Log                   Delete circuit-pack QSFP28-6 via Restconf patch method
     &{qsfp28_6}           create dictionary     circuit-pack-name-self=xcvr-${tv['uv-attella_client_transc_installed_prov']}
@@ -669,7 +699,8 @@ TC41
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
 TC42
-    [Documentation]  This test case mapping to 5.6-27 in JTMS for RLI-38968
+    [Documentation]  De-provison CFP2-DCO transceivers
+    ...              TC 5.1-13 RLI-38963
     [Tags]           Sanity   TC42   Delete-CP-CFP2DCO
     Log              Delete circuit-pack CFP2DCO-3 via Restconf patch method
     &{cfp2dco_3}           create dictionary     circuit-pack-name-self=xcvr-${tv['uv-attella_line_transc_installed_prov']}
@@ -680,7 +711,8 @@ TC42
 
 
 TC43
-    [Documentation]  This test case mapping to 5.3-30 in JTMS for RLI-38968
+    [Documentation]  Failed to delete FPC-0/0 twice
+    ...              TC 5.1-22 RLI-38963	
     [Tags]           Sanity   TC43  Delete-CP-FPC0-Twice
     Log              Delete circuit-pack fpc-0 twice via Restconf patch method
     ${administrative_state_for_fpc}        evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
@@ -703,7 +735,8 @@ TC43
 
 
 TC44
-    [Documentation]  This test case mapping to 5.5-1 in JTMS for RLI-38968
+    [Documentation]  Delete a circuit-packs twice
+    ...              TC 5.1-23 RLI-38963
     [Tags]           Sanity  TC44  Delete-Non-exist-CP
     Log              Delete a non-exist circuit-pack fpc-0will return 404 error
     ${administrative_state_for_fpc}       evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
