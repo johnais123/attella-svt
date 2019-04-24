@@ -73,7 +73,7 @@ ${OPER_STATUS_OFF}  outOfService
 *** Test Cases ***     
 TC1
     [Documentation]  Service Provision
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.1-1 5.2-1 5.1-3
     [Tags]  Sanity  tc1
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
@@ -81,7 +81,7 @@ TC1
 
 TC2
     [Documentation]  Traffic Verification
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-1
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
     Verify Traffic Is OK
@@ -92,7 +92,7 @@ TC2
     
 TC3
     [Documentation]  Disable Client Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.1-4 5.2-10
     [Tags]  Sanity  tc3
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
     
@@ -108,7 +108,7 @@ TC3
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.1-3 5.2-10
     [Tags]  Sanity  tc4
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
     
@@ -125,7 +125,7 @@ TC4
     
 TC5
     [Documentation]  Disable Line Odu Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-13
     [Tags]  tc5
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=outOfService
@@ -142,7 +142,7 @@ TC5
     
 TC6
     [Documentation]  Enable Line Odu Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-13
     [Tags]  Sanity  tc6
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
@@ -159,7 +159,7 @@ TC6
     
 TC7
     [Documentation]  Disable Line Otu Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-12
     [Tags]  tc7
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -176,7 +176,7 @@ TC7
 	Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${otu intf}  ${OPER_STATUS_OFF}
 TC8
     [Documentation]  Enable Line Otu Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-12
     [Tags]  tc8
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -194,7 +194,7 @@ TC8
     
 TC9
     [Documentation]  Disable Line Och Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-11
     [Tags]  tc9
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -213,7 +213,7 @@ TC9
     
 TC10
     [Documentation]  Enable Line Och Interface And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.2-11
     [Tags]  tc10
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -233,7 +233,7 @@ TC10
     
 TC11
     [Documentation]  Service De-provision
-    ...              RLI38968 5.1-8
+    ...              RLI38964 5.1-2  5.2-2
     [Tags]  tc11
 
 	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
@@ -243,14 +243,14 @@ TC11
     
 TC12
     [Documentation]  Traffic Verification After Service De-provision
-    ...              RLI38968 5.1-8
+    ...              RLI38964 
     [Tags]  tc12
     Log To Console  Verify Traffic
     Verify Traffic Is Blocked
 	
 TC13
     [Documentation]  Recreate Service And Verify Traffic
-    ...              RLI38968 5.1-8
+    ...              RLI38964
     [Tags]  tc13
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
@@ -264,7 +264,7 @@ TC13
 	
 TC14
     [Documentation]  Service De-provision
-    ...              RLI38968 5.1-8
+    ...              RLI38964
     [Tags]  Sanity  tc14
 	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
