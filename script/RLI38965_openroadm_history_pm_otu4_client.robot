@@ -71,6 +71,7 @@ ${ALARM CHECK TIMEOUT}      5 min
 *** Test Cases *** 
 TC1    
     [Documentation]  Verify history 15min Near-end/Far-end OTU PM statistics on otu4 Client interface
+    ...              RLI38965  5.12-1
     [Tags]            tc1  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -106,6 +107,7 @@ TC1
 
 TC2    
     [Documentation]  Verify history 15min Near-end/Far-end  ODU PM statistics on odu4 Client interface
+    ...              RLI38965  5.12-3
     [Tags]            tc2  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -143,6 +145,7 @@ TC2
 
 TC3    
     [Documentation]  Verify history 24Hour Near-end/Far-end OTU PM statistics on otu4 Client interface
+    ...              RLI38965  5.12-2
     [Tags]             tc3  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -178,6 +181,7 @@ TC3
 
 TC4    
     [Documentation]  Verify history 24Hour Near-end/Far-end  ODU PM statistics on odu4 Client interface
+    ...              RLI38965  5.12-4
     [Tags]           Sanity   tc4  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
