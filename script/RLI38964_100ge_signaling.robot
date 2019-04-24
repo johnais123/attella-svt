@@ -86,7 +86,7 @@ TC0
     
 TC1
     [Documentation]  near-end inject LF to Client Interface
-    ...              RLI38964  
+    ...              RLI38964  5.3-1  
     [Tags]
     Log To Console  near-end inject LFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -114,7 +114,7 @@ TC1
 
 TC2
     [Documentation]  near-end inject RF to Client Interface
-    ...              RLI38964 
+    ...              RLI38964 5.3-2 
     [Tags]
     Log To Console  near-end inject RFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
@@ -137,7 +137,7 @@ TC2
 
 TC3
     [Documentation]  fiber break at client side
-    ...              RLI38964  
+    ...              RLI38964  5.3-4 
     [Tags]
     Log To Console  near-end fiber break at client side
     Set Laser State  ${testSetHandle1}  OFF
@@ -165,7 +165,7 @@ TC3
 
 TC4
     [Documentation]  Admin OOS at Client Interface
-    ...              RLI38964
+    ...              RLI38964  5.3-6
     [Tags]  Sanity 
     Log To Console  Disable near-end client
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
@@ -205,7 +205,7 @@ TC4
 
 TC5
     [Documentation]  Admin OOS at OCH Interface
-    ...              RLI38964
+    ...              RLI38964 5.3-5
     [Tags]  Sanity
     Log To Console  Disable near-end och
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
