@@ -86,7 +86,7 @@ TC0
 
 TC1
     [Documentation]  Verify Los alarm in Client Interface
-    ...              RLI38964
+    ...              RLI38964  5.4-1 5.6-1
     [Tags]  Sanity  tc1
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  turn Laser off
@@ -130,7 +130,7 @@ TC1
 
 TC2
     [Documentation]  Verify Local Fault Rx/Tx alarm in Client Interface
-    ...              RLI38964
+    ...              RLI38964 5.4-2 5.4-6 5.6-2 5.6-6
     [Tags]  tc2
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject LFAULT
@@ -185,7 +185,7 @@ TC2
 
 TC3
     [Documentation]  Verify Remote Fault Rx/Tx alarm in Client Interface
-    ...              RLI38964
+    ...              RLI38964 5.4-3 5.4-7 5.6-2 5.6-6
     [Tags]  tc3
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject RFAULT
@@ -239,7 +239,7 @@ TC3
 
 TC4
     [Documentation]  Verify HI BER ALARM in 100ge Client Interface
-    ...              RLI38964
+    ...              RLI38964 5.4-4 5.6-4
     [Tags]  tc4
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject HI BER
@@ -283,7 +283,7 @@ TC4
 
 TC5
     [Documentation]  Verify Loss of Alignment in 100ge Client Interface
-    ...              RLI38964
+    ...              RLI38964 5.4-5 5.6-5
     [Tags]  tc5
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject Loss of Alignment
@@ -329,7 +329,7 @@ TC5
 
 TC6
     [Documentation]  Verify tx LF mask tx RF in 100ge Client Interface
-    ...              RLI38964
+    ...              RLI38964  5.5-5
     [Tags]  Sanity  tc6
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  Step1 Remote Fault Tx raise in client Interface
