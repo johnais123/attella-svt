@@ -83,7 +83,7 @@ TC0
 
 TC1
     [Documentation]  Verify PM Statistics no increase during traffic ok
-    ...              RLI38964 
+    ...              RLI38964  5.9-2  5.9-3 
     [Tags]  Sanity
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    current 
     log   ${currentMin}
@@ -104,7 +104,7 @@ TC1
 
 TC2
     [Documentation]  Verify current 15min PM BIPErrorCounter rx and erroredSecondsEthernet rx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-2 5.7-3
     [Tags]           Sanity
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
@@ -128,7 +128,7 @@ TC2
 
 TC3
     [Documentation]  Verify current 15min PM BIPErrorCounter tx and erroredSecondsEthernet tx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-6 5.7-7
     [Tags]           
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    tx 
@@ -153,7 +153,7 @@ TC3
 
 TC4
     [Documentation]  Verify current 15min PM severelyErroredSecondsEthernet rx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-4
     [Tags]           Sanity
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
@@ -176,7 +176,7 @@ TC4
 
 TC5
     [Documentation]  Verify current 15min PM severelyErroredSecondsEthernet tx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-8
     [Tags]           
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
@@ -199,7 +199,7 @@ TC5
 
 TC6
     [Documentation]  Verify current 24Hour PM BIPErrorCounter rx and erroredSecondsEthernet rx
-    ...              RLI38964  
+    ...              RLI38964 5.7-2 5.7-3 
     [Tags]           Sanity
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
@@ -223,7 +223,7 @@ TC6
 
 TC7
     [Documentation]  Verify current 24Hour PM BIPErrorCounter tx and erroredSecondsEthernet tx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-6 5.7-7
     [Tags]           
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    tx 
@@ -248,7 +248,7 @@ TC7
 
 TC8
     [Documentation]  Verify current 24Hour PM severelyErroredSecondsEthernet rx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-4
     [Tags]           Sanity
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
@@ -271,7 +271,7 @@ TC8
 
 TC9
     [Documentation]  Verify current 24Hour PM severelyErroredSecondsEthernet tx
-    ...              RLI38964 5.1-2
+    ...              RLI38964 5.7-8
     [Tags]           
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
@@ -293,7 +293,7 @@ TC9
 
 TC10
     [Documentation]  Verify History 15min 100ge PM
-    ...              RLI38964 5.1-2
+    ...              RLI38964
     [Tags]           Sanity
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
@@ -333,7 +333,7 @@ TC10
 
 TC11
     [Documentation]  Verify History 24Hour 100ge PM
-    ...              RLI38964 5.1-2
+    ...              RLI38964
     [Tags]           
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
