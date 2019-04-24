@@ -74,7 +74,7 @@ ${ALARM CHECK TIMEOUT}      5 min
 *** Test Cases ***     	
 TC1
     [Documentation]  verify client otu interface facility loopback
-    ...              RLI38968 5.1-8
+    ...              RLI38965   5.9-1
     ...              FAC2 loopack on C1 otu port:
     ...              otu4 traffic is ok.
     ...              Facility Loopback2 Operated on C1 otu port  
@@ -118,7 +118,7 @@ TC1
 	
 TC2
     [Documentation]  verify client otu interface terminal loopback
-    ...              RLI38968 5.1-8
+    ...              RLI38965   5.9-2
     ...              Terminal Loopback Operated on C1 otu port
     ...              1)Inject ODU-AIS from EXFO2.
     ...              2)C2 odu port raise ODU-AIS, L1 odu port raise ODU-AIS, C2 odu port raise ODU-AIS  
@@ -160,7 +160,7 @@ TC2
 
 TC3
     [Documentation]  verify line otu interface facility loopback
-    ...              RLI38968 5.1-8
+    ...              RLI38966   5.8-1
     ...              FAC2 loopack on L1 otu port:
     ...              otu4 traffic is ok.
     ...              fac2 loopback will raise on L1 otu port   
@@ -203,7 +203,7 @@ TC3
 
 TC4
     [Documentation]  verify line otu interface terminal loopback
-    ...              RLI38968 5.1-8
+    ...              RLI38966  5.8-2
     ...              Term loopack on L1 otu port: 
     ...              otu4 traffic is ok.
     ...              Terminal Loopback Operated on L1 otu port
