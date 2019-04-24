@@ -72,6 +72,7 @@ ${OPER_STATUS_OFF}  outOfService
 *** Test Cases ***     
 TC1
     [Documentation]  Service Provision
+    ...              RLI38965  5.1-1  5.1-2  5.1-3  5.1-4
     [Tags]  Sanity  tc1
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
@@ -79,6 +80,7 @@ TC1
 
 TC2
     [Documentation]  Traffic Verification
+    ...              RLI38965  5.2-1
     [Tags]  Sanity  tc2
     Log To Console  Verify Traffic
     Verify Traffic Is OK
@@ -86,6 +88,7 @@ TC2
 
 TC3
     [Documentation]  Disable Client Interface And Verify Traffic
+    ...              RLI38965  5.2-11
     [Tags]  tc3
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=outOfService
     
@@ -101,6 +104,7 @@ TC3
     
 TC4
     [Documentation]  Enable Client Interface And Verify Traffic
+    ...              RLI38965  5.2-11
     [Tags]  tc4
     &{intf}=   create_dictionary   interface-name=${client intf}  interface-administrative-state=inService
     
@@ -115,6 +119,7 @@ TC4
     
 TC5
     [Documentation]  Disable Client Interface And Verify Traffic
+    ...              RLI38965  5.2-12
     [Tags]  Sanity  tc5
     ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}  interface-administrative-state=outOfService
@@ -130,6 +135,7 @@ TC5
 
 TC6
     [Documentation]  Enable Client Interface And Verify Traffic
+    ...              RLI38965  5.2-12
     [Tags]  Sanity  tc6
     ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}  interface-administrative-state=inService
@@ -146,6 +152,7 @@ TC6
     
 TC7
     [Documentation]  Disable Line Odu Interface And Verify Traffic
+    ...              RLI38965  5.2-15
     [Tags]  Sanity  tc7
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=outOfService
@@ -161,6 +168,7 @@ TC7
     
 TC8
     [Documentation]  Enable Line Odu Interface And Verify Traffic
+    ...              RLI38965  5.2-15
     [Tags]  Sanity  tc8
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
@@ -176,6 +184,7 @@ TC8
     
 TC9
     [Documentation]  Disable Line Otu Interface And Verify Traffic
+    ...              RLI38965  5.2-14
     [Tags]  tc9
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -192,6 +201,7 @@ TC9
     
 TC10
     [Documentation]  Enable Line Otu Interface And Verify Traffic
+    ...              RLI38965  5.2-14
     [Tags]  tc10
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -208,6 +218,7 @@ TC10
     
 TC11
     [Documentation]  Disable Line Och Interface And Verify Traffic
+    ...              RLI38965  5.2-13
     [Tags]  tc11
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -225,6 +236,7 @@ TC11
     
 TC12
     [Documentation]  Enable Line Och Interface And Verify Traffic
+    ...              RLI38965  5.2-13
     [Tags]  tc12
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
@@ -251,12 +263,14 @@ TC13
     
 TC14
     [Documentation]  Traffic Verification After Service De-provision
+    ...              RLI38965  5.2-1
     [Tags]  tc14
     Log To Console  Verify Traffic
     Verify Traffic Is Blocked
     
 TC15
     [Documentation]  Recreate Service And Verify Traffic
+    ...              RLI38965  5.2-1
     [Tags]  tc15
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
@@ -268,6 +282,7 @@ TC15
 	
 TC16
     [Documentation]  Service De-provision
+    ...              RLI38965  5.2-1
     [Tags]  Sanity  tc16
     Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
 	Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
