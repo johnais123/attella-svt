@@ -71,7 +71,7 @@ ${ALARM CHECK TIMEOUT}      5 min
    
 TC1
     [Documentation]  Retrieve opticalPowerOutput pm statistics on Local line port
-    ...              RLI38966 
+    ...              TC 5.9-1 RLI-38966
     [Tags]           Sanity   tc1  
     @{pmEntryParmater}        Create List       opticalPowerOutput        nearEnd      tx  
     @{pmEntryParmaterlist}    Create List       ${pmEntryParmater}
@@ -90,7 +90,7 @@ TC1
 
 TC2
     [Documentation]  Retrieve opticalPowerOutputMin current 15Min  pm statistics on Local line port 
-    ...              RLI38966 
+    ...              TC 5.9-2 RLI-38966
     [Tags]           tc2  
     @{pmEntryParmater1}        Create List       opticalPowerOutputMin        nearEnd      tx  
     @{pmEntryParmater2}        Create List       opticalPowerOutputAvg        nearEnd      tx 
@@ -119,7 +119,7 @@ TC2
     
 TC3    
     [Documentation]  Retrieve opticalPowerOutputMin current 24Hour pm statistics on Local line port 
-    ...              RLI38966 
+    ...              TC 5.9-3   RLI-38966
     [Tags]           tc3  
     @{pmEntryParmater1}        Create List       opticalPowerOutputMin        nearEnd      tx  
     @{pmEntryParmater2}        Create List       opticalPowerOutputAvg        nearEnd      tx 
@@ -148,7 +148,7 @@ TC3
     	
 TC4    
     [Documentation]  Retrieve opticalPowerOutputMax current 15Min pm statistics on Local line port 
-    ...              RLI38966 
+    ...              TC 5.9-4   RLI-38966
     [Tags]           tc4  
     @{pmEntryParmater1}        Create List       opticalPowerOutputMin        nearEnd      tx  
     @{pmEntryParmater2}        Create List       opticalPowerOutputAvg        nearEnd      tx 
@@ -174,7 +174,7 @@ TC4
     
 TC5    
     [Documentation]  Retrieve opticalPowerOutputMax pm current 24Hour statistics on Local line port 
-    ...              RLI38966 
+    ...              TC 5.9-5   RLI-38966
     [Tags]           tc5  
     @{pmEntryParmater1}        Create List       opticalPowerOutputMin        nearEnd      tx  
     @{pmEntryParmater2}        Create List       opticalPowerOutputAvg        nearEnd      tx 
@@ -199,7 +199,7 @@ TC5
     
 TC6    
     [Documentation]  Retrieve opticalPowerOutputAvg current 15Min  pm statistics on Local line port 
-    ...              RLI38966 
+    ...              TC 5.9-6   RLI-38966 
     [Tags]           tc6  
     @{pmEntryParmater1}        Create List       opticalPowerOutputMin        nearEnd      tx  
     @{pmEntryParmater2}        Create List       opticalPowerOutputAvg        nearEnd      tx 
@@ -225,7 +225,7 @@ TC6
     
 TC7    
     [Documentation]  Retrieve opticalPowerOutputAvg current 24Hour pm statistics on Local line port 
-    ...              RLI38966 
+    ...              TC 5.9-7   RLI-38966
     [Tags]           tc7  
     @{pmEntryParmater1}        Create List       opticalPowerOutputMin        nearEnd      tx  
     @{pmEntryParmater2}        Create List       opticalPowerOutputAvg        nearEnd      tx 
@@ -251,7 +251,7 @@ TC7
     
 TC8    
     [Documentation]  Retrieve totalOpticalPowerInput pm statistics on remote line port  
-    ...              RLI38966 
+    ...              TC 5.9-8   RLI-38966  
     [Tags]           Sanity   tc8  
     @{pmEntryParmater}        Create List       totalOpticalPowerInput        nearEnd      rx  
     @{pmEntryParmaterlist}    Create List       ${pmEntryParmater}
@@ -268,7 +268,7 @@ TC8
     
 TC9    
     [Documentation]  Retrieve totalOpticalPowerInputMin current 15Min  pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-9   RLI-38966 
     [Tags]           tc9  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 
@@ -293,7 +293,7 @@ TC9
     
 TC10    
     [Documentation]  Retrieve totalOpticalPowerInputMin current 24Hour pm statistics on Remote line port 
-    ...              RLI38966
+    ...              TC 5.9-10   RLI-38966
     [Tags]           tc10  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 
@@ -318,7 +318,7 @@ TC10
     
 TC11    
     [Documentation]  Retrieve totalOpticalPowerInputMax current 15Min  pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-11   RLI-38966
     [Tags]           tc11  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 
@@ -344,7 +344,7 @@ TC11
     
 TC12    
     [Documentation]  Retrieve totalOpticalPowerInputMax current 24Hour pm statistics on Remote line port 
-    ...              RLI38966 
+    ....              TC 5.9-12   RLI-38966
     [Tags]           tc12  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 
@@ -369,7 +369,7 @@ TC12
     
 TC13    
     [Documentation]  Retrieve totalOpticalPowerInputAvg current 15Min  pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-13   RLI-38966
     [Tags]           tc13  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 
@@ -395,7 +395,7 @@ TC13
     
 TC14    
     [Documentation]  Retrieve totalOpticalPowerInputAvg current 24Hour pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-14   RLI-38966
     [Tags]           tc14  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 
@@ -421,7 +421,7 @@ TC14
     
 TC15    
     [Documentation]  Retrieve 15min opticalPowerInput pm statistics on remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-15   RLI-38966
     [Tags]           Sanity   tc15  
     @{pmEntryParmater}        Create List       opticalPowerInput        nearEnd      rx  
     @{pmEntryParmaterlist}    Create List   ${pmEntryParmater}
@@ -438,7 +438,7 @@ TC15
     
 TC16    
     [Documentation]  Retrieve opticalPowerInputMin current 15Min  pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-16   RLI-38966 
     [Tags]           tc16  
     @{pmEntryParmater1}        Create List       opticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       opticalPowerInputAvg        nearEnd      rx 
@@ -467,7 +467,7 @@ TC16
     
 TC17    
     [Documentation]  Retrieve opticalPowerInputMin current 24Hour pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-17   RLI-38966
     [Tags]           tc17  
     @{pmEntryParmater1}        Create List       opticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       opticalPowerInputAvg        nearEnd      rx 
@@ -496,7 +496,7 @@ TC17
     
 TC18    
     [Documentation]  Retrieve opticalPowerInputMax current 15Min  pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-18   RLI-38966 
     [Tags]           tc18  
     @{pmEntryParmater1}        Create List       opticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       opticalPowerInputAvg        nearEnd      rx 
@@ -521,7 +521,7 @@ TC18
     
 TC19    
     [Documentation]  Retrieve opticalPowerInputMax current 24Hour pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-19   RLI-38966
     [Tags]           tc19  
     @{pmEntryParmater1}        Create List       opticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       opticalPowerInputAvg        nearEnd      rx 
@@ -547,7 +547,7 @@ TC19
     
 TC20    
     [Documentation]  Retrieve opticalPowerInputAvg current 15Min pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-20   RLI-38966
     [Tags]           tc20  
     @{pmEntryParmater1}        Create List       opticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       opticalPowerInputAvg        nearEnd      rx 
@@ -573,7 +573,7 @@ TC20
     
 TC21    
     [Documentation]  Retrieve opticalPowerInputAvg current 24Hour pm statistics on Remote line port 
-    ...              RLI38966 
+    ...              TC 5.9-21   RLI-38966
     [Tags]           tc21  
     @{pmEntryParmater1}        Create List       opticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       opticalPowerInputAvg        nearEnd      rx 
@@ -601,7 +601,7 @@ TC21
 
 TC22
     [Documentation]  Retrieve current 15min Near-end  ES/SES pm statistics on Remote line port  
-    ...              RLI38966 
+    ...              TC 5.10-5/5.10-6   RLI-38966
     [Tags]           Sanity   tc22  
     Log              Modify the tx-sapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
 
@@ -638,7 +638,7 @@ TC22
 
 TC23
     [Documentation]  Retrieve current 24hour Near-end  ES/SES pm statistics on Remote line port  
-    ...              RLI38966 
+    ...              TC 5.10-5/5.10-6   RLI-38966
     [Tags]           Sanity   tc23  
     Log              Modify the tx-sapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
 
@@ -675,7 +675,8 @@ TC23
 
 TC24   
     [Documentation]  Verify current 15min near-end  ODU all PM statistics on remote odu4 line interface
-    [Tags]           Sanity   tc24   
+    ...              TC 5.11-1/5.11-2/5.11-3/5.11-4   RLI-38966
+    [Tags]           tc24  
     @{pmEntryParmater}          Create List     erroredSeconds           nearEnd    rx 
     @{pmEntryParmater2}         Create List     erroredBlockCount        nearEnd    rx
     @{pmEntryParmater3}         Create List     backgroundBlockErrors    nearEnd    rx
@@ -697,6 +698,7 @@ TC24
 
 TC25   
     [Documentation]  Verify current 15min Near-end  ODU severelyErroredSeconds PM statistics on remote odu4 line interface
+    ...              TC 5.11-1/5.11-2/5.11-3/5.11-4   RLI-38966
     [Tags]           tc25   
     @{pmEntryParmater}           Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}          Create List      erroredBlockCount          nearEnd    rx
@@ -720,6 +722,7 @@ TC25
 
 TC26    
     [Documentation]  Verify current 15min Far-end  ODU erroredBlockCount PM statistics on remote odu4 Line interface
+    ...              TC 5.11-5/5.11-6/5.11-7/5.11-8   RLI-38966
     [Tags]           Sanity   tc26  
     @{pmEntryParmater}          Create List     erroredBlockCount         farEnd    rx 
     @{pmEntryParmater2}         Create List     backgroundBlockErrors     farEnd    rx
@@ -742,6 +745,7 @@ TC26
 
 TC27   
     [Documentation]  Verify current 15min Far-end  ODU severelyErroredSeconds PM statistics on remote odu4 Line interface
+    ...              TC 5.11-5/5.11-6/5.11-7/5.11-8   RLI-38966
     [Tags]           tc27   
     @{pmEntryParmater}          Create List      severelyErroredSeconds     farEnd    rx 
     @{pmEntryParmater2}         Create List      erroredBlockCount          farEnd    rx
@@ -764,6 +768,7 @@ TC27
 
 TC28   
     [Documentation]  Verify current 24Hour near-end  ODU all PM statistics on remote odu4 Line interface
+    ...              TC 5.11-1/5.11-2/5.11-3/5.11-4   RLI-38966
     [Tags]           Sanity   tc128   
     @{pmEntryParmater}          Create List     erroredSeconds           nearEnd    rx 
     @{pmEntryParmater2}         Create List     erroredBlockCount        nearEnd    rx
@@ -787,6 +792,7 @@ TC28
 
 TC29   
     [Documentation]  Verify current 24Hour Near-end  ODU severelyErroredSeconds PM statistics on remote odu4 Line interface
+    ...              TC 5.11-1/5.11-2/5.11-3/5.11-4   RLI-38966
     [Tags]           tc29   
     @{pmEntryParmater}          Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}         Create List      erroredBlockCount          nearEnd    rx
@@ -810,6 +816,7 @@ TC29
 
 TC30    
     [Documentation]  Verify current 24Hour Far-end  ODU erroredBlockCount PM statistics on remote odu4 Line interface
+    ...              TC 5.11-5/5.11-6/5.11-7/5.11-8   RLI-38966
     [Tags]           Sanity   tc30 
     @{pmEntryParmater}          Create List     erroredBlockCount        farEnd    rx 
     @{pmEntryParmater2}         Create List     backgroundBlockErrors    farEnd    rx
@@ -832,6 +839,7 @@ TC30
 
 TC31   
     [Documentation]  Verify current 24Hour Far-end  ODU severelyErroredSeconds PM statistics on remote odu4 Line interface
+    ...              TC 5.11-5/5.11-6/5.11-7/5.11-8   RLI-38966
     [Tags]           tc31   
     @{pmEntryParmater}          Create List      severelyErroredSeconds     farEnd    rx 
     @{pmEntryParmater2}         Create List      erroredBlockCount          farEnd    rx
