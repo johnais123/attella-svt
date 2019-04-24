@@ -103,7 +103,7 @@ Node-id
     
 Invalid-Node-id
     [Documentation]  Reject wrong node-id info via openRoadm 
-    ...              RLI38968 5.1-3
+    ...              RLI38968 5.1-3-2
     [Tags]           Negative   tc3  limitation
     Log           Configure node-id via Restconf Patch method
     &{dev_info}   create dictionary   node-id=${INVALID_ATTELLA_DEF_INFO_NODE_ID}
@@ -114,7 +114,7 @@ Invalid-Node-id
     
 Node-number
     [Documentation]  Setting for org-openroadm-device/info/node-number
-    ...              RLI38968 5.1-4
+    ...              RLI38968 5.1-3
     [Tags]           Sanity   tc4
     Log           Configure node-number via Restconf Patch method
     ${NodeNb}      Convert to string     ${tv['uv-attella_def_info_node_number']}
@@ -136,7 +136,7 @@ Invalid-Node-number
     
 Node-type
     [Documentation]  Setting for org-openroadm-device/info/node-type
-    ...              RLI38968 5.1-6
+    ...              RLI38968 5.1-4
     [Tags]           Sanity   tc6
     Log          Configure node-type via Restconf Patch method
     &{dev_info}   create dictionary   node-type=${tv['uv-attella_def_info_node_type']}
@@ -146,7 +146,7 @@ Node-type
     
 Invalid-Node-type
     [Documentation]  Reject wrong node-type info via openRoadm 
-    ...              RLI38968 5.1-7
+    ...              RLI38968 5.1-4-2
     [Tags]           Negative   tc7   limitation
     Log          Configure node-type via Restconf Patch method
     &{dev_info}   create dictionary   node-type= ${INVALID_ATTELLA_DEF_INFO_NODE_TYPE}
@@ -157,7 +157,7 @@ Invalid-Node-type
     
 Clli
     [Documentation]  Setting for org-openroadm-device/info/clli
-    ...              RLI38968 5.1-8
+    ...              RLI38968 5.1-5
     [Tags]           Sanity   tc8
     Log          Configure clli via Restconf Patch method
     &{dev_info}   create dictionary    clli=${tv['uv-attella_def_info_clli']}
@@ -167,7 +167,7 @@ Clli
     
 Get-all-info-leaf
     [Documentation]  Verify can retrieve all readonly info leave
-    ...              RLI38968 5.1-8 5.1-9 5.1-10 5.1-17 5.1-18 5.1-19 5.1-20 5.1-21 5.1-22 5.1-23
+    ...              RLI38968 5.1-6 5.1-7 5.1-11 5.1-12 5.1-13 5.1-14 5.1-16 5.1-17 5.1-19
     [Tags]           Sanity   tc9 
     Log             Fetching all readonly info leave via Restconf GET method
     &{dev_info}   create dictionary   vendor-info=${tv['uv-attella_def_info_vendor']}   model-info=${tv['uv-attella_def_info_model']} 
@@ -183,7 +183,7 @@ Get-all-info-leaf
     
 Set-IP-Address-leaves
     [Documentation]  Setting for org-openroadm-device/info/ipAddress relate leaves
-    ...              RLI38968 5.1-10
+    ...              RLI38968 5.1-8
     [Tags]           Sanity   tc10
     Log           Configure ip Address via Restconf Patch method
     ${prefix_length}      Convert to string     ${tv['uv-attella_def_info_prefix_length']}
@@ -194,7 +194,7 @@ Set-IP-Address-leaves
 
 Invalid-IP-Address
     [Documentation]  Reject wrong ipAddress via openRoadm
-    ...              RLI38968 5.1-11
+    ...              RLI38968 5.1-8-1
     [Tags]           Negative   tc11   limitation
     Log           Configure ip Address via Restconf Patch method
     &{dev_info}   create dictionary   ipAddress=${INVALID_ATTELLA_DEF_INFO_IPADDRESS}
@@ -218,7 +218,7 @@ InvalidPrelength
 
 InvalidDefGateway
     [Documentation]  Reject wrong Gateway via openRoadm
-    ...              RLI38968 5.1-13
+    ...              RLI38968 5.1-9-1
     [Tags]           Negative   tc13   limitation
     Log           Configure default Gateway via Restconf Patch method
     &{dev_info}   create dictionary    defaultGateway=${INVALID_ATTELLA_DEF_INFO_DEFAULTGATEWAY}
