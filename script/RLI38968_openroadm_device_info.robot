@@ -205,7 +205,7 @@ Invalid-IP-Address
 
 InvalidPrelength
     [Documentation]  Reject wrong prefix-length via openRoadm
-    ...              RLI38968 5.1-12
+    ...              RLI38968 5.1-9-1
     [Tags]           Negative    tc12   limitation
     Log           Configure prefix-length via Restconf Patch method
     ${random-int}    Evaluate    random.randint(130,200)    random 
@@ -218,7 +218,7 @@ InvalidPrelength
 
 InvalidDefGateway
     [Documentation]  Reject wrong Gateway via openRoadm
-    ...              RLI38968 5.1-9-1
+    ...              RLI38968 5.1-10-1
     [Tags]           Negative   tc13   limitation
     Log           Configure default Gateway via Restconf Patch method
     &{dev_info}   create dictionary    defaultGateway=${INVALID_ATTELLA_DEF_INFO_DEFAULTGATEWAY}
@@ -229,7 +229,7 @@ InvalidDefGateway
 
 Templates
     [Documentation]  Verify can configure Templates info via openRoadm
-    ...              RLI38968 5.1-26
+    ...              RLI38968 5.1-18
     [Tags]           Sanity   tc14  limitation  
     Log           Configure geoLocation latitude via Restconf Patch method
     ${Template-name}     Evaluate     "".join(random.sample(string.ascii_letters, random.randint(1,10)))      random,string
@@ -240,7 +240,7 @@ Templates
 
 SetGeoLoclatit
     [Documentation]  Verify can configure geoLocation latitude info via openRoadm
-    ...              RLI38968 5.1-26
+    ...              RLI38968 5.1-20
     [Tags]           Sanity   tc15     
     Log           Configure geoLocation latitude via Restconf Patch method
     ${random-float}   evaluate    random.randint(-89,89) + random.random()    random 
@@ -252,7 +252,7 @@ SetGeoLoclatit
 
 SetGeoLoclongitu
     [Documentation]  Verify can configure geoLocation longitudeinfo via openRoadm
-    ...              RLI38968 5.1-27
+    ...              RLI38968 5.1-21
     [Tags]           Sanity   tc16   
     Log           Configure geoLocation longitude via Restconf Patch method
     ${random-float}   evaluate    random.randint(-179,179) + random.random()    random    
