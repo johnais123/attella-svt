@@ -90,7 +90,8 @@ ${timeout}  120
 
 TC1
     [Documentation]  Verify can configure all otu4 client interface attribute via openRoadm leaf
-    [Tags]           Sanity   tc1  
+    ...              RLI38968 5.4-1
+    [Tags]           Sanity   tc1 
     Log           Configure client interface supporting-port via Restconf Patch method
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/ 
     : FOR    ${INDEXS}    IN RANGE    0    8
@@ -122,6 +123,7 @@ TC1
     
 TC2
     [Documentation]  Verify delete all otu4 client interface via openRoadm leaf
+    ...              RLI38968 5.4-1
     [Tags]          Sanity  tc2
     Log         Verify delete different type of special interface via Restconf Patch method
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/ 
@@ -145,6 +147,7 @@ TC2
     
 TC3
     [Documentation]  Verify can configure all client interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-1
     [Tags]           Sanity   tc3
     Log           Configure client interface supporting-port via Restconf Patch method
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
@@ -160,6 +163,7 @@ TC3
 
 TC4
     [Documentation]  Verify can configure all line interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-1
     [Tags]           Sanity   tc4 
     Log           Configure client interface supporting-port via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -182,6 +186,7 @@ TC4
 
 TC5 
     [Documentation]  Verify can configure interface name and type via openRoadm leaf
+    ...              RLI38968 5.4-2
     [Tags]           Sanity  tc5  
     Log           Configure client interface name and type via Restconf Patch method
     &{100GE_interface}   create dictionary   interface-name=${tv['device0__intf4__pic']}    interface-type=${ATTELLA_DEF_CLIENT_PORT_TYPE}
@@ -195,6 +200,7 @@ TC5
 
 TC6 
     [Documentation]  Verify can configure interface description via openRoadm leaf
+    ...              RLI38968 5.4-3	
     [Tags]          Sanity   tc6    
     Log           Configure client interface description via Restconf Patch method
     &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    description=ethernet-interface
@@ -209,6 +215,7 @@ TC6
 
 TC7 
     [Documentation]  Verify can configure interface administrative-state via openRoadm leaf
+    ...              RLI38968 5.4-5
     [Tags]           Sanity   tc7 
     Log           Configure client interface administrative-state via Restconf Patch method
     @{adminstatulist}  create list   ${ATTELLA_INTERFACE_ADMINSTRATION_STATE3}    ${ATTELLA_INTERFACE_ADMINSTRATION_STATE2}   ${ATTELLA_INTERFACE_ADMINSTRATION_STATE}
@@ -225,6 +232,7 @@ TC7
 
 TC8
     [Documentation]  Verify can configure interface circuit-id via openRoadm leaf
+    ...              RLI38968 5.4-7
     [Tags]           Sanity    tc8   
     Log           Configure client interface circuit-id via Restconf Patch method
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
@@ -240,6 +248,7 @@ TC8
 
 TC9
     [Documentation]  Verify can configure supporting-interface via openRoadm leaf
+    ...              RLI38968 5.4-8
     [Tags]           Sanity   tc9    
     Log           Configure client interface supporting-interface via Restconf Patch method
     &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-interface=none
@@ -254,6 +263,7 @@ TC9
 
 TC10
     [Documentation]  Verify can configure supporting-circuit-pack-name via openRoadm leaf
+    ...              RLI38968 5.4-9
     [Tags]           Sanity   tc10    
     Log           Configure client interface supporting-circuit-pack-name via Restconf Patch method
     &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-circuit-pack-name=xcvr-0/0/0
@@ -268,6 +278,7 @@ TC10
 
 TC11
     [Documentation]  Verify can configure supporting-port via openRoadm leaf
+    ...              RLI38968 5.4-10
     [Tags]           Sanity   tc11    
     Log           Configure client interface supporting-port via Restconf Patch method
     &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-port=port-0/0/0
@@ -283,6 +294,7 @@ TC11
 # for ethernet port
 TC12 
     [Documentation]  Verify can configure ethernet interface speed via openRoadm leaf
+    ...              RLI38968 5.4-12
     [Tags]           Sanity   tc12   ethernet
     Log           Configure ethernet interface speed via Restconf Patch method
     : FOR    ${INDEXS}    IN RANGE    0    8
@@ -295,6 +307,7 @@ TC12
 
 TC13
     [Documentation]  Verify can configure ethernet interface fec via openRoadm leaf
+    ...              RLI38968 5.4-13
     [Tags]           Sanity   tc13   ethernet
     Log           Configure ethernet interface fec via Restconf Patch method
     : FOR    ${INDEXS}    IN RANGE    0    8
@@ -307,6 +320,7 @@ TC13
     
 TC14 
     [Documentation]  Verify can configure ethernet interface duplex via openRoadm leaf
+    ...              RLI38968 5.4-14
     [Tags]           Sanity   tc14   ethernet
     Log           Configure ethernet interface duplex via Restconf Patch method
     : FOR    ${INDEXS}    IN RANGE    0    8
@@ -319,6 +333,7 @@ TC14
 
 TC15
     [Documentation]  Delete all clinet port ethernet attribute via openRoadm leaf
+    ...              RLI38968 5.4-11
     [Tags]           Sanity   tc15    ethernet
     Log           Delete all clinet port ethernet attribute via openRoadm leaf via Restconf Patch method
     # ${mulit}   set variable   2 
@@ -334,6 +349,7 @@ TC15
   
 TC16
     [Documentation]  Verify can configure all interface ethernet attribute via openRoadm leaf
+    ...              RLI38968 5.4-11-2
     [Tags]            Sanity    tc16    ethernet 
     Log           Configure all client interface ethernet via Restconf Patch method
     ${mulit}   set variable   2 
@@ -349,6 +365,7 @@ TC16
 # for och port
 TC17
     [Documentation]  Verify can configure och interface rate via openRoadm leaf
+    ...              RLI38968 5.4-18
     [Tags]           Sanity   tc17  och
     Log           Configure och interface rate via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -361,6 +378,7 @@ TC17
 
 TC18
     [Documentation]  Verify can configure och interface frequency via openRoadm leaf
+    ...              RLI38968 5.4-19
     [Tags]           Sanity   tc18   och 
     Log           Configure och interface frequency via Restconf Patch method
     ${basefreq}  set variable  191.35
@@ -378,6 +396,7 @@ TC18
 
 TC19 
     [Documentation]  Verify can configure och interface modulation-format via openRoadm leaf
+    ...              RLI38968 5.4-21
     [Tags]           Sanity    tc19   och
     Log           Configure och interface modulation-format via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -390,6 +409,7 @@ TC19
 
 TC20
     [Documentation]  Verify can configure och interface transmit-power via openRoadm leaf
+    ...              RLI38968 5.4-22
     [Tags]           Sanity   tc20   och
     Log           Configure och interface transmit-power via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -402,6 +422,7 @@ TC20
 
 TC21
     [Documentation]  Verify can delete all och interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-17
     [Tags]           Sanity   tc21   och
     Log           Delete och interface all attribute via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -415,6 +436,7 @@ TC21
 
 TC22
     [Documentation]  Verify can configure all och interface attribute with one time request
+    ...              RLI38968 5.4-17-2
     [Tags]           Sanity   tc22   och 
     Log           Configure all och interface attribute via Restconf Patch method
     ${basefreq}  set variable  191.35
@@ -433,6 +455,7 @@ TC22
 
 TC23
     [Documentation]  Verify can get och interface width via openRoadm leaf
+    ...              RLI38968 5.4-20
     [Tags]           Sanity   tc23   och
     Log           get och interface width via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -446,6 +469,7 @@ TC23
 # for Odu port
 TC24
     [Documentation]  Verify can configure Odu interface degm-intervals via openRoadm leaf
+    ...              RLI38968 5.4-53  5.4-54
     [Tags]           Sanity    tc24  odu
     Log           Configure Odu interface degm-intervals via Restconf Patch method  
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -462,6 +486,7 @@ TC24
     
 TC25 
     [Documentation]  Verify can configure Odu interface rate via openRoadm leaf
+    ...              RLI38968 5.4-40
     [Tags]           Sanity  tc25   odu
     Log           Configure Odu interface rate via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -474,6 +499,7 @@ TC25
 
 TC26 
     [Documentation]  Verify can configure Odu interface monitoring-mode via openRoadm leaf
+    ...              RLI38968 5.4-41
     [Tags]           Sanity   tc26  odu
     Log           Configure Odu interface monitoring-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -486,6 +512,7 @@ TC26
 
 TC27
     [Documentation]  Verify can configure Odu interface proactive-delay-measurement-enabled via openRoadm leaf
+    ...              RLI38968 5.4-42
     [Tags]           Sanity   tc27   odu
     Log           Configure Odu interface proactive-delay-measurement-enabled via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -498,6 +525,7 @@ TC27
 
 TC28
     [Documentation]  Verify can configure Odu interface tx-sapi via openRoadm leaf
+    ...              RLI38968 5.4-43
     [Tags]           Sanity   tc28   odu
     Log           Configure Odu interface tx-sapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -511,6 +539,7 @@ TC28
 
 TC29
     [Documentation]  Verify can configure Odu interface tx-dapi via openRoadm leaf
+    ...              RLI38968 5.4-44
     [Tags]           Sanity   tc29  odu
     Log           Configure Odu interface tx-dapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -524,6 +553,7 @@ TC29
 
 TC30
     [Documentation]  Verify can configure Odu interface tx-operator via openRoadm leaf
+    ...              RLI38968 5.4-45
     [Tags]           Sanity   tc30   odu
     Log           Configure Odu interface tx-sapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -537,6 +567,7 @@ TC30
 
 TC31
     [Documentation]  Verify can configure Odu interface expected-sapi via openRoadm leaf
+    ...              RLI38968 5.4-49
     [Tags]           Sanity   tc31  odu
     Log           Configure Odu interface expected-sapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -550,6 +581,7 @@ TC31
 
 TC32
     [Documentation]  Verify can configure Odu interface expected-dapi via openRoadm leaf
+    ...              RLI38968 5.4-50
     [Tags]           Sanity   tc32   odu
     Log           Configure Odu interface expected-dapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -563,6 +595,7 @@ TC32
 
 TC33
     [Documentation]  Verify can configure Odu interface tim-act-enabled via openRoadm leaf
+    ...              RLI38968 5.4-51
     [Tags]           Sanity   tc33  odu
     Log           Configure Odu interface tim-act-enabled via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -576,6 +609,7 @@ TC33
 
 TC34
     [Documentation]  Verify can configure Odu interface tim-detect-mode via openRoadm leaf
+    ...              RLI38968 5.4-52
     [Tags]           Sanity   tc34   odu
     Log           Configure Odu interface tim-detect-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -590,6 +624,7 @@ TC34
 
 TC35
     [Documentation]  Verify can configure Odu interface payload-type via openRoadm leaf
+    ...              RLI38968   new  no testcase in JTMS
     [Tags]           Sanity   tc34   odu
     Log           Configure Opu interface payload-type via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -603,6 +638,7 @@ TC35
 
 TC36
     [Documentation]  Verify can configure Opu interface exp-payload-type via openRoadm leaf
+    ...              RLI38968   new  no testcase in JTMS
     [Tags]           Sanity   tc34   odu
     Log           Configure Opu interface exp-payload-type via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -616,6 +652,7 @@ TC36
 
 TC37
     [Documentation]  Verify can configure Opu interface payload-interface via openRoadm leaf
+    ...              RLI38968   new  no testcase in JTMS
     [Tags]           Sanity   tc34   odu
     Log           Configure Opu interface payload-interface via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -628,6 +665,7 @@ TC37
 
 TC38
     [Documentation]  Verify can delete all odu interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-39
     [Tags]           Sanity   tc35   odu1
     Log           Delete all Odu interface attribute via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -641,6 +679,7 @@ TC38
     
 TC39
     [Documentation]  Verify can configure all Odu interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-39
     [Tags]           Sanity    tc36   odu  
     Log           Configure Odu interface tim-detect-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -685,6 +724,7 @@ TC40
 
 TC41
     [Documentation]  Verify can configure Otu interface rate via openRoadm leaf
+    ...              RLI38968 5.4-24
     [Tags]           Sanity   tc38   otu
     Log           Configure Otu interface rate via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -697,6 +737,7 @@ TC41
 
 TC42 
     [Documentation]  Verify can configure Otu interface fec via openRoadm leaf
+    ...              RLI38968 5.4-25
     [Tags]         Sanity    tc39  otu  
     Log           Configure Otu interface fec via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -710,6 +751,7 @@ TC42
     
 TC43
     [Documentation]  Verify can configure Otu interface tx-sapi via openRoadm leaf
+    ...              RLI38968 5.4-26
     [Tags]           Sanity   tc40   otu
     Log           Configure Otu interface tx-sapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -723,6 +765,7 @@ TC43
 
 TC44
     [Documentation]  Verify can configure Otu interface tx-dapi via openRoadm leaf
+    ...              RLI38968 5.4-27
     [Tags]         Sanity  tc41  otu
     Log           Configure Otu interface tx-dapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -736,6 +779,7 @@ TC44
 
 TC45
     [Documentation]  Verify can configure Otu interface tx-operator via openRoadm leaf
+    ...              RLI38968 5.4-28
     [Tags]          Sanity   tc42   otu
     Log           Configure Otu interface tx-sapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -749,6 +793,7 @@ TC45
 
 TC46
     [Documentation]  Verify can configure Otu interface expected-sapi via openRoadm leaf
+    ...              RLI38968 5.4-32
     [Tags]           Sanity  tc43  otu
     Log           Configure Otu interface expected-sapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -762,6 +807,7 @@ TC46
 
 TC47
     [Documentation]  Verify can configure Otu interface expected-dapi via openRoadm leaf
+    ...              RLI38968 5.4-33
     [Tags]        Sanity   tc44   otu
     Log           Configure Otu interface expected-dapi via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -775,6 +821,7 @@ TC47
 
 TC48
     [Documentation]  Verify can configure Otu interface tim-act-enabled via openRoadm leaf
+    ...              RLI38968 5.4-34
     [Tags]         Sanity    tc45  otu
     Log           Configure Otu interface tim-act-enabled via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -787,6 +834,7 @@ TC48
 
 TC49
     [Documentation]  Verify can configure Otu interface tim-detect-mode via openRoadm leaf
+    ...              RLI38968 5.4-35
     [Tags]           Sanity    tc46   otu
     Log           Configure Otu interface tim-detect-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -800,6 +848,7 @@ TC49
 
 TC50
     [Documentation]  Verify can delete all otu interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-23
     [Tags]           Sanity   tc47   otu
     Log           Delete all Otu interface attribute via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -812,6 +861,7 @@ TC50
     
 TC51
     [Documentation]  Verify can configure all Otu interface attribute via openRoadm leaf
+    ...              RLI38968 5.4-23-2
     [Tags]           Sanity  tc48   otu  
     Log           Configure Otu interface all attributes via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -836,6 +886,7 @@ TC51
 
 TC52
     [Documentation]  Verify can Otu interface maint-loopback via openRoadm leaf
+    ...              RLI38968 5.4-36
     [Tags]           Sanity   tc49   otu
     Log           Enbale Otu interface maint-loopback via Restconf Patch method
     ${otulbtype}   Evaluate   random.choice(["term", "fac"])     random
@@ -849,6 +900,7 @@ TC52
 
 TC53
     [Documentation]  Verify can enable Otu interface maint-loopback via openRoadm leaf
+    ...              RLI38968 5.4-37
     [Tags]         Sanity    tc50  otu
     Log           Enbale Otu interface maint-loopback via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -859,6 +911,18 @@ TC53
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}      
 
+TC54
+    [Documentation]  Verify can Otu maint-loopback type via openRoadm leaf
+	...              RLI38968 5.4-38
+    [Tags]         Sanity    tc54  otu
+    Log           Enbale Otu interface maint-loopback via Restconf Patch method
+	${otulbtype}   Evaluate   random.choice(["term", "fac"])     random
+    : FOR    ${INDEX}    IN RANGE    0    4
+    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-type=${otulbtype}
+    \     @{interface_info}    create list    ${Otu_interface} 
+    \     &{dev_info}   create dictionary   interface=${interface_info}       
+    \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}  
 
 
 *** Keywords ***
