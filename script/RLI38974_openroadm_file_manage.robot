@@ -64,7 +64,7 @@ Suite Teardown  Run Keywords
 *** Test Cases ***     
 Perform rpc collect history pm 
     [Documentation]  Collect history pm via rpc request and verfiy reply message
-    ...              RLI38974 5.1-1
+    ...              RLI38974 5.3-3
     [Tags]           Sanity   tc1 
     RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     1   96   15min
     Sleep  10
@@ -73,7 +73,7 @@ Perform rpc collect history pm
 
 Verify historical pm file uploaded to special directory
     [Documentation]  Historical pm file can uploaded to special directory
-    ...              RLI38974 5.1-1 
+    ...              RLI38974 5.3-4 
     [Tags]           Sanity   tc2
     ${startbin} =     Evaluate   random.randint(1, 48)    modules=random
     ${endbin} =     Evaluate   random.randint(48, 96)    modules=random
@@ -82,7 +82,7 @@ Verify historical pm file uploaded to special directory
 
 Check historical pm file bin correctness
     [Documentation]  check historcial pm file can get pm statistics following configure bin number 
-    ...              RLI38974 5.1-1
+    ...              RLI38974 5.3-5
     [Tags]           Sanity   tc3
     ${startbin} =     Evaluate   random.randint(1, 48)    modules=random
     ${endbin} =     Evaluate   random.randint(48, 96)    modules=random
@@ -96,7 +96,7 @@ Check historical pm file bin correctness
 
 Check historical pm file granularity correctness
     [Documentation]  check historcial pm file can get pm statistics following configure granularity 
-    ...              RLI38974 5.1-2
+    ...              RLI38974 5.3-6
     [Tags]           Sanity   tc4
     @{pmInterList}    Create List    15min
     ${pmInterval}=   Evaluate   random.choice(${pmInterList})    modules=random 
@@ -121,14 +121,14 @@ Perform rpc transfer upload file
 
 Perform rpc transfer download file
     [Documentation]  Download file via transfer rpc
-    ...              RLI38974 5.1-1   
+    ...              RLI38974 5.1-2   
     [Tags]           Sanity   tc6
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}    
 
 
 Perform rpc transfer show special file
     [Documentation]  display special transfer file via rpc command 
-    ...              RLI38974 5.1-1
+    ...              RLI38974 5.1-3
     [Tags]           Sanity   tc7
     @{filename}    create list    ${extrafile}
     Rpc Command For Show File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}
@@ -136,7 +136,7 @@ Perform rpc transfer show special file
 
 Perform rpc transfer show all file
     [Documentation]  display all transfer file via rpc command 
-    ...              RLI38974 5.1-2
+    ...              RLI38974 5.1-3-1
     [Tags]           Sanity   tc8
     @{curfilelist}=    Get Default Openroadm File
     Rpc Command For Show All File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${curfilelist} 
@@ -144,76 +144,51 @@ Perform rpc transfer show all file
     
 Perform rpc transfer delete special file
     [Documentation]  Delete special transfer file via rpc command 
-    ...              RLI38974 5.1-3   
+    ...              RLI38974 5.1-4   
     [Tags]           Sanity   tc9
     @{filename}    create list    ${extrafile}
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}  
 
 
-Verify successful transfer upload notification
-    [Documentation]  Verify transfer upload notification can be reported successfully
-    ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc55
-    @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
-    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
-    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
-    @{filelist}      create list    @{curfilelist1}[0] 
-    Set Suite Variable    ${extrafile}
-    @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]  Successful
-    @{Notifications}=  Create List  ${uploadNotification}
-    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filelist}   ${tv['uv-remote-sftp-path']}   ${extrafile}
-    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
-
-
-Verify fail transfer upload notification with non exist file
-    [Documentation]  Verify transfer upload notification can be reported failed with non-exsit file
-    ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc55
-    ${addstr}=      Generate Random String   3      [NUMBERS]abcdef
-    @{curfilelist1}=  create list    ${addstr}.txt
-    @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]   Failed
-    @{Notifications}=  Create List  ${uploadNotification}
-    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${curfilelist1}   ${tv['uv-remote-sftp-path']}   @{curfilelist1}[0]
-    Notifications Should Raised   ${ncHandle}   ${Notifications}   30
-
-
-Verify transfer download notification
-    [Documentation]  Verify transfer download notification can be reported successfully
-    ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc55
-    @{uploadNotification}=  Create List  transfer-notification  ${extrafile}  Successful
-    @{Notifications}=  Create List  ${uploadNotification}
-    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}
-    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
-
-
-Verify fail transfer download notification with non exist file
-    [Documentation]  Verify transfer download notification can be reported failed with non-exsit file
-    ...              RLI38974 5.1-1
-    [Tags]           Sanity   tc55
-    ${nonexistfile}=      Generate Random String   2      [NUMBERS]abcdef
-    @{uploadNotification}=  Create List  transfer-notification  ${nonexistfile}  Failed
-    @{Notifications}=  Create List  ${uploadNotification}
-    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${nonexistfile}
-    Notifications Should Raised   ${ncHandle}   ${Notifications}   30
-
-
 Perform rpc transfer delete file via wild-card
     [Documentation]  Delete special transfer file via rpc command 
-    ...              RLI38974 5.1-3
+    ...              RLI38974 5.1-4-2
     [Tags]           Sanity   tc10
     @{filename}    create list    pm*
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
     @{curfilelist}=    Get Default Openroadm File
     Should Not Contain Match    ${curfilelist}   pm*
+
+
+# Perform rpc transfer can work after warm reload
+#     [Documentation]  Warm reboot system via transfer rpc
+#     [Tags]           reload    
+#     Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}    device0
+#     @{filename}    create list   
+#     :For  ${extrafile}   in   @{remoteTestFile}
+#     \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+#     \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
+#     \   Append To List   ${filename}   ${extrafile}
+#     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${tv['uv-remote-sftp-path']} 
+# 
+# 
+# Perform rpc transfer can work after cold reload
+#     [Documentation]  Cold reboot system via transfer rpc
+#     [Tags]           relod
+#     Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}     device0
+#     @{filename}    create list   
+#     :For  ${extrafile}   in   @{remoteTestFile}
+#     \   ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+#     \   ${extrafile}=   Replace String    ${extrafile}   1    ${addstr}
+#     \   Append To List   ${filename}   ${extrafile}
+#     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${tv['uv-remote-sftp-path']} 
   
 
 Enable rpc led control 
     [Documentation]  produce tech info file without any leaves in a special directory
     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
-    ...              RLI38974 5.1-1
-    [Tags]          Sanity    tc13
+    ...              RLI38963 5.8.1
+    [Tags]          Sanity    tc11
     ${shelfnm}   set variable    shelf-0
     ${ledstatflag}      set variable   true
     ${resp}=     RPC Led Control    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${shelfnm}    ${ledstatflag}
@@ -227,8 +202,8 @@ Enable rpc led control
 Disable rpc led control 
     [Documentation]  produce tech info file without any leaves in a special directory
     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
-    ...              RLI38974 5.1-1
-    [Tags]          Sanity    tc13
+    ...              RLI38963 5.8.2 
+    [Tags]          Sanity    tc12
     ${shelfnm}   set variable    shelf-0
     ${ledstatflag}      set variable   false
     ${resp}=     RPC Led Control    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${shelfnm}    ${ledstatflag}
@@ -241,29 +216,20 @@ Disable rpc led control
 
 Perform rpc create tech info
     [Documentation]  Collect tech info file in a special directory
-    ...              RLI38974 5.1-1
-    [Tags]          Sanity  tc11  tech  
+    ...              RLI38974 5.3-1
+    [Tags]           Sanity   tc13  tech  
     ${shelfid}      set variable    shelf-0
     ${logoption}    set variable    all  
     ${debugfileName}=    RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}  
-    Wait Until Keyword Succeeds   600 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
+    Wait Until Keyword Succeeds   300 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
 
-
-# Verify historical pm collect notification
-#     [Documentation]  Historical pm file can uploaded to special directory
-#     ...              RLI38974 5.1-1 
-#     [Tags]           Sanity   tc2
-#     @{PmcollectNotification}=  Create List  transfer-notification  yourfilename  Successful(or Failed)
-#     @{Notifications}=  Create List  ${PmcollectNotification}
-#     Verify history pm file upload success    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   1   96  15min  
-#     Notifications Should Raised   ${ncHandle}   ${Notifications}
 
 
 Perform rpc create tech info without any leaves
     [Documentation]  Collect tech info file without any leaves in a special directory
     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
-    ...              RLI38974 5.1-1
-    [Tags]           tc13
+    ...              RLI38974 5.3-2
+    [Tags]           Sanity    tc14
     ${urlhead}   set variable    org-openroadm-device:create-tech-info
     ${data}      set variable   <input xmlns="http://org/openroadm/device"></input>
     ${resp}=     Send Rpc Command    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${urlhead}    ${data}
@@ -275,7 +241,58 @@ Perform rpc create tech info without any leaves
     Run Keyword If      '${sheflid}' == 'shelf-0'     Log  the shelf information display correct
     ...         ELSE    FAIL    Expect shefl id is shelf-0, but get ${sheflid}
     ${debugfilename} =  get element text  ${resp.text}    log-file-name
-    Wait Until Keyword Succeeds   600 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
+    Wait Until Keyword Succeeds   300 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
+
+
+
+Verify successful transfer upload notification
+    [Documentation]  Verify transfer upload notification can be reported successfully
+    ...              RLI38974 5.2-1
+    [Tags]           Sanity   tc15
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
+    @{filelist}      create list    @{curfilelist1}[0] 
+    Set Suite Variable    ${extrafile}
+    @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]  Successful
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filelist}   ${tv['uv-remote-sftp-path']}   ${extrafile}
+    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
+
+
+Verify failed transfer upload notification with non exist file
+    [Documentation]  Verify transfer upload notification can be reported failed with non-exsit file
+    ...              RLI38974 5.2-1
+    [Tags]           Sanity   tc16
+    ${addstr}=      Generate Random String   3      [NUMBERS]abcdef
+    @{curfilelist1}=  create list    ${addstr}.txt
+    @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]   Failed
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${curfilelist1}   ${tv['uv-remote-sftp-path']}   @{curfilelist1}[0]
+    Notifications Should Raised   ${ncHandle}   ${Notifications}   30
+
+
+Verify transfer download notification
+    [Documentation]  Verify transfer download notification can be reported successfully
+    ...              RLI38974 5.2-3
+    [Tags]           Sanity   tc17
+    @{uploadNotification}=  Create List  transfer-notification  ${extrafile}  Successful
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}
+    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
+
+
+Verify failed transfer download notification with non exist file
+    [Documentation]  Verify transfer download notification can be reported failed with non-exsit file
+    ...              RLI38974 5.2-4
+    [Tags]           Sanity   tc18
+    ${nonexistfile}=      Generate Random String   2      [NUMBERS]abcdef
+    @{uploadNotification}=  Create List  transfer-notification  ${nonexistfile}  Failed
+    @{Notifications}=  Create List  ${uploadNotification}
+    Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${nonexistfile}
+    Notifications Should Raised   ${ncHandle}   ${Notifications}   30
+
 
 
 
