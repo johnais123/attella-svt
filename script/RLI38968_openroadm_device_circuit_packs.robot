@@ -79,8 +79,8 @@ TC2
     ...              TC 5.1-14  RLI-38963
     [Tags]           Sanity  TC2   Get-CP-FPC-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FPC via Restconf
-    &{cp-port1}      create dictionary    slot-name-cp=slot-0/0        label-cp=0          slot-type=other
-    &{cp-port2}      create dictionary    slot-name-cp=slot-0/1        label-cp=1          slot-type=other
+    &{cp-port1}      create dictionary    slot-name-cp=slot-0/0          slot-type=other
+    &{cp-port2}      create dictionary    slot-name-cp=slot-0/1          slot-type=other
     @{fpc_cport_info}    create list    ${cp-port1}   ${cp-port2}
     &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_FPC_MODEL.text}
     ...                 operational-state-cp=${tv['uv-attella_def_operational_state2']}                  type-cp=FPC                                vendor-cp=${tv['uv-attella_def_vendor']}
