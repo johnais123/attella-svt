@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20190606 10:32:32.896" generator="Robot 3.1.1 (Python 2.7.16 on darwin)">
+<suite source="/projects/gitlab/attella-svt/tests/lib/test1.robot" id="s1" name="Test1">
+<test id="s1-t1" name="Test Parser">
+<kw name="Parse Xml" library="XML">
+<doc>Parses the given XML file or string into an element structure.</doc>
+<arguments>
+<arg>${XmlFile}</arg>
+</arguments>
+<assign>
+<var>${root}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.970" level="INFO">${root} = &lt;Element org-openroadm-device at 0x1033ee488&gt;</msg>
+<status status="PASS" endtime="20190606 10:32:32.970" starttime="20190606 10:32:32.965"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${root.tag}</arg>
+<arg>org-openroadm-device</arg>
+</arguments>
+<msg timestamp="20190606 10:32:32.970" level="INFO">Argument types are:
+&lt;type 'str'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190606 10:32:32.970" starttime="20190606 10:32:32.970"></status>
+</kw>
+<doc>Checking Parser</doc>
+<status status="PASS" endtime="20190606 10:32:32.970" critical="yes" starttime="20190606 10:32:32.964"></status>
+</test>
+<test id="s1-t2" name="Test verify data">
+<kw name="Parse Xml" library="XML">
+<doc>Parses the given XML file or string into an element structure.</doc>
+<arguments>
+<arg>${XmlFile}</arg>
+</arguments>
+<assign>
+<var>${root}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.975" level="INFO">${root} = &lt;Element org-openroadm-device at 0x1033eec68&gt;</msg>
+<status status="PASS" endtime="20190606 10:32:32.975" starttime="20190606 10:32:32.971"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>softwareVersion=19.2F16-EVO</arg>
+<arg>max-srgs=0</arg>
+<arg>max-degrees=0</arg>
+<arg>max-num-bin-15min-historical-pm=96</arg>
+<arg>max-num-bin-24hour-historical-pm=1</arg>
+</arguments>
+<assign>
+<var>&amp;{test_info}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.976" level="INFO">&amp;{test_info} = { softwareVersion=19.2F16-EVO | max-srgs=0 | max-degrees=0 | max-num-bin-15min-historical-pm=96 | max-num-bin-24hour-historical-pm=1 }</msg>
+<status status="PASS" endtime="20190606 10:32:32.976" starttime="20190606 10:32:32.975"></status>
+</kw>
+<kw name="Replace String" library="String">
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<arguments>
+<arg>${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}</arg>
+<arg>1/</arg>
+<arg>0/</arg>
+</arguments>
+<assign>
+<var>${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.977" level="INFO">${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX} = otu-0/0/</msg>
+<status status="PASS" endtime="20190606 10:32:32.977" starttime="20190606 10:32:32.976"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>interface-name=${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}${INDEXS}:0:0</arg>
+<arg>description=client-otu-traffic_provision</arg>
+<arg>interface-type=otnOtu</arg>
+<arg>interface-administrative-state=inService</arg>
+<arg>otu-rate=OTU4</arg>
+<arg>otu-tx-sapi=tx-sapi-val</arg>
+<arg>otu-tx-dapi=tx-dapi-val</arg>
+<arg>otu-expected-sapi=tx-sapi-val</arg>
+<arg>otu-expected-dapi=tx-dapi-val</arg>
+<arg>otu-tim-detect-mode=SAPI-and-DAPI</arg>
+<arg>otu-fec=rsfec</arg>
+<arg>supporting-interface=none</arg>
+<arg>supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}${INDEXS}</arg>
+<arg>interface-circuit-id=1234</arg>
+<arg>supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}${INDEXS}</arg>
+</arguments>
+<assign>
+<var>&amp;{client_otu_interface}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.978" level="INFO">&amp;{client_otu_interface} = { interface-name=otu-0/0/0:0:0 | description=client-otu-traffic_provision | interface-type=otnOtu | interface-administrative-state=inService | otu-rate=OTU4 | otu-tx-sapi=tx-sapi-val | otu-tx-dapi=tx-...</msg>
+<status status="PASS" endtime="20190606 10:32:32.978" starttime="20190606 10:32:32.977"></status>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${client_otu_interface}</arg>
+</arguments>
+<assign>
+<var>@{interface_info}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.979" level="INFO">@{interface_info} = [ {u'interface-name': u'otu-0/0/0:0:0', u'description': u'client-otu-traffic_provision', u'interface-type': u'otnOtu', u'interface-administrative-state': u'inService', u'otu-rate': u'OTU4', u'otu-tx-s...</msg>
+<status status="PASS" endtime="20190606 10:32:32.979" starttime="20190606 10:32:32.979"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>interface=${interface_info}</arg>
+</arguments>
+<assign>
+<var>&amp;{dev_info}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.980" level="INFO">&amp;{dev_info} = { interface=[{u'otu-fec': u'rsfec', u'supporting-circuit-pack-name': u'xcvr-0/0/0', u'otu-rate': u'OTU4', u'otu-tim-detect-mode': u'SAPI-and-DAPI', u'otu-expected-dapi': u'tx-dapi-val', u'description'...</msg>
+<status status="PASS" endtime="20190606 10:32:32.980" starttime="20190606 10:32:32.979"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>org-openroadm-device=${dev_info}</arg>
+</arguments>
+<assign>
+<var>&amp;{payload}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.980" level="INFO">&amp;{payload} = { org-openroadm-device={u'interface': [{u'otu-fec': u'rsfec', u'supporting-circuit-pack-name': u'xcvr-0/0/0', u'otu-rate': u'OTU4', u'otu-tim-detect-mode': u'SAPI-and-DAPI', u'otu-expected-dapi': u'tx...</msg>
+<status status="PASS" endtime="20190606 10:32:32.980" starttime="20190606 10:32:32.980"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>org-openroadm-device=${test_info}</arg>
+</arguments>
+<assign>
+<var>&amp;{TestParams}</var>
+</assign>
+<msg timestamp="20190606 10:32:32.981" level="INFO">&amp;{TestParams} = { org-openroadm-device={u'softwareVersion': u'19.2F16-EVO', u'max-srgs': u'0', u'max-degrees': u'0', u'max-num-bin-15min-historical-pm': u'96', u'max-num-bin-24hour-historical-pm': u'1'} }</msg>
+<status status="PASS" endtime="20190606 10:32:32.981" starttime="20190606 10:32:32.981"></status>
+</kw>
+<kw name="Verify Data" library="attella_keyword">
+<arguments>
+<arg>${root}</arg>
+<arg>${payload}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20190606 10:32:33.302" level="INFO">interface-name
+otu-0/0/0:0:0
+description
+client-otu-traffic_provision
+.//interface/[name="otu-0/0/0:0:0"]/.//description
+description
+.//interface/[name="otu-0/0/0:0:0"]/.//description
+path is org-openroadm-device/interface/description
+The real value is client-otu-traffic_provision
+The expect value is client-otu-traffic_provision
+interface-type
+otnOtu
+.//interface/[name="otu-0/0/0:0:0"]/.//type
+interface-type
+.//interface/[name="otu-0/0/0:0:0"]/.//type
+path is org-openroadm-device/interface/type
+The real value is x:otnOtu
+The expect value is otnOtu
+interface-administrative-state
+inService
+.//interface/[name="otu-0/0/0:0:0"]/.//administrative-state
+interface-administrative-state
+.//interface/[name="otu-0/0/0:0:0"]/.//administrative-state
+path is org-openroadm-device/shelves/administrative-state
+The real value is inService
+The expect value is inService
+otu-rate
+OTU4
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/rate
+otu-rate
+.//interface/[name="otu-0/0/0:0:0"]/.//rate
+path is org-openroadm-device/interface/otu/rate
+The real value is x:OTU4
+The expect value is OTU4
+otu-tx-sapi
+tx-sapi-val
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/tx-sapi
+otu-tx-sapi
+.//interface/[name="otu-0/0/0:0:0"]/.//tx-sapi
+path is org-openroadm-device/interface/odu/tx-sapi
+The real value is tx-sapi-val
+The expect value is tx-sapi-val
+otu-tx-dapi
+tx-dapi-val
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/tx-dapi
+otu-tx-dapi
+.//interface/[name="otu-0/0/0:0:0"]/.//tx-dapi
+path is org-openroadm-device/interface/odu/tx-dapi
+The real value is tx-dapi-val
+The expect value is tx-dapi-val
+otu-expected-sapi
+tx-sapi-val
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/expected-sapi
+otu-expected-sapi
+.//interface/[name="otu-0/0/0:0:0"]/.//expected-sapi
+path is org-openroadm-device/interface/odu/expected-sapi
+The real value is tx-sapi-val
+The expect value is tx-sapi-val
+otu-expected-dapi
+tx-dapi-val
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/expected-dapi
+otu-expected-dapi
+.//interface/[name="otu-0/0/0:0:0"]/.//expected-dapi
+path is org-openroadm-device/interface/odu/expected-dapi
+The real value is tx-dapi-val
+The expect value is tx-dapi-val
+otu-tim-detect-mode
+SAPI-and-DAPI
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/tim-detect-mode
+otu-tim-detect-mode
+.//interface/[name="otu-0/0/0:0:0"]/.//tim-detect-mode
+path is org-openroadm-device/interface/odu/tim-detect-mode
+The real value is SAPI-and-DAPI
+The expect value is SAPI-and-DAPI
+otu-fec
+rsfec
+.//interface/[name="otu-0/0/0:0:0"]/.//otu/fec
+otu-fec
+.//interface/[name="otu-0/0/0:0:0"]/.//fec
+path is org-openroadm-device/interface/otu/fec
+The real value is rsfec
+The expect value is rsfec
+supporting-interface
+none
+.//interface/[name="otu-0/0/0:0:0"]/.//supporting-interface
+supporting-interface
+.//interface/[name="otu-0/0/0:0:0"]/.//supporting-interface
+path is org-openroadm-device/interface/supporting-interface
+The real value is none
+The expect value is none
+supporting-circuit-pack-name
+xcvr-0/0/0
+.//interface/[name="otu-0/0/0:0:0"]/.//supporting-circuit-pack-name
+supporting-circuit-pack-name
+.//interface/[name="otu-0/0/0:0:0"]/.//supporting-circuit-pack-name
+path is org-openroadm-device/interface/supporting-circuit-pack-name
+The real value is xcvr-0/0/0
+The expect value is xcvr-0/0/0
+interface-circuit-id
+1234
+.//interface/[name="otu-0/0/0:0:0"]/.//circuit-id
+interface-circuit-id
+.//interface/[name="otu-0/0/0:0:0"]/.//circuit-id
+path is org-openroadm-device/interface/circuit-id
+The real value is 1234
+The expect value is 1234
+supporting-port
+port-0/0/0
+.//interface/[name="otu-0/0/0:0:0"]/.//supporting-port
+supporting-port
+.//interface/[name="otu-0/0/0:0:0"]/.//supporting-port
+path is org-openroadm-device/interface/supporting-port
+The real value is port-0/0/0
+The expect value is port-0/0/0</msg>
+<msg timestamp="20190606 10:32:33.302" level="INFO">${result} = True</msg>
+<status status="PASS" endtime="20190606 10:32:33.302" starttime="20190606 10:32:32.981"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${result}" != "True"</arg>
+<arg>FAIL</arg>
+</arguments>
+<status status="PASS" endtime="20190606 10:32:33.303" starttime="20190606 10:32:33.302"></status>
+</kw>
+<doc>Checking Verify Data</doc>
+<status status="PASS" endtime="20190606 10:32:33.303" critical="yes" starttime="20190606 10:32:32.971"></status>
+</test>
+<doc>These are keywords for Attella Automation script
+Author: Jack &amp; Barryzhang</doc>
+<status status="PASS" endtime="20190606 10:32:33.303" starttime="20190606 10:32:32.899"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="2">Critical Tests</stat>
+<stat fail="0" pass="2">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="Test1" pass="2">Test1</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20190606 10:32:32.939" level="ERROR">Error in file '/projects/gitlab/attella-svt/tests/lib/test1.robot': Importing test library 'ExtendedRequestsLibrary' failed: ImportError: No module named ExtendedRequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  /Users/dcampbell/virtualenv/pod_test/bin
+  /projects/gitlab/attella-svt/tests
+  /projects/gitlab/attella-svt/lib
+  /Users/dcampbell/virtualenv/pod_test/lib/python27.zip
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/plat-darwin
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/plat-mac
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/plat-mac/lib-scriptpackages
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/lib-tk
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/lib-old
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/lib-dynload
+  /usr/local/Cellar/python@2/2.7.16/Frameworks/Python.framework/Versions/2.7/lib/python2.7
+  /usr/local/Cellar/python@2/2.7.16/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin
+  /usr/local/Cellar/python@2/2.7.16/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk
+  /usr/local/Cellar/python@2/2.7.16/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac
+  /usr/local/Cellar/python@2/2.7.16/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages
+  /Users/dcampbell/virtualenv/pod_test/lib/python2.7/site-packages</msg>
+</errors>
+</robot>

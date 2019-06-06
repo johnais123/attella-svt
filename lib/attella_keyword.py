@@ -1,10 +1,12 @@
 from xml.etree import ElementTree as ET
 from xml import etree
+import os
 # from XML import XML
 import re
 import random
 
-ROBOT_LIBRARY_SCOPE = "GLOBAL" 
+ROBOT_LIBRARY_SCOPE = "GLOBAL"
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 # get xml file name from module name
 def getXMLFileNameFromModuleName(strModuleName):
@@ -19,7 +21,7 @@ def getXMLFileNameFromModuleName(strModuleName):
 def getOperXml(targetEt, param_key, param_value="", namespace=""):
     xmlFileName = getXMLFileNameFromModuleName(targetEt.tag)
     try:
-        xmlFile = ET.parse("../src/%s"%xmlFileName)
+        xmlFile = ET.parse(_getSrcDir() + xmlFileName)
         targetEt.attrib = xmlFile.getroot().attrib
 
     except Exception as e:
@@ -77,13 +79,13 @@ def getKey(listname, moduleName="org-openroadm-device"):
     listname :  list node name 
     '''
     xmlfile = getXMLFileNameFromModuleName(moduleName)
-    tree = ET.parse("../src/%s"%xmlfile)
+    tree = ET.parse(_getSrcDir() + xmlfile)
     root = tree.getroot()
-    child = root.find(".//%s/*[@type='key']"%listname)
-    if child is None:
-        return None
+    node = root.find(".//%s/*[@type='key']"%listname)
+    if node is None:    
+            return None
     else:
-        return child.tag
+        return node.tag
         
         
 def getNodeAlias(nodeName, moduleName="org-openroadm-device"):
@@ -92,7 +94,7 @@ def getNodeAlias(nodeName, moduleName="org-openroadm-device"):
     listname :  list node name 
     '''
     xmlfile = getXMLFileNameFromModuleName(moduleName)
-    tree = ET.parse("../src/%s"%xmlfile)
+    tree = ET.parse(_getSrcDir() + xmlfile)
     root = tree.getroot()
     child = root.find(".//%s"%nodeName)
     if child is None:
@@ -108,7 +110,7 @@ def isNodeAKey(nodeName, moduleName="org-openroadm-device"):
     listname :  list node name 
     '''
     xmlfile = getXMLFileNameFromModuleName(moduleName)
-    tree = ET.parse("../src/%s"%xmlfile)
+    tree = ET.parse(_getSrcDir() + xmlfile)
     root = tree.getroot()
     child = root.find(".//%s"%nodeName)
     if child is None:
@@ -127,14 +129,20 @@ def getNodeFather(nodeName, moduleName="org-openroadm-device"):
     if None == nodeName:
         return None
     xmlfile = getXMLFileNameFromModuleName(moduleName)
-    tree = ET.parse("../src/%s"%xmlfile)
+    tree = ET.parse(_getSrcDir() + xmlfile)
     root = tree.getroot()
-    child = root.find(".//%s/.."%nodeName)
-    if child is None:
-        return None
+    node = root.find(".//*[@alias='%s']/.."%nodeName)
+    if node is None:
+        #try again with direct lookup - duplicate alias nodes may mask this - eg "product-code"
+        #Also does not work when an incorrect duplicate nodename detected first. Leaving for legacy purposes.
+        node = root.find(".//%s/.."%nodeName)
+        if node is not None:
+            return node.tag
+        else:
+            return None
     else:
-        return child.tag
-            
+        return node.tag
+
             
 def verifyModuleData(root, pathPre, dictParams, keyItem = None):
     result = True
@@ -199,8 +207,8 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
                         lenMax = 9999999
                         for item in items:
                             path = getPath(root, item.tag, item.text, root.tag)
-
-                            if lenMax > len(path):
+                            print "path is " + str(path)
+                            if path is not None and lenMax > len(path):
                                 itemTarget = item
                                 lenMax = len(path)
                                 
@@ -222,7 +230,6 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
                     result = False
 
                     
-
     return result
     
 def getPath(root, node, value, strPrePath):
@@ -294,7 +301,7 @@ def getlistkey(listname, xmlfile="org-openroadm-device.xml"):
     Retrieve list key value from provided xml file
     listname :  list node name 
     '''
-    tree = ET.parse("../src/%s"%xmlfile)
+    tree = ET.parse(_getSrcDir() + xmlfile)
     root = tree.getroot()
     child= root.findall(".//%s//"%listname)
     # get list key name
@@ -367,7 +374,7 @@ def get_instance_Path(dictParams):
     if 1 == len(list(dictParams.keys())):
         moduleName = list(dictParams.keys())[0]
     else:
-        print("dictParams is ：%s"%dictParams)
+        print("dictParams is %s" %dictParams)
         raise Exception("can not handle the dictParams parameter")
         
     return xml2Path(ET.fromstring(re.sub(r" xmlns=\".*\"", "", Retrieve_set_URL(dictParams)))).replace("/%s/"%moduleName, "", 1)
@@ -407,7 +414,7 @@ def Retrieve_URL_Parent(dictParams):
         moduleName = list(dictParams.keys())[0]
         return getXMLFileNameFromModuleName(moduleName).split(".")[0] + ":" + moduleName
     else:
-        print("dictParams is ：%s"%dictParams)
+        print("dictParams is %s" %dictParams)
         raise Exception("can not handle the dictParams parameter")
 
 
@@ -557,3 +564,7 @@ def getDeviceNameFromMgtIP(dictTV, strIP):
             if strIP == dictTV[key]:
                 return r.group(1)
     return None
+
+
+def _getSrcDir():
+    return DIR_PATH + "/../src/"
