@@ -66,9 +66,9 @@ Suite Teardown  Run Keywords
 *** Variables ***
 @{auth}    admin    admin
 ${interval}  10
-${timeout}  300
+${timeout}  100
 
-${ALARM CHECK TIMEOUT}      5 min 
+${ALARM CHECK TIMEOUT}      1 min 
 
 
 *** Test Cases ***     	
