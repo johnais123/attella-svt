@@ -42,10 +42,16 @@ def getOperXml(targetEt, param_key, param_value="", namespace=""):
         xmlOper = xmlFile.find('.//%s'%targetEt.tag)
         targetFather = xmlOper.find('.//%s/..'%param_key)
         compareEt = xmlOper.find('.//%s'%param_key)
-        
+       
+        #print("JMC - param key here is %s"%param_key) 
+        #print("JMC - param val here is %s"%param_value) 
+        #print("JMC - tag here is %s"%xmlOper.tag)
+        #print("JMC - parent tag is %s"%targetFather.tag)
 
+        if targetFather is None:
+            temp = ""
         # handle root 
-        if xmlOper.tag == targetFather.tag:
+        elif xmlOper.tag == targetFather.tag:
             temp = ET.SubElement(targetEt, param_key)
             temp.text = param_value
         
@@ -149,6 +155,7 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
     if keyItem is None:
         pass
     else:
+        #print("JMC - keyitem is " + str(keyItem))
         pathPre += "/[" + getNodeAlias(keyItem) + "=\"" + dictParams[keyItem] + "\"]/."
     for key, value in dictParams.items():
         if isinstance(value, int) or isinstance(value, float):
@@ -161,6 +168,7 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
             else:
                 pathTemp = pathPre + "//" + key
             for item in value:
+                #print("JMC - checking item " + str(item) + " in value " + str(value)) 
                 if not verifyModuleData(root, pathTemp, item, keyItem):
                     result = False
         else:
@@ -169,22 +177,22 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
             if isinstance(value, str) and len(value) > 0 and "\\" == value[0] and "\\" == value[-1]:
                 value = value.strip("\\")
                 
-            print(key)
-            print(value)
+            print("key is %s"%key)
+            print("value is %s"%value)
 
             if key == keyItem:
                 pass
             else:
                 if "." == pathPre[-1] and getNodeFather(key) != getNodeFather(keyItem):
-                    print(pathPre + "//" + getNodeAlias(getNodeFather(key)) + "/" + getNodeAlias(key))
+                    print(pathPre + "//" + str(getNodeAlias(getNodeFather(key))) + "/" + str(getNodeAlias(key)))
                     items = root.findall(pathPre + "//" + getNodeAlias(getNodeFather(key)) + "/" + getNodeAlias(key))
 
                 else:
-                    print(pathPre + "//" + getNodeAlias(key))
+                    print(pathPre + "//" + str(getNodeAlias(key)))
                     items = root.findall(pathPre + "//" + getNodeAlias(key))
                 if len(items):
                     print(key)
-                    print(pathPre + "//" + getNodeAlias(key))
+                    print(pathPre + "//" + str(getNodeAlias(key)))
                     if isNodeAKey(key):
                         bNodeFound = False
                         for item in items:
@@ -207,7 +215,7 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
                         lenMax = 9999999
                         for item in items:
                             path = getPath(root, item.tag, item.text, root.tag)
-                            print "path is " + str(path)
+                            print("path is " + str(path))
                             if path is not None and lenMax > len(path):
                                 itemTarget = item
                                 lenMax = len(path)

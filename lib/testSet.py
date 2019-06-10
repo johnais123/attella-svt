@@ -55,6 +55,8 @@ def verifyTraffic(lTxPort, lRxPort, lTxPortFail=[], lRxPortFail=[]):
     result = "PASS"
     
     strProtocol = list(set(lTxPort).union(set(lTxPortFail)))[0].getProtocol()
+    print("JMC -- strProtocol %s"%strProtocol)
+    print("JMC -- txPort len %s"%str(len(lTxPort)))
 
     if strProtocol in ["100GE_LANE4X25_SR4", "100GE_LANE4X25_CLR4",
         "100GE_LANE4X25_CWDM4", "100GE_LANE4X25_OTHERS", "100GE_LANE10X10", 
@@ -69,6 +71,7 @@ def verifyTraffic(lTxPort, lRxPort, lTxPortFail=[], lRxPortFail=[]):
             if tx == 0 or tx != rx:
                 print("there is error in traffic flow")
                 result = "FAIL"
+        print("JMC - about to check port fails")
         for i in range(len(lTxPortFail)):
             print("verify traffic flow from %s to %s is blocked"%(lTxPortFail[i], lRxPortFail[i]))
             tx = lTxPortFail[i].getTestResult()["TX_PACKAGE_TOTAL"]

@@ -61,12 +61,12 @@ Suite Teardown  Run Keywords
 
 @{auth}     admin    admin
 ${interval}  10
-${timeout}   300
+${timeout}   100
 ${OPER_STATUS_ON}           inService
 ${OPER_STATUS_OFF}          outOfService
 @{pmInterval}   15min    24Hour 
 @{EMPTY LIST}
-${ALARM CHECK TIMEOUT}      5 min 
+${ALARM CHECK TIMEOUT}      1 min 
 
 *** Test Cases *** 
 TC1    

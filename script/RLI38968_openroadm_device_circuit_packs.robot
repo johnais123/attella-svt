@@ -123,7 +123,8 @@ TC4
     [Tags]           Sanity  TC4   Get-CP-FAN-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
-    \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+    #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+    \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${tv['uv-attella_def_fan_model']}
     \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${tv['uv-attella_def_fan_product_code']}
     \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state2']}
     \                @{Fan_info}      create list    ${Fan0_info}

@@ -62,11 +62,11 @@ Suite Teardown   Run Keywords
 
 *** Variables ***
 @{EMPTY LIST}
-${ALARM CHECK TIMEOUT}      5 min 
+${ALARM CHECK TIMEOUT}      1 min 
 ${OPER_STATUS_ON}           inService
 ${OPER_STATUS_OFF}          outOfService
 ${interval}                 10
-${timeout}                  300
+${timeout}                  100
 &{delete_headers}           Accept=application/xml
 ${CFG_SESSEION_INDEX}       1
 
@@ -89,7 +89,7 @@ TC1
    Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
 
    Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}   
    
    Log              Verify LOS Alarm was raised on Cx 
@@ -139,17 +139,17 @@ TC1
    Wait Until Interfaces In Traffic Chain Are Alarm Free
 
    Log              Wati a random time the check wether the alarm still exist or not
-   ${random}=       Evaluate  random.randint(1, 60)  modules=random
+   ${random}=       Evaluate  random.randint(1, 30)  modules=random
    Sleep            ${random}
    
    Log              Verify Cx/Lx and Cy/Ly are error free
    Verify Interfaces In Traffic Chain Are Alarm Free
 
-   Log              Verify Cx/Lx and Cy/Ly are up
-   Verify Client Interfaces In Traffic Chain Are Up
+   #Log              Verify Cx/Lx and Cy/Ly are up
+   #Verify Client Interfaces In Traffic Chain Are Up
    
-   Log To Console   Verify Traffic Is OK
-   Verify Traffic Is OK
+   #Log To Console   Verify Traffic Is OK
+   #Verify Traffic Is OK
    
    [Teardown]  Set Laser State  ${testSetHandle1}  ON
    
@@ -176,7 +176,7 @@ TC2
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log               Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log               Verify ODU-AIS was raised on Ly
@@ -211,14 +211,14 @@ TC2
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log             Verify Traffic Is OK
-    Verify Traffic Is OK    
+    #Log             Verify Traffic Is OK
+    #Verify Traffic Is OK    
 
    [Teardown]  	Enable interface   ${line och intf}
 	
@@ -246,7 +246,7 @@ TC3
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
    
    Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}
    
    Log              Verify ODU-AIS was raised on remote line port
@@ -283,14 +283,14 @@ TC3
    Log              Verify Alarms In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free
    
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}
    Verify Interfaces In Traffic Chain Are Alarm Free
    
-   Verify Client Interfaces In Traffic Chain Are Up
+   #Verify Client Interfaces In Traffic Chain Are Up
    
-   Log              Verify Traffic Is OK
-   Verify Traffic Is OK        
+   #Log              Verify Traffic Is OK
+   #Verify Traffic Is OK        
 
    [Teardown]  	Enable interface   ${line otu intf}
    
@@ -317,7 +317,7 @@ TC4
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
    
    Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}
    
    Log              Verify ODU-AIS was raised on remote line port
@@ -354,14 +354,14 @@ TC4
    Log              Verify Alarms In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free
    
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}
    Verify Interfaces In Traffic Chain Are Alarm Free
    
-   Verify Client Interfaces In Traffic Chain Are Up
+   #Verify Client Interfaces In Traffic Chain Are Up
    
-   Log              Verify Traffic Is OK
-   Verify Traffic Is OK        
+   #Log              Verify Traffic Is OK
+   #Verify Traffic Is OK        
 
    [Teardown]  	Enable interface   ${line odu intf}    
    
@@ -375,6 +375,7 @@ TC5
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
+    Log To Console   Modify tx-sapi on local line
     Log              Modify the tx-sapi value for OTU4 on local line port
     &{intf}            create dictionary   interface-name=${line otu intf}    otu-tx-sapi=012345
     @{interface_info}    create list  ${intf}    
@@ -387,31 +388,36 @@ TC5
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
    
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
+    Log To Console   verify TTIM on remote line
     Log              Verify TTIM was raised on remote line port
     @{expectedAlarms_remote_line}      Create List       Trail Trace Identifier Mismatch    
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}  ${expectedAlarms_remote_line}
 
+    Log To Console   verify BDI on local line
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
 
+    Log To Console   verify op status  on local line
     Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}        ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}        ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}        ${OPER_STATUS_ON}  
     
+    Log To Console   verify op status  on remote line
     Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}   ${OPER_STATUS_ON}
     Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}
 
+    Log To Console   reset tx-sapi on local line
     Log              Enable OTU4 tx-sapi back to "tx-sapi-val" on local line port
     &{intf}          create dictionary   interface-name=${line otu intf}  otu-tx-sapi=tx-sapi-val
     @{interface_info}    create list  ${intf}    
@@ -419,21 +425,24 @@ TC5
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload} 
     
+    Log To Console   clear alarm
    @{alarmNotification}=  Create List  alarm-notification  ${remote line otu intf}  Trail Trace Identifier Mismatch  clear
    @{alarmNotifications}=  Create List  ${alarmNotification}
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
    
+    Log To Console   wait for alarm to clear
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    Log To Console   verify alarm is clear
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK 
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK 
 	
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf}  
    
@@ -459,7 +468,7 @@ TC6
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -468,7 +477,7 @@ TC6
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -498,14 +507,14 @@ TC6
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK     
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK     
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 	
@@ -532,7 +541,7 @@ TC7
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -541,7 +550,7 @@ TC7
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -571,14 +580,14 @@ TC7
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK   
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK   
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
     
@@ -605,7 +614,7 @@ TC8
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -614,7 +623,7 @@ TC8
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -644,14 +653,14 @@ TC8
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK 
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 	
@@ -678,7 +687,7 @@ TC9
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -687,7 +696,7 @@ TC9
 
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
+    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}         ${expectedAlarms_local_line}    
     
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
@@ -717,14 +726,14 @@ TC9
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK    
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK    
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 
@@ -750,7 +759,7 @@ TC10
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -782,14 +791,14 @@ TC10
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK 
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}
 	
@@ -815,7 +824,7 @@ TC11
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -847,14 +856,14 @@ TC11
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK    
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK    
 	
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
@@ -882,7 +891,7 @@ TC12
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -914,14 +923,14 @@ TC12
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK 
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}
 
@@ -948,7 +957,7 @@ TC13
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -980,14 +989,14 @@ TC13
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK 
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
 	
@@ -1013,7 +1022,7 @@ TC14
    Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
 
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify TTIM was raised on remote line port
@@ -1045,14 +1054,14 @@ TC14
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK 
-    Verify Traffic Is OK   
+    #Log To Console   Verify Traffic Is OK 
+    #Verify Traffic Is OK   
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
  
@@ -1097,7 +1106,7 @@ TC15
 
     
     Log              Wait a random time to keep the alarm stable on Attella
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     
     Log              Verify LOS was raised on remote line port(Ly)
@@ -1128,14 +1137,14 @@ TC15
     Log              Verify Alarms In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+    ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
     
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK    
+    #Log To Console   Verify Traffic Is OK
+    #Verify Traffic Is OK    
 
    [Teardown]  	  Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
 	
@@ -1157,7 +1166,7 @@ TC16
    Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
 
    Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}   
    
    Log              Verify LOS Alarm was raised on Cx 
@@ -1181,7 +1190,7 @@ TC16
    Rpc Command For Warm Reload Device   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}    ${interval}   device1
 
    Log To Console  Verify LOS Alarms in near-end client after warm reload
-   ${random}=  Evaluate  random.randint(20, 60)  modules=random
+   ${random}=  Evaluate  random.randint(20, 30)  modules=random
    Sleep  ${random}
    
    Log              Verify LOS Alarm was raised on Cx 
@@ -1201,7 +1210,7 @@ TC16
    Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}    
 
    Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
+   ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}    
    
    Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
@@ -1243,124 +1252,124 @@ TC16
    Log              Verify Cx/Lx and Cy/Ly are error free
    Verify Interfaces In Traffic Chain Are Alarm Free
 
-   Log              Verify Cx/Lx and Cy/Ly are up
-   Verify Client Interfaces In Traffic Chain Are Up
+   #Log              Verify Cx/Lx and Cy/Ly are up
+   #Verify Client Interfaces In Traffic Chain Are Up
    
-   Log To Console   Verify Traffic Is OK
-   Verify Traffic Is OK
+   #Log To Console   Verify Traffic Is OK
+   #Verify Traffic Is OK
    
    [Teardown]  Set Laser State  ${testSetHandle1}  ON     
     
 
-TC17
-   [Documentation]  After Attella system cold reload,the ODU-AIS alarm still ca be raised.
-   ...              TC 5.5-6  RLI-38966
-   ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
-   ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm. After cold reload the Alarm in traffic chain still exist.
-   [Tags]           tc17   
-    
-   Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
-   Wait Until Interfaces In Traffic Chain Are Alarm Free
-   
-   Log              Turn Laser off
-   Set Laser State  ${testSetHandle1}  OFF
-   
-   @{alarmNotification}=  Create List  alarm-notification  ${client otu intf}  Loss of Signal
-   @{alarmNotifications}=  Create List  ${alarmNotification}
-   Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
-
-   Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(1, 60)  modules=random
-   Sleep  ${random}   
-   
-   Log              Verify LOS Alarm was raised on Cx 
-   @{expectedAlarms}  Create List  Loss of Signal
-   Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
-   
-   Log              Verify ODU-AIS wasi raised on Ly
-   @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
-   Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
-   
-   Log               Verify OTU-BDI was raised on Test1.
-   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
-
-   Log               Verify ODU4-AIS was raised on Test2.
-   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
-   Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}  
-   
-   Destory Netconf Client Handle  ${ncHandle remote}
-   Log               Warm reload the remote Attella NE   
-   Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}  device1 
-   
-   Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(90,120)  modules=random
-   Sleep  ${random}   
-   
-   Log              Verify LOS Alarm was raised on Cx 
-   @{expectedAlarms}  Create List  Loss of Signal
-   Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
-   
-   Log              Verify ODU-AIS wasi raised on Ly
-   @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
-   Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
-   
-   Log               Verify OTU-BDI was raised on Test1.
-   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
-   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
-
-   Log               Verify ODU4-AIS was raised on Test2.
-   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
-   Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}    
-
-   Log              Wait a random time to keep the alarm stable on Attella
-   ${random}=  Evaluate  random.randint(30,90)  modules=random
-   Sleep  ${random}       
-   
-   Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
-
-   Log              Verify OTU4/ODU4 operation status on Cx are outOfService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
-
-
-   Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}   ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}   
-
-   Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
-   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
-
-
-   Log              Turn Laser on
-   Set Laser State  ${testSetHandle1}  ON
-   
-   @{alarmNotification}=  Create List  alarm-notification  ${client otu intf}  Loss of Signal  clear
-   @{alarmNotifications}=  Create List  ${alarmNotification}
-   Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
-
-   Log              Verify Alarms In Traffic Chain Are Alarm Free
-   Wait Until Interfaces In Traffic Chain Are Alarm Free
-
-   Log              Wati a random time the check wether the alarm still exist or not
-   ${random}=       Evaluate  random.randint(1, 60)  modules=random
-   Sleep            ${random}
-   
-   Log              Verify Cx/Lx and Cy/Ly are error free
-   Verify Interfaces In Traffic Chain Are Alarm Free
-
-   Log              Verify Cx/Lx and Cy/Ly are up
-   Verify Client Interfaces In Traffic Chain Are Up
-   
-   Log To Console   Verify Traffic Is OK
-   Verify Traffic Is OK
-   
-   [Teardown]  Set Laser State  ${testSetHandle1}  ON    	
+#TC17
+#   [Documentation]  After Attella system cold reload,the ODU-AIS alarm still ca be raised.
+#   ...              TC 5.5-6  RLI-38966
+#   ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
+#   ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm. After cold reload the Alarm in traffic chain still exist.
+#   [Tags]           tc17   
+#    
+#   Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
+#   Wait Until Interfaces In Traffic Chain Are Alarm Free
+#   
+#   Log              Turn Laser off
+#   Set Laser State  ${testSetHandle1}  OFF
+#   
+#   @{alarmNotification}=  Create List  alarm-notification  ${client otu intf}  Loss of Signal
+#   @{alarmNotifications}=  Create List  ${alarmNotification}
+#   Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
+#
+#   Log              Wait a random time to keep the alarm stable on Attella
+#   ${random}=  Evaluate  random.randint(1, 30)  modules=random
+#   Sleep  ${random}   
+#   
+#   Log              Verify LOS Alarm was raised on Cx 
+#   @{expectedAlarms}  Create List  Loss of Signal
+#   Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
+#   
+#   Log              Verify ODU-AIS wasi raised on Ly
+#   @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
+#   Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
+#   
+#   Log               Verify OTU-BDI was raised on Test1.
+#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+#
+#   Log               Verify ODU4-AIS was raised on Test2.
+#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
+#   Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}  
+#   
+#   Destory Netconf Client Handle  ${ncHandle remote}
+#   Log               Warm reload the remote Attella NE   
+#   Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${timeout}  ${interval}  device1 
+#   
+#   Log              Wait a random time to keep the alarm stable on Attella
+#   ${random}=  Evaluate  random.randint(20,40)  modules=random
+#   Sleep  ${random}   
+#   
+#   Log              Verify LOS Alarm was raised on Cx 
+#   @{expectedAlarms}  Create List  Loss of Signal
+#   Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}   
+#   
+#   Log              Verify ODU-AIS wasi raised on Ly
+#   @{expectedAlarms_remote_line}      Create List       ODU Alarm Indication Signal    
+#   Verify Alarms On Resource  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms_remote_line}   
+#   
+#   Log               Verify OTU-BDI was raised on Test1.
+#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_OTU4_BDI
+#   Is Alarm Raised  ${testSetHandle1}     ${expectedAlarms_remote_Test_Set}   
+#
+#   Log               Verify ODU4-AIS was raised on Test2.
+#   ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
+#   Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}    
+#
+#   Log              Wait a random time to keep the alarm stable on Attella
+#   ${random}=  Evaluate  random.randint(30,90)  modules=random
+#   Sleep  ${random}       
+#   
+#   Log              Verify OCH/OTU4/ODU4 operation status on Lx are inService
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line och intf}          ${OPER_STATUS_ON}
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}          ${OPER_STATUS_ON}
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line odu intf}          ${OPER_STATUS_ON}
+#
+#   Log              Verify OTU4/ODU4 operation status on Cx are outOfService
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}            ${OPER_STATUS_OFF}
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}        ${OPER_STATUS_OFF}
+#
+#
+#   Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line och intf}   ${OPER_STATUS_ON}
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line otu intf}   ${OPER_STATUS_ON}
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}   ${OPER_STATUS_ON}   
+#
+#   Log              Verify OCH/OTU4/ODU4 operation status on Ly are inService
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}       ${OPER_STATUS_ON}
+#   Verify Interface Operational Status  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client otu intf}   ${OPER_STATUS_ON}
+#
+#
+#   Log              Turn Laser on
+#   Set Laser State  ${testSetHandle1}  ON
+#   
+#   @{alarmNotification}=  Create List  alarm-notification  ${client otu intf}  Loss of Signal  clear
+#   @{alarmNotifications}=  Create List  ${alarmNotification}
+#   Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
+#
+#   Log              Verify Alarms In Traffic Chain Are Alarm Free
+#   Wait Until Interfaces In Traffic Chain Are Alarm Free
+#
+#   Log              Wati a random time the check wether the alarm still exist or not
+#   ${random}=       Evaluate  random.randint(1, 30)  modules=random
+#   Sleep            ${random}
+#   
+#   Log              Verify Cx/Lx and Cy/Ly are error free
+#   Verify Interfaces In Traffic Chain Are Alarm Free
+#
+   #Log              Verify Cx/Lx and Cy/Ly are up
+  # Verify Client Interfaces In Traffic Chain Are Up
+  # 
+   #Log To Console   Verify Traffic Is OK
+#   #Verify Traffic Is OK
+#   
+#   [Teardown]  Set Laser State  ${testSetHandle1}  ON    	
 	
 	
 *** Keywords ***
@@ -1472,6 +1481,10 @@ Test Bed Init
     Start Traffic  ${testSetHandle1}
     Start Traffic  ${testSetHandle2}
 
+	${ncHandle}=  Get Netconf Client Handle  ${tv['device0__re0__mgt-ip']}
+	Set Suite Variable    ${ncHandle}
+	${ncHandle remote}=  Get Netconf Client Handle  ${tv['device1__re0__mgt-ip']}
+	Set Suite Variable    ${ncHandle remote}
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
     
@@ -1484,11 +1497,6 @@ Test Bed Init
 
     Verify Client Interfaces In Traffic Chain Are Up
 	
-	${ncHandle}=  Get Netconf Client Handle  ${tv['device0__re0__mgt-ip']}
-	Set Suite Variable    ${ncHandle}
-	
-	${ncHandle remote}=  Get Netconf Client Handle  ${tv['device1__re0__mgt-ip']}
-	Set Suite Variable    ${ncHandle remote}
 
     
 Test Bed Teardown
