@@ -48,6 +48,7 @@ Send Get Request
     ${urlhead}=    Retrieve URL Parent  ${dictNetconfParams}
 
     ${resp}=             Get Request  @{odl_sessions}[${OPR_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/    headers=${get_headers}    allow_redirects=False
+    #${resp}=       sendRequest    ${node}    ${urlhead}
 	Log  ${resp.content}
     [return]  ${resp}
 
@@ -77,9 +78,11 @@ Send Merge Request
     ${editId}=   random.randint   ${1}   ${100}
     ${urlhead}=    Retrieve URL Parent  ${dictNetconfParams}
     ${url}=     Retrieve set URL  ${dictNetconfParams}
+    log    ${urlhead} ${url}
     ${data}=    Set variable    <yang-patch xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-patch"><patch-id>Patch operation</patch-id><edit><edit-id>${editId}</edit-id><operation>merge</operation><target>/</target><value>${url}</value></edit></yang-patch>
     log    ${data}    
     ${resp}=            Patch Request   @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}   data=${data}    headers=${patch_headers}    allow_redirects=False
+    log    ${resp}
     [Return]  ${resp}
 
 
@@ -106,6 +109,7 @@ Send Delete Request
     Log                     delete configuration
     ${urlhead}    Retrieve URL Parent  ${dictNetconfParams}
     ${resp}             Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${urlhead}/${path}    headers=${delete_headers}    allow_redirects=False
+    log    ${resp}
     [return]  ${resp}
 
 
@@ -869,7 +873,8 @@ Get Alarms On Resource
     \   Log  ${resource}
     \   ${len}=  Get Length    ${resource}
     \   Run Keyword If  '${len}' != '1'  Run Keywords  Log  Get $(len) resources in one active Alarm entity
-    \   ...   AND  FAIL
+    \   ...   AND  Continue For Loop
+    #\   ...   AND  FAIL
     \   ${resource}=  Get Element  ${activeAlarm}  resource/resource/*
     \   Log  ${resource.tag}
     \   ${resource_name}=  Get Element  ${activeAlarm}  resource/resource/${resource.tag}

@@ -60,12 +60,12 @@ Suite Teardown  Run Keywords
 
 @{auth}     admin    admin
 ${interval}  10
-${timeout}   300
+${timeout}   100
 ${OPER_STATUS_ON}           inService
 ${OPER_STATUS_OFF}          outOfService
 @{pmInterval}   15min    24Hour   notApplicable
 @{EMPTY LIST}
-${ALARM CHECK TIMEOUT}      5 min 
+${ALARM CHECK TIMEOUT}      1 min 
 
 *** Test Cases ***   	
    
@@ -261,6 +261,7 @@ TC8
     Modify transmit-power for OCH interface    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${line och intf}    ${och_tx_power}
     @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}    ${remote line port}   ${pmEntryParmaterlist}  @{pmInterval}[2]
     Log   ${realpm} 
+    Sleep  10
     @{expectValue}       Create List   ${och_tx_power}+1    ${och_tx_power}-1
     Verify Pm Should Be In Range    ${expectValue}     @{realpm}[0]	
     [Teardown]  	Modify transmit-power for OCH interface    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${line och intf}  	
@@ -344,7 +345,7 @@ TC11
     
 TC12    
     [Documentation]  Retrieve totalOpticalPowerInputMax current 24Hour pm statistics on Remote line port 
-    ....              TC 5.9-12   RLI-38966
+    ...              TC 5.9-12   RLI-38966
     [Tags]           tc12  
     @{pmEntryParmater1}        Create List       totalOpticalPowerInputMin        nearEnd      rx  
     @{pmEntryParmater2}        Create List       totalOpticalPowerInputAvg        nearEnd      rx 

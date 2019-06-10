@@ -1,7 +1,7 @@
 --- 
 jaas: 
-  params: /homes/tsyong/Attella/script/topology_tester-node-node-tester.params
-  plite: /homes/tsyong/Attella/script/topology_tester-node-node-tester.params.plite
+  params: /homes/johnmccann/attella-svt/script/topology_tester-node-node-tester.params
+  plite: /homes/johnmccann/attella-svt/script/topology_tester-node-node-tester.params.plite
 t: 
   framework_variables: 
     fv-connect-controllers: all
@@ -30,16 +30,16 @@ t:
         primary: 
           controllers: 
             re0: 
-              con-ip: 172.27.93.8:4004
+              con-ip: 172.27.93.8:4012
               domain: englab.juniper.net
-              hostname: gemini04
+              hostname: gemini09
               mgt-intf-name: mgmtre0
-              mgt-ip: 172.27.90.163
-              mgt-ipv6: abcd::172.27.90.163
+              mgt-ip: 172.27.90.168
+              mgt-ipv6: abcd::172.27.90.168
               osname: JunOS
           make: juniper
           model: acx6160-t
-          name: gemini04
+          name: gemini09
           osname: JunOS
     device1: 
       interfaces: 
@@ -64,16 +64,16 @@ t:
         primary: 
           controllers: 
             re0: 
-              con-ip: 172.27.93.8:4008
+              con-ip: 172.27.93.8:4013
               domain: englab.juniper.net
-              hostname: gemini05
+              hostname: gemini10
               mgt-intf-name: mgmtre0
-              mgt-ip: 172.27.90.164
-              mgt-ipv6: abcd::172.27.90.164
+              mgt-ip: 172.27.90.169
+              mgt-ipv6: abcd::172.27.90.169
               osname: JunOS
           make: juniper
           model: acx6160-t
-          name: gemini05
+          name: gemini10
           osname: JunOS
   user_variables: 
     uv-client_fec: rsfec
@@ -86,9 +86,10 @@ t:
     uv-service-description: traffic_provision
     uv-test-eqpt-port1-extraparam: QSFPP2
     uv-test-eqpt-port1-ip: 172.27.93.131
-    uv-test-eqpt-port1-number: 6
+    uv-test-eqpt-port1-number: 0
     uv-test-eqpt-port1-type: EXFO
     uv-test-eqpt-port2-extraparam: QSFPP2
     uv-test-eqpt-port2-ip: 172.27.93.131
-    uv-test-eqpt-port2-number: 7
-    uv-test-eqpt-port2-type: EXFO 
+    uv-test-eqpt-port2-number: 2
+    uv-test-eqpt-port2-type: EXFO
+    uv-remote-sftp-Path: "sftp://atlas:atlas@10.228.0.25/attella_log/Wh_team"

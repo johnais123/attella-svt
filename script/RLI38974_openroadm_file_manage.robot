@@ -221,7 +221,7 @@ Perform rpc create tech info
     ${shelfid}      set variable    shelf-0
     ${logoption}    set variable    all  
     ${debugfileName}=    RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}  
-    Wait Until Keyword Succeeds   300 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
+    Wait Until Keyword Succeeds   600 sec   60 sec     Wait For Collect Tech Info    ${debugfileName}
 
 
 
@@ -241,7 +241,7 @@ Perform rpc create tech info without any leaves
     Run Keyword If      '${sheflid}' == 'shelf-0'     Log  the shelf information display correct
     ...         ELSE    FAIL    Expect shefl id is shelf-0, but get ${sheflid}
     ${debugfilename} =  get element text  ${resp.text}    log-file-name
-    Wait Until Keyword Succeeds   300 sec   10 sec     Wait For Collect Tech Info    ${debugfileName}
+    Wait Until Keyword Succeeds   600 sec   60 sec     Wait For Collect Tech Info    ${debugfileName}
 
 
 

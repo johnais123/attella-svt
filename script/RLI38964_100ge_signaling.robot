@@ -105,8 +105,8 @@ TC1
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
     
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
+    #Log To Console  Verify Traffic
+    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -129,8 +129,8 @@ TC2
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     Sleep   ${period}
     
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
+    #Log To Console  Verify Traffic
+    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
@@ -156,8 +156,8 @@ TC3
     Set Laser State  ${testSetHandle1}  ON
     Sleep   ${period}
     
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
+    #Log To Console  Verify Traffic
+    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
@@ -195,8 +195,8 @@ TC4
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    Log To Console  Verify Traffic
-    Verify Traffic Is OK
+    #Log To Console  Verify Traffic
+    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]
@@ -238,8 +238,8 @@ TC5
     Sleep   ${period}   
     
     Log To Console  Verify Traffic
-    Verify Traffic Is OK
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Traffic Is OK
+    #Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService

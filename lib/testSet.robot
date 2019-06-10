@@ -113,8 +113,38 @@ Verify Traffic On Test Equipment
 	
 	${lTxPortFail}=  Set Variable If  ${len1}==0  ${EMPTY LIST}  ${lTxPortFail}
 	${lRxPortFail}=  Set Variable If  ${len2}==0  ${EMPTY LIST}  ${lRxPortFail}
-	
+        
+        ${t}    get time
+    Log To Console    JMC Checking Traffic ${t} 
 	${result}=  verifyTraffic  ${lTxPort}  ${lRxPort}  ${lTxPortFail}  ${lRxPortFail}
+        ${t}    get time
+    Log To Console    JMC Checking Traffic Done  ${t} 
 	
 	[return]  ${result}
+
+
+Verify Traffic Is OK
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
+    
+    Clear Statistic And Alarm  ${testSetHandle1}  
+    Clear Statistic And Alarm  ${testSetHandle2}
+    
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
+   
+    Sleep  5
+   
+    stop Traffic  ${testSetHandle1}
+    stop Traffic  ${testSetHandle2}
+    
+    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
+    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
+    @{EMPTY LIST}=  create list
+    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
+   
+    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+    
+    [Teardown]  Run Keywords  Start Traffic  ${testSetHandle1}  AND  Start Traffic  ${testSetHandle2}
+
 	
