@@ -123,10 +123,11 @@ TC4
     [Tags]           Sanity  TC4   Get-CP-FAN-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
-    #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+#   \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+#   Error: because ATTELLA_DEF_FAN_MODEL.text was getting the CLI Fan-Model = ACX6160-FAN which is incorrect Pass Criteria to compare to RPC-Config, so define static pass criteria ACX6160-FAN-1RU in RLI38968_openroadm_device_circuit_packs.params.yaml file
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${tv['uv-attella_def_fan_model']}
     \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${tv['uv-attella_def_fan_product_code']}
-    \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state2']}
+    \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state']}
     \                @{Fan_info}      create list    ${Fan0_info}
     \                &{static_info}   create dictionary       circuit-packs=${Fan_info}
     \                &{payload}       create dictionary       org-openroadm-device=${static_info}
@@ -206,8 +207,6 @@ TC8
     \                &{payload}                  create dictionary      org-openroadm-device=${static_info}
     \                Send Get Request And Verify Output Is Correct      ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
-	
-	
 TC9
     [Documentation]  Provison pic-0/1 
     ...              TC 5.1-5  RLI-38963
@@ -221,7 +220,6 @@ TC9
     &{dev_info}      create dictionary                    circuit-packs=${pic_info}
     &{payload}       create dictionary                    org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
-
 
 TC10
     [Documentation]  Check all read-only leaves for  pic-0/1
@@ -248,7 +246,6 @@ TC10
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}
     \                Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
 
-
 TC11
     [Documentation]  Provison QSFP28 transceivers
     ...              TC 5.1-10  RLI-38963	
@@ -265,7 +262,6 @@ TC11
     \                &{dev_info}        create dictionary       circuit-packs=${ctransc_info}
     \                &{payload}         create dictionary       org-openroadm-device=${dev_info}
     \                Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}
-
 
 TC12
     [Documentation]  Check all read-only leaves for  QSFP28 transceivers
@@ -285,7 +281,6 @@ TC12
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}
     \                Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-
 TC13
     [Documentation]  Provison CFP2-DCO transceivers
     ...              TC 5.1-12  RLI-38963
@@ -302,7 +297,6 @@ TC13
     \                &{dev_info}       create dictionary     circuit-packs=${ltransc_info}
     \                &{payload}        create dictionary     org-openroadm-device=${dev_info}
     \                Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
-
 
 TC14
     [Documentation]  Check all read-only leaves for  CFP2-DCO transceivers
@@ -344,7 +338,6 @@ TC15
     &{payload}                 create dictionary     org-openroadm-device=${static_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-
 TC16
     [Documentation]  Get-and-Verify-SN-Number-for-CFP2DCO
     ...              TC 5.3-6  RLI-38968
@@ -366,7 +359,6 @@ TC16
     &{payload}                 create dictionary     org-openroadm-device=${static_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-
 TC17
     [Documentation]  verify the name of circuit-pack can be retrieved and configured
     ...              TC 5.3-2  RLI-38968
@@ -378,7 +370,6 @@ TC17
     &{payload}       create dictionary    org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-
 TC18
     [Documentation]  verify the product-code of circuit-pack can be retrieved
     ...              TC 5.3-8  RLI-38968
@@ -389,7 +380,6 @@ TC18
     &{dev_info}      create dictionary     circuit-packs=${pic_info}
     &{payload}       create dictionary     org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
-
 
 TC19
     [Documentation]  verify the administrative-state can be retrieved and configured
@@ -403,7 +393,6 @@ TC19
     &{payload}       create dictionary      org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-
 TC20
     [Documentation]  verify the equipment-state of circuit-pack can be retrieved and configured
     ...              TC 5.3-16  RLI-38968
@@ -414,7 +403,6 @@ TC20
     &{dev_info}      create dictionary    circuit-packs=${pic_info}
     &{payload}       create dictionary    org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
-
 
 TC21
     [Documentation]  verify the circuit-pack-mode can be retrieved and configured
@@ -437,7 +425,6 @@ TC22
     &{dev_info}      create dictionary    circuit-packs=${pic_info}
     &{payload}       create dictionary    org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
-		
 
 TC24
     [Documentation]  verify due-date of circuit-pack can be retrieved and configured 
@@ -472,8 +459,6 @@ TC26
     &{payload}       create dictionary    org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-
-
 #TC27
 #    [Documentation]  This test case mapping to 5.7-8 in JTMS for RLI-38968
 #    [Tags]           Sanity  TC27   Set-Invalid-Pluggable-optics-for-un-xcvr-circuit-pack      limitation
@@ -484,8 +469,6 @@ TC26
 #    &{payload}       create dictionary    org-openroadm-device=${dev_info}
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 #    check status line  ${patch_resp}  400
-#
-#
 #
 #TC28
 #    [Documentation]  This test case mapping to 5.7-8 in JTMS for RLI-38968
@@ -502,8 +485,6 @@ TC26
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 #    check status line  ${patch_resp}  400
 #
-#
-#
 #TC29
 #    [Documentation]  This test case mapping to 5.3-26 in JTMS for RLI-38968
 #    [Tags]           Sanity   TC29    Set-Invalid-Admin-Status    limitation
@@ -514,7 +495,6 @@ TC26
 #    &{payload}       create dictionary    org-openroadm-device=${dev_info}
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 #    check status line  ${patch_resp}  400
-#
 #
 #TC30
 #    [Documentation]  This test case mapping to 5.3-27 in JTMS for RLI-38968
@@ -527,7 +507,6 @@ TC26
 #    &{payload}       create dictionary    org-openroadm-device=${dev_info}
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 #    check status line  ${patch_resp}  400
-#
 #
 #TC31
 #    [Documentation]  This test case mapping to 5.3-28 in JTMS for RLI-38968
@@ -552,7 +531,6 @@ TC26
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 #    check status line  ${patch_resp}  400
 #
-#
 #TC33
 #    [Documentation]  This test case mapping to 5.7-37 in JTMS for RLI-38968
 #    ...    Mandatory string: Type of circuit-pack such as FPC, FTU, PSU, PIC, XCVR.
@@ -564,7 +542,6 @@ TC26
 #    &{payload}       create dictionary    org-openroadm-device=${dev_info}
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
 #    check status line  ${patch_resp}  400
-#
 #
 #TC34
 #    [Documentation]  This test case mapping to 5.6-29 in JTMS for RLI-38968
@@ -580,7 +557,6 @@ TC26
 #    &{payload}       create dictionary    org-openroadm-device=${static_info}
 #    ${patch_resp}    Send Merge Request   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
 #    check status line  ${patch_resp}      400
-#
 #
 #TC35
 #    [Documentation]  This test case mapping to 5.6-30 in JTMS for RLI-38968
@@ -626,7 +602,6 @@ TC26
 #    ${patch_resp}       Send Merge Request   ${odl_sessions}          ${tv['device0__re0__mgt-ip']}    ${payload}
 #    check status line   ${patch_resp}        400
 
-
 TC37
     [Documentation]  De-provison fpc-0 
     ...              TC 5.1-2  RLI-38968
@@ -637,7 +612,6 @@ TC37
     &{dev_fpc}            create dictionary     circuit-packs=${fpc}
     &{netconfParams}      create dictionary     org-openroadm-device=${dev_fpc}
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}     ${netconfParams}
-
 
 #TC38
 #    [Documentation]  This test case mapping to 5.4-22 in JTMS for RLI-38968
@@ -661,9 +635,6 @@ TC38
     ${patch_resp}         Send Delete Request      ${odl_sessions}                   ${tv['device0__re0__mgt-ip']}    ${netconfParams} 
     check status line  ${patch_resp}  200 	
 
- 
-	
-
 TC39
     [Documentation]  De-provison Fan Tray Units
     ...              TC 5.1-9  RLI-38968
@@ -675,7 +646,6 @@ TC39
     &{netconfParams}     create dictionary     org-openroadm-device=${dev_fpc}
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
-
 TC40
     [Documentation]  De-provison pic-0/0
     ...              TC 5.1-4  RLI-38968
@@ -686,7 +656,6 @@ TC40
     &{dev_fpc}           create dictionary     circuit-packs=${fpc}
     &{netconfParams}     create dictionary     org-openroadm-device=${dev_fpc}
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
-
 
 TC41
     [Documentation]  De-provison QSFP28 transceivers
@@ -710,7 +679,6 @@ TC42
     &{netconfParams}       create dictionary     org-openroadm-device=${dev_fpc}
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
-
 TC43
     [Documentation]  Failed to delete FPC-0/0 twice
     ...              TC 5.1-22 RLI-38963	
@@ -733,7 +701,6 @@ TC43
     check status line  ${patch_resp}  200
     ${patch_resp}  Send Delete Request  ${odl_sessions}      ${tv['device0__re0__mgt-ip']}     ${netconfParams}
     check status line  ${patch_resp}  404
-
 
 TC44
     [Documentation]  Delete a circuit-packs twice
@@ -759,7 +726,7 @@ TC44
     ...            /node/${tv['device0__re0__mgt-ip']}/yang-ext:mount/org-openroadm-device:org-openroadm-device/circuit-packs/${tv['uv-attella_def_slot0_provisioned_circuit_pack']}    headers=${get_headers}    allow_redirects=False
     check status line    ${resp}     404
 
-    
+
 *** Keywords ***
 Testbed Init
     Set Log Level  DEBUG
@@ -881,10 +848,3 @@ Testbed Init
     Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     sleep   15s  
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
-
-
-
-
-
-
-    
