@@ -83,7 +83,7 @@ class attella_keyword_test(unittest.TestCase):
 
             result = attella_keyword.verify_data(root, payLoad)
             if result is not True:
-                print "Failed for :" + entry1 + entry2
+                print ("Failed for :" + entry1 + entry2)
             self.assertEqual(True, result)
             
 

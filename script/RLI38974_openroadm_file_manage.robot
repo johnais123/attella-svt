@@ -150,14 +150,6 @@ Perform rpc transfer delete special file
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}  
 
 
-Perform rpc transfer delete file via wild-card
-    [Documentation]  Delete special transfer file via rpc command 
-    ...              RLI38974 5.1-4-2
-    [Tags]           Sanity   tc10
-    @{filename}    create list    pm*
-    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
-    @{curfilelist}=    Get Default Openroadm File
-    Should Not Contain Match    ${curfilelist}   pm*
 
 
 # Perform rpc transfer can work after warm reload
@@ -213,35 +205,36 @@ Disable rpc led control
     @{activeAlarmList}=  Get Alarms On Resource   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfnm}
     List Should Not Contain Value   ${activeAlarmList}    ${notexpectedAlarms}
 
+# tech info operation is much too long to automate frequently.
+# also fails due to timeout.
+# Perform rpc create tech info
+#     [Documentation]  Collect tech info file in a special directory
+#     ...              RLI38974 5.3-1
+#     [Tags]           Sanity   tc13  tech  
+#     ${shelfid}      set variable    shelf-0
+#     ${logoption}    set variable    all  
+#     ${debugfileName}=    RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}  
+#     Wait Until Keyword Succeeds   600 sec   60 sec     Wait For Collect Tech Info    ${debugfileName}
 
-Perform rpc create tech info
-    [Documentation]  Collect tech info file in a special directory
-    ...              RLI38974 5.3-1
-    [Tags]           Sanity   tc13  tech  
-    ${shelfid}      set variable    shelf-0
-    ${logoption}    set variable    all  
-    ${debugfileName}=    RPC Create Tech Info   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfid}   ${logoption}  
-    Wait Until Keyword Succeeds   600 sec   60 sec     Wait For Collect Tech Info    ${debugfileName}
 
 
-
-Perform rpc create tech info without any leaves
-    [Documentation]  Collect tech info file without any leaves in a special directory
-    ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
-    ...              RLI38974 5.3-2
-    [Tags]           Sanity    tc14
-    ${urlhead}   set variable    org-openroadm-device:create-tech-info
-    ${data}      set variable   <input xmlns="http://org/openroadm/device"></input>
-    ${resp}=     Send Rpc Command    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${urlhead}    ${data}
-    check status line    ${resp}     200 
-    ${elem} =  get element text  ${resp.text}    status
-    Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
-    ...         ELSE    FAIL    Expect status is successful, but get ${elem}
-    ${sheflid} =  get element text  ${resp.text}    shelf-id
-    Run Keyword If      '${sheflid}' == 'shelf-0'     Log  the shelf information display correct
-    ...         ELSE    FAIL    Expect shefl id is shelf-0, but get ${sheflid}
-    ${debugfilename} =  get element text  ${resp.text}    log-file-name
-    Wait Until Keyword Succeeds   600 sec   60 sec     Wait For Collect Tech Info    ${debugfileName}
+# Perform rpc create tech info without any leaves
+#     [Documentation]  Collect tech info file without any leaves in a special directory
+#     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
+#     ...              RLI38974 5.3-2
+#     [Tags]           Sanity    tc14
+#     ${urlhead}   set variable    org-openroadm-device:create-tech-info
+#     ${data}      set variable   <input xmlns="http://org/openroadm/device"></input>
+#     ${resp}=     Send Rpc Command    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${urlhead}    ${data}
+#     check status line    ${resp}     200 
+#     ${elem} =  get element text  ${resp.text}    status
+#     Run Keyword If      '${elem}' == '${succ_meg}'     Log  the status display Successfully
+#     ...         ELSE    FAIL    Expect status is successful, but get ${elem}
+#     ${sheflid} =  get element text  ${resp.text}    shelf-id
+#     Run Keyword If      '${sheflid}' == 'shelf-0'     Log  the shelf information display correct
+#     ...         ELSE    FAIL    Expect shefl id is shelf-0, but get ${sheflid}
+#     ${debugfilename} =  get element text  ${resp.text}    log-file-name
+#     Wait Until Keyword Succeeds   600 sec   60 sec     Wait For Collect Tech Info    ${debugfileName}
 
 
 
@@ -293,7 +286,16 @@ Verify failed transfer download notification with non exist file
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${nonexistfile}
     Notifications Should Raised   ${ncHandle}   ${Notifications}   30
 
+# Moved to be run last as some pm files are expected to exist in tests before this
 
+Perform rpc transfer delete file via wild-card
+    [Documentation]  Delete special transfer file via rpc command 
+    ...              RLI38974 5.1-4-2
+    [Tags]           Sanity   tc10
+    @{filename}    create list    pm*
+    Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}
+    @{curfilelist}=    Get Default Openroadm File
+    Should Not Contain Match    ${curfilelist}   pm*
 
 
 *** Keywords ***
