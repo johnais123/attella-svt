@@ -231,40 +231,16 @@ Create 100GE Service
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
     ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}
     ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}  frequency=${frequency}000
-    # &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel  interface-circuit-id=1234
-    #...    interface-administrative-state=inService  och-rate=${och rate}  
-    #...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}  supporting-interface=none  
-    #...    modulation-format=qpsk  frequency=${frequency}000
-#	...    transmit-power=-3.00
     Log To Console     och &{och_interface}
     
     &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}    interface-type=otnOtu    
     ...    interface-administrative-state=inService    supporting-interface=${och intf}  otu-rate=${otu rate}
     ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-    # &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}  interface-type=otnOtu  interface-circuit-id=1234
-    #...    interface-administrative-state=inService  otu-rate=${otu rate}
-#	...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}  supporting-interface=${och intf}
-#	...    otu-tx-sapi=tx-sapi-val  otu-tx-dapi=tx-dapi-val  
-#    ...    otu-expected-sapi=tx-sapi-val  otu-expected-dapi=tx-dapi-val
-#    ...    otu-tim-act-enabled=true  otu-tim-detect-mode=SAPI-and-DAPI
-#	...    otu-fec=scfec  
-#	...    otu-degm-intervals=5  otu-degthr-percentage=75  
-#	...    otu-tx-operator=tx-operator-val 
     Log To Console     otu &{otu_interface}
     
     &{odu_interface}    create_dictionary   interface-name=${odu intf}     description=odu-${discription}    interface-type=otnOdu    
     ...    interface-administrative-state=inService    supporting-interface=${otu intf}     odu-rate=${odu rate}
     ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-    # &{odu_interface}    create_dictionary   interface-name=${odu intf}  description=odu-${discription}  interface-type=otnOdu  interface-circuit-id=1234  
-    #...    interface-administrative-state=inService  odu-rate=${odu rate}
-    #...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}  supporting-interface=${otu intf}
-#	...    odu-tx-sapi=tx-sapi-val  odu-tx-dapi=tx-dapi-val  
-#    ...    odu-expected-sapi=tx-sapi-val  odu-expected-dapi=tx-dapi-val
-#    ...    odu-tim-act-enabled=true  odu-tim-detect-mode=SAPI-and-DAPI
-#	...    odu-degm-intervals=5  odu-degthr-percentage=75  
-#	...    odu-tx-operator=tx-operator-val
-#	...    proactive-delay-measurement-enabled=false
-#	...    monitoring-mode=not-terminated
     Log To Console     odu &{odu_interface}
     
     
@@ -302,7 +278,8 @@ Create OTU4 Service
 	${odu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[2]  ${odu intf}
 	${otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[1]  ${otu intf}
 	${och intf}=  Set Variable If  ${length}==5  @{names for interfaces}[0]  ${och intf}
-	
+
+	Log To Console     interfaces at ${client intf} ${odu intf} ${otu intf} ${och intf}
 
     &{client_otu_interface}    create_dictionary   interface-name=${client otu intf}    description=client-otu-${discription}    interface-type=otnOtu  interface-circuit-id=1234  
     ...    interface-administrative-state=inService   otu-rate=${otu rate}  
@@ -363,7 +340,7 @@ Create OTU4 Service
 	
 Remove 100GE Service
     [Documentation]  Remove 100GE Service
-	[Arguments]    ${odl_sessions}  ${node}  ${client intf}
+	[Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${names for interfaces}=default
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -386,11 +363,20 @@ Remove 100GE Service
 	
 Remove OTU4 Service
 	[Documentation]   Remove OTU4 Service
-    [Arguments]    ${odl_sessions}  ${node}  ${client intf}
+    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${names for interfaces}=default
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
     
+    ${length}=  Get Length  ${names for interfaces}
+	${client intf}=  Set Variable If  ${length}==5  @{names for interfaces}[4]  ${client intf}
+	${client otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[3]  ${client otu intf}
+	${odu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[2]  ${odu intf}
+	${otu intf}=  Set Variable If  ${length}==5  @{names for interfaces}[1]  ${otu intf}
+	${och intf}=  Set Variable If  ${length}==5  @{names for interfaces}[0]  ${och intf}
+
+	Log To Console     interfaces at ${client intf} ${odu intf} ${otu intf} ${och intf}
+
     &{intf}=   create_dictionary   interface-name=${odu intf}
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
@@ -407,10 +393,8 @@ Remove OTU4 Service
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
     
-    ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${client otu intf}
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
-
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
 
 
