@@ -85,9 +85,6 @@ ${interval}  120
 ${timeout}  120
 
 
-
-*** Test Cases ***   
-
 TC1
     [Documentation]  Verify can configure all otu4 client interface attribute via openRoadm leaf
     ...              RLI38968 5.4-1

@@ -1495,7 +1495,7 @@ Test Bed Init
     Log To Console   Verify Traffic Is OK
     Verify Traffic Is OK
 
-    Verify Client Interfaces In Traffic Chain Are Up
+    #Verify Client Interfaces In Traffic Chain Are Up
 	
 
     
