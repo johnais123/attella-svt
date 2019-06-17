@@ -77,92 +77,100 @@ ${NEW_VALID_ENCRYPTED_PASSWORD}    $6$99c4dc65d35e062e$X4wNscNlawKmFMRt7MJa7diCj
 ${interval}  10
 ${timeout}   300
 
+${plain_text_password}    openroadm123!
+${new_plain_text_password}    vincentzhang123!
+
 *** Test Cases ***     
 Create new User with invalid username
     [Documentation]  Create new user with invalid username
     ...              RLI38963 
-    [Tags]           tests
+    [Tags]           tests13
     Log             Create user with invalid username
     :FOR    ${username}    IN    @{INVALID_USER_NAMES}
-    \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${username}    ${VALID_ENCRYPTED_PASSWORD}    sudo
+    \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${username}    ${plain_text_password}    sudo
     \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
     \        sleep    5s
 
-
+    
+    
 Create new User with invalid non-encrypted password
     [Documentation]  Create new user with invalid non-encrpted password
     ...              RLI38963
-    [Tags]           tests
+    [Tags]           tests13
     Log             Create user with invalid non-encrypted password
     :FOR    ${password}    IN    @{INVALID_NON_ENCRYPTED_PASSWORDS}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
     \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
     \        sleep    5s
-    
 
-Create new User with invalid encrypted password
-    [Documentation]  Create new user with invalid encrypted password
-    ...              RLI38963 
-    [Tags]           tests
-    Log             Create user with invalid encrypted password
-    :FOR    ${password}    IN     @{INVALID_ENCRYPTED_PASSWORDS}
-    \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
-    \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
-    \        sleep    5s
+
+
+#Create new User with invalid encrypted password
+#    [Documentation]  Create new user with invalid encrypted password
+#    ...              RLI38963 
+#    [Tags]           tests
+#    Log             Create user with invalid encrypted password
+#    :FOR    ${password}    IN     @{INVALID_ENCRYPTED_PASSWORDS}
+#    \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
+#    \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
+#    \        sleep    5s
+
+
 
 Create new User with valid username and password
     [Documentation]  Create new user with valid username and password
     ...              RLI38963 
-    [Tags]           tests
+    [Tags]           tests13
     Log             Create user with valid username and password
-    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${VALID_ENCRYPTED_PASSWORD}    sudo
+    ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${plain_text_password}    sudo
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
+
+
 
 Change new created user password
     [Documentation]  Change new created user password
     ...              RLI38963 
-    [Tags]           tests
+    [Tags]           tests13
     Log             Change the passowrd for the new created user
-    ${resp}      Change User Password    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${NEW_VALID_ENCRYPTED_PASSWORD}    
+    ${resp}      Change User Password    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${new_plain_text_password}    
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 204, but it is ${resp.status_code}
+
+    
 
 Create a new user both openroadm and os
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-1   
-    [Tags]           tests  Sanity
+    [Tags]           tests13  Sanity
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
-    ...            set system login user ${random_user} class super-user authentication encrypted-password ${VALID_ENCRYPTED_PASSWORD}                    
+    ...            set system login user ${random_user} class super-user authentication encrypted-password ${VALID_ENCRYPTED_PASSWORD}  
     Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   timeout=${600}
     sleep    10s
     Log             Use ODL to create same user ${random_user} in openroadm
-    
+        
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
-    
+
     sleep    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
     Log    ${result}
-    
-    sleep    120s
-    Log    Check user ${random_user} can use netconf to log in
-    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
-    
+   
     [Teardown]    Run Keywords    
     ...           Log    Delete openroadm user     
-    ...           AND    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}       
+    ...           AND    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}     
 
-    
+
+   
 Create a new user in openroadm but already existed in os
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-2 
-    [Tags]           tests
+    [Tags]           tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -182,20 +190,17 @@ Create a new user in openroadm but already existed in os
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
     Log    ${result}
-    
-    sleep    120s
-    Log    Check user ${random_user} can use netconf to log in
-    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
     
     Log    Delete openroadm user 
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log    ${result}
   
 
+
 Create an user already in openroadm but not existed in os
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-3 
-    [Tags]           tests
+    [Tags]           tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -209,7 +214,7 @@ Create an user already in openroadm but not existed in os
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
-    
+
     sleep    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
@@ -220,20 +225,17 @@ Create an user already in openroadm but not existed in os
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=409     FAIL    The expected status code is 409:Conflict, but it is ${resp.status_code}
-    
-    sleep    120s
-    Log    Check user ${random_user} can use netconf to log in
-    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
-    
+
     Log    Delete openroadm user 
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log    ${result}
 
 
+
 Create an user already exsite both in openroadm and os
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-4 
-    [Tags]           tests
+    [Tags]           tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -254,10 +256,6 @@ Create an user already exsite both in openroadm and os
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
     Log    ${result}
     
-    sleep    120s
-    Log    Check user ${random_user} can use netconf to log in
-    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
-    
     #provision it again.
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
@@ -267,11 +265,12 @@ Create an user already exsite both in openroadm and os
     ...           Log    Delete openroadm user     
     ...           AND    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}       
 
+
     
 Delete an existing user
     [Documentation]  Delete an existing user
     ...              RLI-38963-1 5.6-5 
-    [Tags]           tests
+    [Tags]           tests13
     ${random_user}   Generate Random String    8	[LOWER]
     Log    Use ODL to create user ${random_user} in openroadm
     
@@ -284,11 +283,7 @@ Delete an existing user
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be provisioned in openroadm after provisioning
-    
-    sleep    120s
-    Log     Check user ${random_user} can use netconf to log in after user creation 
-    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
-    
+
     Log   Delete openroadm user ${random_user} 
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}    
@@ -298,25 +293,20 @@ Delete an existing user
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
     Run Keyword If     ${result}!=${FALSE}     FAIL    User ${random_user} should not be in openroadm after deprovisioning
-    
-    sleep    120s    
-    Log    Check user ${random_user} can not use netconf to log in after user deprovisioning
-    ${msg}=    Run Keyword And Expect Error    *    Connect to device   host=${tv['device0__re0__mgt-ip']}   user=${random_user}    password=password    
-    Log     ${msg}
-    Should Contain    ${msg}     Could not connect
-    
 
+
+    
 Delete an inexistent user
-    [Documentation]  Delete an existing user
+    [Documentation]  Delete an inexisting user
     ...              RLI-38963-1 5.6-6 
-    [Tags]           tests
+    [Tags]           tests13
     ${random_user}   Generate Random String    8	[LOWER]
     Log             Use ODL to create user ${random_user} in openroadm
     
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
-    
+
     sleep    10s
     Log   Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
@@ -327,46 +317,50 @@ Delete an inexistent user
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}
     Log     ${result}
     Run Keyword If     ${result.status_code}!=200    FAIL    User ${random_user} should be deprovisioned by odl    
-        
+
     sleep    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
     Run Keyword If     ${result}!=${FALSE}     FAIL    User ${random_user} should not be in openroadm after deprovisioning
-     
+
     Log   Delete this inexsitent openroadm user ${random_user} 
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result.status_code}    
 
 
+
 Chg-password rpc successful
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-7 
-    [Tags]           tests    Sanity
+    [Tags]           tests123    Sanity
     Log             Change current user password  
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
     ...            set system login user openroadm authentication encrypted-password ${NEW_VALID_ENCRYPTED_PASSWORD} 
     
     Log    Change the openroadm user password from 'openroadm' to 'password'
-    ${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${NEW_VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}
+    #${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${NEW_VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}
+    ${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${new_plain_text_password}    ${plain_text_password}    ${plain_text_password}
+    
     Log    ${resp}
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 200, but it is ${resp.status_code}
     
-    sleep    120s
-    Log    Check user openroadm can log into with new password by netconf 
-    ${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=openroadm    password=password    
+    #sleep    120s
+    #Log    Check user openroadm can log into with new password by netconf 
+    #${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=openroadm    password=password    
 
     [Teardown]    Run Keywords    
     ...           Log    Restore openroadm user password to 'openroadm'    
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
     ...           AND    sleep    120s   
+
     
 
 Chg-password rpc with wrong currentPassword
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-8 
-    [Tags]           tests
+    [Tags]           tests123
     Log             Change current user password with wrong currentPassword  
     ${random_password}   Generate Random String	8	[LOWER]
     ${r0} =     Get Handle      resource=device0
@@ -374,16 +368,11 @@ Chg-password rpc with wrong currentPassword
     ...            set system login user openroadm authentication encrypted-password ${NEW_VALID_ENCRYPTED_PASSWORD} 
     
     Log    Change the openroadm user password from 'openroadm' to 'password' but with wrong currentPasword in the command
-    ${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_password}    ${VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}
+    #${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_password}    ${VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}
+    ${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_password}    ${plain_text_password}    ${plain_text_password}
     Log    ${resp.status_code}
     Log    ${resp.text}
-    #Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 200, but it is ${resp.status_code}
-    
-    sleep    120s
-    Log    Check user openroadm can not log into with new password by netconf 
-    ${msg}=    Run Keyword And Expect Error    *   Connect to device   host=${tv['device0__re0__mgt-ip']}   user=openroadm    password=password    
-    Log     ${msg}
-    Should Contain    ${msg}     Could not connect
+    Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 200, but it is ${resp.status_code}     
     
     [Teardown]    Run Keywords    
     ...           Log    Restore openroadm user password to 'openroadm'    
@@ -391,10 +380,11 @@ Chg-password rpc with wrong currentPassword
     ...           AND    sleep    120s 
 
 
+
 Chg-password rpc with wrong newPasswordConfirm
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-9 
-    [Tags]           tests    Sanity
+    [Tags]           tests123    Sanity
     Log             Change current user password with wrong newPasswordConfirm  
     ${random_password}   Generate Random String	8	[LOWER]
     ${r0} =     Get Handle      resource=device0
@@ -403,22 +393,16 @@ Chg-password rpc with wrong newPasswordConfirm
     
     Log    Change the openroadm user password from 'openroadm' to 'password' but with wrong currentPasword in the command
     Log    Using ${random_password} as the newpasswordConfirm
-    ${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${NEW_VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}    ${random_password}
+    #${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${NEW_VALID_ENCRYPTED_PASSWORD}    ${VALID_ENCRYPTED_PASSWORD}    ${random_password}
+    ${resp}    RPC Command For Password Change    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${new_plain_text_password}    ${plain_text_password}    ${random_password}
     Log    ${resp.status_code}
     Log    ${resp.text}
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 200, but it is ${resp.status_code}
-    
+           
     ${elem} =  get element text  ${resp.text}    status
     Run Keyword If      '${elem}' == 'Failed'     Log    the status display correct is Successful
     ...         ELSE    FAIL    Expect status is Failed, but get ${elem}
-    
-    sleep    120s
-    Log    Check user openroadm can not log into with new password by netconf 
-    ${msg}=    Run Keyword And Expect Error    *   Connect to device   host=${tv['device0__re0__mgt-ip']}   user=openroadm    password=password    
-    Log     the retrun message is:
-    Log     ${msg}
-    Should Contain    ${msg}     Could not connect
-    
+      
     [Teardown]    Run Keywords    
     ...           Log    Restore openroadm user password to 'openroadm'    
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
