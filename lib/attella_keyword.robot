@@ -364,6 +364,7 @@ Remove 100GE Service
 Remove OTU4 Service
 	[Documentation]   Remove OTU4 Service
     [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${names for interfaces}=default
+    ${client otu intf}=  Get OTU Intface Name From ODU Intface  ${client intf}
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
