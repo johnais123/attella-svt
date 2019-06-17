@@ -23,7 +23,7 @@ device0 {
   }
   interfaces {
     client_intf {
-      type "ett";
+      type (and "ett" "near-end");
     }
     line_intf {
       type "och";
@@ -37,7 +37,7 @@ device1 {
   }
   interfaces {
     client_intf {
-      type "ett";
+      type (and "ett" "far-end");
     }
     line_intf {
       type "och";
