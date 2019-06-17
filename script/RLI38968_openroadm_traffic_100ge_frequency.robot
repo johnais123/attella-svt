@@ -96,7 +96,7 @@ Modify one dut to a different random Frequency And Verify Traffic
 Test Bed Teardown
     Log To Console    stop and release test set
     Remove 100GE Service    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
-    Remove 100GE Service    ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}§
+    Remove 100GE Service    ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
     Release Test Equipment    ${testSetHandle1}
     Release Test Equipment    ${testSetHandle2}
 
