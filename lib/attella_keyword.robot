@@ -303,7 +303,7 @@ Create OTU4 Service
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel  interface-circuit-id=1234
     ...    interface-administrative-state=inService  och-rate=${och rate}  
     ...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}  supporting-interface=none  
-    ...    modulation-format=qpsk  frequency=${frequency}000
+    ...    modulation-format=dp-qpsk  frequency=${frequency}000
 	...    transmit-power=-3.00
     
     &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}  interface-type=otnOtu  interface-circuit-id=1234
