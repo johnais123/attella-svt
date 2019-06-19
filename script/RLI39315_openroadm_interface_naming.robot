@@ -214,7 +214,7 @@ TC7
 
 TC8
     [Documentation]  Verify can configure otu4 line interface name attribute via openRoadm leaf
-    ...           RLI39315  5.1-9
+    ...           RLI39315  5.1-9  5.3-2
     Log           Configure client interface name / supporting-port via Restconf Patch method
     [Tags]           Sanity
     #${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
@@ -235,7 +235,7 @@ TC8
 
 TC9
     [Documentation]  Verify can configure odu4 line interface name attribute via openRoadm leaf
-    ...              RLI39315 5.1-11
+    ...              RLI39315 5.1-11   5.3-4
     Log           Configure line interface name / supporting-port via Restconf Patch method
     [Tags]           Sanity
     #${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
@@ -255,7 +255,7 @@ TC9
 
 TC10
     [Documentation]  Verify delete odu4 line interface via openRoadm leaf
-    ...              RLI39315 5.1-12
+    ...              RLI39315 5.1-12   5.3-16
     [Tags]          Sanity
     Log         Verify delete odu4 interface name via Restconf Patch method
     #: FOR    ${INDEXS}    IN RANGE    0    1

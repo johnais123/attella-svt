@@ -143,7 +143,7 @@ TC1
     ${t}    get time 
     Log To Console    Wait for alarms to clear ${t}
 	Log             Verify los alarm clear on local otu4 interface
-	Wait Until Interfaces In Traffic Chain Are Alarm Free	
+	Wait Until Interfaces In Traffic Chain Are Alarm Free	TC
 
 	Verify Interfaces In Traffic Chain Are Alarm Free	
 	
