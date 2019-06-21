@@ -79,8 +79,8 @@ TC2
     ...              TC 5.1-14  RLI-38963
     [Tags]           Sanity  TC2   Get-CP-FPC-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FPC via Restconf
-    &{cp-port1}      create dictionary    slot-name-cp=slot-0/0        slot-type=other
-    &{cp-port2}      create dictionary    slot-name-cp=slot-0/1        slot-type=other
+    &{cp-port1}      create dictionary    slot-name-cp=slot-0/0          slot-type=other
+    &{cp-port2}      create dictionary    slot-name-cp=slot-0/1          slot-type=other
     @{fpc_cport_info}    create list    ${cp-port1}   ${cp-port2}
     &{fpckey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}   vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_FPC_MODEL.text}
     ...                 operational-state-cp=${tv['uv-attella_def_operational_state2']}                  type-cp=FPC                                vendor-cp=${tv['uv-attella_def_vendor']}
@@ -123,8 +123,12 @@ TC4
     [Tags]           Sanity  TC4   Get-CP-FAN-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
+<<<<<<< HEAD
     #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${tv['uv-attella_def_fan_model']}
+=======
+    \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+>>>>>>> Revert "Delete RLI38968_openroadm_device_circuit_packs.robot"
     \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${tv['uv-attella_def_fan_product_code']}
     \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state2']}
     \                @{Fan_info}      create list    ${Fan0_info}
@@ -255,6 +259,7 @@ TC11
     [Tags]           Sanity   TC11   Set-QPSK28-R/W
     Log              Configure all R/W leaves for circuit-pack QSFP28 via Restconf
     : FOR            ${ClientID}        IN RANGE    0    8
+<<<<<<< HEAD
     \                &{ctransc}         create dictionary       port-name-p=port-0/0/${ClientID}               port-type=qsfp28-port                port-qual=xpdr-client            
     \                ...                circuit-id-port=Client-QSFP28     administrative-state-port=inService    logical-connection-point=foo
     \                @{ctransclist}     create list             ${ctransc}
@@ -262,6 +267,12 @@ TC11
     \                ...                shelf=shelf-0    slot=slot-0
     \                ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   
     \                ...                circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_qsfp28_product_code']}
+=======
+    \                &{ctransc}         create dictionary       port-name-p=port-0/0/${ClientID}               port-type=qsfp28-port                port-qual=xpdr-client            circuit-id=Client-QSFP28     administrative-state=inService    logical-connection-point=foo
+    \                @{ctransclist}     create list             ${ctransc}
+    \                &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/0/${ClientID}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
+    \                ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_qsfp28_product_code']}
+>>>>>>> Revert "Delete RLI38968_openroadm_device_circuit_packs.robot"
     \                ...                circuit-pack-mode=NORMAL              subSlot=slot-0/0/${ClientID}                 due-date-cp=${tv['uv-valid_due_date']}
     \                ...                circuit-pack-name-parent=${tv['uv-attella_def_pic0_name']}             cp-slot-name=slot-0/0/${ClientID}    ports=${ctransclist}
     \                @{ctransc_info}    create list             ${ctransckey}
@@ -295,8 +306,12 @@ TC13
     [Tags]           Sanity   TC13   Set-CFP2DCO-R/W
     Log              Configure all R/W leaves for circuit-pack CFP2DCO via Restconf
     : FOR            ${ClientID}       IN RANGE    0    4
+<<<<<<< HEAD
     \                &{ltransc}        create dictionary     port-name-p=port-0/1/${ClientID}                 port-type=cfp2dco-port      port-qual=xpdr-network   
     \                ...               circuit-id-port=${tv['uv-attella_def_circuit_pack_type_cfp2dco']}   administrative-state-port=inService    logical-connection-point=foo
+=======
+    \                &{ltransc}        create dictionary     port-name-p=port-0/1/${ClientID}                 port-type=cfp2dco-port      port-qual=xpdr-network   circuit-id=${tv['uv-attella_def_circuit_pack_type_cfp2dco']}   administrative-state=inService    logical-connection-point=foo
+>>>>>>> Revert "Delete RLI38968_openroadm_device_circuit_packs.robot"
     \                @{ltransclist}    create list           ${ltransc}
     \                &{ltransckey}     create dictionary     circuit-pack-name-self=xcvr-0/1/${ClientID}      circuit-pack-type=CFP2DCO   shelf=shelf-0    slot=slot-0
     \                ...               administrative-state-cp=inService     equipment-state-cp=reserved-for-facility-available           circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_cfp2dco_product_code']}
@@ -331,8 +346,12 @@ TC15
     ...              TC 5.3-6  RLI-38968
     [Tags]           Sanity  TC15   Get-and-Verify-SN-Number-for-QSFP28
     Log              Configure circuit-pack-name via Restconf Patch method, then verify the SN number is right for this QSFP28 module.
+<<<<<<< HEAD
     &{ctransc}         create dictionary       port-name-p=port-0/0/${QSFP28_INDEX}      port-type=qsfp28-port                port-qual=xpdr-client            
     ...                circuit-id-port=Client-QSFP28     administrative-state-port=inService    logical-connection-point=foo
+=======
+    &{ctransc}         create dictionary       port-name-p=port-0/0/${QSFP28_INDEX}      port-type=qsfp28-port                port-qual=xpdr-client            circuit-id=Client-QSFP28     administrative-state=inService    logical-connection-point=foo
+>>>>>>> Revert "Delete RLI38968_openroadm_device_circuit_packs.robot"
     @{ctransclist}     create list             ${ctransc}
     &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/0/${QSFP28_INDEX}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
     ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_qsfp28_product_code']}
@@ -355,8 +374,12 @@ TC16
     ...              TC 5.3-6  RLI-38968
     [Tags]           Sanity  TC16   Get-and-Verify-SN-Number-for-CFP2DCO
     Log              Configure circuit-pack-name via Restconf Patch method, then verify the SN number is right for this CFP2DCO module.
+<<<<<<< HEAD
     &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=cfp2dco-port                port-qual=xpdr-network            
     ...                circuit-id-port=CFP2DCO     administrative-state-port=inService    logical-connection-point=foo
+=======
+    &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=cfp2dco-port                port-qual=xpdr-network            circuit-id=CFP2DCO     administrative-state=inService    logical-connection-point=foo
+>>>>>>> Revert "Delete RLI38968_openroadm_device_circuit_packs.robot"
     @{ctransclist}     create list             ${ctransc}
     &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/1/${CFP2_INDEX}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
     ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_cfp2dco_product_code']}
