@@ -52,7 +52,7 @@
       <model-shlves alias="model"/>  
       <serial-id-shelves alias="serial-id"/>  
       <type/>  
-      <product-code/>  
+      <shelf-product-code alias="product-code"/>  
       <manufacture-date/>  
       <clei/>  
       <hardware-version/>  
@@ -128,8 +128,8 @@
         <port-wavelength-type/>  
         <port-direction/>  
         <label-ports alias="label"/>  
-        <circuit-id/>  
-        <administrative-state/>  
+        <circuit-id-port alias="circuit-id"/>  
+        <administrative-state-port alias="administrative-state"/>  
         <operational-state-ports alias="operational-state"/>  
         <logical-connection-point/> 
                <transponder-port>

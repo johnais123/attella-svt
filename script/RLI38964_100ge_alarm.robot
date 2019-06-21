@@ -244,47 +244,47 @@ TC3
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
 
 
-TC4
-    [Documentation]  Verify HI BER ALARM in 100ge Client Interface
-    ...              RLI38964 5.4-4 5.6-4
-    [Tags]  tc4
-    Wait Until Interfaces In Traffic Chain Are Alarm Free
-    Log To Console  near-end inject HI BER
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  1.0E-02
-    @{alarmNotification1}=  Create List  alarm-notification  ${client intf}  Loss of Alignment Rx
-    @{alarmNotification2}=  Create List  alarm-notification  ${client intf}  Remote Fault Tx
-    @{alarmNotifications}=  Create List  ${alarmNotification1}  ${alarmNotification2}
-    Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
+#TC4
+#    [Documentation]  Verify HI BER ALARM in 100ge Client Interface
+#   ...              RLI38964 5.4-4 5.6-4
+#    [Tags]  tc4
+#    Wait Until Interfaces In Traffic Chain Are Alarm Free
+#    Log To Console  near-end inject HI BER
+#    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  1.0E-02
+#    @{alarmNotification1}=  Create List  alarm-notification  ${client intf}  Loss of Alignment Rx
+#    @{alarmNotification2}=  Create List  alarm-notification  ${client intf}  Remote Fault Tx
+#    @{alarmNotifications}=  Create List  ${alarmNotification1}  ${alarmNotification2}
+#    Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
 
-    Log To Console  Verify Alarms
-    @{expectedAlarms}  Create List  Loss of Alignment Rx  Remote Fault Tx
-    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
+#   Log To Console  Verify Alarms
+#    @{expectedAlarms}  Create List  Loss of Alignment Rx  Remote Fault Tx
+#    Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}
 
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
+#    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+#    Sleep  ${random}
 
-    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}
-    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_OFF}
+#    Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${expectedAlarms}
+#    Verify Interface Operational Status  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  ${OPER_STATUS_OFF}
 
 
-    Log To Console  near-end stop inject HI BER
-    Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
-    @{alarmNotification1}=  Create List  alarm-notification  ${client intf}  Loss of Alignment Rx  clear
-    @{alarmNotification2}=  Create List  alarm-notification  ${client intf}  Remote Fault Tx  clear
-    @{alarmNotifications}=  Create List  ${alarmNotification1}  ${alarmNotification2}
-    Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
+#    Log To Console  near-end stop inject HI BER
+#    Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
+#    @{alarmNotification1}=  Create List  alarm-notification  ${client intf}  Loss of Alignment Rx  clear
+#    @{alarmNotification2}=  Create List  alarm-notification  ${client intf}  Remote Fault Tx  clear
+#    @{alarmNotifications}=  Create List  ${alarmNotification1}  ${alarmNotification2}
+#    Notifications Should Raised  ${ncHandle}  ${alarmNotifications}
 
-    Log To Console  Verify Alarms
-    Wait Until Interfaces In Traffic Chain Are Alarm Free
+#    Log To Console  Verify Alarms
+#    Wait Until Interfaces In Traffic Chain Are Alarm Free
 
-    ${random}=  Evaluate  random.randint(1, 60)  modules=random
-    Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
+#    ${random}=  Evaluate  random.randint(1, 60)  modules=random
+#    Sleep  ${random}
+#    Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
+#    Verify Client Interfaces In Traffic Chain Are Up
 
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
+#    Log To Console  Verify Traffic
+#    Verify Traffic Is OK
 
     [Teardown]  Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
 
