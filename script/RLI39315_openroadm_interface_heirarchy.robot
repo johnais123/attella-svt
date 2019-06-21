@@ -179,7 +179,7 @@ TC4
     &{dev_info}   create dictionary   interface=${delinter}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  200 
+    check status line  ${patch_resp}  404 
 
 
 # Line Tests

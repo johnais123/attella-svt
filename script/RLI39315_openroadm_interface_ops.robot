@@ -143,7 +143,7 @@ TC1
     ${t}    get time 
     Log To Console    Wait for alarms to clear ${t}
 	Log             Verify los alarm clear on local otu4 interface
-	Wait Until Interfaces In Traffic Chain Are Alarm Free	TC
+	Wait Until Interfaces In Traffic Chain Are Alarm Free
 
 	Verify Interfaces In Traffic Chain Are Alarm Free	
 	
@@ -276,7 +276,7 @@ TC5
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
 	
-    @{alarmNotification}=  Create List  alarm-notification  ${remote line odu intf}  ODU Alarm Indication Signal  clear
+    @{alarmNotification}=  Create List  alarm-notification  ${ATTELLA_DEF_LINE_ODU_NAME}  ODU Alarm Indication Signal  clear
     @{alarmNotifications}=  Create List  ${alarmNotification}
     Notifications Should Raised  ${ncHandle remote}  ${alarmNotifications}
     
@@ -297,7 +297,7 @@ TC6
     ${och_tx_power}   evaluate    str(${och_tx_power})	
     Modify transmit-power for OCH interface    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${ATTELLA_DEF_LINE_OCH_NAME}    ${och_tx_power}
     Sleep    30
-    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${ATTELLA_DEF_LINE_OCH_NAME}    ${pmEntryParmaterlist}  @{pmInterval}[2]
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${line port}    ${pmEntryParmaterlist}  @{pmInterval}[2]
     Log           ${realpm} 
     @{expectValue}       Create List   ${och_tx_power}+1    ${och_tx_power}-1
     log           ${expectValue}	
@@ -453,27 +453,24 @@ TC9
     [Teardown]  	Enable interface   ${ATTELLA_DEF_LINE_ODU_NAME}
 
 TC10
-    [Documentation]  Verify current 15min Far-end  ODU severelyErroredSeconds PM statistics on remote odu4 Line interface
+    [Documentation]  Verify current 15min Far-end  ODU erroredBlockCount PM statistics on remote odu4 Line interface
     ...              RLI39315   5.2-18  
-    @{pmEntryParmater}          Create List      severelyErroredSeconds     farEnd    rx 
-    @{pmEntryParmater2}         Create List      erroredBlockCount          farEnd    rx
-    @{pmEntryParmater3}         Create List      backgroundBlockErrors      farEnd    rx
-    @{pmEntryParmater4}         Create List      erroredSeconds             farEnd    rx
-    @{pmEntryParmaterlist}      Create List      ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}   ${pmEntryParmater4}
-    RPC Clear Pm Statistics   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   current  
-    #Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
-    #Retrieve Current Statistics     
-    Sleep   10
-    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI    6.3E-05
+    @{pmEntryParmater}          Create List     erroredBlockCount         farEnd    rx 
+    @{pmEntryParmater2}         Create List     backgroundBlockErrors     farEnd    rx
+    @{pmEntryParmater3}         Create List     erroredSeconds            farEnd    rx
+    @{pmEntryParmater4}         Create List     severelyErroredSeconds    farEnd    rx
+    @{pmEntryParmaterlist}      Create List     ${pmEntryParmater}    ${pmEntryParmater2}   ${pmEntryParmater3}    ${pmEntryParmater4}
+    Ensure Pm Statistics In the Same Bin During Testing Pm   ${odl_sessions}    ${tv['device1__re0__mgt-ip']}
+    Retrieve Current Statistics     
+    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI    40
     Sleep   10
     Retrieve Current Statistics 
-    @{realpm}=    Get Current Spefic Pm Statistic       ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${pmEntryParmaterlist}    @{pmInterval}[0]
-    Sleep   5    
-    @{nextrealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${pmEntryParmaterlist}    @{pmInterval}[0]                 
-    Verify Pm Should Be Increased   @{nextrealpm}[0]     @{realpm}[0]
-    Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]  
+    @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device1__re0__mgt-ip']}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${pmEntryParmaterlist}    @{pmInterval}[0]
+    @{expectValue}       Create List   40  40   1   0
+    Verify Pm Should Be Equals    @{expectValue}[0]     @{realpm}[0]
+    #Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
 
-    [Teardown]  Stop Inject Error On Test Equipment     ${testSetHandle1}    ERROR_OTU4_ODU4_BEI  
+    [Teardown]  Stop Inject Error On Test Equipment     ${testSetHandle1}    ERROR_OTU4_ODU4_BEI
 
 
 TC11
@@ -526,22 +523,26 @@ Test Bed Init
     ${line odu intf}     Get Line ODU Intface Name From Client Intface  ${client intf}
     ${line otu intf}     Get OTU Intface Name From ODU Intface  ${line odu intf}
     ${line och intf}     Get OCH Intface Name From OTU Intface  ${line otu intf}
+    ${line port}          evaluate        str('${line och intf}')[0:-2].replace('och','port')	
     Set Suite Variable    ${client intf}
     Set Suite Variable    ${client otu intf}
     Set Suite Variable    ${line odu intf}
     Set Suite Variable    ${line otu intf}
     Set Suite Variable    ${line och intf}
+    Set Suite Variable    ${line port}
     
     ${remote client intf}      Get Otu4 Intface Name From Client Intface  ${tv['device1__client_intf__pic']}
     ${remote client otu intf}  Get OTU Intface Name From ODU Intface  ${remote client intf}
     ${remote line odu intf}    Get Line ODU Intface Name From Client Intface  ${remote client intf}
     ${remote line otu intf}    Get OTU Intface Name From ODU Intface  ${remote line odu intf}
     ${remote line och intf}    Get OCH Intface Name From OTU Intface  ${remote line otu intf}
+    ${remote line port}          evaluate        str('${remote line och intf}')[0:-2].replace('och','port')	
     Set Suite Variable    ${remote client intf}
     Set Suite Variable    ${remote client otu intf}
     Set Suite Variable    ${remote line odu intf}
     Set Suite Variable    ${remote line otu intf}
     Set Suite Variable    ${remote line och intf}
+    Set Suite Variable    ${remote line port}
     
     
     Mount vAttella On ODL Controller    ${odl_sessions}   ${tv['uv-odl-timeout']}    ${tv['uv-odl-interval']}   ${tv['device0__re0__mgt-ip']} 

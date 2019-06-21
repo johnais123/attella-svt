@@ -85,6 +85,7 @@ ${interval}  120
 ${timeout}  120
 
 
+*** Test Cases ***
 TC1
     [Documentation]  Verify can configure all otu4 client interface attribute via openRoadm leaf
     ...              RLI38968 5.4-1
@@ -397,7 +398,7 @@ TC19
     [Tags]           Sanity    tc19   och
     Log           Configure och interface modulation-format via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
-    \     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0   modulation-format=qpsk    
+    \     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0   modulation-format=dp-qpsk    
     \     @{interface_info}    create list    ${Och_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -443,7 +444,7 @@ TC22
     \     ${iFrequencyId}   convert to string    ${sfrq}
     \     log   ${iFrequencyId}
     \     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0    och-rate=R100G     frequency=${iFrequencyId}000
-    \     ...   modulation-format=qpsk      transmit-power=-3.00 
+    \     ...   modulation-format=dp-qpsk      transmit-power=-3.00 
     \     @{interface_info}    create list    ${Och_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}

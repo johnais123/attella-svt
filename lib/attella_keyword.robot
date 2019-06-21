@@ -222,11 +222,11 @@ Create 100GE Service
 	${och intf}=  Set Variable If  ${length}==4  @{names for interfaces}[0]  ${och intf}
    
     Log To Console     interfaces at ${client intf} ${odu intf} ${otu intf} ${och intf} 
+
     &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
     ...    interface-administrative-state=inService   speed=${client rate}
     ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
     Log To Console     client &{client_interface}
-
     
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
     ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}
@@ -235,16 +235,22 @@ Create 100GE Service
     
     &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}    interface-type=otnOtu    
     ...    interface-administrative-state=inService    supporting-interface=${och intf}  otu-rate=${otu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
+    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}    otu-tim-act-enabled=false    otu-tim-detect-mode=disabled
     Log To Console     otu &{otu_interface}
     
     &{odu_interface}    create_dictionary   interface-name=${odu intf}     description=odu-${discription}    interface-type=otnOdu    
     ...    interface-administrative-state=inService    supporting-interface=${otu intf}     odu-rate=${odu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
+    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}    odu-tim-act-enabled=false    odu-tim-detect-mode=disabled
     Log To Console     odu &{odu_interface}
     
     
-    @{interface_info}    create list    ${client_interface}    ${och_interface}    ${otu_interface}    ${odu_interface} 
+    @{interface_info}    create list   ${och_interface}    ${otu_interface}    ${odu_interface} 
+    &{dev_info}   create_dictionary   interface=${interface_info}       
+    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    Log To Console     payload &{payload}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
+
+     @{interface_info}    create list    ${client_interface} 
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Log To Console     payload &{payload}
@@ -361,6 +367,7 @@ Remove 100GE Service
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
 	
+
 Remove OTU4 Service
 	[Documentation]   Remove OTU4 Service
     [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${names for interfaces}=default

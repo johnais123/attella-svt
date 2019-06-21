@@ -350,7 +350,7 @@ TC19
 	&{slot7}	  create_dictionary   slot-name=${tv['uv-attella_def_slot7_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}  
 	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}	
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${ATTELLA_DEF_MODEL.text}  
-	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
+	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  shelf-type=${tv['uv-attella_def_type']}  shelf-product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
 	...     hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
 	...     slots=${slots}
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
@@ -404,7 +404,7 @@ TC22
 	&{slot7}	  create_dictionary   slot-name=${tv['uv-attella_def_slot7_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}  
 	@{slots}    create list   ${slot0}  ${slot1}  ${slot2}  ${slot3}  ${slot4}  ${slot5}  ${slot6}  ${slot7}
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}  vendor-shelves=${tv['uv-attella_def_vendor']}  model-shlves=${ATTELLA_DEF_MODEL.text}  
-	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  type=${tv['uv-attella_def_type']}  product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
+	...     serial-id-shelves=${ATTELLA_DEF_SERIAL_ID.text}  shelf-type=${tv['uv-attella_def_type']}  shelf-product-code=${ATTELLA_DEF_PRODUCT_CODE.text} 
 	...     hardware-version=${ATTELLA_DEF_HARDWARE_VERSION.text}
 	...     slots=${slots}
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
