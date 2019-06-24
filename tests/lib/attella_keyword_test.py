@@ -88,8 +88,10 @@ class attella_keyword_test(unittest.TestCase):
             
 
 
-    def testVerifyDataBasicDeviceInfoYangPatch(self):
-        root = _getOpenRoadmDevRoot("yangPatchTest.xml")
+
+
+    def testVerifyDataBasicDeviceInfOtu4Service(self):
+        root = _getOpenRoadmDevRoot("otu4Test.xml")
     
 
         fpcKey1 = { "circuit-pack-name-self":"fpc-0",
@@ -132,7 +134,7 @@ def _getOpenRoadmDevRoot(fileName):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     tree = etree.parse(dir_path + '/../resources/' + fileName)
     root = _removeNamespace(tree.getroot())
-    return root.find("edit/value/org-openroadm-device")
+    return root.find("org-openroadm-device")
 
 
 def _removeNamespace(root):

@@ -1,0 +1,101 @@
+--- 
+jaas: 
+  params: /homes/lboudreau/AttellaAutov1/attella-svt/script/RLI38968_openroadm_device_circuit_packs.params
+  plite: /homes/lboudreau/AttellaAutov1/attella-svt/script/RLI38968_openroadm_device_circuit_packs.params.plite
+t: 
+  resources: 
+    device0: 
+      interfaces: 
+        intf1: 
+          link: device0intf1
+          management: 0
+          name: och-0/1/1:0.0
+          pic: och-0/1/1:0
+          type: 
+            - och
+          unit: 0
+        intf2: 
+          link: device0intf2
+          management: 0
+          name: otu-0/1/1:0:0.0
+          pic: otu-0/1/1:0:0
+          type: 
+            - otu
+          unit: 0
+        intf3: 
+          link: device0intf3
+          management: 0
+          name: odu-0/1/1:0:0:0.0
+          pic: odu-0/1/1:0:0:0
+          type: 
+            - odu
+          unit: 0
+        intf4: 
+          link: device0intf4
+          management: 0
+          name: ett-0/0/2.0
+          pic: ett-0/0/2
+          type: 
+            - traffic
+            - ett
+          unit: 0
+      system: 
+        primary: 
+          controllers: 
+            re0: 
+              con-ip: 172.27.93.8:4003
+              domain: englab.juniper.net
+              hostname: gemini03
+              mgt-intf-name: mgmtre0
+              mgt-ip: 172.27.90.162
+              mgt-ipv6: abcd::172.27.90.162
+              osname: JunOS
+          fv-tags: dut
+          make: juniper
+          model: acx6160-t
+          name: gemini03
+          osname: JunOS
+  user_variables: 
+    uv-attella_client_transc_installed_prov: 0/0/6
+    uv-attella_def_circuit_pack_category: circuitPack
+    uv-attella_def_circuit_pack_category_fan: fan
+    uv-attella_def_circuit_pack_cfp2dco_product_code: 740-087314
+    uv-attella_def_circuit_pack_fpc_pic_fan_product_code: 650-090154
+    uv-attella_def_circuit_pack_if_cap_type_ge: x:if-100GE
+    uv-attella_def_circuit_pack_if_cap_type_odu4: x:if-OTU4-ODU4
+    uv-attella_def_circuit_pack_line_if_cap_type: x:if-OCH-OTU4-ODU4
+    uv-attella_def_circuit_pack_model: Not Available
+    uv-attella_def_circuit_pack_model_fix: ACX6160-T-CHAS
+    uv-attella_def_circuit_pack_proactive_dmp: 'false'
+    uv-attella_def_circuit_pack_proactive_dmt: 'false'
+    uv-attella_def_circuit_pack_psm_product_code: 740-053639
+    uv-attella_def_circuit_pack_qsfp28_product_code: 740-073859
+    uv-attella_def_circuit_pack_tcm_dmp_capable: 'false'
+    uv-attella_def_circuit_pack_type_cfp2dco: CFP2DCO
+    uv-attella_def_circuit_pack_type_qsfp28: QSFP28
+    uv-attella_def_fan_product_code: 760-09778
+    uv-attella_def_fan_model: ACX6160-FAN-1RU
+    uv-attella_def_model: ACX6160-T
+    uv-attella_def_node_id: openroadm
+    uv-attella_def_node_type: xpdr
+    uv-attella_def_operational_state: inService
+    uv-attella_def_operational_state2: outOfService
+    uv-attella_def_pic0_name: pic-0/0
+    uv-attella_def_pic1_name: pic-0/1
+    uv-attella_def_product_code_fpc_pic: virtual circuit pack
+    uv-attella_def_slot0_provisioned_circuit_pack: fpc-0
+    uv-attella_def_slot1_provisioned_circuit_pack: psm-0
+    uv-attella_def_slot2_provisioned_circuit_pack: psm-1
+    uv-attella_def_slot3_provisioned_circuit_pack: fan-0
+    uv-attella_def_slot4_provisioned_circuit_pack: fan-1
+    uv-attella_def_slot5_provisioned_circuit_pack: fan-2
+    uv-attella_def_slot6_provisioned_circuit_pack: fan-3
+    uv-attella_def_slot7_provisioned_circuit_pack: fan-4
+    uv-attella_def_vendor: Juniper Networks
+    uv-attella_line_transc_installed_prov: 0/1/3
+    uv-invalid_administrative_state_circuit_pack: invalid_state
+    uv-invalid_due_date: \2018-11-31T00:00:00Z\
+    uv-invalid_equipment_state_circuit_pack: invalid_state
+    uv-invalid_operational_state_circuit_pack: invalid_state
+    uv-odl-server: 172.27.93.100:38181
+    uv-valid_due_date: \2019-03-11T17:51:30Z\

@@ -20,7 +20,7 @@ Documentation     This is Attella set device date and time testing
 ...              JPG                        : No
 ...              VIRTUALIZATION SUPPORT     : NO
 ...              MARKET USE CASES           :
-...              CUSTOMER PR                :
+...              CUSTOMER PRs               :
 ...              JTMS DISCRIPTION           :
 ...              GNATS CATEGORY             :
 ...              BSD/LINUX                  : LINUX
