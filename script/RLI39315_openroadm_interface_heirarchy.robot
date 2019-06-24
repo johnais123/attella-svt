@@ -102,6 +102,26 @@ ${timeout}  120
 #####
 
 # Client tests
+TC0
+    [Documentation]  Verify can configure odu4 client interface name attribute via openRoadm leaf
+    ...              RLI39315 5.3-5
+    Log           Configure client interface name / supporting-port via Restconf Patch method
+    [Tags]           Sanity
+    ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
+    ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
+    #: FOR    ${INDEXS}    IN RANGE    0    1
+    ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
+    &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_ODU4_CLIENT_NAME}    description=client-odu-0    interface-type=otnOdu
+    ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
+    ...    odu-expected-sapi=exp-sapi-val000   odu-expected-dapi=exp-dapi-val111   odu-tim-detect-mode=SAPI-and-DAPI
+    ...    supporting-interface=${ATTELLA_DEF_OTU4_CLIENT_NAME}  supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
+    ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
+    @{interface_info}    create list    ${client_odu_interface}
+    &{dev_info}   create_dictionary   interface=${interface_info}
+    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
+    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
+    check status line  ${patch_resp}  404
+
 
 TC1
     [Documentation]  Verify can configure otu4 client interface name without dependence
@@ -223,7 +243,7 @@ TC6
 
 TC7
     [Documentation]  Verify can configure och interface rate via openRoadm leaf
-    ...              RLI39315 5.1-7, 9, 11
+    ...              RLI39315 5.1-7, 9, 11   5.3-7
     [Tags]           Sanity   tc7 
     Log           Configure och interface rate via Restconf Patch method
     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_LINE_OCH_NAME}    description=line-och    interface-type=opticalChannel

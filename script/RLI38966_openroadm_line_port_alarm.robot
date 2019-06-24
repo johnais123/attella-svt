@@ -367,7 +367,7 @@ TC4
    
 TC5
     [Documentation]  <tim-detect-mode>Enabled and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI
-    ...              RLI-38966
+    ...              RLI-38966    5.7-1
     ...             Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm a          ...              will raise ODU4-AIS alarm
     [Tags]           Sanity  tc5
