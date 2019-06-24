@@ -123,7 +123,8 @@ TC4
     [Tags]           Sanity  TC4   Get-CP-FAN-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
-    #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+#   \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
+#   Error: because ATTELLA_DEF_FAN_MODEL.text was getting the CLI Fan-Model = ACX6160-FAN which is incorrect Pass Criteria to compare to RPC-Config, so define static pass criteria ACX6160-FAN-1RU in RLI38968_openroadm_device_circuit_packs.params.yaml file
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${tv['uv-attella_def_fan_model']}
     \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${tv['uv-attella_def_fan_product_code']}
     \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state2']}
