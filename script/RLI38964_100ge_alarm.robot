@@ -286,7 +286,7 @@ TC3
 #    Log To Console  Verify Traffic
 #    Verify Traffic Is OK
 
-    [Teardown]  Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
+#    [Teardown]  Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
 
 TC5
     [Documentation]  Verify Loss of Alignment in 100ge Client Interface
