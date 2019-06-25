@@ -93,10 +93,10 @@ TC2
     Log              get PSU administrative state via Restconf
     &{psm0_info}     create dictionary      circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  vendor-cp=${tv['uv-attella_def_vendor']}   model-cp=${ATTELLA_DEF_PSM0_MODEL.text}
     ...              hardware-version-cp=${ATTELLA_DEF_PSM0_HAREWARE_VERSION.text}       type-cp=PSM  type-cp-category=powerSupply  clei-cp=${ATTELLA_DEF_PSM0_CLEI.text}   product-code-cp=${ATTELLA_DEF_PSM0_PRODUCT_CODE.text}
-    ...              software-load-version=${osVersion.text}    administrative-state-cp=inService
+    ...              administrative-state-cp=inService    software-load-version=${osVersion.text}    
     &{psm1_info}     create dictionary      circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  vendor-cp=${tv['uv-attella_def_vendor']}   model-cp=${ATTELLA_DEF_PSM1_MODEL.text}
     ...              hardware-version-cp=${ATTELLA_DEF_PSM1_HAREWARE_VERSION.text}       type-cp=PSM  type-cp-category=powerSupply  clei-cp=${ATTELLA_DEF_PSM1_CLEI.text}   product-code-cp=${ATTELLA_DEF_PSM1_PRODUCT_CODE.text}
-    ...              software-load-version=${osVersion.text}    administrative-state-cp=inService
+    ...              administrative-state-cp=inService     software-load-version=${osVersion.text}    
     @{psm_info}      create list            ${psm0_info}   ${psm1_info}
     &{static_info}   create dictionary      circuit-packs=${psm_info}
     &{payload}       create dictionary      org-openroadm-device=${static_info}
@@ -112,7 +112,7 @@ TC3
     #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}    model-cp=${tv['uv-attella_def_fan_model']}
     \                ...   type-cp=FTU  type-cp-category=fan     product-code-cp=${tv['uv-attella_def_fan_product_code']}    administrative-state-cp=inService
-    \                ...   software-load-version=${osVersion.text}     operational-state-cp=inService
+    \                ...   software-load-version=${osVersion.text}
     \                @{Fan_info}      create list    ${Fan0_info}
     \                &{static_info}   create dictionary       circuit-packs=${Fan_info}
     \                &{payload}       create dictionary       org-openroadm-device=${static_info}
