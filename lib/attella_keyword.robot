@@ -235,12 +235,12 @@ Create 100GE Service
     
     &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}    interface-type=otnOtu    
     ...    interface-administrative-state=inService    supporting-interface=${och intf}  otu-rate=${otu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}    otu-tim-act-enabled=false    otu-tim-detect-mode=disabled
+    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}    otu-tim-act-enabled=false
     Log To Console     otu &{otu_interface}
     
     &{odu_interface}    create_dictionary   interface-name=${odu intf}     description=odu-${discription}    interface-type=otnOdu    
     ...    interface-administrative-state=inService    supporting-interface=${otu intf}     odu-rate=${odu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}    odu-tim-act-enabled=false    odu-tim-detect-mode=disabled
+    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}    odu-tim-act-enabled=false
     Log To Console     odu &{odu_interface}
     
     
@@ -250,7 +250,7 @@ Create 100GE Service
     Log To Console     payload &{payload}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
 
-     @{interface_info}    create list    ${client_interface} 
+    @{interface_info}    create list    ${client_interface} 
     &{dev_info}   create_dictionary   interface=${interface_info}       
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Log To Console     payload &{payload}
