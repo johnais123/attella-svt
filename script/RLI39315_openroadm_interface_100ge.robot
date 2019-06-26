@@ -80,7 +80,7 @@ ${OPER_STATUS_OFF}  outOfService
 TC0
     [Documentation]  Verify Traffic
     ...              RLI39315  5.2-1
-    [Tags]  Sanity  tc0
+    [Tags]   tc0
 
     Log To Console  Verify Traffic
     Verify Traffic Is OK
@@ -89,7 +89,7 @@ TC0
 TC1
     [Documentation]  Verify Los alarm in Client Interface
     ...              RLI39315  5.2-3
-    [Tags]  Sanity  tc1
+    [Tags]   tc1
     ${random}=  Evaluate  random.randint(20, 60)  modules=random
     Sleep  ${random}
     Log To Console   Waiting for Interfaces to be alarm free
