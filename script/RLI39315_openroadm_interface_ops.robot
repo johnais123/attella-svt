@@ -101,7 +101,7 @@ TC0
 TC1
     [Documentation]  Test LOS alarm raise/clear on OTU4 client port
     ...              RLI39315  5.2-7
-    [Tags]           Sanity  tc1
+    [Tags]           tc1
    
     Log              Wait a random time to keep the alarm stable on Attella    
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
@@ -153,7 +153,7 @@ TC1
 TC2
     [Documentation]  Verify current 15min Near-end  OTU all PM statistics on otu4 Client interface
     ...              RLI39315   5.2-8
-    [Tags]           Sanity    tc2
+    [Tags]            tc2
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -176,7 +176,7 @@ TC2
 TC3
     [Documentation]  Test AIS alarm raised/clear on ODU4 client port   
     ...              RLI39315    5.2-10
-    [Tags]           Sanity  tc3
+    [Tags]           tc3
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -237,7 +237,7 @@ TC4
 TC5
     [Documentation]  Disable near-end OCH interface
     ...              RLI39315    5.2-12
-    [Tags]           Sanity   tc5
+    [Tags]           tc5
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
@@ -288,7 +288,7 @@ TC5
 TC6
     [Documentation]  Retrieve opticalPowerOutput pm statistics on Local line port
     ...              RLI39315   5.2-13
-    [Tags]           Sanity   tc6
+    [Tags]           tc6
     @{pmEntryParmater}        Create List       opticalPowerOutput        nearEnd      tx  
     @{pmEntryParmaterlist}    Create List       ${pmEntryParmater}
     Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current 
