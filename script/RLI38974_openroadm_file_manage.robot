@@ -123,6 +123,10 @@ Perform rpc transfer download file
     [Documentation]  Download file via transfer rpc
     ...              RLI38974 5.1-2   
     [Tags]           Sanity   tc6
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}    
 
 
@@ -130,6 +134,10 @@ Perform rpc transfer show special file
     [Documentation]  display special transfer file via rpc command 
     ...              RLI38974 5.1-3
     [Tags]           Sanity   tc7
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     @{filename}    create list    ${extrafile}
     Rpc Command For Show File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}
 
@@ -146,6 +154,10 @@ Perform rpc transfer delete special file
     [Documentation]  Delete special transfer file via rpc command 
     ...              RLI38974 5.1-4   
     [Tags]           Sanity   tc9
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     @{filename}    create list    ${extrafile}
     Rpc Command For Delete File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${filename}  
 
@@ -272,6 +284,10 @@ Verify transfer download notification
     [Tags]           Sanity   tc17
     @{uploadNotification}=  Create List  transfer-notification  ${extrafile}  Successful
     @{Notifications}=  Create List  ${uploadNotification}
+    @{curfilelist}=    Get Default Openroadm File
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    @{curfilelist1}=  Get Matches   ${curfilelist}    p*
+    ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}
     Notifications Should Raised   ${ncHandle}   ${Notifications}  30
 
