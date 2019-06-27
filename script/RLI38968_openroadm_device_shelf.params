@@ -1,6 +1,6 @@
-#fv-connect-controllers "all";
-#fv-load-baseline-config-from  "default";
-#fv-core-check   "enable";
+fv-connect-controllers "all";
+fv-load-baseline-config-from  "default";
+fv-core-check   "enable";
 
 uv-odl-server "172.27.93.100:38181";
 
