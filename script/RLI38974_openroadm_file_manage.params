@@ -1,15 +1,15 @@
 device0 {
   system {
     model ("ACX6160-T");
-    fv-tags "dut";
-    fv-connect-user "openroadm";
-    fv-connect-password "openroadm";
-    fv-core-check   "enable";
-    fv-connect-controllers "all";
-    #fv-load-baseline-config-from  "default";
   }
 }
 
+fv-tags "dut";
+fv-connect-user "openroadm";
+fv-connect-password "openroadm";
+fv-core-check   "enable";
+fv-connect-controllers "all";
+#fv-load-baseline-config-from  "default";
 
 uv-odl-server  "172.27.93.100:38181";
 uv-odl-interval  "10";
