@@ -94,7 +94,7 @@ TC2
 TC3
     [Documentation]  100ge Traffic Verification during Warm Reload device
     ...              RLI38968 5.1-8
-    [Tags]  tc3  100ge
+    [Tags]   Advance  tc3  100ge
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
 	
@@ -157,7 +157,7 @@ TC5
 TC6
     [Documentation]  otu4 Traffic Verification After Cold Reload device
     ...              RLI38968 5.1-8
-    [Tags]  tc6  otu4
+    [Tags]  Advance  tc6  otu4
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
     
