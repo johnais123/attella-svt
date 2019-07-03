@@ -11,7 +11,7 @@ Documentation    This is Attella line port alarm testing Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -53,7 +53,11 @@ Suite Setup      Run Keywords
 ...              Toby Suite Setup
 ...              Test Bed Init
 
+Test Setup  Run Keywords
+...              Toby Test Setup
 
+Test Teardown  Run Keywords
+...              Toby Test Teardown
 
 Suite Teardown   Run Keywords
 ...              Test Bed Teardown
@@ -145,11 +149,6 @@ TC1
    Log              Verify Cx/Lx and Cy/Ly are error free
    Verify Interfaces In Traffic Chain Are Alarm Free
 
-   #Log              Verify Cx/Lx and Cy/Ly are up
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log To Console   Verify Traffic Is OK
-   #Verify Traffic Is OK
    
    [Teardown]  Set Laser State  ${testSetHandle1}  ON
    
@@ -159,7 +158,7 @@ TC2
     ...              TC 5.4-15   RLI-38966  
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
     ...              Disable OCH on Lx, Ly will raise ODU-AIS alarm and Test2 will raise ODU4-AIS alarm
-    [Tags]           tc2
+    [Tags]           Advance  tc2
 
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -214,11 +213,7 @@ TC2
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log             Verify Traffic Is OK
-    #Verify Traffic Is OK    
+  
 
    [Teardown]  	Enable interface   ${line och intf}
 	
@@ -228,7 +223,9 @@ TC3
     ...              TC 5.4-22   RLI-38966     
     ...              Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port
     ...              Disable OTU4 on Lx, Ly will raise ODU-AIS alarm and Test 2 will raise ODU4-AIS alarm
-    [Tags]           tc3
+    [Tags]           Advance  tc3
+
+
     Log              Disable local line OTU4, remote Line will raise ODU-AIS and Remote Test will raise ODU4-AIS
 
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -286,11 +283,7 @@ TC3
    ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}
    Verify Interfaces In Traffic Chain Are Alarm Free
-   
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log              Verify Traffic Is OK
-   #Verify Traffic Is OK        
+    
 
    [Teardown]  	Enable interface   ${line otu intf}
    
@@ -299,7 +292,9 @@ TC4
     ...              TC 5.4-23   RLI-38966     
     ...              Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port
     ...              Disable ODU4 on Lx, Ly will raise ODU-AIS alarm and Test 2 will raise ODU4-AIS alarm
-    [Tags]           tc4
+    [Tags]           Advance  tc4
+
+
     Log              Disable local ODU4 on Lx, remote Line will raise ODU-AIS and Remote Test will raise ODU4-AIS
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -357,11 +352,7 @@ TC4
    ${random}=  Evaluate  random.randint(1, 30)  modules=random
    Sleep  ${random}
    Verify Interfaces In Traffic Chain Are Alarm Free
-   
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log              Verify Traffic Is OK
-   #Verify Traffic Is OK        
+    
 
    [Teardown]  	Enable interface   ${line odu intf}    
    
@@ -437,12 +428,6 @@ TC5
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    Log To Console   verify alarm is clear
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK 
 	
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf}  
    
@@ -451,7 +436,9 @@ TC6
     ...              TC 5.3-8  RLI-38966  
     ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI,Test2 raise ODU-AIS    
-    [Tags]           tc6
+    [Tags]           Advance  tc6
+
+
     Log              Modify tx-dapi value for OTU4 ON Lx,Ly will raise TTIM and Test2 raise ODU-AIS alarm.
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -509,12 +496,7 @@ TC6
     
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK     
+    Verify Interfaces In Traffic Chain Are Alarm Free 
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 	
@@ -524,7 +506,9 @@ TC7
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
-    [Tags]           tc7
+    [Tags]           Advance  tc7
+
+
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -583,11 +567,6 @@ TC7
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK   
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
     
@@ -597,7 +576,9 @@ TC8
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
-    [Tags]           tc8
+    [Tags]           Advance  tc8
+
+
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -656,11 +637,6 @@ TC8
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 	
@@ -670,7 +646,9 @@ TC9
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm			
-    [Tags]           tc9
+    [Tags]           Advance  tc9
+
+
     Log    Modify the tx-dapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -728,12 +706,7 @@ TC9
     
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK    
+    Verify Interfaces In Traffic Chain Are Alarm Free  
 
    [Teardown]  	  Recover OTU TTI on Attella    ${line otu intf} 	
 
@@ -742,7 +715,9 @@ TC10
     ...              TC 5.4-6  RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           tc10
+    [Tags]           Advance  tc10
+
+
     Log              Modify the <expected-sapi> value for OTU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -794,11 +769,6 @@ TC10
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}
 	
@@ -807,7 +777,9 @@ TC11
     ...              TC 5.4-7  RLI-38966    
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           tc11
+    [Tags]           Advance  tc11
+
+
     Log              Modify the <expected-dapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -859,12 +831,6 @@ TC11
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK    
-	
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
 
@@ -874,7 +840,9 @@ TC12
     ...              TC 5.4-8  RLI-38966   
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           tc12
+    [Tags]           Advance  tc12
+
+
     Log              Modify the <expected-sapi>/<expected-dapi> value for ODU4 on LY,Ly will raise TTIM alarm on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -926,11 +894,6 @@ TC12
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}
 
@@ -940,7 +903,8 @@ TC13
     ...              TC 5.4-9  RLI-38966    
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           tc13
+    [Tags]           Advance  tc13
+
     Log              Modify the <expected-sapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -992,11 +956,6 @@ TC13
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK 
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
 	
@@ -1005,7 +964,8 @@ TC14
     ...              TC 5.4-10  RLI-38966 
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
-    [Tags]           tc14
+    [Tags]           Advance  tc14
+
     Log              Modify the <expected-dapi> value for ODU4 on Ly,Ly will raise TTIM on ODU layer
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -1057,11 +1017,6 @@ TC14
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK 
-    #Verify Traffic Is OK   
 
    [Teardown]  	  Recover ODU TTI on Attella	 ${remote line odu intf}	
  
@@ -1071,7 +1026,9 @@ TC15
     ...              Delete OCH/OTU/ODU on Lx, the remote OCH will raise LOS alarm on Ly
     ...               TC 5.2-1    RLI-38966
                
-    [Tags]           tc15   Blocked by PR 1419722
+    [Tags]           Advance  tc15   Blocked by PR 1419722
+
+
     Log              Delete OCH/OTU4/ODU4 on Lx, the remote OCH will raise LOS alarm on Ly    
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -1140,11 +1097,6 @@ TC15
     ${random}=  Evaluate  random.randint(1, 30)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK    
 
    [Teardown]  	  Create OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
 	
@@ -1153,7 +1105,7 @@ TC16
    ...              TC 5.5-3 RLI-38966
    ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
    ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm. After warm reloadd the Alarm in traffic chain still exist.
-   [Tags]           tc16   
+   [Tags]           Advance  tc16   
     
    Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -1251,12 +1203,6 @@ TC16
    
    Log              Verify Cx/Lx and Cy/Ly are error free
    Verify Interfaces In Traffic Chain Are Alarm Free
-
-   #Log              Verify Cx/Lx and Cy/Ly are up
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log To Console   Verify Traffic Is OK
-   #Verify Traffic Is OK
    
    [Teardown]  Set Laser State  ${testSetHandle1}  ON     
     
@@ -1266,7 +1212,7 @@ TC16
 #   ...              TC 5.5-6  RLI-38966
 #   ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
 #   ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm. After cold reload the Alarm in traffic chain still exist.
-#   [Tags]           tc17   
+#   [Tags]           Advance  tc17   
 #    
 #   Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
 #   Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -1363,11 +1309,6 @@ TC16
 #   Log              Verify Cx/Lx and Cy/Ly are error free
 #   Verify Interfaces In Traffic Chain Are Alarm Free
 #
-   #Log              Verify Cx/Lx and Cy/Ly are up
-  # Verify Client Interfaces In Traffic Chain Are Up
-  # 
-   #Log To Console   Verify Traffic Is OK
-#   #Verify Traffic Is OK
 #   
 #   [Teardown]  Set Laser State  ${testSetHandle1}  ON    	
 	

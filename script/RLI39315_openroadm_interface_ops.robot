@@ -11,7 +11,7 @@ Documentation    This is Attella otu4 client interface alarm Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -52,7 +52,11 @@ Suite Setup      Run Keywords
 ...              Toby Suite Setup
 ...              Test Bed Init
 
+Test Setup  Run Keywords
+...              Toby Test Setup
 
+Test Teardown  Run Keywords
+...              Toby Test Teardown
 
 Suite Teardown   Run Keywords
 ...              Test Bed Teardown
@@ -84,7 +88,7 @@ ${CFG_SESSEION_INDEX}       1
 TC0
     [Documentation]  Verify Traffic with user defined interface name
     ...              RLI39315    5.1-7, 5.1-9, 5.1-11, 5.2-5
-    [Tags]           tc0
+    [Tags]           Advance  tc0
 
     @{ifnames}     Create List    ${ATTELLA_DEF_LINE_OCH_NAME}    ${ATTELLA_DEF_LINE_OTU_NAME}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${ATTELLA_DEF_OTU4_CLIENT_NAME}    ${ATTELLA_DEF_ODU4_CLIENT_NAME}            
     
@@ -101,7 +105,7 @@ TC0
 TC1
     [Documentation]  Test LOS alarm raise/clear on OTU4 client port
     ...              RLI39315  5.2-7
-    [Tags]           tc1
+    [Tags]          Advance   tc1
    
     Log              Wait a random time to keep the alarm stable on Attella    
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
@@ -153,7 +157,7 @@ TC1
 TC2
     [Documentation]  Verify current 15min Near-end  OTU all PM statistics on otu4 Client interface
     ...              RLI39315   5.2-8
-    [Tags]            tc2
+    [Tags]            Advance  tc2
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -176,7 +180,7 @@ TC2
 TC3
     [Documentation]  Test AIS alarm raised/clear on ODU4 client port   
     ...              RLI39315    5.2-10
-    [Tags]           tc3
+    [Tags]           Advance  tc3
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -214,7 +218,7 @@ TC3
 TC4
     [Documentation]  Verify current 15min near-end  ODU all PM statistics on odu4 Client interface
     ...              RLI39315    5.2-11
-    [Tags]            tc4
+    [Tags]            Advance  tc4
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd   rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -237,7 +241,7 @@ TC4
 TC5
     [Documentation]  Disable near-end OCH interface
     ...              RLI39315    5.2-12
-    [Tags]           tc5
+    [Tags]           Advance  tc5
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
@@ -288,7 +292,7 @@ TC5
 TC6
     [Documentation]  Retrieve opticalPowerOutput pm statistics on Local line port
     ...              RLI39315   5.2-13
-    [Tags]           tc6
+    [Tags]           Advance  tc6
     @{pmEntryParmater}        Create List       opticalPowerOutput        nearEnd      tx  
     @{pmEntryParmaterlist}    Create List       ${pmEntryParmater}
     Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current 
@@ -307,6 +311,7 @@ TC6
 TC7
     [Documentation]  <tim-detect-mode>Enabled and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI
     ...              RLI39315    5.2-14
+    [Tags]          Advance  tc7
     Log    Modify the tx-sapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -369,6 +374,7 @@ TC7
 TC8  
     [Documentation]  Retrieve current 15min Near-end  ES/SES pm statistics on Remote line port  
     ...              RLI39315   5.2-15  
+    [Tags]          Advance  tc8
     Log              Modify the tx-sapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
     @{pmEntryParmater1}         Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}         Create List      erroredSeconds             nearEnd    rx
@@ -402,7 +408,7 @@ TC9
     [Documentation]  Disable near-end Line ODU4 interface
     ...              RLI39315   5.2-17
     Log              Disable local ODU4 on Lx, remote Line will raise ODU-AIS and Remote Test will raise ODU4-AIS
-
+    [Tags]          Advance  tc9
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
@@ -455,6 +461,7 @@ TC9
 TC10
     [Documentation]  Verify current 15min Far-end  ODU erroredBlockCount PM statistics on remote odu4 Line interface
     ...              RLI39315   5.2-18  
+    [Tags]          Advance   tc10
     @{pmEntryParmater}          Create List     erroredBlockCount         farEnd    rx 
     @{pmEntryParmater2}         Create List     backgroundBlockErrors     farEnd    rx
     @{pmEntryParmater3}         Create List     erroredSeconds            farEnd    rx
@@ -476,6 +483,7 @@ TC10
 TC11
     [Documentation]     De-provision interfaces with used defined names
     ...                 RLI39315  5.1-4, 6, 8, 10, 12
+    [Tags]              Advance  tc11
     @{ifnames}     Create List    ${ATTELLA_DEF_LINE_OCH_NAME}    ${ATTELLA_DEF_LINE_OTU_NAME}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${ATTELLA_DEF_OTU4_CLIENT_NAME}    ${ATTELLA_DEF_ODU4_CLIENT_NAME}            
     
     Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}    ${ifnames}

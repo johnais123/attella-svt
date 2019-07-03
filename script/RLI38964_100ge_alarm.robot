@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge Alarm Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -72,19 +72,6 @@ ${OPER_STATUS_OFF}  outOfService
 
 
 *** Test Cases ***
-#TC0
-#    [Documentation]  Service Provision
-#   ...              RLI38968 5.1-8
-#   [Tags]  Sanity  tc0
-#   Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
-#
-#   Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
-#
-#   Log To Console  turn Laser on
-#   Set Laser State  ${testSetHandle1}  ON
-#   Log To Console  Verify Traffic
-#   Verify Traffic Is OK
-
 
 TC1
     [Documentation]  Verify Los alarm in Client Interface
@@ -127,18 +114,13 @@ TC1
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
-
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
 
 TC2
     [Documentation]  Verify Local Fault Rx/Tx alarm in Client Interface
     ...              RLI38964 5.4-2 5.4-6 5.6-2 5.6-6
-    [Tags]  tc2
+    [Tags]  Advance  tc2
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject LFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -182,18 +164,13 @@ TC2
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
-
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
 
 
 TC3
     [Documentation]  Verify Remote Fault Rx/Tx alarm in Client Interface
     ...              RLI38964 5.4-3 5.4-7 5.6-2 5.6-6
-    [Tags]  tc3
+    [Tags]  Advance  tc3
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject RFAULT
 
@@ -236,10 +213,6 @@ TC3
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
 
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
 
@@ -247,7 +220,7 @@ TC3
 #TC4
 #    [Documentation]  Verify HI BER ALARM in 100ge Client Interface
 #   ...              RLI38964 5.4-4 5.6-4
-#    [Tags]  tc4
+#    [Tags]  Advance  tc4
 #    Wait Until Interfaces In Traffic Chain Are Alarm Free
 #    Log To Console  near-end inject HI BER
 #    Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  1.0E-02
@@ -291,7 +264,7 @@ TC3
 TC5
     [Documentation]  Verify Loss of Alignment in 100ge Client Interface
     ...              RLI38964 5.4-5 5.6-5
-    [Tags]  tc5
+    [Tags]  Advance  tc5
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject Loss of Alignment
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK  MAX
@@ -326,10 +299,6 @@ TC5
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
 
     [Teardown]  Stop Inject Error On Test Equipment  ${testSetHandle1}   ERROR_ETHERNET_PCS_BLK
 
@@ -390,10 +359,6 @@ TC6
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
 
     [Teardown]
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -403,7 +368,7 @@ TC6
 TC7
     [Documentation]  Verify Los alarm after warm reload in 100ge client interface
     ...              RLI38964
-    [Tags]  tc7
+    [Tags]  Advance  tc7
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  turn Laser off
     Set Laser State  ${testSetHandle1}  OFF
@@ -448,18 +413,13 @@ TC7
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
 
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic OK
-    #Verify Traffic Is OK
-
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
 
 #TC8
 #    [Documentation]  Verify Local Fault Rx/Tx alarm after cold reload in Client Interface
 #    ...              RLI38964
-#    [Tags]  tc8
+#    [Tags]  Advance  tc8
 #    Wait Until Interfaces In Traffic Chain Are Alarm Free
 #    Log To Console  near-end inject LFAULT
 #    Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -511,11 +471,6 @@ TC7
 #    ${random}=  Evaluate  random.randint(1, 60)  modules=random
 #    Sleep  ${random}
 #    Verify Interfaces In Traffic Chain Are Alarm Free
-
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-    #Log To Console  Verify Traffic OK
-    #Verify Traffic Is OK
 
 #    [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
 
@@ -607,68 +562,15 @@ Test Bed Init
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 
-    #Wait Until Interfaces In Traffic Chain Are Alarm Free
-
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK
-
-    #Verify Client Interfaces In Traffic Chain Are Up
-
-
 
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
 
-    #Destory Netconf Client Handle  ${ncHandle}
+    Destory Netconf Client Handle  ${ncHandle}
 
     Log To Console  Remove Service
-    #Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    #Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-
-
-#Verify Traffic Is OK
-#    Log To Console  Verify Traffic Is OK
-#    : FOR    ${nLoop}    IN RANGE    1    6
-#    \    Sleep  20
-#    \    Log To Console  Check Traffic Status for the ${nLoop} time
-#    \    Clear Statistic And Alarm  ${testSetHandle1}
-#    \    Clear Statistic And Alarm  ${testSetHandle2}
-#
-#    \    Start Traffic  ${testSetHandle1}
-#    \    Start Traffic  ${testSetHandle2}
-#
-#    \    Sleep  10
-#
-#    \    stop Traffic  ${testSetHandle1}
-#    \    stop Traffic  ${testSetHandle2}
-#    \
-#    \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-#    \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-#    \    @{EMPTY LIST}=  create list
-#    \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-#
-#    \    Exit For Loop If  '${result}' == "PASS"
-#    \    Run Keyword Unless  '${result}' == "PASS"  Log To Console  Check Traffic Status fails for the ${nLoop} time
-#
-#    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-#
-#    Clear Statistic And Alarm  ${testSetHandle1}
-#    Clear Statistic And Alarm  ${testSetHandle2}
-#
-#    Start Traffic  ${testSetHandle1}
-##    Start Traffic  ${testSetHandle2}
-#
-#    Sleep  60
-#
-#    stop Traffic  ${testSetHandle1}
-#    stop Traffic  ${testSetHandle2}
-#
-#    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-#    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-#    @{EMPTY LIST}=  create list
-#    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-#
-#    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
 
 Verify Interfaces In Traffic Chain Are Alarm Free

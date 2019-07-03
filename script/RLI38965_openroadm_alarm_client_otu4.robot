@@ -11,7 +11,7 @@ Documentation    This is Attella otu4 client interface alarm Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -47,12 +47,13 @@ Resource         ../lib/testSet.robot
 Resource         ../lib/attella_keyword.robot
 
 
-
 Suite Setup      Run Keywords
 ...              Toby Suite Setup
 ...              Test Bed Init
 
+Test Setup  Run Keywords  Toby Test Setup
 
+Test Teardown  Run Keywords  Toby Test Teardown
 
 Suite Teardown   Run Keywords
 ...              Test Bed Teardown
@@ -126,22 +127,13 @@ TC1
     Log To Console    Start checking no alarms ${t}
 
 	Verify Interfaces In Traffic Chain Are Alarm Free	
-    ${t}    get time 
-    Log To Console    Start checking interfaces are up ${t}
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-    ${t}    get time 
-    Log To Console    Start checking traffic ${t}
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]  Set Laser State  ${testSetHandle1}  ON
    
 TC2
    [Documentation]  Test LOF alarm raised/clear on OTU4 client port
    ...              RLI38965  5.3-2 5.15-2	
-   [Tags]           tc2
-
+   [Tags]           Advance  tc2
 
    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free	
@@ -180,12 +172,6 @@ TC2
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-   Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]   Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_LOF
 
@@ -193,7 +179,7 @@ TC2
 TC3
    [Documentation]  Test LOM alarm raised/clear on OTU4 client port
    ...              RLI38965  5.3-3 5.15-3
-   [Tags]           tc3
+   [Tags]           Advance  tc3
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -233,12 +219,6 @@ TC3
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_LOM
 
@@ -247,7 +227,7 @@ TC3
 TC4
    [Documentation]  Test BDI alarm raised/clear on OTU4 client port 
    ...              RLI38965  5.3-5 5.15-4 
-   [Tags]          tc4
+   [Tags]          Advance  tc4
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -287,12 +267,6 @@ TC4
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_OTU4_BDI	
    
@@ -303,7 +277,7 @@ TC4
 TC5
    [Documentation]  Test IAE alarm raised/clear on OTU4 client port   
    ...              RLI38965  5.3-6 5.15-5
-   [Tags]           tc5
+   [Tags]           Advance  tc5
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -345,10 +319,6 @@ TC5
 	Verify Interfaces In Traffic Chain Are Alarm Free
    
     Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]   Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_OTU4_IAE
 
@@ -357,7 +327,7 @@ TC5
 TC6
     [Documentation]  Test BIAE alarm raised/clear on OTU4 client port  
     ...              RLI38965  5.3-8  5.15-7
-    [Tags]           tc6
+    [Tags]           Advance  tc6
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -398,10 +368,6 @@ TC6
 	Verify Interfaces In Traffic Chain Are Alarm Free
    
     Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
     [Teardown]    Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_OTU4_BIAE
 
@@ -463,11 +429,6 @@ TC7
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
 
    
@@ -475,7 +436,7 @@ TC8
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
     ...              RLI38965  5.3-14
-    [Tags]           tc8  check
+    [Tags]           Advance  tc8  check
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -528,11 +489,6 @@ TC8
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK    
-    
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
   
   
@@ -541,7 +497,7 @@ TC9
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
     ...              RLI38965  5.3-15 
     
-    [Tags]           tc9  check        
+    [Tags]           Advance  tc9  check        
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free 
@@ -593,11 +549,6 @@ TC9
     ${random}=  Evaluate  random.randint(1, 20)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
 
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
 
@@ -608,7 +559,7 @@ TC10
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI, and tim-act-enabled is true 
     ...              RLI38965  5.3-10
-    [Tags]           tc10   check
+    [Tags]           Advance  tc10   check
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -660,11 +611,6 @@ TC10
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
    
    
@@ -672,7 +618,7 @@ TC11
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is DAPI, and tim-act-enabled is true 
     ...              RLI38965  5.3-11 
-    [Tags]           tc11   check       
+    [Tags]           Advance  tc11   check       
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free    
@@ -722,12 +668,7 @@ TC11
     
     ${random}=  Evaluate  random.randint(1, 20)  modules=random
     Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK     
+    Verify Interfaces In Traffic Chain Are Alarm Free  
     
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
 
@@ -786,11 +727,6 @@ TC12
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
 
    
@@ -798,7 +734,7 @@ TC13
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is false 
     ...              RLI38965  5.3-9   5.15-8
-    [Tags]           tc13          
+    [Tags]           Advance  tc13          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free   
@@ -844,12 +780,7 @@ TC13
     
     ${random}=  Evaluate  random.randint(1, 20)  modules=random
     Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK    
+    Verify Interfaces In Traffic Chain Are Alarm Free 
     
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
   
@@ -858,7 +789,7 @@ TC14
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is false 
     ...              RLI38965  5.5-1   5.16-1
-    [Tags]           tc14          
+    [Tags]           Advance  tc14          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free   
@@ -907,11 +838,6 @@ TC14
     ${random}=  Evaluate  random.randint(1, 20)  modules=random
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
 
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
 
@@ -921,7 +847,7 @@ TC15
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI, and tim-act-enabled is false 
     ...              RLI38965  5.5-2   5.16-2
-    [Tags]           tc15          
+    [Tags]           Advance  tc15          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free   
@@ -970,11 +896,6 @@ TC15
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
    
    
@@ -982,7 +903,7 @@ TC16
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is DAPI, and tim-act-enabled is false 
     ...              RLI38965  5.3-3   5.16-3
-    [Tags]           tc16          
+    [Tags]           Advance  tc16          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -1029,12 +950,7 @@ TC16
     
     ${random}=  Evaluate  random.randint(1, 20)  modules=random
     Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-   # 
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK     
+    Verify Interfaces In Traffic Chain Are Alarm Free 
     
     [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 	
 
@@ -1043,7 +959,7 @@ TC16
 TC17
     [Documentation]  Test SD alarm raised/clear on OTU4 client port     
     ...              RLI38965  5.5-4   5.16-4
-    [Tags]           tc17
+    [Tags]           Advance  tc17
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1082,12 +998,6 @@ TC17
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 
     [Teardown]  Stop Inject error On Test Equipment    ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8
 
@@ -1137,12 +1047,6 @@ TC18
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    #Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
     [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_ODU4_AIS
 
@@ -1151,7 +1055,7 @@ TC18
 TC19
    [Documentation]  Test OCI alarm raised/clear on ODU4 client port   
    ...              RLI38965  5.5-9    5.16-5
-   [Tags]           tc19
+   [Tags]           Advance  tc19
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1192,12 +1096,6 @@ TC19
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    #Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_ODU4_OCI	
 
@@ -1205,7 +1103,7 @@ TC19
 TC20
     [Documentation]  Test LCK alarm raised/clear on ODU4 client port 
     ...              RLI38965  5.5-9     5.16-5
-    [Tags]           tc20
+    [Tags]           Advance  tc20
 
 
     Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1246,12 +1144,6 @@ TC20
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    #Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_ODU4_LCK
  
@@ -1299,12 +1191,6 @@ TC21
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
 	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    #Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK
 	
    [Teardown]  Stop Inject Alarm On Test Equipment    ${testSetHandle1}   ALARM_OTU4_ODU4_BDI    
 	          
@@ -1313,7 +1199,7 @@ TC22
     [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-sapi value
     ...              tim-detect-mode is SAPI, and tim-act-enabled is true 
     ...              RLI38965  5.5-11     5.16-5
-    [Tags]           tc22          
+    [Tags]           Advance  tc22          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -1361,18 +1247,13 @@ TC22
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]    Recover ODU TTI on Attella   ${client intf}
     
 TC23
    [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-dapi value
    ...              tim-detect-mode is DAPI, and tim-act-enabled is true 
    ...              RLI38965  5.5-12     5.16-6
-   [Tags]           tc23          
+   [Tags]           Advance  tc23          
    
    Log              Verify Interfaces In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -1418,12 +1299,7 @@ TC23
    
    ${random}=  Evaluate  random.randint(1, 20)  modules=random
    Sleep  ${random}
-   Verify Interfaces In Traffic Chain Are Alarm Free
-   
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log To Console   Verify Traffic Is OK
-   #Verify Traffic Is OK    
+   Verify Interfaces In Traffic Chain Are Alarm Free 
    
    [Teardown]    Recover ODU TTI on Attella   ${client intf}   
    
@@ -1431,7 +1307,7 @@ TC24
    [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-dapi value
    ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
    ...              RLI38965  5.6-1
-   [Tags]           tc24         
+   [Tags]           Advance  tc24         
    
    Log              Verify Interfaces In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free   
@@ -1479,11 +1355,6 @@ TC24
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]    Recover ODU TTI on Attella   ${client intf}
     
 
@@ -1491,7 +1362,7 @@ TC25
    [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-dapi value
    ...              tim-detect-mode is SAPI and DAPI, and tim-act-enabled is true
    ...              RLI38965  5.6-3
-   [Tags]           tc25         
+   [Tags]           Advance  tc25         
    
    Log              Verify Interfaces In Traffic Chain Are Alarm Free
    Wait Until Interfaces In Traffic Chain Are Alarm Free   
@@ -1539,11 +1410,6 @@ TC25
     Sleep  ${random}
     Verify Interfaces In Traffic Chain Are Alarm Free
     
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK  
-    
     [Teardown]    Recover ODU TTI on Attella   ${client intf}
    
    
@@ -1551,7 +1417,7 @@ TC26
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is DAPI, and tim-act-enabled is true 
     ...              RLI38965  5.6-2
-    [Tags]           tc26          
+    [Tags]           Advance  tc26          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -1597,12 +1463,7 @@ TC26
     
     ${random}=  Evaluate  random.randint(1, 20)  modules=random
     Sleep  ${random}
-    Verify Interfaces In Traffic Chain Are Alarm Free
-    
-    #Verify Client Interfaces In Traffic Chain Are Up
-    
-    #Log To Console   Verify Traffic Is OK
-    #Verify Traffic Is OK            
+    Verify Interfaces In Traffic Chain Are Alarm Free          
     
     [Teardown]    Recover ODU TTI on Attella   ${client intf}
 
@@ -1610,7 +1471,7 @@ TC26
 TC27
    [Documentation]  Test SD alarm raised/clear on ODU4 client port 
    ...              RLI38965  5.6-4
-   [Tags]           tc27
+   [Tags]           Advance  tc27
 
 
    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1648,20 +1509,14 @@ TC27
     Log             Wait a random time to keep the alarm clear on Attella
 	${random}=  Evaluate  random.randint(1, 20)  modules=random
 	Sleep  ${random}
-	Verify Interfaces In Traffic Chain Are Alarm Free
-   
-    #Log             Verify the OTU4 interface status is inService
-	#Verify Client Interfaces In Traffic Chain Are Up
-	
-	#Log             Verify Traffic Is OK
-	#Verify Traffic Is OK    
+	Verify Interfaces In Traffic Chain Are Alarm Free 
 
    [Teardown]  Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8
 
 
 TC28
     [Documentation]  After Attella system warm reload,the LOS alarm on OTU4 interface still can be raised.
-    [Tags]           tc28 
+    [Tags]           Advance  tc28 
 
   
     Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1719,9 +1574,6 @@ TC28
    
     Log              Verify interface alarm are error free
     Verify Interfaces In Traffic Chain Are Alarm Free
-      
-    Log To Console   Verify Traffic Is OK
-    Verify Traffic Is OK
    
     [Teardown]  Set Laser State  ${testSetHandle1}  ON    
 
@@ -1729,7 +1581,7 @@ TC28
    
 #TC29
 #    [Documentation]  After Attella system cold reload,the OTU4 TTIM alarm still can be raised.
-#    [Tags]           tc29 
+#    [Tags]           Advance  tc29 
 #  
 #    Log              Verify Interfaces In Traffic Chain Are Alarm Free
 #    Wait Until Interfaces In Traffic Chain Are Alarm Free  
@@ -1780,15 +1632,6 @@ TC28
 #   Log              Verify Alarms In Traffic Chain Are Alarm Free
 #   Wait Until Interfaces In Traffic Chain Are Alarm Free
 #   
-#   ${random}=  Evaluate  random.randint(1, 20)  modules=random
-#   Sleep  ${random}
-#   Verify Interfaces In Traffic Chain Are Alarm Free
-   
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log To Console   Verify Traffic Is OK
-   #Verify Traffic Is OK  
-   
 #   [Teardown]  	  Recover OTU TTI on Attella    ${client otu intf} 
 
 
@@ -1797,7 +1640,7 @@ TC28
 
 TC30
     [Documentation]  After Attella system warm reload,the ODU4 TTIM alarm still can be raised.
-    [Tags]           tc30 
+    [Tags]           Advance  tc30 
   
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free 
@@ -1851,11 +1694,7 @@ TC30
    ${random}=  Evaluate  random.randint(1, 20)  modules=random
    Sleep  ${random}
    Verify Interfaces In Traffic Chain Are Alarm Free
-   
-   #Verify Client Interfaces In Traffic Chain Are Up
-   
-   #Log To Console   Verify Traffic Is OK
-   #Verify Traffic Is OK  
+
    
    [Teardown]  	  Recover ODU TTI on Attella    ${client intf} 
 
@@ -1863,7 +1702,7 @@ TC30
 
 #TC31
 #    [Documentation]  After Attella system cold reload,the ODU-SD alarm still can be raised.
-#    [Tags]           tc31 
+#    [Tags]           Advance  tc31 
 #
 #    Log To Console  Verify Interfaces In Traffic Chain Are Alarm Free
 #    Wait Until Interfaces In Traffic Chain Are Alarm Free
@@ -1910,14 +1749,8 @@ TC30
 #    Log             Wait a random time to keep the alarm clear on Attella
 #	${random}=  Evaluate  random.randint(1, 20)  modules=random
 #	Sleep  ${random}
-#	Verify Interfaces In Traffic Chain Are Alarm Free
-#   
-#    #Log             Verify the OTU4 interface status is inService
-#	#Verify Client Interfaces In Traffic Chain Are Up
-#	
-#	#Log             Verify Traffic Is OK
-#	#Verify Traffic Is OK    
-#
+#	Verify Interfaces In Traffic Chain Are Alarm Free 
+
 #   [Teardown]  Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8
 
 
@@ -2076,6 +1909,7 @@ Test Bed Init
     ${t}    get time 
     Log To Console    Finished Setup ${t}
     
+
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service

@@ -2,6 +2,32 @@
 Documentation     This is Attella traffic frequency Scripts
 ...               If you are reading this then you need to learn Toby
 ...               Author: Jack Wu
+...              JTMS TEST PLAN : https://systest.juniper.net/feature_testplan/59197
+...              jtms description           : Attella
+...              RLI                        : 38968
+...              MIN SUPPORT VERSION        : 19.1
+...              TECHNOLOGY AREA            : PLATFORM
+...              MAIN FEATURE               : Transponder support on ACX6160-T
+...              SUB-AREA                   : CHASSIS
+...              Feature                    : CHASSIS_MGMT
+...              Platform                   : ACX
+...              DOMAIN                     : None
+...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
+...              MPC/FPC TYPE               : ACX6160-T
+...              TESTER                     : N/A
+...              TESTER VERSION             :
+...              JPG                        : No
+...              VIRTUALIZATION SUPPORT     : NO
+...              MARKET USE CASES           :
+...              CUSTOMER PR                :
+...              JTMS DISCRIPTION           :
+...              GNATS CATEGORY             :
+...              BSD/LINUX                  : LINUX
+...              CUSTOMER                   :
+...              TOOL NAME                  : None
+...              TOOL VERSION               : None
+...              THIRDPARTY LICENSE NAME    : None
+...              THIRDPARTY LICENSE VERSION : None
 
 Resource    jnpr/toby/Master.robot
 

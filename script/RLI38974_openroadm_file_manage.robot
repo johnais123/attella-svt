@@ -10,7 +10,7 @@ Documentation     This is Attella interface Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -62,7 +62,7 @@ Suite Teardown  Run Keywords
 
 
 *** Test Cases ***     
-Perform rpc collect history pm 
+TC1 
     [Documentation]  Collect history pm via rpc request and verfiy reply message
     ...              RLI38974 5.3-3
     [Tags]           Sanity   tc1 
@@ -71,7 +71,7 @@ Perform rpc collect history pm
     RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     1   1   24Hour
 
 
-Verify historical pm file uploaded to special directory
+TC2
     [Documentation]  Historical pm file can uploaded to special directory
     ...              RLI38974 5.3-4 
     [Tags]           Sanity   tc2
@@ -80,7 +80,7 @@ Verify historical pm file uploaded to special directory
     Verify history pm file upload success    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${startbin}   ${endbin}   15min  
 
 
-Check historical pm file bin correctness
+TC3
     [Documentation]  check historcial pm file can get pm statistics following configure bin number 
     ...              RLI38974 5.3-5
     [Tags]           Sanity   tc3
@@ -94,7 +94,7 @@ Check historical pm file bin correctness
     Should Not Contain    ${hispmstring}    <bin-number>${noChooseBin}</bin-number>
 
 
-Check historical pm file granularity correctness
+TC4
     [Documentation]  check historcial pm file can get pm statistics following configure granularity 
     ...              RLI38974 5.3-6
     [Tags]           Sanity   tc4
@@ -106,7 +106,7 @@ Check historical pm file granularity correctness
     Should Not Contain     ${hispmstring}   <granularity>24Hour</granularity>
 
 
-Perform rpc transfer upload file
+TC5
     [Documentation]  Upload file via transfer rpc
     ...              RLI38974 5.1-1
     [Tags]           Sanity   tc5
@@ -119,7 +119,7 @@ Perform rpc transfer upload file
     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filelist}   ${tv['uv-remote-sftp-path']}   ${extrafile}
 
 
-Perform rpc transfer download file
+TC6
     [Documentation]  Download file via transfer rpc
     ...              RLI38974 5.1-2   
     [Tags]           Sanity   tc6
@@ -130,7 +130,7 @@ Perform rpc transfer download file
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}    
 
 
-Perform rpc transfer show special file
+TC7
     [Documentation]  display special transfer file via rpc command 
     ...              RLI38974 5.1-3
     [Tags]           Sanity   tc7
@@ -142,7 +142,7 @@ Perform rpc transfer show special file
     Rpc Command For Show File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}
 
 
-Perform rpc transfer show all file
+TC8
     [Documentation]  display all transfer file via rpc command 
     ...              RLI38974 5.1-3-1
     [Tags]           Sanity   tc8
@@ -150,7 +150,7 @@ Perform rpc transfer show all file
     Rpc Command For Show All File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${curfilelist} 
     
     
-Perform rpc transfer delete special file
+TC9
     [Documentation]  Delete special transfer file via rpc command 
     ...              RLI38974 5.1-4   
     [Tags]           Sanity   tc9
@@ -164,7 +164,7 @@ Perform rpc transfer delete special file
 
 
 
-# Perform rpc transfer can work after warm reload
+# TC10
 #     [Documentation]  Warm reboot system via transfer rpc
 #     [Tags]           reload    
 #     Rpc Command For Warm Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}    device0
@@ -176,7 +176,7 @@ Perform rpc transfer delete special file
 #     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${tv['uv-remote-sftp-path']} 
 # 
 # 
-# Perform rpc transfer can work after cold reload
+# TC11
 #     [Documentation]  Cold reboot system via transfer rpc
 #     [Tags]           relod
 #     Rpc Command For Cold Reload Device   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}     device0
@@ -188,7 +188,7 @@ Perform rpc transfer delete special file
 #     Rpc Command For Upload File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${filename}   ${tv['uv-remote-sftp-path']} 
   
 
-Enable rpc led control 
+TC12
     [Documentation]  produce tech info file without any leaves in a special directory
     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
     ...              RLI38963 5.8.1
@@ -203,7 +203,7 @@ Enable rpc led control
     List Should Contain Sub List    ${activeAlarmList}    ${expectedAlarms_led_on}
 
 
-Disable rpc led control 
+TC13 
     [Documentation]  produce tech info file without any leaves in a special directory
     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
     ...              RLI38963 5.8.2 
@@ -219,7 +219,7 @@ Disable rpc led control
 
 # tech info operation is much too long to automate frequently.
 # also fails due to timeout.
-# Perform rpc create tech info
+# TC14
 #     [Documentation]  Collect tech info file in a special directory
 #     ...              RLI38974 5.3-1
 #     [Tags]           Sanity   tc13  tech  
@@ -230,7 +230,7 @@ Disable rpc led control
 
 
 
-# Perform rpc create tech info without any leaves
+# TC15
 #     [Documentation]  Collect tech info file without any leaves in a special directory
 #     ...              This case doesn't verification file exisitence ,previous case get tech need more time, so this collect can't success
 #     ...              RLI38974 5.3-2
@@ -250,7 +250,7 @@ Disable rpc led control
 
 
 
-Verify successful transfer upload notification
+TC16
     [Documentation]  Verify transfer upload notification can be reported successfully
     ...              RLI38974 5.2-1
     [Tags]           Sanity   tc15
@@ -266,7 +266,7 @@ Verify successful transfer upload notification
     Notifications Should Raised   ${ncHandle}   ${Notifications}  30
 
 
-Verify failed transfer upload notification with non exist file
+TC17
     [Documentation]  Verify transfer upload notification can be reported failed with non-exsit file
     ...              RLI38974 5.2-1
     [Tags]           Sanity   tc16
@@ -278,7 +278,7 @@ Verify failed transfer upload notification with non exist file
     Notifications Should Raised   ${ncHandle}   ${Notifications}   30
 
 
-Verify transfer download notification
+TC18
     [Documentation]  Verify transfer download notification can be reported successfully
     ...              RLI38974 5.2-3
     [Tags]           Sanity   tc17
@@ -292,7 +292,7 @@ Verify transfer download notification
     Notifications Should Raised   ${ncHandle}   ${Notifications}  30
 
 
-Verify failed transfer download notification with non exist file
+TC19
     [Documentation]  Verify transfer download notification can be reported failed with non-exsit file
     ...              RLI38974 5.2-4
     [Tags]           Sanity   tc18
@@ -304,7 +304,7 @@ Verify failed transfer download notification with non exist file
 
 # Moved to be run last as some pm files are expected to exist in tests before this
 
-Perform rpc transfer delete file via wild-card
+TC20
     [Documentation]  Delete special transfer file via rpc command 
     ...              RLI38974 5.1-4-2
     [Tags]           Sanity   tc10

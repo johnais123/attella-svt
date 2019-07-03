@@ -11,7 +11,7 @@ Documentation    This is Attella Signaling Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -87,7 +87,7 @@ TC0
 TC1
     [Documentation]  near-end inject LF to Client Interface
     ...              RLI38964  5.3-1  
-    [Tags]
+    [Tags]  Advance  
     Log To Console  near-end inject LFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
@@ -115,7 +115,7 @@ TC1
 TC2
     [Documentation]  near-end inject RF to Client Interface
     ...              RLI38964 5.3-2 
-    [Tags]
+    [Tags]  Advance  
     Log To Console  near-end inject RFAULT
     Start Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     Sleep   ${period}
@@ -138,7 +138,7 @@ TC2
 TC3
     [Documentation]  fiber break at client side
     ...              RLI38964  5.3-4 
-    [Tags]
+    [Tags]  Advance  
     Log To Console  near-end fiber break at client side
     Set Laser State  ${testSetHandle1}  OFF
     Sleep   ${period}

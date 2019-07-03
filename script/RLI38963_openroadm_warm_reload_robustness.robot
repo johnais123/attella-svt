@@ -11,7 +11,7 @@ Documentation    This is Attella Robustness Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -68,7 +68,7 @@ ${timeout}  120
 TC0
     [Documentation]  Perform warm reload
     ...              RLI38963 
-    [Tags]           tc0
+    [Tags]           Advance    tc0
     Log To Console  Warm Reload Device
     Rpc Command For Warm Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 
@@ -76,7 +76,7 @@ TC0
 TC1
     [Documentation]  Check chassis initialised after reboot
     ...              RLI38963  5.2-1
-    [Tags]           tc1
+    [Tags]           Advance    tc1
     Log              get shelf administrative-state via Restconf
     #${administrative_state_for_shelf}     evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   administrative-state-shelves=inService
@@ -89,7 +89,7 @@ TC1
 TC2
     [Documentation]  Check PSU's initialsed after reboot
     ...              RLI38963  5.2-2
-    [Tags]           TC2
+    [Tags]           Advance    TC2
     Log              get PSU administrative state via Restconf
     &{psm0_info}     create dictionary      circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  vendor-cp=${tv['uv-attella_def_vendor']}   model-cp=${ATTELLA_DEF_PSM0_MODEL.text}
     ...              hardware-version-cp=${ATTELLA_DEF_PSM0_HAREWARE_VERSION.text}       type-cp=PSM  type-cp-category=powerSupply  clei-cp=${ATTELLA_DEF_PSM0_CLEI.text}   product-code-cp=${ATTELLA_DEF_PSM0_PRODUCT_CODE.text}
@@ -106,7 +106,7 @@ TC2
 TC3
     [Documentation]  Check Fan's initialised after reboot
     ...              RLI38963  5.2-3
-    [Tags]           TC3
+    [Tags]           Advance    TC3
     Log              get FAN administrative state for circuit-pack FAN via Restconf
     : FOR            ${INDEX}         IN RANGE    0    5
     #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
@@ -122,7 +122,7 @@ TC3
 TC4
     [Documentation]  Check QSFP28 initialised after reboot
     ...              RLI38963  5.2-4
-    [Tags]           tc4
+    [Tags]           Advance    tc4
     Log              get administrative state for circuit-pack QSFP28 via Restconf
     :FOR             ${INDEX}    IN RANGE    0    7    2
     \                &{ont-capability-100GE}    create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}             proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
@@ -141,7 +141,7 @@ TC4
 TC5
     [Documentation]  Check CFP2-DCO initialised after reboot
     ...              RLI38963  5.2-5
-    [Tags]           tc5
+    [Tags]           Advance    tc5
     Log              get administrative state for circuit-pack CFP2DCO via Restconf
     : FOR            ${INDEX}    IN RANGE    0    4
     \                &{ont-capability-Line0}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
