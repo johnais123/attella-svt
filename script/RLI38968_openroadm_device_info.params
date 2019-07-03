@@ -1,4 +1,6 @@
-# fv-connect-controllers "all";
+fv-connect-controllers "all";
+fv-tags "dut";
+
 # fv-load-baseline-config-from  "default";
 # fv-core-check   "enable";
 
@@ -7,8 +9,7 @@ uv-odl-server "172.27.93.100:38181";
 device0 {
   system {
     model ("ACX6160-T");
-    fv-tags "dut";
-    name "Gemini05";
+    #name "Gemini05";
   }
 }
 

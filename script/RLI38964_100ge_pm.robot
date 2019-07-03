@@ -72,7 +72,7 @@ ${ALARM CHECK TIMEOUT}      5 min
 TC0
     [Documentation]  Service Provision
     ...              RLI38964 
-    [Tags]  Sanity
+    [Tags]  Sanity    tc0
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
@@ -84,7 +84,7 @@ TC0
 TC1
     [Documentation]  Verify PM Statistics no increase during traffic ok
     ...              RLI38964  5.9-2  5.9-3 
-    [Tags]  Sanity
+    [Tags]  Sanity  tc1
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    current 
     log   ${currentMin}
 
@@ -105,7 +105,7 @@ TC1
 TC2
     [Documentation]  Verify current 15min PM BIPErrorCounter rx and erroredSecondsEthernet rx
     ...              RLI38964 5.7-2 5.7-3
-    [Tags]           Sanity
+    [Tags]           Sanity   tc2 
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -129,7 +129,7 @@ TC2
 TC3
     [Documentation]  Verify current 15min PM BIPErrorCounter tx and erroredSecondsEthernet tx
     ...              RLI38964 5.7-6 5.7-7
-    [Tags]           Advance  
+    [Tags]           Advance   tc3
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -154,7 +154,7 @@ TC3
 TC4
     [Documentation]  Verify current 15min PM severelyErroredSecondsEthernet rx
     ...              RLI38964 5.7-4
-    [Tags]           Sanity
+    [Tags]           Sanity   tc4
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
 
@@ -178,7 +178,7 @@ TC4
 TC5
     [Documentation]  Verify current 15min PM severelyErroredSecondsEthernet tx
     ...              RLI38964 5.7-8
-    [Tags]           
+    [Tags]           Advance  tc5
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
 
@@ -202,7 +202,7 @@ TC5
 TC6
     [Documentation]  Verify current 24Hour PM BIPErrorCounter rx and erroredSecondsEthernet rx
     ...              RLI38964 5.7-2 5.7-3 
-    [Tags]           Sanity
+    [Tags]           Sanity  tc6
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -226,7 +226,7 @@ TC6
 TC7
     [Documentation]  Verify current 24Hour PM BIPErrorCounter tx and erroredSecondsEthernet tx
     ...              RLI38964 5.7-6 5.7-7
-    [Tags]           Advance  
+    [Tags]           Advance  tc7
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -251,7 +251,7 @@ TC7
 TC8
     [Documentation]  Verify current 24Hour PM severelyErroredSecondsEthernet rx
     ...              RLI38964 5.7-4
-    [Tags]           Sanity
+    [Tags]           Sanity  tc8
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
 
@@ -275,7 +275,7 @@ TC8
 TC9
     [Documentation]  Verify current 24Hour PM severelyErroredSecondsEthernet tx
     ...              RLI38964 5.7-8
-    [Tags]           Advance  
+    [Tags]           Advance   tc9
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
 
@@ -298,7 +298,7 @@ TC9
 TC10
     [Documentation]  Verify History 15min 100ge PM
     ...              RLI38964
-    [Tags]           Sanity
+    [Tags]           Sanity  tc10
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmater3}       Create List     BIPErrorCounter    nearEnd    tx 
@@ -338,7 +338,7 @@ TC10
 TC11
     [Documentation]  Verify History 24Hour 100ge PM
     ...              RLI38964
-    [Tags]           Advance  
+    [Tags]           Advance    tc11 
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmater3}       Create List     BIPErrorCounter    nearEnd    tx 
