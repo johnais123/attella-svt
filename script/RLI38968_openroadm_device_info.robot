@@ -10,7 +10,7 @@ Documentation     This is Attella info Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -70,7 +70,7 @@ ${interval}  10
 ${timeout}   300
 
 *** Test Cases ***     
-Set-all-info
+TC1
     [Documentation]  Setting for org-openroadm-device all info leaves
     ...              RLI38968 5.1-1
     [Tags]           Sanity   tc1   tests
@@ -91,7 +91,7 @@ Set-all-info
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${payload}  
 
-Node-id
+TC2 
     [Documentation]  Setting for org-openroadm-device/info/node-id
     ...              RLI38968 5.1-2
     [Tags]           Sanity   tc2  
@@ -101,7 +101,7 @@ Node-id
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}     ${payload}
 
     
-Invalid-Node-id
+TC3
     [Documentation]  Reject wrong node-id info via openRoadm 
     ...              RLI38968 5.1-3-2
     [Tags]           Negative   tc3  limitation
@@ -112,7 +112,7 @@ Invalid-Node-id
     check status line    ${resp}     400
 
     
-Node-number
+TC4
     [Documentation]  Setting for org-openroadm-device/info/node-number
     ...              RLI38968 5.1-3
     [Tags]           Sanity   tc4
@@ -123,7 +123,7 @@ Node-number
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload} 
 
     
-Invalid-Node-number
+TC5
     [Documentation]  Reject wrong node-number info via openRoadm
     ...              RLI38968 5.1-5
     [Tags]           Negative  tc5  limitation
@@ -134,7 +134,7 @@ Invalid-Node-number
     check status line    ${resp}     400
 
     
-Node-type
+TC6
     [Documentation]  Setting for org-openroadm-device/info/node-type
     ...              RLI38968 5.1-4
     [Tags]           Sanity   tc6
@@ -144,7 +144,7 @@ Node-type
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
 
     
-Invalid-Node-type
+TC7
     [Documentation]  Reject wrong node-type info via openRoadm 
     ...              RLI38968 5.1-4-2
     [Tags]           Negative   tc7   limitation
@@ -155,7 +155,7 @@ Invalid-Node-type
     check status line    ${resp}     400
 
     
-Clli
+TC8
     [Documentation]  Setting for org-openroadm-device/info/clli
     ...              RLI38968 5.1-5
     [Tags]           Sanity   tc8
@@ -165,7 +165,7 @@ Clli
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
 
     
-Get-all-info-leaf
+TC9
     [Documentation]  Verify can retrieve all readonly info leave
     ...              RLI38968 5.1-6 5.1-7 5.1-11 5.1-12 5.1-13 5.1-14 5.1-16 5.1-17 5.1-19
     [Tags]           Sanity   tc9 
@@ -181,7 +181,7 @@ Get-all-info-leaf
     Send Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${netconfParams}
     
     
-Set-IP-Address-leaves
+TC10
     [Documentation]  Setting for org-openroadm-device/info/ipAddress relate leaves
     ...              RLI38968 5.1-8
     [Tags]           Sanity   tc10
@@ -192,7 +192,7 @@ Set-IP-Address-leaves
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${payload}
 
 
-Invalid-IP-Address
+TC11
     [Documentation]  Reject wrong ipAddress via openRoadm
     ...              RLI38968 5.1-8-1
     [Tags]           Negative   tc11   limitation
@@ -203,7 +203,7 @@ Invalid-IP-Address
     check status line    ${resp}     400
 
 
-InvalidPrelength
+TC12
     [Documentation]  Reject wrong prefix-length via openRoadm
     ...              RLI38968 5.1-9-1
     [Tags]           Negative    tc12   limitation
@@ -216,7 +216,7 @@ InvalidPrelength
     check status line    ${resp}     400
 
 
-InvalidDefGateway
+TC13
     [Documentation]  Reject wrong Gateway via openRoadm
     ...              RLI38968 5.1-10-1
     [Tags]           Negative   tc13   limitation
@@ -227,7 +227,7 @@ InvalidDefGateway
     check status line    ${resp}    400
 
 
-Templates
+TC14
     [Documentation]  Verify can configure Templates info via openRoadm
     ...              RLI38968 5.1-18
     [Tags]           Sanity   tc14  limitation  
@@ -238,7 +238,7 @@ Templates
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
 
 
-SetGeoLoclatit
+TC15
     [Documentation]  Verify can configure geoLocation latitude info via openRoadm
     ...              RLI38968 5.1-20
     [Tags]           Sanity   tc15     
@@ -250,7 +250,7 @@ SetGeoLoclatit
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}
 
 
-SetGeoLoclongitu
+TC16
     [Documentation]  Verify can configure geoLocation longitudeinfo via openRoadm
     ...              RLI38968 5.1-21
     [Tags]           Sanity   tc16   
@@ -262,7 +262,7 @@ SetGeoLoclongitu
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${payload}    
 
     
-Retrieve-device-info 
+TC17 
     [Documentation]  Verify can retrieve all info leaves
     ...              RLI38968 5.1-32
     [Tags]           Sanity   tc17   tests

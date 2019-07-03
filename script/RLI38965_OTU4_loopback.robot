@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge traffic Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -125,7 +125,7 @@ TC2
     ...              3)EXFO1/EXFO2 will raise AIS. 
     ...              4)Traffic will interrupt.
     ...              5)stop Inject ODU-AIS, traffic will recover.
-    [Tags]  tc2
+    [Tags]  Advance  tc2
 	
 	@{EMPTY LIST}=  create list
 	Wait until keyword succeeds  ${ALARM CHECK TIMEOUT}  10 sec  Verify Interfaces In Traffic Chain Are Alarm Free
@@ -169,7 +169,7 @@ TC3
     ...              3)EXFO1/EXFO2 will raise AIS.
     ...              4)Traffic will interrupt.
     ...              5)stop Inject ODU-AIS, traffic will recover.
-    [Tags]  tc3
+    [Tags]  Advance  tc3
 	
 	@{EMPTY LIST}=  create list
 	Wait until keyword succeeds  ${ALARM CHECK TIMEOUT}  10 sec  Verify Interfaces In Traffic Chain Are Alarm Free

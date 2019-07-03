@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge traffic Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -126,7 +126,7 @@ TC4
 TC5
     [Documentation]  Disable Line Odu Interface And Verify Traffic
     ...              RLI38964 5.2-13
-    [Tags]  tc5
+    [Tags]  Advance   tc5
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=outOfService
     
@@ -160,7 +160,7 @@ TC6
 TC7
     [Documentation]  Disable Line Otu Interface And Verify Traffic
     ...              RLI38964 5.2-12
-    [Tags]  tc7
+    [Tags]  Advance   tc7
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=outOfService
@@ -177,7 +177,7 @@ TC7
 TC8
     [Documentation]  Enable Line Otu Interface And Verify Traffic
     ...              RLI38964 5.2-12
-    [Tags]  tc8
+    [Tags]  Advance   tc8
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     &{intf}=   create_dictionary   interface-name=${otu intf}  interface-administrative-state=inService
@@ -195,7 +195,7 @@ TC8
 TC9
     [Documentation]  Disable Line Och Interface And Verify Traffic
     ...              RLI38964 5.2-11
-    [Tags]  tc9
+    [Tags]  Advance   tc9
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -214,7 +214,7 @@ TC9
 TC10
     [Documentation]  Enable Line Och Interface And Verify Traffic
     ...              RLI38964 5.2-11
-    [Tags]  tc10
+    [Tags]  Advance   tc10
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
@@ -234,7 +234,7 @@ TC10
 TC11
     [Documentation]  Service De-provision
     ...              RLI38964 5.1-2  5.2-2
-    [Tags]  tc11
+    [Tags]  Advance   tc11
 
 	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
@@ -244,14 +244,14 @@ TC11
 TC12
     [Documentation]  Traffic Verification After Service De-provision
     ...              RLI38964 
-    [Tags]  tc12
+    [Tags]  Advance   tc12
     Log To Console  Verify Traffic
     Verify Traffic Is Blocked
 	
 TC13
     [Documentation]  Recreate Service And Verify Traffic
     ...              RLI38964
-    [Tags]  tc13
+    [Tags]  Advance   tc13
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}

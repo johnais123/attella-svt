@@ -10,7 +10,7 @@ Documentation     This is Attella User Mgmt Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -81,10 +81,10 @@ ${plain_text_password}    openroadm123!
 ${new_plain_text_password}    vincentzhang123!
 
 *** Test Cases ***     
-Create new User with invalid username
+TC1
     [Documentation]  Create new user with invalid username
     ...              RLI38963 
-    [Tags]           tests13
+    [Tags]            Advance    tests13
     Log             Create user with invalid username
     :FOR    ${username}    IN    @{INVALID_USER_NAMES}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${username}    ${plain_text_password}    sudo
@@ -93,10 +93,10 @@ Create new User with invalid username
 
     
     
-Create new User with invalid non-encrypted password
+TC2
     [Documentation]  Create new user with invalid non-encrpted password
     ...              RLI38963
-    [Tags]           tests13
+    [Tags]            Advance    tests13
     Log             Create user with invalid non-encrypted password
     :FOR    ${password}    IN    @{INVALID_NON_ENCRYPTED_PASSWORDS}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
@@ -104,43 +104,28 @@ Create new User with invalid non-encrypted password
     \        sleep    5s
 
 
-
-#Create new User with invalid encrypted password
-#    [Documentation]  Create new user with invalid encrypted password
-#    ...              RLI38963 
-#    [Tags]           tests
-#    Log             Create user with invalid encrypted password
-#    :FOR    ${password}    IN     @{INVALID_ENCRYPTED_PASSWORDS}
-#    \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
-#    \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
-#    \        sleep    5s
-
-
-
-Create new User with valid username and password
+TC3
     [Documentation]  Create new user with valid username and password
     ...              RLI38963 
-    [Tags]           tests13
+    [Tags]            Advance    tests13
     Log             Create user with valid username and password
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${plain_text_password}    sudo
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
 
-
-Change new created user password
+TC4
     [Documentation]  Change new created user password
     ...              RLI38963 
-    [Tags]           tests13
+    [Tags]           Advance    tests13
     Log             Change the passowrd for the new created user
     ${resp}      Change User Password    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${new_plain_text_password}    
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
     
-
-Create a new user both openroadm and os
+TC5
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-1   
-    [Tags]           tests13  Sanity
+    [Tags]           Sanity    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -167,10 +152,10 @@ Create a new user both openroadm and os
 
 
    
-Create a new user in openroadm but already existed in os
+TC6
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-2 
-    [Tags]           tests13
+    [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -197,10 +182,10 @@ Create a new user in openroadm but already existed in os
   
 
 
-Create an user already in openroadm but not existed in os
+TC7
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-3 
-    [Tags]           tests13
+    [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -232,10 +217,10 @@ Create an user already in openroadm but not existed in os
 
 
 
-Create an user already exsite both in openroadm and os
+TC8
     [Documentation]  Create a new user in openroadm but existed in os
     ...              RLI-38963-1 5.6-4 
-    [Tags]           tests13
+    [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
     Log     Use Cli to create user ${random_user}
@@ -267,10 +252,10 @@ Create an user already exsite both in openroadm and os
 
 
     
-Delete an existing user
+TC9
     [Documentation]  Delete an existing user
     ...              RLI-38963-1 5.6-5 
-    [Tags]           tests13
+    [Tags]           Advance    tests13
     ${random_user}   Generate Random String    8	[LOWER]
     Log    Use ODL to create user ${random_user} in openroadm
     
@@ -296,10 +281,10 @@ Delete an existing user
 
 
     
-Delete an inexistent user
+TC10
     [Documentation]  Delete an inexisting user
     ...              RLI-38963-1 5.6-6 
-    [Tags]           tests13
+    [Tags]           Advance    tests13
     ${random_user}   Generate Random String    8	[LOWER]
     Log             Use ODL to create user ${random_user} in openroadm
     
@@ -330,10 +315,10 @@ Delete an inexistent user
 
 
 
-Chg-password rpc successful
+TC11
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-7 
-    [Tags]           tests123    Sanity
+    [Tags]           Sanity    tests123
     Log             Change current user password  
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
@@ -357,10 +342,10 @@ Chg-password rpc successful
 
     
 
-Chg-password rpc with wrong currentPassword
+TC12
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-8 
-    [Tags]           tests123
+    [Tags]           Advance     tests123
     Log             Change current user password with wrong currentPassword  
     ${random_password}   Generate Random String	8	[LOWER]
     ${r0} =     Get Handle      resource=device0
@@ -381,10 +366,10 @@ Chg-password rpc with wrong currentPassword
 
 
 
-Chg-password rpc with wrong newPasswordConfirm
+TC13
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-9 
-    [Tags]           tests123    Sanity
+    [Tags]           Sanity    tests123
     Log             Change current user password with wrong newPasswordConfirm  
     ${random_password}   Generate Random String	8	[LOWER]
     ${r0} =     Get Handle      resource=device0

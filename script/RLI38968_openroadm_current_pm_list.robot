@@ -10,7 +10,7 @@ Documentation    This is Attella OpenROADM Current PM Data Model Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -38,7 +38,7 @@ Library         Collections
 Library         OperatingSystem
 Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
-Library			random
+#Library			random
 Resource        ../lib/restconf_oper.robot
 Resource        ../lib/attella_keyword.robot
 Resource        ../lib/testSet.robot
@@ -80,8 +80,9 @@ ${timeout}   60
 ...					   preFECCorrectedErrors   FECCorrectableBlocks   FECUncorrectableBlocks
 
 *** Test Cases ***     
-TC1 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type
+TC1 
     [Documentation]  Verify leaf "pm-resource-type" exists and retrieves legal value 
+	... 			 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type
     ...              RLI38968 5.7-2
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type exists in Yang Model and return value is legal   
@@ -97,8 +98,9 @@ TC1 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-ty
 	
 	
 
-TC2 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type-extension
+TC2 
 	[Documentation]  Verify leaf "pm-resource-type-extension" exists and retrieves legal value 
+	... 			 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-type-extension
     ...              RLI38968 5.7-3
     [Tags]           Sanity   tc1
 	log   Verify pm-resource-type exists in Yang Model and return value is legal   
@@ -111,8 +113,9 @@ TC2 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-ty
 
 
     
-TC3 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-instance
+TC3 
     [Documentation]  Verify leaf "pm-resource-instance" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-instance
     ...              RLI38968 5.7-1
     [Tags]           Sanity   tc1
 	log   Verify "org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-instance" exists in Yang Model and return value is legal
@@ -143,8 +146,9 @@ TC3 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/pm-resource-in
 
 	
 
-TC4 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time
+TC4 
 	[Documentation]  Verify leaf "retrieval-time" and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time
     ...              RLI38968 5.7-4
     [Tags]           Sanity   tc1
 	log   Verify Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time exists in Yang Model and return value is legal
@@ -156,8 +160,9 @@ TC4 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/retrieval-time
     
 
 
-TC5 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/type
+TC5 
     [Documentation]  Verify leaf "type" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/type
     ...              RLI38968 5.7-5
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/type exists in Yang Model and return value is legal
@@ -179,8 +184,9 @@ TC5 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/typ
 
 
 
-TC6 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/extension
+TC6 
 	[Documentation]  Verify leaf "extension" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/extension
     ...              RLI38968 5.7-6
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/extension exists in Yang Model and return value is legal
@@ -196,8 +202,9 @@ TC6 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/ext
 
 
 
-TC7 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/location
+TC7 
     [Documentation]  Verify leaf "location" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/location
     ...              RLI38968 5.7-7
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/location exists in Yang Model and return value is legal   
@@ -210,8 +217,9 @@ TC7 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/loc
 	
 
 
-TC8 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/direction
+TC8 
     [Documentation]  Verify leaf "direction" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/direction
     ...              RLI38968 5.7-8
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/direction exists in Yang Model and return value is legal   
@@ -224,8 +232,9 @@ TC8 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/dir
 
 
 
-TC9 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/granularity
+TC9 
     [Documentation]  Verify leaf "granularity" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/granularity
     ...              RLI38968 5.7-9
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/granularity exists in Yang Model and return value is legal   
@@ -238,8 +247,9 @@ TC9 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/mea
 
 
 
-TC10 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/validity
+TC10 
     [Documentation]  Verify leaf "validity" exists and retrieves legal value 
+	...			 	 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/validity
     ...              RLI38968 5.7-12
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/validity exists in Yang Model and return value is legal   
@@ -252,8 +262,9 @@ TC10 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/me
 	
 	
 	
-TC11 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterUnit
+TC11 
     [Documentation]  Verify leaf "pmParameterUnit" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterUnit
     ...              RLI38968 5.7-11
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterUnit exists in Yang Model and return value is legal   
@@ -270,8 +281,9 @@ TC11 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/me
 
 
 
-TC12 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterValue
+TC12 
     [Documentation]  Verify leaf "pmParameterValue" exists and retrieves legal value 
+	...				 Verify leaf org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterValue
     ...              RLI38968 5.7-10
     [Tags]           Sanity   tc1
 	log   Verify org-openroadm-pm:current-pm-list/current-pm-entry/current-pm/measurement/pmParameterValue exists in Yang Model and return value is legal   

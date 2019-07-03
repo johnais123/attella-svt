@@ -10,7 +10,7 @@ Documentation     This is Attella interface Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -106,7 +106,7 @@ TC0
     [Documentation]  Verify can configure odu4 client interface name attribute via openRoadm leaf
     ...              RLI39315 5.3-5
     Log           Configure client interface name / supporting-port via Restconf Patch method
-    [Tags]           tc0
+    [Tags]           Sanity   tc0
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     #: FOR    ${INDEXS}    IN RANGE    0    1
@@ -127,7 +127,7 @@ TC1
     [Documentation]  Verify can configure otu4 client interface name without dependence
     ...           RLI39315  5.3.8
     Log           Configure client interface name / supporting-port via Restconf Patch method
-    [Tags]           tc1
+    [Tags]           Sanity   tc1
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     #: FOR    ${INDEXS}    IN RANGE    0    1
@@ -148,7 +148,7 @@ TC2
     [Documentation]  Verify can configure odu4 client interface name attribute via openRoadm leaf
     ...              RLI39315 5.1-5, 5.3-6
     Log           Configure client interface name / supporting-port via Restconf Patch method
-    [Tags]           tc2
+    [Tags]           Sanity   tc2
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     #: FOR    ${INDEXS}    IN RANGE    0    1
@@ -167,7 +167,7 @@ TC2
 TC3
     [Documentation]  Prevent delete otu4 client interface blocked due to existing odu4
     ...              RLI39315 5.3.14
-    [Tags]          tc3
+    [Tags]          Sanity   tc3
     Log         Verify delete odu4 interface name via Restconf Patch method    
     #: FOR    ${INDEXS}    IN RANGE    0    1
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_OTU4_CLIENT_NAME} 
@@ -182,7 +182,7 @@ TC3
 TC4
     [Documentation]  Verify delete otu client interface after odu removed
     ...              RLI39315 5.3.15
-    [Tags]          tc4
+    [Tags]          Sanity   tc4
     Log         Verify delete odu4 interface name via Restconf Patch method
     #: FOR    ${INDEXS}    IN RANGE    0    1
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_ODU4_CLIENT_NAME} 
@@ -208,7 +208,7 @@ TC5
     [Documentation]  Verify cannot configure otu4 line interface name without associated och
     ...           RLI39315  5.3-1 (5.3-2 in naming script)
     Log           Configure client interface name / supporting-port via Restconf Patch method
-    [Tags]           tc5
+    [Tags]          Sanity    tc5
     #${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     #: FOR    ${INDEXS}    IN RANGE    0    1
@@ -228,7 +228,7 @@ TC6
     [Documentation]  Verify cannot configure odu4 line interface name without associated otu4
     ...              RLI39315 5.3-3  (5.3-4 in naming script)
     Log           Configure line interface name / supporting-port via Restconf Patch method
-    [Tags]           tc6
+    [Tags]           Sanity   tc6
     #: FOR    ${INDEXS}    IN RANGE    0    1
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_ODU_NAME}    description=client-odu-0    interface-type=otnOdu
@@ -244,7 +244,7 @@ TC6
 TC7
     [Documentation]  Verify can configure och interface rate via openRoadm leaf
     ...              RLI39315 5.1-7, 9, 11   5.3-7
-    [Tags]           tc7 
+    [Tags]           Sanity   tc7 
     Log           Configure och interface rate via Restconf Patch method
     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_LINE_OCH_NAME}    description=line-och    interface-type=opticalChannel
     ...    interface-administrative-state=inService    supporting-interface=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}0:0    och-rate=R100G
@@ -285,7 +285,7 @@ TC7
 TC8
     [Documentation]  Prevent delete och line interface with existing otu
     ...              RLI39315 5.3-10
-    [Tags]          tc8
+    [Tags]          Sanity   tc8
     Log         Verify delete och interface name via Restconf Patch method
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_LINE_OCH_NAME}
     @{delinter}    create list    ${OTUinterface}
@@ -297,7 +297,7 @@ TC8
 TC9
     [Documentation]  Prevent delete otu4 line interface with existing odu
     ...              RLI39315 5.3-12
-    [Tags]          tc9
+    [Tags]          Sanity   tc9
     Log         Verify delete odu4 interface name via Restconf Patch method    
     #: FOR    ${INDEXS}    IN RANGE    0    1
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_LINE_OTU_NAME} 

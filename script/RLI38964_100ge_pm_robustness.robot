@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge Alarm Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -72,7 +72,7 @@ ${ALARM CHECK TIMEOUT}      5 min
 TC0
     [Documentation]  Service Provision
     ...              RLI38964 
-    [Tags]  Sanity  test
+    [Tags]  Advance    test
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
     
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
@@ -84,7 +84,7 @@ TC0
 TC1
     [Documentation]  Verify 100ge PM after warm reload
     ...              RLI38964  5.7-9
-    [Tags]           test
+    [Tags]           Advance  test
     Log To Console  Warm Reload Device
     Rpc Command For Warm Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 
@@ -134,7 +134,7 @@ TC1
 TC2
     [Documentation]  Verify 100ge PM after cold reload
     ...              RLI38964  5.7-10  
-    [Tags]
+    [Tags]  Advance  
     Log To Console  Cold Reload Device
     Rpc Command For Cold Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 
@@ -184,7 +184,7 @@ TC2
 TC3
     [Documentation]  Verify  100ge History 24Hour PM after warm reload
     ...              RLI38964   5.7-9
-    [Tags]
+    [Tags]  Advance  
     Log To Console  Warm Reload Device
     Rpc Command For Warm Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 
@@ -234,7 +234,7 @@ TC3
 TC4
     [Documentation]  Verify  100ge History 24Hour PM after cold reload
     ...              RLI38964  5.7-10 
-    [Tags]
+    [Tags]  Advance  
     Log To Console  Cold Reload Device
     Rpc Command For Cold Reload Device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 

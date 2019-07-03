@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge Alarm Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : MISC
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -129,7 +129,7 @@ TC2
 TC3
     [Documentation]  Verify current 15min PM BIPErrorCounter tx and erroredSecondsEthernet tx
     ...              RLI38964 5.7-6 5.7-7
-    [Tags]           
+    [Tags]           Advance  
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -226,7 +226,7 @@ TC6
 TC7
     [Documentation]  Verify current 24Hour PM BIPErrorCounter tx and erroredSecondsEthernet tx
     ...              RLI38964 5.7-6 5.7-7
-    [Tags]           
+    [Tags]           Advance  
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    tx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}    ${pmEntryParmater2} 
@@ -275,7 +275,7 @@ TC8
 TC9
     [Documentation]  Verify current 24Hour PM severelyErroredSecondsEthernet tx
     ...              RLI38964 5.7-8
-    [Tags]           
+    [Tags]           Advance  
     @{pmEntryParmater}       Create List     severelyErroredSecondsEthernet    nearEnd    tx 
     @{pmEntryParmaterlist}       Create List   ${pmEntryParmater}
 
@@ -338,7 +338,7 @@ TC10
 TC11
     [Documentation]  Verify History 24Hour 100ge PM
     ...              RLI38964
-    [Tags]           
+    [Tags]           Advance  
     @{pmEntryParmater}       Create List     BIPErrorCounter    nearEnd    rx 
     @{pmEntryParmater2}       Create List     erroredSecondsEthernet    nearEnd    rx 
     @{pmEntryParmater3}       Create List     BIPErrorCounter    nearEnd    tx 

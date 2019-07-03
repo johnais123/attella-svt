@@ -2,6 +2,33 @@
 Documentation     This is Attella traffic frequency Scripts
 ...               If you are reading this then you need to learn Toby
 ...               Author: Jack Wu
+...              Description  : RLI-38968: OpenROADM Device Data Model for 800G transparent transponder targeting Metro/DCI applications
+...              JTMS TEST PLAN : https://systest.juniper.net/feature_testplan/59197
+...              jtms description           : Attella
+...              RLI                        : 38968
+...              MIN SUPPORT VERSION        : 19.1
+...              TECHNOLOGY AREA            : PLATFORM
+...              MAIN FEATURE               : Transponder support on ACX6160-T
+...              SUB-AREA                   : CHASSIS
+...              Feature                    : CHASSIS_MGMT
+...              Platform                   : ACX
+...              DOMAIN                     : None
+...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
+...              MPC/FPC TYPE               : ACX6160-T
+...              TESTER                     : N/A
+...              TESTER VERSION             :
+...              JPG                        : No
+...              VIRTUALIZATION SUPPORT     : NO
+...              MARKET USE CASES           :
+...              CUSTOMER PR                :
+...              JTMS DISCRIPTION           :
+...              GNATS CATEGORY             :
+...              BSD/LINUX                  : LINUX
+...              CUSTOMER                   :
+...              TOOL NAME                  : None
+...              TOOL VERSION               : None
+...              THIRDPARTY LICENSE NAME    : None
+...              THIRDPARTY LICENSE VERSION : None
 
 Resource    jnpr/toby/Master.robot
 
@@ -22,6 +49,9 @@ Suite Setup   Run Keywords
 ...              Toby Suite Setup
 ...              Test Bed Init
 
+Test Setup  Run Keywords  Toby Test Setup
+
+Test Teardown  Run Keywords  Toby Test Teardown
 
 Suite Teardown  Run Keywords
 ...              Test Bed Teardown
@@ -34,25 +64,21 @@ ${interval}  10
 ${timeout}  100
 
 *** Test Cases ***     
-Modify both dut Frequency 191.35 And Verify Traffic
-	[Tags]  tc1
+TC1
+    [Documentation]     Modify both dut Frequency 191.35 And Verify Traffic
+	[Tags]  Sanity  tc1
     Set Both Frequency And Verify Traffic  191.35
     
-Modify both dut Frequency 193.40 And Verify Traffic
-	[Tags]  tc2
+TC2
+    [Documentation]     Modify both dut Frequency 193.40 And Verify Traffic
+	[Tags]  Sanity  tc2
     Set Both Frequency And Verify Traffic  193.40
     
-Modify both dut Frequency 196.10 And Verify Traffic
-	[Tags]  tc3
+TC3
+    [Documentation]     Modify both dut Frequency 196.10 And Verify Traffic
+	[Tags]  Sanity  tc3
     Set Both Frequency And Verify Traffic  196.10
     
-    
-    
-Service De-provision
-	[Tags]  tcTeardown
-	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
-    Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
-    Remove 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
 
 *** Keywords ***
 Set Both Frequency And Verify Traffic

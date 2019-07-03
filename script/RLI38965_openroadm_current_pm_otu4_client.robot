@@ -10,7 +10,7 @@ Documentation     This is Attella PM Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -94,7 +94,7 @@ TC1
 TC2   
     [Documentation]  Verify current 15min Near-end  OTU severelyErroredSeconds PM statistics on otu4 Client interface
     ...              RLI38965  5.10-4
-    [Tags]             tc2   
+    [Tags]             Advance  tc2   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -118,7 +118,7 @@ TC2
 TC3   
     [Documentation]  Verify current 15min Far-end  OTU all PM statistics on otu4 Client interface
     ...              RLI38965  5.10-5    5.10-6    5.10-7
-    [Tags]             tc3   
+    [Tags]             Advance  tc3   
     @{pmEntryParmater}       Create List     erroredSeconds      farEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      farEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    farEnd    rx
@@ -142,7 +142,7 @@ TC3
 TC4   
     [Documentation]  Verify current 15min Far-end  OTU severelyErroredSeconds PM statistics on otu4 Client interface
     ...              RLI38965  5.10-8
-    [Tags]            tc4   
+    [Tags]            Advance  tc4   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     farEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      farEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    farEnd    rx
@@ -166,7 +166,7 @@ TC4
 TC5   
     [Documentation]  Verify current 15min near-end  ODU all PM statistics on odu4 Client interface
     ...              RLI38965  5.11-1    5.11-2   5.11-3
-    [Tags]            tc5   
+    [Tags]            Advance  tc5   
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd   rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -190,7 +190,7 @@ TC5
 TC6   
     [Documentation]  Verify current 15min Near-end  ODU severelyErroredSeconds PM statistics on odu4 Client interface
     ...              RLI38965  5.11-4
-    [Tags]             tc6   
+    [Tags]             Advance  tc6   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -215,7 +215,7 @@ TC6
 TC7    
     [Documentation]  Verify current 15min Far-end  ODU erroredBlockCount PM statistics on odu4 Client interface
     ...              RLI38965  5.11-5    5.11-6   5.11-7
-    [Tags]             tc7  
+    [Tags]             Advance  tc7  
     @{pmEntryParmater}       Create List     erroredBlockCount    farEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    farEnd    rx
     @{pmEntryParmater3}       Create List     erroredSeconds    farEnd    rx
@@ -239,7 +239,7 @@ TC7
 TC8   
     [Documentation]  Verify current 15min Far-end  ODU severelyErroredSeconds PM statistics on odu4 Client interface
     ...              RLI38965  5.11-8 
-    [Tags]            tc8   
+    [Tags]            Advance  tc8   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     farEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      farEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    farEnd    rx
@@ -264,7 +264,7 @@ TC8
 TC9   
     [Documentation]  Verify current 24Hour Near-end  OTU all PM statistics on otu4 Client interface
     ...              RLI38965  5.10-1    5.10-2    5.10-3
-    [Tags]              tc9   
+    [Tags]              Advance  tc9   
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -288,7 +288,7 @@ TC9
 TC10   
     [Documentation]  Verify current 24Hour Near-end  OTU severelyErroredSeconds PM statistics on otu4 Client interface
     ...              RLI38965  5.10-4
-    [Tags]              tc10   
+    [Tags]              Advance  tc10   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -314,7 +314,7 @@ TC10
 TC11   
     [Documentation]  Verify current 24Hour Far-end  OTU all PM statistics on otu4 Client interface
     ...              RLI38965  5.10-5    5.10-6    5.10-7
-    [Tags]              tc11   
+    [Tags]              Advance  tc11   
     @{pmEntryParmater}       Create List     erroredSeconds      farEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      farEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    farEnd    rx
@@ -338,7 +338,7 @@ TC11
 TC12   
     [Documentation]  Verify current 24Hour Far-end  OTU severelyErroredSeconds PM statistics on otu4 Client interface
     ...              RLI38965  5.10-8
-    [Tags]              tc12   
+    [Tags]              Advance  tc12   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     farEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      farEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    farEnd    rx
@@ -362,7 +362,7 @@ TC12
 TC13   
     [Documentation]  Verify current 24Hour near-end  ODU all PM statistics on odu4 Client interface
     ...              RLI38965  5.11-1    5.11-2    5.11-3
-    [Tags]              tc13   
+    [Tags]              Advance  tc13   
     @{pmEntryParmater}       Create List     erroredSeconds      nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd   rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -386,7 +386,7 @@ TC13
 TC14   
     [Documentation]  Verify current 24Hour Near-end  ODU severelyErroredSeconds PM statistics on odu4 Client interface
     ...              RLI38965  5.11-4
-    [Tags]              tc14   
+    [Tags]              Advance  tc14   
     @{pmEntryParmater}       Create List      severelyErroredSeconds     nearEnd    rx 
     @{pmEntryParmater2}       Create List    erroredBlockCount      nearEnd    rx
     @{pmEntryParmater3}       Create List     backgroundBlockErrors    nearEnd    rx
@@ -411,7 +411,7 @@ TC14
 TC15    
     [Documentation]  Verify current 24Hour Far-end  ODU erroredBlockCount PM statistics on odu4 Client interface
     ...              RLI38965  5.11-5    5.11-6    5.11-7
-    [Tags]             tc15 
+    [Tags]             Advance  tc15 
     @{pmEntryParmater}       Create List     erroredBlockCount    farEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    farEnd    rx
     @{pmEntryParmater3}       Create List     erroredSeconds    farEnd    rx

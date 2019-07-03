@@ -10,7 +10,7 @@ Documentation     This is Attella set device date and time testing
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -20,7 +20,7 @@ Documentation     This is Attella set device date and time testing
 ...              JPG                        : No
 ...              VIRTUALIZATION SUPPORT     : NO
 ...              MARKET USE CASES           :
-...              CUSTOMER PRs               :
+...              CUSTOMER PR                :
 ...              JTMS DISCRIPTION           :
 ...              GNATS CATEGORY             :
 ...              BSD/LINUX                  : LINUX
@@ -64,10 +64,10 @@ ${interval}  10
 ${timeout}   300
 
 *** Test Cases ***     
-current datetime can be set and retrieve
+TC1
     [Documentation]  set device date and time and check info, alarm, pm
     ...              RLI38963-1 5.7-1
-    [Tags]           tests
+    [Tags]           Advance    tests
     Log             set device date and time and check info, alarm, pm
     Log to console    retrieve current time and remember it
     &{result}     Get Device Info    ${odl_sessions}     ${tv['device0__re0__mgt-ip']} 

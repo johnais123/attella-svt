@@ -10,7 +10,7 @@ Documentation     This is Attella PM Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : Attella_OpenROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -72,7 +72,7 @@ ${ALARM CHECK TIMEOUT}      1 min
 TC1    
     [Documentation]  Verify history 15min Near-end/Far-end OTU PM statistics on otu4 Client interface
     ...              RLI38965  5.12-1
-    [Tags]            tc1  
+    [Tags]            Advance  tc1  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
     @{pmEntryParmater3}       Create List     erroredSeconds    nearEnd    rx
@@ -108,7 +108,7 @@ TC1
 TC2    
     [Documentation]  Verify history 15min Near-end/Far-end  ODU PM statistics on odu4 Client interface
     ...              RLI38965  5.12-3
-    [Tags]            tc2  
+    [Tags]            Advance  tc2  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
     @{pmEntryParmater3}       Create List     erroredSeconds    nearEnd    rx
@@ -146,7 +146,7 @@ TC2
 TC3    
     [Documentation]  Verify history 24Hour Near-end/Far-end OTU PM statistics on otu4 Client interface
     ...              RLI38965  5.12-2
-    [Tags]             tc3  
+    [Tags]             Advance  tc3  
     @{pmEntryParmater}       Create List     erroredBlockCount    nearEnd    rx 
     @{pmEntryParmater2}       Create List     backgroundBlockErrors    nearEnd    rx
     @{pmEntryParmater3}       Create List     erroredSeconds    nearEnd    rx
