@@ -85,14 +85,14 @@ TC1
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current   
     log   ${currentMin}
-    sleep  5
+    Wait For  5
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    6.3E-05
-    sleep  5    
+    Wait For  5    
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8 
-    sleep  5    
+    Wait For  5    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BEI     6.3E-05
-    sleep  5
+    Wait For  5
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_OTU4_BEI       
     Retrieve Current Statistics    
     @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${client otu intf}   ${pmEntryParmaterlist}   @{pmInterval}[0]    
@@ -121,14 +121,14 @@ TC2
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current   
     log   ${currentMin}
-    sleep  5
+    Wait For  5
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8    6.3E-05
-    sleep  5    
+    Wait For  5    
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8 
-    sleep  5    
+    Wait For  5    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI     6.3E-05
-    sleep  5
+    Wait For  5
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_ODU4_BEI       
     Retrieve Current Statistics    
     @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${client intf}   ${pmEntryParmaterlist}   @{pmInterval}[0]    
@@ -159,14 +159,14 @@ TC3
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current   
     log   ${currentMin}
-    sleep  5
+    Wait For  5
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8    6.3E-05
-    sleep  5    
+    Wait For  5    
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_OTU4_BIP8 
-    sleep  5    
+    Wait For  5    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_OTU4_BEI     6.3E-05
-    sleep  5
+    Wait For  5
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_OTU4_BEI       
     Retrieve Current Statistics    
     @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${client otu intf}   ${pmEntryParmaterlist}   @{pmInterval}[1]    
@@ -195,14 +195,14 @@ TC4
     @{ignorePmEntryParmater}       Create List     preFECCorrectedErrors    nearEnd    rx 
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}  current   
     log   ${currentMin}
-    sleep  5
+    Wait For  5
     Retrieve Current Statistics    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8    6.3E-05
-    sleep  5    
+    Wait For  5    
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_ODU4_BIP8 
-    sleep  5    
+    Wait For  5    
     Start Inject Error On Test Equipment  ${testSetHandle1}   ERROR_OTU4_ODU4_BEI     6.3E-05
-    sleep  5
+    Wait For  5
     Stop Inject Error On Test Equipment     ${testSetHandle1}   ERROR_OTU4_ODU4_BEI       
     Retrieve Current Statistics    
     @{curealpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${client intf}   ${pmEntryParmaterlist}   @{pmInterval}[1]    
@@ -224,7 +224,7 @@ Retrieve Current Statistics
     &{payload}   create_dictionary   current-pm-list=${null}
     ${sDatestring}=    Execute shell command on device     device=${r0}       command=date
     log to console    ${sDatestring}
-    sleep  5
+    Wait For  5
     ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
     ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8  
     log   ${resp_content}
@@ -238,7 +238,7 @@ Retrieve History Pm Detail Statistics
     ...         ELSE IF   '${pmInterval}'=='24Hour'   Jump To Next Day
     ...         ELSE        FAIL   no other types history pm can be checked
     ${hisPmName}=   RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}     1   2   ${pmInterval}
-    sleep  5
+    Wait For  5
     ${sDatestring}=    Execute shell command on device     device=${r0}       command=date
     log   ${sDatestring}
     Execute shell command on device     device=${r0}       command=cd /var/openroadm
@@ -277,7 +277,7 @@ Jump To Next Day
     [Documentation]   Retrieve Current 15Min Bin completion time
     [Arguments]     
     &{payload}   create_dictionary   current-pm-list=${null}
-    sleep  5
+    Wait For  5
     ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}   ${payload}
     ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
     ${root}=                 Parse XML    ${resp_content}

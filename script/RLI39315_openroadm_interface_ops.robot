@@ -648,7 +648,7 @@ Retrieve Current Statistics
     &{payload}   create_dictionary   current-pm-list=${null}
     ${sDatestring}=    Execute shell command on device     device=${r0}       command=date
     log to console    ${sDatestring}
-    sleep  5
+    Wait For  5
     ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
     ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8  
     log   ${resp_content}
@@ -676,7 +676,7 @@ Modify transmit-power for OCH interface
     &{dev_info}            create_dictionary   interface=${interface_info}       
     &{payload}             create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
-	sleep  10
+	Wait For  10
 
 Verify Traffic Is OK
     ${t}    get time 
