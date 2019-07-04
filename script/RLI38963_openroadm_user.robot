@@ -89,7 +89,7 @@ TC1
     :FOR    ${username}    IN    @{INVALID_USER_NAMES}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${username}    ${plain_text_password}    sudo
     \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
-    \        sleep    5s
+    \        Wait For    5s
 
     
     
@@ -101,7 +101,7 @@ TC2
     :FOR    ${password}    IN    @{INVALID_NON_ENCRYPTED_PASSWORDS}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
     \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
-    \        sleep    5s
+    \        Wait For    5s
 
 
 TC3
@@ -133,14 +133,14 @@ TC5
     @{cmd_list}    Create List    
     ...            set system login user ${random_user} class super-user authentication encrypted-password ${VALID_ENCRYPTED_PASSWORD}  
     Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   timeout=${600}
-    sleep    10s
+    Wait For    10s
     Log             Use ODL to create same user ${random_user} in openroadm
         
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
-    sleep    2s
+    Wait For    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
@@ -163,14 +163,14 @@ TC6
     @{cmd_list}    Create List    
     ...            set system login user ${random_user} class super-user authentication encrypted-password ${VALID_ENCRYPTED_PASSWORD}                    
     Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   timeout=${600}
-    sleep    10s
+    Wait For    10s
     Log             Use ODL to create same user ${random_user} in openroadm
     
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
     
-    sleep    2s
+    Wait For    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
@@ -193,14 +193,14 @@ TC7
     @{cmd_list}    Create List    
     ...            delete system login user ${random_user}    
     Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   
-    sleep    10s
+    Wait For    10s
     Log             Use ODL to create same user ${random_user} in openroadm
     
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
-    sleep    2s
+    Wait For    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log    ${result}
@@ -228,14 +228,14 @@ TC8
     @{cmd_list}    Create List    
     ...            set system login user ${random_user} class super-user authentication encrypted-password ${VALID_ENCRYPTED_PASSWORD}                    
     Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   timeout=${600}
-    sleep    10s
+    Wait For    10s
     Log             Use ODL to create same user ${random_user} in openroadm
     
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
     Log    ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
     
-    sleep    2s
+    Wait For    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Run Keyword If     ${result}!=${TRUE}     FAIL    User ${random_user} should be in openroadm after provisioning
@@ -263,7 +263,7 @@ TC9
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
     
-    sleep    10s
+    Wait For    10s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
@@ -273,7 +273,7 @@ TC9
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}    
 
-    sleep    5s
+    Wait For    5s
     Log     Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
@@ -292,7 +292,7 @@ TC10
     Log     ${resp.status_code} 
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
-    sleep    10s
+    Wait For    10s
     Log   Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
@@ -303,7 +303,7 @@ TC10
     Log     ${result}
     Run Keyword If     ${result.status_code}!=200    FAIL    User ${random_user} should be deprovisioned by odl    
 
-    sleep    2s
+    Wait For    2s
     Log    Check user ${random_user} in openroadm configuration
     ${result}    Check User In Openroadm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log     ${result}
@@ -331,14 +331,14 @@ TC11
     Log    ${resp}
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 200, but it is ${resp.status_code}
     
-    #sleep    120s
+    #Wait For    120s
     #Log    Check user openroadm can log into with new password by netconf 
     #${device-handle}=  Connect to device   host=${tv['device0__re0__mgt-ip']}   user=openroadm    password=password    
 
     [Teardown]    Run Keywords    
     ...           Log    Restore openroadm user password to 'openroadm'    
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
-    ...           AND    sleep    120s   
+    ...           AND    Wait For    120s   
 
     
 
@@ -362,7 +362,7 @@ TC12
     [Teardown]    Run Keywords    
     ...           Log    Restore openroadm user password to 'openroadm'    
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
-    ...           AND    sleep    120s 
+    ...           AND    Wait For    120s 
 
 
 
@@ -391,7 +391,7 @@ TC13
     [Teardown]    Run Keywords    
     ...           Log    Restore openroadm user password to 'openroadm'    
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
-    ...           AND    sleep    20s 
+    ...           AND    Wait For    20s 
 
 
     

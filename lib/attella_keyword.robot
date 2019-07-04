@@ -487,3 +487,7 @@ Get Device Info
     [return]    &{result_dict}
 
     
+Wait For
+    [Documentation]     Wait for set time
+    [Arguments]         ${wait}
+    sleep   ${wait}s

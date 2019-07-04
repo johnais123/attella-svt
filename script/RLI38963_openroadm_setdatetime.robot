@@ -76,7 +76,7 @@ TC1
     
     Log to console    change to new time
     RPC Set Current Datetime     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    2018-04-05T19:31:14Z
-    sleep   5s
+    Wait For   5s
     &{new_result}     Get Device Info    ${odl_sessions}     ${tv['device0__re0__mgt-ip']} 
     ${new_time}       Get From Dictionary	${new_result}    current-datetime
     Log to Console     ${new_time}
@@ -87,7 +87,7 @@ TC1
 
     Log to Console    restore to old time
     RPC Set Current Datetime     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${old_time}
-    sleep   5s
+    Wait For   5s
     &{new_result}     Get Device Info    ${odl_sessions}     ${tv['device0__re0__mgt-ip']} 
     ${new_time}       Get From Dictionary	${new_result}    current-datetime
     Log to Console      ${new_time}

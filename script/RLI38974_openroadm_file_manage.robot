@@ -197,7 +197,7 @@ TC12
     ${ledstatflag}      set variable   true
     ${resp}=     RPC Led Control    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${shelfnm}    ${ledstatflag}
     Log              Verify Equipment LED On can be rasied on shelf-0
-    sleep  5
+    Wait For  5
     @{expectedAlarms_led_on}      Create List       Equipment LED On 
     @{activeAlarmList}=  Get Alarms On Resource   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfnm}
     List Should Contain Sub List    ${activeAlarmList}    ${expectedAlarms_led_on}
@@ -211,7 +211,7 @@ TC13
     ${shelfnm}   set variable    shelf-0
     ${ledstatflag}      set variable   false
     ${resp}=     RPC Led Control    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${shelfnm}    ${ledstatflag}
-    sleep  5
+    Wait For  5
     Log              Verify Equipment LED On can be cleared on shelf-0
     ${notexpectedAlarms}      set variable      Equipment LED On 
     @{activeAlarmList}=  Get Alarms On Resource   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${shelfnm}
@@ -341,7 +341,7 @@ Testbed Init
     Set Suite Variable    ${odl_sessions}
     
     Mount vAttella On ODL Controller    ${odl_sessions}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}    ${tv['device0__re0__mgt-ip']}   openroadm   openroadm
-    sleep   5s 
+    Wait For   5s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}  ${tv['device0__re0__mgt-ip']}
 
     ${ncHandle}=  Get Netconf Client Handle  ${tv['device0__re0__mgt-ip']}
@@ -363,7 +363,7 @@ Verify history pm file upload success
     [Documentation]   Verify history pm file upload success
     [Arguments]     ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${startbin}   ${endbin}   ${pmInterval}
     ${hisPmName}=   RPC Collect Historical Pm     ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${startbin}   ${endbin}   ${pmInterval}
-    sleep  10
+    Wait For  10
     Execute shell command on device     device=${r0}       command=cd /var/openroadm
     ${cmd1}=     Execute shell command on device     device=${r0}     command=ls
     ${deffilelist}=     getdefaultOpenroamdfile   ${cmd1}

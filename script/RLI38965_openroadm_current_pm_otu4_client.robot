@@ -467,7 +467,7 @@ Retrieve Current Statistics
     &{payload}   create_dictionary   current-pm-list=${null}
     ${sDatestring}=    Execute shell command on device     device=${r0}       command=date
     log to console    ${sDatestring}
-    sleep  5
+    Wait For  5
     ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
     ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8  
     log   ${resp_content}

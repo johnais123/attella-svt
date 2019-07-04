@@ -285,6 +285,6 @@ Testbed Init
     Set Suite Variable    ${odl_sessions}
 
     Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
-    sleep   15s  
+    Wait For   15s  
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
 
