@@ -490,4 +490,4 @@ Get Device Info
 Wait For
     [Documentation]     Wait for set time
     [Arguments]         ${wait}
-    sleep   ${wait}s
+    sleep   ${wait}

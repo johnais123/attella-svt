@@ -1825,9 +1825,9 @@ Test Bed Init
     ${t}    get time 
     Log To Console    Device Setup Done ${t}
 
-	Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+	#Log To Console  de-provision on both device0 and device1
+    #Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	#Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
     
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
@@ -1912,55 +1912,14 @@ Test Bed Init
 
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
-    Log To Console  Remove Service
     
+    Log To Console  Remove Service
+    Remove OTU4 Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+    Remove OTU4 Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
+    
+    Log To Console  Stopping Traffic    
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
-    
-
-    
-Verify Traffic Is OK
-    ${t}    get time 
-    Log To Console    Stoping Traffic ${t}
-
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    ${t}    get time 
-    Log To Console    Clearing Stats ${t}
-
-    Clear Statistic And Alarm  ${testSetHandle1}  
-    Clear Statistic And Alarm  ${testSetHandle2}
-    
-    ${t}    get time 
-    Log To Console    Starting Traffic ${t}
-
-    Start Traffic  ${testSetHandle1}
-    Start Traffic  ${testSetHandle2}
-   
-    Sleep  10
-   
-    ${t}    get time 
-    Log To Console    Stoping Traffic ${t}
-
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    ${t}    get time 
-    Log To Console    Checking Traffic on test sets ${t}
-
-    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-   
-    ${t}    get time 
-    Log To Console    Checking Traffic Done ${t}
-
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-    
-    [Teardown]  Run Keywords  Start Traffic  ${testSetHandle1}  AND  Start Traffic  ${testSetHandle2}
-
     
     
 Verify Interfaces In Traffic Chain Are Alarm Free
