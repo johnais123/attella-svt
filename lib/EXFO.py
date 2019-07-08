@@ -3859,7 +3859,8 @@ class ExfoModule(object):
         
         
     def getODUPMTTITracesReceived(self, strMode):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B16?"%strMode.upper()
+        #command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B16?"%strMode.upper()
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B?"%strMode.upper()
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -3868,7 +3869,8 @@ class ExfoModule(object):
         return  output
         
     def setODUPMTTITracesReceived(self, strMode, strValue):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B16 %s"%(strMode.upper(), strValue)
+        #command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B16 %s"%(strMode.upper(), strValue)
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:%s:B %s"%(strMode.upper(), strValue)
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -3878,7 +3880,8 @@ class ExfoModule(object):
         
         
     def getODUPMTTITracesOperator(self, strMode):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B32?"
+        #command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B32?"
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B?"
         self._session.send(command)
         output = self._session.output
         if "error" in output:
@@ -3887,7 +3890,8 @@ class ExfoModule(object):
         return  output
         
     def setODUPMTTITracesOperator(self, strValue):
-        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B32 %s"%strValue
+        #command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B32 %s"%strValue
+        command = "LINS" + str(self.shelf) + str(self._slot) + ":SOURce:DATA:TELecom:OTN:ODU4:PM:OPSPec:B %s"%strValue
         self._session.send(command)
         output = self._session.output
         if "error" in output:

@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge Alarm Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : CHASSIS_MGMT
+...              Feature                    : OPENROADM
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -348,17 +348,12 @@ Test Bed Init
     Log To Console  load pre-default provision on device1
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
 
-    Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-
 
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
-    Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+    Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+    Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
     
 
 Retrieve Current Statistics

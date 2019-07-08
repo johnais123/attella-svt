@@ -11,7 +11,7 @@ Documentation    This is Attella 100ge traffic reload Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : CHASSIS_MGMT
+...              Feature                    : OPENROADM
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -243,13 +243,7 @@ Test Bed Init
 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
-    
-	Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-
-	
-    
+        
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle1}
@@ -258,50 +252,6 @@ Test Bed Init
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
            
-
-Verify Traffic Is OK
-    Log To Console  Verify Traffic Is OK
-    : FOR    ${nLoop}    IN RANGE    1    6
-    \    Sleep  10
-    \    Log To Console  Check Traffic Status for the ${nLoop} time
-    \    Clear Statistic And Alarm  ${testSetHandle1}  
-    \    Clear Statistic And Alarm  ${testSetHandle2}
-
-    \    Start Traffic  ${testSetHandle1}
-    \    Start Traffic  ${testSetHandle2}
-
-    \    Sleep  10
-
-    \    stop Traffic  ${testSetHandle1}
-    \    stop Traffic  ${testSetHandle2}
-    \    
-    \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    \    @{EMPTY LIST}=  create list
-    \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-
-    \    Exit For Loop If  '${result}' == "PASS"
-    \    Run Keyword Unless  '${result}' == "PASS"  Log To Console  Check Traffic Status fails for the ${nLoop} time
-    
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-
-    Clear Statistic And Alarm  ${testSetHandle1}  
-    Clear Statistic And Alarm  ${testSetHandle2}
-    
-    Start Traffic  ${testSetHandle1}
-    Start Traffic  ${testSetHandle2}
-   
-    Sleep  60
-   
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-   
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
 Verify Traffic Is One Way Through
     Log To Console  Verify Traffic Is One Way Through

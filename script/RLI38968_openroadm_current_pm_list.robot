@@ -10,7 +10,7 @@ Documentation    This is Attella OpenROADM Current PM Data Model Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : CHASSIS_MGMT
+...              Feature                    : OPENROADM
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -55,6 +55,7 @@ Test Teardown  Run Keywords
 ...              Toby Test Teardown
 
 Suite Teardown  Run Keywords
+...				 Test Bed Teardown
 ...              Toby Suite Teardown
 
 
@@ -325,6 +326,16 @@ Testbed Init
 	log   Retrieve Current PM YangModel
 	Get Current PM YangModel
 	
+Test Bed Teardown
+    [Documentation]  Test Bed Teardown
+    
+    Log To Console  Remove Service
+    ${clientIfType}  set variable  0
+    Remove Service  ${clientIfType}
+    
+    Log To Console  Stopping Traffic    
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
 
    
 Get System Info
@@ -356,7 +367,8 @@ Create Current PM Instances If No One Exists
 	${xmlResult}=      Decode Bytes To String   ${resp.content}   UTF-8
     ${root}=           Parse XML    ${xmlResult}
     @{elementList}=   Get Elements  ${root}  xponder/xpdr-port
-	${ifType}=   Evaluate   random.randint(0,1)  modules=random
+	#${ifType}=   Evaluate   random.randint(0,1)  modules=random
+	${ifType}  set variable 	0
 	Log To Console   ifType is ${ifType}
 	Run Keyword Unless   ${elementList}   Configure Service And Init Test Set   ${ifType}
 	${random_interval}=  Evaluate  random.randint(10, 60)  modules=random
@@ -365,49 +377,18 @@ Create Current PM Instances If No One Exists
 
 
 Create Current PM Instances
-	${ifType}=   Evaluate   random.randint(0,1)  modules=random
+	#${ifType}=   Evaluate   random.randint(0,1)  modules=random
+	${ifType}  set variable  0
 	Log To Console   ifType is ${ifType}
 	Configure Service And Init Test Set   ${ifType}
 	${random_interval}=  Evaluate  random.randint(10, 60)  modules=random
-    Sleep  ${random_interval}
+    Sleep  ${random_interval}    
 
-
-
-Configure 100GE Service
-	Log To Console  Provide 100GE traffic service
-    ${client intf}=   Get Ethernet Intface Name From Client Intface   ${tv['device0__client_intf__pic']}
-    ${line odu intf}     Get Line ODU Intface Name From Client Intface   ${client intf}
-    ${line otu intf}     Get OTU Intface Name From ODU Intface   ${line odu intf}
-    ${line och intf}     Get OCH Intface Name From OTU Intface   ${line otu intf}
-    ${line transc port}   Evaluate    '${line och intf}'.replace("och","port")   string
-    log    ${line transc port}
-    ${line transc port}   Evaluate    '${line transc port}'.split(":")[0]        string
-    log    ${line transc port}
-	Create 100GE Service   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${client intf}   ${tv['uv-frequency']}   ${tv['uv-service-description']}
-
-
-
-Configure OTU4 Service
-	Log To Console  Provide OTU4 traffic service
-	${client intf}=   Get Otu4 Intface Name From Client Intface   ${tv['device0__client_intf__pic']}
-    ${line odu intf}     Get Line ODU Intface Name From Client Intface   ${client intf}
-    ${line otu intf}     Get OTU Intface Name From ODU Intface  ${line odu intf}
-    ${line och intf}     Get OCH Intface Name From OTU Intface  ${line otu intf}
-    ${line transc port}   Evaluate    '${line och intf}'.replace("och","port")   string
-    log    ${line transc port}
-    ${line transc port}   Evaluate    '${line transc port}'.split(":")[0]        string
-    log    ${line transc port}
-	Create OTU4 Service   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${client intf}   ${tv['uv-frequency']}   ${tv['uv-service-description']}   ${tv['uv-client_fec']} 
-	
-	
-	
-Configure Service
+Remove Service
 	[Arguments]   ${clientIfType}
 	Log To Console   clientIfType is ${clientIfType}
-	Run Keyword IF   ${clientIfType} == 0
-    ...				 Configure 100GE Service
-	...	      ELSE   Configure OTU4 Service
-
+    ${client intf}=   Get Ethernet Intface Name From Client Intface   ${tv['device0__client_intf__pic']}
+	Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
 
 
 Init Test Set
@@ -425,10 +406,10 @@ Init Test Set
 Configure Service And Init Test Set
 	[Arguments]   ${clientIfType}
 	Log To Console  De-provision interfaces on device0
-    Delete All Interface   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}
     Log To Console  Load Pre Default Provision on device0
 	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}	
- 	Configure Service   ${clientIfType}
+    ${client intf}=   Get Ethernet Intface Name From Client Intface   ${tv['device0__client_intf__pic']}
+    Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 	#Init Test Set       ${clientIfType}
 
 
