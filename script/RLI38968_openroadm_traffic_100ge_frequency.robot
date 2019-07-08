@@ -10,7 +10,7 @@ Documentation     This is Attella traffic frequency Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : CHASSIS_MGMT
+...              Feature                    : OPENROADM
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
