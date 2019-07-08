@@ -282,7 +282,8 @@ TC15
     
     
 TC16
-    [Documentation]  This test case mapping to 5.5-1 ~~~~ 5.5-10 for JTMS RLI-38968
+    [Documentation]  This test case mapping to 5.5-1 ~~~~ 5.5-10 for JTMS RLI-38968,
+    ...              and RLI-38968 TC5.1-8, 5.1-15
     [Tags]           Sanity  TC16
     Log              Configure all R/W leaves for circuit-pack FAN via Restconf       
     ${administrative_state_for_fan}    evaluate    random.choice(["inService", "outOfService", "maintenance"])     random
@@ -300,6 +301,7 @@ TC16
 
 TC17
     [Documentation]  This test case mapping to 5.4-1 ~~~~ 5.4-10 and 5.4-23 for JTMS RLI-38968
+    ...              and RLI-38968 TC5.1-6, 5.1-16
     [Tags]           Sanity   TC5   set-CP-PSM
     Log              Configure all R/W leaves for circuit-pack PSM via Restconf
     ${administrative_state_for_psm}       evaluate                random.choice(["inService", "outOfService", "maintenance"])     random
@@ -360,7 +362,7 @@ TC19
 
 TC20
     [Documentation]  Verify shelf info can be deleted via openRoadm leaf      
-    ...              Mapping RLI38968   5.2-27
+    ...              Mapping JTMS RLI-38968 TC 5.2-27, and RLI-38963 TC 5.1-23
     [Tags]           Sanity  TC20 
     Log                     Delete shelf via ResTConf paTCh method
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}
