@@ -109,7 +109,7 @@ TC0
     [Tags]           Sanity   tc0
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
+
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_ODU4_CLIENT_NAME}    description=client-odu-0    interface-type=otnOdu
     ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
@@ -130,7 +130,7 @@ TC1
     [Tags]           Sanity   tc1
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
+
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_OTU4_CLIENT_NAME}    description=client-otu-0    interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
@@ -151,7 +151,7 @@ TC2
     [Tags]           Sanity   tc2
     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
+
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_ODU4_CLIENT_NAME}    description=client-odu-0    interface-type=otnOdu
     ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
@@ -169,14 +169,14 @@ TC3
     ...              RLI39315 5.3.14
     [Tags]          Sanity   tc3
     Log         Verify delete odu4 interface name via Restconf Patch method    
-    #: FOR    ${INDEXS}    IN RANGE    0    1
+
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_OTU4_CLIENT_NAME} 
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
     check status line  ${patch_resp}  200
-    # TBD need to check deleted ?
+
 
 
 TC4
@@ -184,7 +184,6 @@ TC4
     ...              RLI39315 5.3.15
     [Tags]          Sanity   tc4
     Log         Verify delete odu4 interface name via Restconf Patch method
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_ODU4_CLIENT_NAME} 
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
@@ -193,7 +192,6 @@ TC4
     check status line  ${patch_resp}  200
 
     Log         Verify delete odu4 interface name via Restconf Patch method    
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_OTU4_CLIENT_NAME} 
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
@@ -209,9 +207,9 @@ TC5
     ...           RLI39315  5.3-1 (5.3-2 in naming script)
     Log           Configure client interface name / supporting-port via Restconf Patch method
     [Tags]          Sanity    tc5
-    #${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
+
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
+
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_OTU_NAME}    description=client-otu-0   interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
@@ -229,7 +227,6 @@ TC6
     ...              RLI39315 5.3-3  (5.3-4 in naming script)
     Log           Configure line interface name / supporting-port via Restconf Patch method
     [Tags]           Sanity   tc6
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_ODU_NAME}    description=client-odu-0    interface-type=otnOdu
     ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
@@ -256,7 +253,6 @@ TC7
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload} 
 
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_OTU_NAME}    description=client-otu-0    interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
@@ -269,7 +265,6 @@ TC7
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
 
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_ODU_NAME}    description=client-odu-0    interface-type=otnOdu
     ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
@@ -299,7 +294,6 @@ TC9
     ...              RLI39315 5.3-12
     [Tags]          Sanity   tc9
     Log         Verify delete odu4 interface name via Restconf Patch method    
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_LINE_OTU_NAME} 
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
@@ -331,3 +325,7 @@ Testbed Init
     Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Wait For   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
+
+Testbed Teardown
+    Log To Console  Clean up Interfaces
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}

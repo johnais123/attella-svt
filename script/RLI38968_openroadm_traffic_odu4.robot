@@ -342,10 +342,6 @@ Test Bed Init
     
 	Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-	
-	Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
@@ -375,49 +371,17 @@ Test Bed Init
 	set OTU SM TTI Traces  ${testSetHandle2}  dapi  Received  tx-dapi-val
     
 
-Verify Traffic Is OK
-    Log To Console  Verify Traffic Is OK
-    : FOR    ${nLoop}    IN RANGE    1    6
-    \    Sleep  20
-    \    Log To Console  Check Traffic Status for the ${nLoop} time
-    \    Clear Statistic And Alarm  ${testSetHandle1}  
-    \    Clear Statistic And Alarm  ${testSetHandle2}
-
-    \    Start Traffic  ${testSetHandle1}
-    \    Start Traffic  ${testSetHandle2}
-
-    \    Sleep  10
-
-    \    stop Traffic  ${testSetHandle1}
-    \    stop Traffic  ${testSetHandle2}
-    \    
-    \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    \    @{EMPTY LIST}=  create list
-    \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-
-    \    Exit For Loop If  '${result}' == "PASS"
-    \    Run Keyword Unless  '${result}' == "PASS"  Log To Console  Check Traffic Status fails for the ${nLoop} time
+Test Bed Teardown
+    [Documentation]  Test Bed Teardown
     
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-
-    Clear Statistic And Alarm  ${testSetHandle1}  
-    Clear Statistic And Alarm  ${testSetHandle2}
+    Log To Console  Remove Service
+    Remove OTU4 Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+    Remove OTU4 Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
     
-    Start Traffic  ${testSetHandle1}
-    Start Traffic  ${testSetHandle2}
-   
-    Sleep  60
-   
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
+    Log To Console  Stopping Traffic    
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
     
-    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-   
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
 Verify Traffic Is One Way Through
     Log To Console  Verify Traffic Is One Way Through

@@ -105,8 +105,6 @@ TC1
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
     Sleep   ${period}
     
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_LF
@@ -129,8 +127,6 @@ TC2
     Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
     Sleep   ${period}
     
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]  Stop Inject Alarm On Test Equipment  ${testSetHandle1}  ALARM_ETHERNET_ETH_RF
@@ -155,9 +151,7 @@ TC3
     Log To Console  near-end fiber recovery
     Set Laser State  ${testSetHandle1}  ON
     Sleep   ${period}
-    
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
+
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
@@ -195,8 +189,6 @@ TC4
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
     Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]
@@ -236,10 +228,6 @@ TC5
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}  ${payload}
     Sleep   ${period}   
-    
-    Log To Console  Verify Traffic
-    #Verify Traffic Is OK
-    #Verify Client Interfaces In Traffic Chain Are Up
     
     [Teardown]
     &{intf}=   create_dictionary   interface-name=${odu intf}  interface-administrative-state=inService
@@ -297,14 +285,7 @@ Test Bed Init
     Log To Console  load pre-default provision on device0
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Log To Console  load pre-default provision on device1
-    Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  
-	
-    Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-
-  
-    
+    Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}      
     
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
@@ -321,91 +302,9 @@ Test Bed Init
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+    Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+    Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
 
-
-Create 100GE Service
-    [Documentation]   Retrieve system configuration and state information
-    [Arguments]    ${odl_sessions}  ${node}  ${client intf}  ${frequency}  ${discription}
-    ${rate}=  Set Variable  100G
-    ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
-    ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
-    ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    ${line support port}=  Get Supporting Port  ${och intf}
-    ${line circuit pack}=  Get getSupporting Circuit Pack Name  ${och intf}
-    ${client support port}=  Get Supporting Port  ${client intf}
-    ${client circuit pack}=  Get getSupporting Circuit Pack Name  ${client intf}
-    ${client rate}=  Speed To Client Rate  ${rate}
-    ${odu rate}=  Speed To ODU Rate  ${rate}
-    ${otu rate}=  Speed To OTU Rate  ${rate}
-    ${och rate}=  Speed To OCH Rate  ${rate}
-    
-    &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
-    ...    interface-administrative-state=inService   speed=${client rate}
-    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
-
-    &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
-    ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}  frequency=${frequency}000
-    
-    &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}    interface-type=otnOtu    
-    ...    interface-administrative-state=inService    supporting-interface=${och intf}  otu-rate=${otu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-    
-    &{odu_interface}    create_dictionary   interface-name=${odu intf}     description=odu-${discription}    interface-type=otnOdu    
-    ...    interface-administrative-state=inService    supporting-interface=${otu intf}     odu-rate=${odu rate}
-    ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}
-    
-    
-    @{interface_info}    create list    ${client_interface}    ${och_interface}    ${otu_interface}    ${odu_interface} 
-    &{dev_info}   create_dictionary   interface=${interface_info}       
-    &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
-
-Verify Traffic Is OK
-    Log To Console  Verify Traffic Is OK
-    : FOR    ${nLoop}    IN RANGE    1    6
-    \    Sleep  20
-    \    Log To Console  Check Traffic Status for the ${nLoop} time
-    \    Clear Statistic And Alarm  ${testSetHandle1}  
-    \    Clear Statistic And Alarm  ${testSetHandle2}
-
-    \    Start Traffic  ${testSetHandle1}
-    \    Start Traffic  ${testSetHandle2}
-
-    \    Sleep  10
-
-    \    stop Traffic  ${testSetHandle1}
-    \    stop Traffic  ${testSetHandle2}
-    \    
-    \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    \    @{EMPTY LIST}=  create list
-    \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-
-    \    Exit For Loop If  '${result}' == "PASS"
-    \    Run Keyword Unless  '${result}' == "PASS"  Log To Console  Check Traffic Status fails for the ${nLoop} time
-    
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-
-    Clear Statistic And Alarm  ${testSetHandle1}  
-    Clear Statistic And Alarm  ${testSetHandle2}
-    
-    Start Traffic  ${testSetHandle1}
-    Start Traffic  ${testSetHandle2}
-   
-    Sleep  60
-   
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-   
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
 Verify Traffic Is Blocked
     Log To Console  Verify Traffic Is Blocked

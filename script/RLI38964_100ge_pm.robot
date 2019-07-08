@@ -88,9 +88,6 @@ TC1
     ${currentMin}=    Ensure Pm Statistics In the Same Bin During Testing Pm    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    current 
     log   ${currentMin}
 
-    #Log To Console  Verify Traffic
-    #Verify Traffic Is OK
-
     Log To Console    Verify PM Statistics no increase during traffic ok
     @{pmEntryParmaterlist}       Create List   
     @{current15mrealpm}=    Get Current Spefic Pm Statistic  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${client intf}   ${pmEntryParmaterlist}    @{pmInterval}[0]
@@ -170,8 +167,6 @@ TC4
 
     log  ${realpm}
     Verify Pm Should Be Increased  @{nextrealpm}[0]     @{realpm}[0]  
-    # JMC - errorSeconds will also increase so this check fails 
-    #Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
 
@@ -194,8 +189,6 @@ TC5
 
     log  ${realpm}
     Verify Pm Should Be Increased  @{nextrealpm}[0]     @{realpm}[0]  
-    # JMC - errorSeconds will also increase so this check fails 
-    #Verify others Pm Statistic shoule not be changed    @{pmInterval}[0]
     [Teardown]  Set Laser State  ${testSetHandle2}  ON
 
 
@@ -266,9 +259,7 @@ TC8
     @{nextrealpm}=    Get Current Spefic Pm Statistic  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${client intf}   ${pmEntryParmaterlist}    @{pmInterval}[1]
 
     log  ${realpm}
-    Verify Pm Should Be Increased  @{nextrealpm}[0]     @{realpm}[0]  
-    # JMC - errorSeconds will also increase so this check fails 
-    #Verify others Pm Statistic shoule not be changed    @{pmInterval}[1]    
+    Verify Pm Should Be Increased  @{nextrealpm}[0]     @{realpm}[0]    
     [Teardown]  Set Laser State  ${testSetHandle1}  ON
 
 
@@ -290,9 +281,7 @@ TC9
     @{nextrealpm}=    Get Current Spefic Pm Statistic  ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${client intf}   ${pmEntryParmaterlist}    @{pmInterval}[1]
 
     log  ${realpm}
-    Verify Pm Should Be Increased  @{nextrealpm}[0]     @{realpm}[0]  
-    # JMC - errorSeconds will also increase so this check fails 
-    #Verify others Pm Statistic shoule not be changed    @{pmInterval}[1]    
+    Verify Pm Should Be Increased  @{nextrealpm}[0]     @{realpm}[0]   
     [Teardown]  Set Laser State  ${testSetHandle2}  ON
 
 TC10
@@ -441,64 +430,13 @@ Test Bed Init
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Log To Console  load pre-default provision on device1
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}    
-    
-    Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
 
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
-    Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-
-
-*** Keywords ***
-Verify Traffic Is OK
-    Log To Console  Verify Traffic Is OK
-    : FOR    ${nLoop}    IN RANGE    1    6
-    \    Sleep  20
-    \    Log To Console  Check Traffic Status for the ${nLoop} time
-    \    Clear Statistic And Alarm  ${testSetHandle1}  
-    \    Clear Statistic And Alarm  ${testSetHandle2}
-
-    \    Start Traffic  ${testSetHandle1}
-    \    Start Traffic  ${testSetHandle2}
-
-    \    Sleep  10
-
-    \    stop Traffic  ${testSetHandle1}
-    \    stop Traffic  ${testSetHandle2}
-    \    
-    \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    \    @{EMPTY LIST}=  create list
-    \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-
-    \    Exit For Loop If  '${result}' == "PASS"
-    \    Run Keyword Unless  '${result}' == "PASS"  Log To Console  Check Traffic Status fails for the ${nLoop} time
-    
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-
-    Clear Statistic And Alarm  ${testSetHandle1}  
-    Clear Statistic And Alarm  ${testSetHandle2}
-    
-    Start Traffic  ${testSetHandle1}
-    Start Traffic  ${testSetHandle2}
-   
-    Sleep  60
-   
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-   
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
+    Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
+    Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
 
 
 Retrieve Current Statistics
