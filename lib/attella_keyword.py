@@ -43,11 +43,6 @@ def getOperXml(targetEt, param_key, param_value="", namespace=""):
         targetFather = xmlOper.find('.//%s/..'%param_key)
         compareEt = xmlOper.find('.//%s'%param_key)
        
-        #print("JMC - param key here is %s"%param_key) 
-        #print("JMC - param val here is %s"%param_value) 
-        #print("JMC - tag here is %s"%xmlOper.tag)
-        #print("JMC - parent tag is %s"%targetFather.tag)
-
         if targetFather is None:
             temp = ""
         # handle root 
@@ -155,7 +150,6 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
     if keyItem is None:
         pass
     else:
-        #print("JMC - keyitem is " + str(keyItem))
         pathPre += "/[" + getNodeAlias(keyItem) + "=\"" + dictParams[keyItem] + "\"]/."
     for key, value in dictParams.items():
         if isinstance(value, int) or isinstance(value, float):
@@ -168,7 +162,6 @@ def verifyModuleData(root, pathPre, dictParams, keyItem = None):
             else:
                 pathTemp = pathPre + "//" + key
             for item in value:
-                #print("JMC - checking item " + str(item) + " in value " + str(value)) 
                 if not verifyModuleData(root, pathTemp, item, keyItem):
                     result = False
         else:
