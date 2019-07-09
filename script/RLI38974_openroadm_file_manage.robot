@@ -314,6 +314,18 @@ TC20
     Should Not Contain Match    ${curfilelist}   pm*
 
 
+TC21
+    [Documentation]  Create a backup of the device configuration
+    ...              RLI38974  
+    [Tags]           Sanity  tc21
+    # [Arguments]    ${odl_sessions}   ${node}   ${filename}
+    @{filename}=    Create List    attella_163.backup
+    @{backupNotification}=  Create List  db-backup-notification  @{filename}[0]  Successful
+    @{Notifications}=  Create List  ${backupNotification}
+    Rpc Command For DB Backup   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   @{filename}[0]
+    Notifications Should Raised   ${ncHandle}   ${Notifications}  30
+
+
 *** Keywords ***
 Testbed Init
     log   retrieve system relate information via CLI
