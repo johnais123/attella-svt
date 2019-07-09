@@ -299,11 +299,16 @@ Test Bed Init
     Init Test Equipment  ${testSetHandle1}  100ge
     Init Test Equipment  ${testSetHandle2}  100ge
 
+
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Remove Service
     Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
+
+    Log To Console  Stopping Traffic    
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
 
     
 Verify Traffic Is Blocked
