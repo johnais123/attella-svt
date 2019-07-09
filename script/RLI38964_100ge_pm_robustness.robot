@@ -354,6 +354,10 @@ Test Bed Teardown
     Log To Console  Remove Service
     Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
+
+    Log To Console  Stopping Traffic    
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
     
 
 Retrieve Current Statistics
