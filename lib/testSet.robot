@@ -115,10 +115,8 @@ Verify Traffic On Test Equipment
 	${lRxPortFail}=  Set Variable If  ${len2}==0  ${EMPTY LIST}  ${lRxPortFail}
         
         ${t}    get time
-    Log To Console    JMC Checking Traffic ${t} 
 	${result}=  verifyTraffic  ${lTxPort}  ${lRxPort}  ${lTxPortFail}  ${lRxPortFail}
         ${t}    get time
-    Log To Console    JMC Checking Traffic Done  ${t} 
 	
 	[return]  ${result}
 

@@ -532,11 +532,9 @@ Test Bed Init
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Log To Console  load pre-default provision on device1
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-	
-    #Log To Console  de-provision on both device0 and device1
-    #Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    #Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 
+    ${ncHandle}=  Get Netconf Client Handle  ${tv['device0__re0__mgt-ip']}
+    Set Suite Variable    ${ncHandle}
 
     Log To Console  init test set to 100ge
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
@@ -566,6 +564,10 @@ Test Bed Teardown
     Log To Console  Remove Service
     Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
+    
+    Log To Console  Stopping Traffic    
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
 
 
 Verify Interfaces In Traffic Chain Are Alarm Free

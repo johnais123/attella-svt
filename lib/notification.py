@@ -175,14 +175,9 @@ def wait4ExpectedNotifications(ncHandle, listNotifications, timeout=60):
         notification = ncHandle.takeNotification(10)
         if notification:
             lNotifications.append(notification)
-    print("JMC Number of notificaions %s"%len(lNotifications))
     for notification in lNotifications:
-        print("JMC notifications %s"%notification.notification_xml)
         for listNotify in listNotifications:
             if "alarm-notification" == listNotify[0]:
-                print("JMC Alarm notification found %s %s"%(listNotify[1], listNotify[2]))
-                print("JMC Number of expected notifcations %s"%len(listNotifications))
-                print("JMC Number of expected params %s"%len(listNotify))
                 if 3 == len(listNotify):
                     #if re.match("%s"%ALARM_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
                     if listNotify[1] in notification.notification_xml and listNotify[2] in notification.notification_xml:
@@ -196,7 +191,12 @@ def wait4ExpectedNotifications(ncHandle, listNotifications, timeout=60):
                         lReceivedNotifications.append(listNotify)
                         break
             elif "db-backup-notification" == listNotify[0]:
-                pass
+                print("db backup notification received!")
+                if listNotify[1] in notification.notification_xml and listNotify[2] in notification.notification_xml:
+                #if re.match("%s"%DB_BACKUP_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
+                        print("the expected notification received!")
+                        lReceivedNotifications.append(listNotify)
+                        break
             elif "transfer-notification" == listNotify[0]:
                 if re.match("%s"%TRANSFER_NOTIFICATION(listNotify[1], listNotify[2]), re.sub(r"\n *", "", notification.notification_xml)):
                     print("the expected notification received!")
