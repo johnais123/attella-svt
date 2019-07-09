@@ -70,7 +70,7 @@ ${timeout}  300
 *** Test Cases ***     
 TC1
     [Documentation]  100ge Service Provision
-    ...              RLI38968 5.1-8
+    ...              Mapping JTMS RLI-38964 5.2-17 (set-up)
     [Tags]  Sanity  tc1  100ge
 	
 	Init Test Equipment  ${testSetHandle1}  100ge
@@ -80,9 +80,10 @@ TC1
     
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 
+
 TC2
     [Documentation]  100ge Traffic Verification After Cold Reload device
-    ...              RLI38968 5.1-8
+    ...              Mapping JTMS RLI-38964 5.2-17
     [Tags]  Sanity  tc2  100ge
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
@@ -90,10 +91,11 @@ TC2
 	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 	Log To Console  Verify Traffic after Cold Reload device
 	Verify Traffic Is OK
-	
+
+
 TC3
     [Documentation]  100ge Traffic Verification during Warm Reload device
-    ...              RLI38968 5.1-8
+    ...              Mapping JTMS RLI-38964 5.2-16
     [Tags]   Advance  tc3  100ge
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
@@ -121,17 +123,16 @@ TC3
 
 TC4
     [Documentation]  100ge Service De-provision
-    ...              RLI38968 5.1-8
+    ...              Mapping JTMS RLI-38964 5.2-16 (tear down)
     [Tags]  Sanity  tc4  100ge
 	Remove 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
     Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}
     Remove 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}
 
-	
 
-	
 TC5
     [Documentation]  otu4 Service Provision
+    ...              Mapping JTMS RLI-38965 5.2-3 (set-up)
     [Tags]  Sanity  tc5  otu4
 	Init Test Equipment  ${testSetHandle1}  otu4
 	Init Test Equipment  ${testSetHandle2}  otu4
@@ -154,9 +155,10 @@ TC5
     
     Create OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}  ${tv['uv-client_fec']}
 
+
 TC6
     [Documentation]  otu4 Traffic Verification After Cold Reload device
-    ...              RLI38968 5.1-8
+    ...              Mapping JTMS RLI-38965 5.2-3
     [Tags]  Advance  tc6  otu4
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
@@ -164,10 +166,11 @@ TC6
 	Rpc Command For Cold Reload device  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${timeout}  ${interval}  device0
 	Log To Console  Verify Traffic after Cold Reload device
 	Verify Traffic Is OK
-	
+
+
 TC7
     [Documentation]  otu4 Traffic Verification during Warm Reload device
-    ...              RLI38968 5.1-8
+    ...              Mapping JTMS RLI-38965 5.2-2
     [Tags]  Sanity  tc7  otu4
     Log To Console  Verify Traffic before Cold Reload device
     Verify Traffic Is OK
@@ -195,6 +198,7 @@ TC7
 	
 TC8
     [Documentation]  otu4 Service De-provision
+    ...              Mapping JTMS RLI-38965 5.2-2 (tear down)
     [Tags]  Sanity  tc8  otu4
     Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}
 	Mount vAttella On ODL Controller    ${odl_sessions}   ${timeout}    ${interval}   ${tv['device1__re0__mgt-ip']}

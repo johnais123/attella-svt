@@ -77,7 +77,7 @@ ${CFG_SESSEION_INDEX}       1
 *** Test Cases ***
 TC1
    [Documentation]  Near-end inject LOS to Client Interface
-   ...              TC 5.4-1 RLI-38966
+   ...              Mapping JTMS RLI-38966 TC 5.4-1, 5.4-3
    ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
    ...              Test1 inject LOS to CX: CX raise OTU4 LOS, Ly will raise ODU-AIS alarm , Test 1 raise BDI and Test 2 will raise ODU4-AIS alarm
    [Tags]           Sanity  tc1   
@@ -155,7 +155,7 @@ TC1
 
 TC2
     [Documentation]  Disable near-end OCH interface
-    ...              TC 5.4-15   RLI-38966  
+    ...              Mapping JTMS RLI-38966 TC 5.4-14, 5.4-15
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port.
     ...              Disable OCH on Lx, Ly will raise ODU-AIS alarm and Test2 will raise ODU4-AIS alarm
     [Tags]           Advance  tc2
@@ -220,7 +220,7 @@ TC2
 	
 TC3
     [Documentation]  Disable near-end Line OUT4 interface
-    ...              TC 5.4-22   RLI-38966     
+    ...              Mapping JTMS RLI-38966 TC5.4-16
     ...              Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port
     ...              Disable OTU4 on Lx, Ly will raise ODU-AIS alarm and Test 2 will raise ODU4-AIS alarm
     [Tags]           Advance  tc3
@@ -289,7 +289,7 @@ TC3
    
 TC4
     [Documentation]  Disable near-end Line ODU4 interface
-    ...              TC 5.4-23   RLI-38966     
+    ...              Mapping JTMS RLI-38966 TC 5.4-17
     ...              Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test ODU-AIS alarm on line port
     ...              Disable ODU4 on Lx, Ly will raise ODU-AIS alarm and Test 2 will raise ODU4-AIS alarm
     [Tags]           Advance  tc4
@@ -358,8 +358,8 @@ TC4
    
 TC5
     [Documentation]  <tim-detect-mode>Enabled and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI
-    ...              RLI-38966    5.7-1
-    ...             Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
+    ...              Mapping JTMS RLI-38966 TC 5.3-13, 5.7-1
+    ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm a          ...              will raise ODU4-AIS alarm
     [Tags]           Sanity  tc5
     Log    Modify the tx-sapi value for OTU4 on Lx,Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2 will raise ODU4-AIS alarm
@@ -433,7 +433,7 @@ TC5
    
 TC6
     [Documentation]  <tim-detect-mode>Enabled and <tim-act-enabled>true : Near-end line OTU4 send wrong DAPI
-    ...              TC 5.3-8  RLI-38966  
+    ...              Mapping JTMS RLI-38966 TC 5.3-14
     ...              Description:  Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI,Test2 raise ODU-AIS    
     [Tags]           Advance  tc6
@@ -502,7 +502,7 @@ TC6
 	
 TC7
     [Documentation]  <tim-detect-mode>SAPI-and-DAPI and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI and DAPI
-    ...              TC 5.3-9  RLI-38966   
+    ...              Mapping JTMS RLI-38966 TC 5.3-12
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
@@ -572,7 +572,7 @@ TC7
     
 TC8
     [Documentation]  <tim-detect-mode>SAPI and <tim-act-enabled>true : Near-end line OTU4 send wrong SAPI
-    ...              TC 5.3-10  RLI-38966   
+    ...              Mapping JTMS RLI-38966 TC 5.3.9
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-sapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm
@@ -642,7 +642,7 @@ TC8
 	
 TC9
     [Documentation]  <tim-detect-mode>DAPI and <tim-act-enabled>true : Near-end line OTU4 send wrong DAPI
-    ...              TC 5.3-11  RLI-38966  
+    ...              Mapping JTMS RLI-38966 TC 5.3.10
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM and OUT4-BDI alarm on line port
     ...              Modify the tx-dapi value for OTU4 on Lx, Ly will raise TTIM alarm/Lx will raise OUT4-BDI alarm and Test 2                 
     ...              will raise ODU4-AIS alarm			
@@ -712,7 +712,7 @@ TC9
 
 TC10
     [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-sapi> value
-    ...              TC 5.4-6  RLI-38966   
+    ...              Mapping JTMS RLI-38966 TC 5.4-8
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
     [Tags]           Advance  tc10
@@ -774,7 +774,7 @@ TC10
 	
 TC11
     [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Far-end line ODU4 <expected-dapi> value
-    ...              TC 5.4-7  RLI-38966    
+    ...              Mapping JTMS RLI-38966 TC 5.4-6
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
     [Tags]           Advance  tc11
@@ -837,7 +837,7 @@ TC11
 	
 TC12
     [Documentation]  <tim-detect-mode>SAPI and DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-sapi>/<expected-dapi> value
-    ...              TC 5.4-8  RLI-38966   
+    ...              Mapping JTMS RLI-38966 TC 5.4-10
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
     [Tags]           Advance  tc12
@@ -900,7 +900,7 @@ TC12
 	
 TC13
     [Documentation]  <tim-detect-mode> SAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-sapi> value
-    ...              TC 5.4-9  RLI-38966    
+    ...              Mapping JTMS RLI-38966 TC5.4-7
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-sapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
     [Tags]           Advance  tc13
@@ -961,7 +961,7 @@ TC13
 	
 TC14
     [Documentation]  <tim-detect-mode>DAPI, <tim-act-enabled>true : change Near-end line ODU4 <expected-dapi> value
-    ...              TC 5.4-10  RLI-38966 
+    ...              Mapping JTMS RLI-38966 TC 5.4-8
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test TTIM alarm will raised on remote line ODU port
     ...              Modify the <expected-dapi> value for ODU4 on Ly, Ly will raise TTIM alarm to against ODU.                 
     [Tags]           Advance  tc14
@@ -1024,7 +1024,7 @@ TC15
     [Documentation]  Delete Near-end OCH/OTU4/ODU4
     ...              Description: Test1-----Cx<>Lx----Ly<>Cy-----Test2 /  Test LOS alarm on line port
     ...              Delete OCH/OTU/ODU on Lx, the remote OCH will raise LOS alarm on Ly
-    ...               TC 5.2-1    RLI-38966
+    ...              Mapping JTMS RLI-38966 TC 5.2-1, 5.3-3
                
     [Tags]           Advance  tc15   Blocked by PR 1419722
 

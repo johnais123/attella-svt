@@ -83,21 +83,20 @@ ${new_plain_text_password}    vincentzhang123!
 *** Test Cases ***     
 TC1
     [Documentation]  Create new user with invalid username
-    ...              RLI38963 
-    [Tags]            Advance    tests13
-    Log             Create user with invalid username
+    ...              Mapping JTMS RLI-38963 TC 5.6-2
+    [Tags]           Advance    tests13
+    Log              Create user with invalid username
     :FOR    ${username}    IN    @{INVALID_USER_NAMES}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${username}    ${plain_text_password}    sudo
     \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
     \        Wait For    5s
 
-    
-    
+
 TC2
-    [Documentation]  Create new user with invalid non-encrpted password
-    ...              RLI38963
-    [Tags]            Advance    tests13
-    Log             Create user with invalid non-encrypted password
+    [Documentation]  Create new user with invalid non-encrypted password
+    ...              Mapping JTMS RLI-38963 TC 5.6-2
+    [Tags]           Advance    tests13
+    Log              Create user with invalid non-encrypted password
     :FOR    ${password}    IN    @{INVALID_NON_ENCRYPTED_PASSWORDS}
     \        ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${VALID_USER_NAME}    ${password}    sudo
     \        Run Keyword If     ${resp.status_code}!=400     FAIL    The expected status code is 400, but it is ${resp.status_code}
@@ -106,25 +105,25 @@ TC2
 
 TC3
     [Documentation]  Create new user with valid username and password
-    ...              RLI38963 
-    [Tags]            Advance    tests13
-    Log             Create user with valid username and password
+    ...              Mapping JTMS RLI-38963 TC 5.6-1
+    [Tags]           Advance    tests13
+    Log              Create user with valid username and password
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${plain_text_password}    sudo
     Run Keyword If     ${resp.status_code}!=204     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
 
 TC4
     [Documentation]  Change new created user password
-    ...              RLI38963 
+    ...              Mapping JTMS RLI-38963 TC 5.6-7
     [Tags]           Advance    tests13
-    Log             Change the passowrd for the new created user
+    Log              Change the passowrd for the new created user
     ${resp}      Change User Password    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}    ${new_plain_text_password}    
     Run Keyword If     ${resp.status_code}!=200     FAIL    The expected status code is 204, but it is ${resp.status_code}
 
     
 TC5
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI-38963-1 5.6-1   
+    ...              RLI-38963 5.6-1
     [Tags]           Sanity    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -151,10 +150,9 @@ TC5
     ...           AND    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}     
 
 
-   
 TC6
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI-38963-1 5.6-2 
+    ...              RLI-38963 5.6-2
     [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -179,12 +177,11 @@ TC6
     Log    Delete openroadm user 
     ${result}    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user} 
     Log    ${result}
-  
 
 
 TC7
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI-38963-1 5.6-3 
+    ...              RLI-38963 5.6-3
     [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -216,10 +213,9 @@ TC7
     Log    ${result}
 
 
-
 TC8
     [Documentation]  Create a new user in openroadm but existed in os
-    ...              RLI-38963-1 5.6-4 
+    ...              RLI-38963 5.6-4
     [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
     ${random_user}   Generate Random String	8	[LOWER]
@@ -251,10 +247,9 @@ TC8
     ...           AND    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}     ${random_user}       
 
 
-    
 TC9
     [Documentation]  Delete an existing user
-    ...              RLI-38963-1 5.6-5 
+    ...              RLI-38963 5.6-5
     [Tags]           Advance    tests13
     ${random_user}   Generate Random String    8	[LOWER]
     Log    Use ODL to create user ${random_user} in openroadm
@@ -280,10 +275,9 @@ TC9
     Run Keyword If     ${result}!=${FALSE}     FAIL    User ${random_user} should not be in openroadm after deprovisioning
 
 
-    
 TC10
     [Documentation]  Delete an inexisting user
-    ...              RLI-38963-1 5.6-6 
+    ...              RLI-38963 5.6-6
     [Tags]           Advance    tests13
     ${random_user}   Generate Random String    8	[LOWER]
     Log             Use ODL to create user ${random_user} in openroadm
@@ -314,7 +308,6 @@ TC10
     Log     ${result.status_code}    
 
 
-
 TC11
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
     ...              RLI-38963-1 5.6-7 
@@ -340,7 +333,6 @@ TC11
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
     ...           AND    Wait For    120s   
 
-    
 
 TC12
     [Documentation]  Use RPC to change the current user password(user used by ODL to manage the device)
@@ -363,7 +355,6 @@ TC12
     ...           Log    Restore openroadm user password to 'openroadm'    
     ...           AND    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}      
     ...           AND    Wait For    120s 
-
 
 
 TC13

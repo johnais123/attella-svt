@@ -75,7 +75,7 @@ ${OPER_STATUS_OFF}  outOfService
 
 TC1
     [Documentation]  Verify Los alarm in Client Interface
-    ...              RLI38964  5.4-1 5.6-1
+    ...              RLI38964  5.4-1, 5.6-1
     [Tags]  Sanity  tc1
     ${random}=  Evaluate  random.randint(20, 60)  modules=random
     Sleep  ${random}
@@ -119,7 +119,7 @@ TC1
 
 TC2
     [Documentation]  Verify Local Fault Rx/Tx alarm in Client Interface
-    ...              RLI38964 5.4-2 5.4-6 5.6-2 5.6-6
+    ...              RLI38964 5.4-2, 5.4-6, 5.6-2, 5.6-6
     [Tags]  Advance  tc2
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject LFAULT
@@ -169,7 +169,7 @@ TC2
 
 TC3
     [Documentation]  Verify Remote Fault Rx/Tx alarm in Client Interface
-    ...              RLI38964 5.4-3 5.4-7 5.6-2 5.6-6
+    ...              RLI38964 5.4-3, 5.4-7, 5.6-3, 5.6-7
     [Tags]  Advance  tc3
     Wait Until Interfaces In Traffic Chain Are Alarm Free
     Log To Console  near-end inject RFAULT
@@ -219,7 +219,7 @@ TC3
 
 #TC4
 #    [Documentation]  Verify HI BER ALARM in 100ge Client Interface
-#   ...              RLI38964 5.4-4 5.6-4
+#   ...              RLI38964 5.4-4, 5.4-8, 5.6-4, 5.6-8
 #    [Tags]  Advance  tc4
 #    Wait Until Interfaces In Traffic Chain Are Alarm Free
 #    Log To Console  near-end inject HI BER

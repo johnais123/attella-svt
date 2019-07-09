@@ -622,7 +622,7 @@ TC34
 
 TC35
     [Documentation]  Verify can configure Odu interface payload-type via openRoadm leaf
-    ...              RLI38968   new  no testcase in JTMS
+    ...              Mapping JTMS RLI-38968 TC 5.4-61
     [Tags]           Sanity   tc34   odu
     Log           Configure Opu interface payload-type via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -636,7 +636,7 @@ TC35
 
 TC36
     [Documentation]  Verify can configure Opu interface exp-payload-type via openRoadm leaf
-    ...              RLI38968   new  no testcase in JTMS
+    ...              Mapping JTMS RLI-38968 TC 5.4-62
     [Tags]           Sanity   tc34   odu
     Log           Configure Opu interface exp-payload-type via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -650,7 +650,7 @@ TC36
 
 TC37
     [Documentation]  Verify can configure Opu interface payload-interface via openRoadm leaf
-    ...              RLI38968   new  no testcase in JTMS
+    ...              Mapping JTMS RLI-38968 TC 5.4-63
     [Tags]           Sanity   tc34   odu
     Log           Configure Opu interface payload-interface via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -677,7 +677,7 @@ TC38
     
 TC39
     [Documentation]  Verify can configure all Odu interface attribute via openRoadm leaf
-    ...              RLI38968 5.4-39
+    ...              Mapping JTMS RLI-38968 TC 5.4-39, 5.4-46to50, 5.4-53-54, 5.4.61-63
     [Tags]           Sanity    tc36   odu  
     Log           Configure Odu interface tim-detect-mode via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
@@ -706,7 +706,8 @@ TC39
 # for Otu port
 TC40
     [Documentation]  Verify can configure Otu interface degm-intervals via openRoadm leaf
-    [Tags]          Sanity   tc37  otu
+    ...              Mapping JTMS RLI-38968 TC 5.4-23
+    [Tags]           Sanity   tc37  otu
     Log           Configure Otu interface degm-intervals via Restconf Patch method  
     : FOR    ${INDEX}    IN RANGE    0    4
     \     ${deginv}=      Evaluate      random.randint(2, 10)     random
@@ -859,7 +860,7 @@ TC50
     
 TC51
     [Documentation]  Verify can configure all Otu interface attribute via openRoadm leaf
-    ...              RLI38968 5.4-23-2
+    ...              RLI38968 5.4-23
     [Tags]           Sanity  tc48   otu  
     Log           Configure Otu interface all attributes via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
