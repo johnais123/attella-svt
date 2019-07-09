@@ -31,7 +31,6 @@ Documentation    This is Attella shelf Scripts
 ...              THIRDPARTY LICENSE VERSION : None
 
 
-
 Resource    jnpr/toby/Master.robot
 Library         BuiltIn
 Library         String
@@ -57,8 +56,6 @@ Suite Teardown  Run Keywords
 ...              Toby Suite Teardown
 
 
-
-
 *** Variables ***
 ##### variables of limitation test#####
 ${INVALID_SHELF_NAME}  shelf-1
@@ -75,13 +72,10 @@ ${interval}  120
 ${timeout}  120
 
 
-
-
-
 *** Test Cases ***       
 TC1
    [Documentation]  Verify shelf-name can be set via openRoadm leaf    
-   ...              Mapping  RLI38968  5.2-1 
+   ...              Mapping  RLI38968  5.2-2
    [Tags]           Sanity   TC1   
    Log              setting shelf-name via Restconf patch method	
    &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   shelf-type=${tv['uv-shelf_type']}
@@ -91,8 +85,6 @@ TC1
    Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
  
 
-	
- 
 #TC2
     #[Documentation]  Limitation test for shelf-name via openRoadm leaf   
     #...              Mapping  RLI38968  5.2-2
@@ -105,8 +97,6 @@ TC1
     #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
     #check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400 
 
-
-	
  
 TC3
     [Documentation]  Verify shelf-type can be set via openRoadm leaf    
@@ -119,11 +109,10 @@ TC3
     &{payload}   create_dictionary   org-openroadm-device=${dev_shelves}
     Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
-    
-    
+
 #TC4
     #[Documentation]  Limitation test for shelf-type via openRoadm leaf   
-    #...              Mapping  RLI38968  5.2-4
+    #...              Mapping  RLI38968  5.2-3
     #[Tags]           Negative  TC4
     #Log              Limitation test for shelf-type via Restconf patch method                    
     #&{shelf}   create_dictionary   shelf-name=shelf-0   shelf-type=${INVALID_SHELF_TYPE} 
@@ -136,7 +125,7 @@ TC3
 	
 TC5
     [Documentation]  Verify the rack of shelf can be set via openRoadm leaf  
-    ...              Mapping  RLI38968  5.2-5
+    ...              Mapping  RLI38968  5.2-4
     [Tags]           Sanity  TC5   
     Log                     setting rack for shelf via Restconf patch method
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   rack=${tv['uv-rack']}
@@ -148,7 +137,7 @@ TC5
 
 TC6
     [Documentation]  Verify shelf-position can be set via openRoadm leaf   
-    ...              Mapping  RLI38968  5.2-6
+    ...              Mapping  RLI38968  5.2-5
     [Tags]           Sanity  TC6    
     Log              setting shelf-position via Restconf patch method
     &{shelf}   create dictionary   shelf-name=${tv['uv-shelf_name']}   shelf-position=${tv['uv-shelf_position']}
@@ -160,7 +149,7 @@ TC6
     
 #TC7
     #[Documentation]  Limitation test for shelf-position via openRoadm leaf    
-    #...              Mapping  RLI38968   5.2-7
+    #...              Mapping  RLI38968   5.2-5
     #[Tags]           Negative  TC7
     #Log              Limitation test for shelf-position via Restconf patch method
     #&{shelf}   create_dictionary   shelf-name=shelf-0  shelf-position=${INVALID_SHELF_POSITION}  
@@ -171,11 +160,9 @@ TC6
     #check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400    
 
 
-
-    
 TC8
     [Documentation]  Verify administrative-state can be set via openRoadm leaf inService/outOfService/maintenance   
-    ...              Mapping RLI38968    5.2-8
+    ...              Mapping RLI38968    5.2-6
     [Tags]           Sanity   TC8 
     Log              setting shelf administrative-state via Restconf patch method
     ${administrative_state_for_shelf}     evaluate    random.choice(["inService", "outOfService", "maintenance"])    random
@@ -186,10 +173,9 @@ TC8
     Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}   
 
 
-    
 #TC9
 	#[Documentation]  Limitation test for administrative-state via openRoadm leaf inService/outOfService/maintenance 
-    #...              Mapping RLI38968  5.2-9
+    #...              Mapping RLI38968  5.2-6
 	#[Tags]           Negative  TC9
     #Log              Limitation test for shelf administrative-state via Restconf patch method
     #&{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   administrative-state-shelves=${INVALID_ADMINISTRATIVE_STATE_SHELVES}
@@ -199,12 +185,11 @@ TC8
     #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	#check status line  ${patch_resp}  400  set administrative-state with invalid value should failed and return status code 400
 	
-	
-	
+
 TC10
      [Documentation]  Verify equipment-state can be set via openRoadm leaf reserved-for-facility-planned/not-reserved-planned/reserved-for-maintenance-planned/reserved-for-facility-unvalidated/not-reserved-unvalidated/unknown-unvalidated/reserved-for-maintenance-unvalidated/reserved-for-facility-available/not-reserved-available/reserved-for-maintenance-available/reserved-for-reversion-inuse/not-reserved-inuse/reserved-for-maintenance-inuse
-     ...            Mapping RLI38968   5.2-19
-     [Tags]           Sanity   TC10  
+     ...              Mapping RLI38968   5.2-16
+     [Tags]           Sanity   TC10
      Log                     setting shelf equipment-state via Restconf patch method
      ${equipment_state_for_shelf}     evaluate    random.choice(["reserved-for-facility-planned", "not-reserved-planned", "reserved-for-maintenance-planned", "reserved-for-facility-unvalidated", "not-reserved-unvalidated", "unknown-unvalidated", "reserved-for-maintenance-unvalidated", "reserved-for-facility-available", "not-reserved-available", "reserved-for-maintenance-available", "reserved-for-reversion-inuse", "not-reserved-inuse", "reserved-for-maintenance-inuse"])    random
      &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   equipment-state-shelves=${equipment_state_for_shelf}
@@ -216,7 +201,7 @@ TC10
 
 #TC11
 	#[Documentation]  Limitation test for equipment-state via openRoadm leaf reserved-for-facility-planned/not-reserved-planned/reserved-for-maintenance-planned/reserved-for-facility-unvalidated/not-reserved-unvalidated/unknown-unvalidated/reserved-for-maintenance-unvalidated/reserved-for-facility-available/not-reserved-available/reserved-for-maintenance-available/reserved-for-reversion-inuse/not-reserved-inuse/reserved-for-maintenance-inuse
-	#...              Mapping RLI38968   5.2-20
+	#...              Mapping RLI38968   5.2-16
     #[Tags]           Negative  TC11
     #Log              Limitation test for shelf equipment-state via Restconf patch method      
     #&{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   equipment-state-shelves=${INVALID_EQUIPMENT_STATE_SHELVES}
@@ -226,13 +211,12 @@ TC10
     #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	#check status line  ${patch_resp}  400  set equipment-state with invalid value should failed and return status code 400
 
-	
-	
+
 TC12
     [Documentation]  Verify due-date can be set via openRoadm leaf pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?' + '(Z|[\+\-]\d{2}:\d{2})'
-    ...              Mapping RLI38968   5.2-21 
+    ...              Mapping RLI38968   5.2-17
     [Tags]           Sanity   TC12  
-    Log                     setting due-date via Restconf patch method
+    Log              setting due-date via Restconf patch method
     &{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   due-date-shelves=${tv['uv-valid_due_date']}
     @{shelves}    create list   ${shelf}
     &{dev_shelves}   create_dictionary   shelves=${shelves}
@@ -240,10 +224,9 @@ TC12
     Send Merge Then Get Request And Verify Output Is Correct  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
 
-
 #TC13
     #[Documentation]  Limitation test for dur-date via openRoadm leaf pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?' + '(Z|[\+\-]\d{2}:\d{2})'
-    #...              Mapping RLI38968   5.2-22
+    #...              Mapping RLI38968   5.2-17
     #[Tags]           Negative   TC13
     #Log              Limitation test for shelf due-date via Restconf patch method
     #&{shelf}   create_dictionary   shelf-name=${tv['uv-shelf_name']}   due-date-shelves=${INVALID_DUE_DATE}
@@ -253,8 +236,7 @@ TC12
     #${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
     #check status line  ${patch_resp}  400  set due-date with invalid value should failed and return status code 400	
 
-	
-	
+
 TC14
 	[Documentation]  Limitation test for due-date via openRoadm leaf pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?' + '(Z|[\+\-]\d{2}:\d{2})'
     ...              Mapping RLI38968   5.2-22
@@ -267,8 +249,7 @@ TC14
 	${patch_resp}  Send Merge Request  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 	check status line  ${patch_resp}  400
 
-    
-    
+
 TC15
 	[Documentation]   This test case mapping to test cases 5.3.1 to 5.3.12 in JTMS for RLI38968     
 	[Tags]            Sanity  TC15    
@@ -279,11 +260,10 @@ TC15
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}
 
-    
-    
+
 TC16
     [Documentation]  This test case mapping to 5.5-1 ~~~~ 5.5-10 for JTMS RLI-38968,
-    ...              and RLI-38968 TC5.1-8, 5.1-15
+    ...              and JTMS RLI-38968 TC 5.1-8, 5.1-15
     [Tags]           Sanity  TC16
     Log              Configure all R/W leaves for circuit-pack FAN via Restconf       
     ${administrative_state_for_fan}    evaluate    random.choice(["inService", "outOfService", "maintenance"])     random
@@ -298,10 +278,9 @@ TC16
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${payload}   
 
 
-
 TC17
     [Documentation]  This test case mapping to 5.4-1 ~~~~ 5.4-10 and 5.4-23 for JTMS RLI-38968
-    ...              and RLI-38968 TC5.1-6, 5.1-16
+    ...              and JTMS RLI-38968 TC 5.1-6, 5.1-16
     [Tags]           Sanity   TC5   set-CP-PSM
     Log              Configure all R/W leaves for circuit-pack PSM via Restconf
     ${administrative_state_for_psm}       evaluate                random.choice(["inService", "outOfService", "maintenance"])     random
@@ -319,13 +298,11 @@ TC17
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}     ${tv['device0__re0__mgt-ip']}  ${payload}    
 
 
-
-
 TC18
 	[Documentation]  Verify can retrieve shelf R/W values via openRoadm leaf   
-                ...              Mapping RLI38968   5.2-26
-	[Tags]        Sanity   TC18    
-    Log                     FeTChing shelf all values via ResTConf GET method 
+    ...              Mapping JTMS RLI38968 TC 5.2-2 to 5.2-6
+	[Tags]           Sanity   TC18
+    Log              FeTChing shelf all values via ResTConf GET method
     ${administrative_state_for_shelf}    Set variable    inService    
     ${equipment_state_for_shelf}     Set variable    reserved-for-facility-planned
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}    rack=${tv['uv-rack']}     equipment-state-shelves=${equipment_state_for_shelf}  
@@ -335,13 +312,11 @@ TC18
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
 
-
- 
 TC19
 	[Documentation]  Verify can retrieve shelf readonly info via openRoadm leaf      
-    ...              Mapping RLI38968   5.2-10  5.2-11  5.2-12  5.2-13   5.2-14   5.2-15   5.2-16   5.2-17   5.2-18  5.2-23   5.2-24   5.2-25
-	[Tags]          Sanity  TC19  
-    Log                     FeTChing shelf operational values via ResTConf GET method
+    ...              Mapping JTMS RLI38968 TC 5.2-7 to 5.2-15, 5.2-18, 5.2-19
+	[Tags]           Sanity  TC19
+    Log              FeTChing shelf operational values via ResTConf GET method
 	&{slot0}	  create_dictionary   slot-name=${tv['uv-attella_def_slot0_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}  
 	&{slot1}	  create_dictionary   slot-name=${tv['uv-attella_def_slot1_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  
 	&{slot2}	  create_dictionary   slot-name=${tv['uv-attella_def_slot2_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  
@@ -357,7 +332,6 @@ TC19
 	...     slots=${slots}
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
-
 
 
 TC20
@@ -377,9 +351,9 @@ TC20
 
 TC21
 	[Documentation]  Verify can retrieve shelf R/W values via openRoadm leaf   
-    ...              Mapping RLI38968   5.2-26
-	[Tags]        Sanity   TC21    
-    Log                     FeTChing shelf all values via ResTConf GET method 
+    ...              Mapping JTMS RLI38968 TC 5.2-7 to 5.2-15, 5.2-18, 5.2-19
+	[Tags]           Sanity   TC21
+    Log              FeTChing shelf all values via ResTConf GET method
     ${administrative_state_for_shelf}    Set variable    inService    
     ${equipment_state_for_shelf}     Set variable    reserved-for-facility-planned
     &{dev_info}   create_dictionary   shelf-name=${tv['uv-shelf_name']}    rack=${tv['uv-rack']}     equipment-state-shelves=${equipment_state_for_shelf}  
@@ -389,13 +363,11 @@ TC21
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
 
-
- 
 TC22
 	[Documentation]  Verify can retrieve shelf readonly info via openRoadm leaf      
-    ...              Mapping RLI38968   5.2-10  5.2-11  5.2-12  5.2-13   5.2-14   5.2-15   5.2-16   5.2-17   5.2-18  5.2-23   5.2-24   5.2-25
-	[Tags]          Sanity  TC22  
-    Log                     FeTChing shelf operational values via ResTConf GET method
+    ...              Mapping JTMS RLI38968 TC 5.2-7 to 5.2-15, 5.2-18, 5.2-19
+	[Tags]           Sanity  TC22
+    Log              FeTChing shelf operational values via ResTConf GET method
 	&{slot0}	  create_dictionary   slot-name=${tv['uv-attella_def_slot0_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}  
 	&{slot1}	  create_dictionary   slot-name=${tv['uv-attella_def_slot1_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  
 	&{slot2}	  create_dictionary   slot-name=${tv['uv-attella_def_slot2_name']}  provisioned-circuit-pack=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  
@@ -412,12 +384,6 @@ TC22
 	&{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Get Request And Verify Output Is Correct    ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${payload}
 
-
-  
-
-     
-    
-    
     
     
 *** Keywords ***
