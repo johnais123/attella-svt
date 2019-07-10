@@ -226,7 +226,7 @@ TC3
 
 TC4
    [Documentation]  Test BDI alarm raised/clear on OTU4 client port 
-   ...              RLI38965  5.3-5 5.15-4 
+   ...              RLI38965  5.3-4, 5.15-4
    [Tags]          Advance  tc4
 
 
@@ -276,7 +276,7 @@ TC4
 
 TC5
    [Documentation]  Test IAE alarm raised/clear on OTU4 client port   
-   ...              RLI38965  5.3-6 5.15-5
+   ...              RLI38965  5.3-5, 5.15-5
    [Tags]           Advance  tc5
 
 
@@ -326,7 +326,7 @@ TC5
 
 TC6
     [Documentation]  Test BIAE alarm raised/clear on OTU4 client port  
-    ...              RLI38965  5.3-8  5.15-7
+    ...              RLI38965  5.3-7,  5.15-7
     [Tags]           Advance  tc6
 
 
@@ -374,7 +374,7 @@ TC6
 
 TC7
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-sapi value
-    ...              RLI38965  5.3-13
+    ...              RLI38965  5.3-6, 5.3-12, 5.15-6
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
     
     [Tags]           Sanity  tc7           
@@ -435,7 +435,7 @@ TC7
 TC8
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
-    ...              RLI38965  5.3-14
+    ...              RLI38965  5.3-13
     [Tags]           Advance  tc8  check
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -495,7 +495,7 @@ TC8
 TC9
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
-    ...              RLI38965  5.3-15 
+    ...              RLI38965  5.3-14
     
     [Tags]           Advance  tc9  check        
     
@@ -558,7 +558,7 @@ TC9
 TC10
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI, and tim-act-enabled is true 
-    ...              RLI38965  5.3-10
+    ...              RLI38965  5.3-9
     [Tags]           Advance  tc10   check
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -617,7 +617,7 @@ TC10
 TC11
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is DAPI, and tim-act-enabled is true 
-    ...              RLI38965  5.3-11 
+    ...              RLI38965  5.3-10
     [Tags]           Advance  tc11   check       
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -678,7 +678,7 @@ TC11
 TC12
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-sapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is false 
-    ...              RLI38965  5.3-12
+    ...              RLI38965  5.3-11
     [Tags]           Sanity  tc12          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -733,7 +733,7 @@ TC12
 TC13
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is false 
-    ...              RLI38965  5.3-9   5.15-8
+    ...              RLI38965  5.3-8   5.15-8
     [Tags]           Advance  tc13          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -788,7 +788,7 @@ TC13
 TC14
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is false 
-    ...              RLI38965  5.5-1   5.16-1
+    ...              RLI38965  5.4-9
     [Tags]           Advance  tc14          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -846,7 +846,7 @@ TC14
 TC15
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is SAPI, and tim-act-enabled is false 
-    ...              RLI38965  5.5-2   5.16-2
+    ...              RLI38965  5.4.10
     [Tags]           Advance  tc15          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -902,7 +902,7 @@ TC15
 TC16
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is DAPI, and tim-act-enabled is false 
-    ...              RLI38965  5.3-3   5.16-3
+    ...              RLI38965  5.4-11
     [Tags]           Advance  tc16          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -958,7 +958,7 @@ TC16
 
 TC17
     [Documentation]  Test SD alarm raised/clear on OTU4 client port     
-    ...              RLI38965  5.5-4   5.16-4
+    ...              Mapping JTMS RLI-38965 TC 5.4.8, 5.16.6
     [Tags]           Advance  tc17
 
 
@@ -1004,7 +1004,7 @@ TC17
 
 TC18
     [Documentation]  Test AIS alarm raised/clear on ODU4 client port   
-    ...              RLI38965  5.5-9     5.16-5
+    ...              Mapping JTMS RLI-38965 TC 5.5-1, 5.16.1
     [Tags]           Sanity  tc18
 
 
@@ -1054,7 +1054,7 @@ TC18
 
 TC19
    [Documentation]  Test OCI alarm raised/clear on ODU4 client port   
-   ...              RLI38965  5.5-9    5.16-5
+   ...              Mapping JTMS RLI-38965 TC 5.5-2, 5.16.2
    [Tags]           Advance  tc19
 
 
@@ -1102,7 +1102,7 @@ TC19
 
 TC20
     [Documentation]  Test LCK alarm raised/clear on ODU4 client port 
-    ...              RLI38965  5.5-9     5.16-5
+    ...              Mapping JTMS RLI-38965 TC 5.5-3, 5.16.3
     [Tags]           Advance  tc20
 
 
@@ -1149,7 +1149,7 @@ TC20
  
 TC21
    [Documentation]  Test BDI alarm raised/clear on ODU4 client port
-   ...              RLI38965  5.5-10     5.16-5
+   ...              Mapping JTMS RLI-38965 TC 5.5-4, 5.16-4
    [Tags]           Sanity  tc16
 
 
@@ -1198,7 +1198,7 @@ TC21
 TC22
     [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-sapi value
     ...              tim-detect-mode is SAPI, and tim-act-enabled is true 
-    ...              RLI38965  5.5-11     5.16-5
+    ...              Mapping JTMS RLI-38965 TC 5.5-10, 5.16.5
     [Tags]           Advance  tc22          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1252,7 +1252,7 @@ TC22
 TC23
    [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-dapi value
    ...              tim-detect-mode is DAPI, and tim-act-enabled is true 
-   ...              RLI38965  5.5-12     5.16-6
+   ...              Mapping JTMS RLI-38965 TC 5.5-11, 5.16-5
    [Tags]           Advance  tc23          
    
    Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1306,7 +1306,7 @@ TC23
 TC24
    [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-dapi value
    ...              tim-detect-mode is SAPI-and-DAPI, and tim-act-enabled is true 
-   ...              RLI38965  5.6-1
+   ...              Mapping JTMS RLI-38965 TC 5.5-9, 5.16-5
    [Tags]           Advance  tc24         
    
    Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1361,7 +1361,7 @@ TC24
 TC25
    [Documentation]  Test TTIM alarm raised/clear on ODU4 interface,with the wrong expected-dapi value
    ...              tim-detect-mode is SAPI and DAPI, and tim-act-enabled is true
-   ...              RLI38965  5.6-3
+   ...              RLI38965  5.5-6
    [Tags]           Advance  tc25         
    
    Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1416,7 +1416,7 @@ TC25
 TC26
     [Documentation]  Test TTIM alarm raised/clear on OTU4 interface,with the wrong expected-dapi value
     ...              tim-detect-mode is DAPI, and tim-act-enabled is true 
-    ...              RLI38965  5.6-2
+    ...              RLI38965  5.5-8
     [Tags]           Advance  tc26          
     
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1470,7 +1470,7 @@ TC26
 
 TC27
    [Documentation]  Test SD alarm raised/clear on ODU4 client port 
-   ...              RLI38965  5.6-4
+   ...              RLI38965  5.5-12
    [Tags]           Advance  tc27
 
 
@@ -1505,7 +1505,8 @@ TC27
 
 TC28
     [Documentation]  After Attella system warm reload,the LOS alarm on OTU4 interface still can be raised.
-    [Tags]           Advance  tc28 
+    ...              Mapping JTMS RLI-38965 TC 5.6.1
+    [Tags]           Advance  tc28
 
   
     Log To Console   Verify Interfaces In Traffic Chain Are Alarm Free
@@ -1569,7 +1570,8 @@ TC28
 
 TC30
     [Documentation]  After Attella system warm reload,the ODU4 TTIM alarm still can be raised.
-    [Tags]           Advance  tc30 
+    ...              Mapping JTMS RLI-38965 TC 5.6.1
+    [Tags]           Advance  tc30
   
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free 
