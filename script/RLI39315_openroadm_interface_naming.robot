@@ -318,3 +318,8 @@ Testbed Init
     Mount vAttella On ODL Controller    ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
     Wait For   15s 
     Verfiy Device Mount status on ODL Controller   ${odl_sessions}  ${timeout}    ${interval}   ${tv['device0__re0__mgt-ip']}
+
+
+Testbed Teardown
+    Log To Console  Clean up Interfaces
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}

@@ -206,10 +206,6 @@ Test Bed Init
     Log To Console  load pre-default provision on device1
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
 	
-    Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
-
 
     Log To Console  init test set to 100ge
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
@@ -241,12 +237,14 @@ Test Bed Init
 
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
-
-    #Destory Netconf Client Handle  ${ncHandle}
-
     Log To Console  Remove Service
-    #Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-    #Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+    @{ifnames}     Create List    ${ATTELLA_DEF_LINE_OCH_NAME}    ${ATTELLA_DEF_LINE_OTU_NAME}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${ATTELLA_DEF_100GE_CLIENT_NAME}            
+    Remove 100GE Service   ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}    ${ifnames}
+    Remove 100GE Service   ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}    ${ifnames}
+
+    Log To Console  Stopping Traffic    
+    Stop Traffic  ${testSetHandle1}
+    Stop Traffic  ${testSetHandle2}
 
 
 Verify Interfaces In Traffic Chain Are Alarm Free

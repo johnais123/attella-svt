@@ -996,6 +996,7 @@ Test Bed Teardown
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
     
+    
 Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}             ${EMPTY LIST}
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client otu intf}         ${EMPTY LIST}

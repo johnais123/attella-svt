@@ -636,10 +636,8 @@ Test Bed Teardown
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
 
-    #@{ifnames}     Create List    ${ATTELLA_DEF_LINE_OCH_NAME}    ${ATTELLA_DEF_LINE_OTU_NAME}    ${ATTELLA_DEF_LINE_ODU_NAME}    ${ATTELLA_DEF_OTU4_CLIENT_NAME}    ${ATTELLA_DEF_ODU4_CLIENT_NAME}            
-    
-    #Remove OTU4 Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}    ${ifnames}
-    #Remove OTU4 Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}    ${ifnames}
+    Log To Console  Clean up Interfaces
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
 
     
 Retrieve Current Statistics
