@@ -128,7 +128,8 @@ TC4
     \                &{ont-capability-100GE}    create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}             proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
     \                &{ont-capability-OUT4}     create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_odu4']}           proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
     \                @{client-port}             create list           ${ont-capability-100GE}         ${ont-capability-OUT4}
-    \                &{ports}                   create dictionary     port-name-p=port-0/0/${INDEX}   port-direction=bidirectional    port-wavelength-type=wavelength    label-ports=0/${INDEX}      if-cap-type-ports=${client-port}     port-power-capability-min-rx=-22.00      port-power-capability-min-tx=-12.00      port-power-capability-max-rx=0.00     port-power-capability-max-tx=2.00
+    \                &{ports}                   create dictionary     port-name-p=port-0/0/${INDEX}   port-direction=bidirectional    port-wavelength-type=wavelength    label-ports=0/${INDEX}      if-cap-type-ports=${client-port}     
+    # port-power-capability-min-rx=-22.00      port-power-capability-min-tx=-12.00      port-power-capability-max-rx=0.00     port-power-capability-max-tx=2.00
     \                @{portlist}                create list           ${ports}
     \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/0/${INDEX}    vendor-cp=${tv['uv-attella_def_vendor']}        administrative-state-cp=inService
     \                ...                        software-load-version=${osVersion.text}               ports=${portlist}
@@ -149,7 +150,8 @@ TC5
     \                @{line-port}               create list           ${ont-capability-Line0}                         ${ont-capability-Line1}
     \                &{ports}                   create dictionary     port-name-p=port-0/1/${INDEX}  port-direction=bidirectional   port-wavelength-type=wavelength   label-ports=1/${INDEX}  port-type=cfp2dco-port    if-cap-type-ports=${line-port}
     \                @{portlist}                create list           ${ports}
-    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}      administrative-state-cp=inService
+    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}   administrative-state-cp=inService
+    #vendor-cp=${tv['uv-attella_def_vendor']}      administrative-state-cp=inService
     \                ...                        software-load-version=${osVersion.text}    ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
