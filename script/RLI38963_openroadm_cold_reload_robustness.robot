@@ -98,7 +98,7 @@ TC2
     ...              administrative-state-cp=inService    software-load-version=${osVersion.text}    
     &{psm1_info}     create dictionary      circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  vendor-cp=${tv['uv-attella_def_vendor']}   model-cp=${ATTELLA_DEF_PSM1_MODEL.text}
     ...              hardware-version-cp=${ATTELLA_DEF_PSM1_HAREWARE_VERSION.text}       type-cp=PSM  type-cp-category=powerSupply  clei-cp=${ATTELLA_DEF_PSM1_CLEI.text}   product-code-cp=${ATTELLA_DEF_PSM1_PRODUCT_CODE.text}
-    ...              administrative-state-cp=inService     software-load-version=${osVersion.text}    
+    ...              administrative-state-cp=inService
     @{psm_info}      create list            ${psm0_info}   ${psm1_info}
     &{static_info}   create dictionary      circuit-packs=${psm_info}
     &{payload}       create dictionary      org-openroadm-device=${static_info}
@@ -114,7 +114,6 @@ TC3
     #\                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${ATTELLA_DEF_FAN_MODEL.text}
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}    model-cp=${tv['uv-attella_def_fan_model']}
     \                ...   type-cp=FTU  type-cp-category=fan     product-code-cp=${tv['uv-attella_def_fan_product_code']}    administrative-state-cp=inService
-    \                ...   software-load-version=${osVersion.text}
     \                @{Fan_info}      create list    ${Fan0_info}
     \                &{static_info}   create dictionary       circuit-packs=${Fan_info}
     \                &{payload}       create dictionary       org-openroadm-device=${static_info}
@@ -134,7 +133,7 @@ TC4
     #port-power-capability-min-rx=-22.00      port-power-capability-min-tx=-12.00      port-power-capability-max-rx=0.00     port-power-capability-max-tx=2.00
     \                @{portlist}                create list           ${ports}
     \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/0/${INDEX}    vendor-cp=${tv['uv-attella_def_vendor']}        administrative-state-cp=inService
-    \                ...                        software-load-version=${osVersion.text}               ports=${portlist}
+    \                ...                        ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}
@@ -153,8 +152,7 @@ TC5
     \                &{ports}                   create dictionary     port-name-p=port-0/1/${INDEX}  port-direction=bidirectional   port-wavelength-type=wavelength   label-ports=1/${INDEX}  port-type=cfp2dco-port    if-cap-type-ports=${line-port}
     \                @{portlist}                create list           ${ports}
     \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}    administrative-state-cp=inService
-    # vendor-cp=${tv['uv-attella_def_vendor']}      
-    \                ...                        software-load-version=${osVersion.text}    ports=${portlist}
+    \                ...                        ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}
