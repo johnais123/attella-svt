@@ -477,11 +477,11 @@ Get Device Info
     ${resp_content}=              Decode Bytes To String   ${resp.content}    UTF-8
     Log       ${resp_content}
     &{result_dict} =	Create Dictionary
-    @{info_list}    create list    max-srgs  serial-id  serial-id  template  max-degrees  model  macAddress
+    @{info_list}    create list    max-srgs  serial-id  serial-id  max-degrees  model  macAddress
     ...                            node-number  ipAddress  source  defaultGateway   current-datetime  node-type
     ...                            softwareVersion   current-defaultGateway   max-num-bin-15min-historical-pm
     ...                            vendor  prefix-length  max-num-bin-24hour-historical-pm  current-ipAddress
-    ...                            openroadm-version  clli  current-prefix-length  node-id
+    ...                            openroadm-version  current-prefix-length  node-id
         
     : FOR    ${info}    IN   @{info_list}  
 	\       ${value_element}           Get Element      ${resp_content}    /info/${info}
