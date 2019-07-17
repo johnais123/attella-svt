@@ -97,19 +97,19 @@ TC3
     [Tags]           Sanity   TC3   Set-CP-FAN
     Log              Configure all R/W leaves for circuit-pack FAN via Restconf
     ${administrative_state_for_fan}             evaluate          random.choice(["inService", "outOfService", "maintenance"])         random
-    &{fankey}        create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot3_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-3
+    &{fankey}        create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot3_provisioned_circuit_pack']}         circuit-pack-type=FTU  shelf=shelf-0  slot=slot-3
     ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0    due-date-cp=${tv['uv-valid_due_date']}
-    &{fankey1}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot4_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-4
+    &{fankey1}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot4_provisioned_circuit_pack']}         circuit-pack-type=FTU  shelf=shelf-0  slot=slot-4
     ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
-    &{fankey2}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot5_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-5
+    &{fankey2}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot5_provisioned_circuit_pack']}         circuit-pack-type=FTU  shelf=shelf-0  slot=slot-5
     ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
-    &{fankey3}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot6_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-6
+    &{fankey3}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot6_provisioned_circuit_pack']}         circuit-pack-type=FTU  shelf=shelf-0  slot=slot-6
     ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
-    &{fankey4}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}         circuit-pack-type=ACX6180-T-Fan-Tray  shelf=shelf-0  slot=slot-7
+    &{fankey4}       create dictionary          circuit-pack-name-self=${tv['uv-attella_def_slot7_provisioned_circuit_pack']}         circuit-pack-type=FTU  shelf=shelf-0  slot=slot-7
     ...              administrative-state-cp=${administrative_state_for_fan}    equipment-state-cp=reserved-for-facility-available    circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0       due-date-cp=${tv['uv-valid_due_date']}
     @{fan_info}      create list                ${fankey}  ${fankey1}  ${fankey2}  ${fankey3}  ${fankey4}
@@ -139,11 +139,11 @@ TC5
     [Tags]           Sanity   TC5   set-CP-PSM
     Log              Configure all R/W leaves for circuit-pack PSM via Restconf
     ${administrative_state_for_psm}       evaluate                random.choice(["inService", "outOfService", "maintenance"])     random
-    &{psmkey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply     shelf=shelf-0  slot=slot-1
+    &{psmkey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot1_provisioned_circuit_pack']}  circuit-pack-type=PSM     shelf=shelf-0  slot=slot-1
     ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available   due-date-cp=${tv['uv-valid_due_date']}     
 	...              circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_psm_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0      
-    &{psmkey1}       create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  circuit-pack-type=ACX6180-PowerSupply     shelf=shelf-0  slot=slot-2
+    &{psmkey1}       create dictionary    circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  circuit-pack-type=PSM     shelf=shelf-0  slot=slot-2
     ...              administrative-state-cp=${administrative_state_for_psm}       equipment-state-cp=reserved-for-facility-available      circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_psm_product_code']}
     ...              circuit-pack-mode=NORMAL   subSlot=slot-0      
 	...              due-date-cp=${tv['uv-valid_due_date']}
