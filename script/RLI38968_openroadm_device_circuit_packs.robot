@@ -127,7 +127,7 @@ TC4
 #   Error: because ATTELLA_DEF_FAN_MODEL.text was getting the CLI Fan-Model = ACX6160-FAN which is incorrect Pass Criteria to compare to RPC-Config, so define static pass criteria ACX6160-FAN-1RU in RLI38968_openroadm_device_circuit_packs.params.yaml file
     \                &{Fan0_info}     create dictionary       circuit-pack-name-self=fan-${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}                   model-cp=${tv['uv-attella_def_fan_model']}
     \                ...   type-cp=FTU  type-cp-category=fan                    product-code-cp=${tv['uv-attella_def_fan_product_code']}
-    \                ...   software-load-version=${osVersion.text}                                 operational-state-cp=${tv['uv-attella_def_operational_state2']}
+    \                ...   operational-state-cp=${tv['uv-attella_def_operational_state2']}
     \                @{Fan_info}      create list    ${Fan0_info}
     \                &{static_info}   create dictionary       circuit-packs=${Fan_info}
     \                &{payload}       create dictionary       org-openroadm-device=${static_info}
@@ -162,7 +162,6 @@ TC6
     ...              software-load-version=${osVersion.text}
     &{psm1_info}     create dictionary      circuit-pack-name-self=${tv['uv-attella_def_slot2_provisioned_circuit_pack']}  vendor-cp=${tv['uv-attella_def_vendor']}   model-cp=${ATTELLA_DEF_PSM1_MODEL.text}
     ...              hardware-version-cp=${ATTELLA_DEF_PSM1_HAREWARE_VERSION.text}       type-cp=PSM  type-cp-category=powerSupply  clei-cp=${ATTELLA_DEF_PSM1_CLEI.text}   product-code-cp=${ATTELLA_DEF_PSM1_PRODUCT_CODE.text}
-    ...              software-load-version=${osVersion.text}
     @{psm_info}      create list            ${psm0_info}   ${psm1_info}
     &{static_info}   create dictionary      circuit-packs=${psm_info}
     &{payload}       create dictionary      org-openroadm-device=${static_info}
@@ -199,8 +198,8 @@ TC8
     \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}                 slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
     \                @{pic0_cport_info}          create list            ${cp-port}
     \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}      model-cp=${ATTELLA_DEF_PIC0_MODEL.text}
-    \                ...                              operational-state-cp=${tv['uv-attella_def_operational_state2']}               type-cp=PIC
-    \                ...                         software-load-version=${osVersion.text}                      type-cp-category=${tv['uv-attella_def_circuit_pack_category']}                    
+    \                ...                         operational-state-cp=${tv['uv-attella_def_operational_state2']}               type-cp=PIC
+    \                ...                         type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                         cp-slots=${pic0_cport_info}
     \                @{pic_info}                 create list            ${pickey}
     \                &{static_info}              create dictionary      circuit-packs=${pic_info}
@@ -238,8 +237,8 @@ TC10
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
     \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_PIC1_MODEL.text}
-    \                ...                            operational-state-cp=${tv['uv-attella_def_operational_state2']}                type-cp=PIC
-    \                ...                        software-load-version=${osVersion.text}                               type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
+    \                ...                        operational-state-cp=${tv['uv-attella_def_operational_state2']}                type-cp=PIC
+    \                ...                        type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
     \                @{pic_info}                create list           ${pickey}
     \                &{static_info}             create dictionary     circuit-packs=${pic_info}
@@ -278,7 +277,7 @@ TC12
     \                &{ports}                   create dictionary     port-name-p=port-0/0/${INDEX}   port-direction=bidirectional    port-wavelength-type=wavelength    label-ports=0/${INDEX}      if-cap-type-ports=${client-port}     port-power-capability-min-rx=-22.00      port-power-capability-min-tx=-12.00      port-power-capability-max-rx=0.00     port-power-capability-max-tx=2.00
     \                @{portlist}                create list           ${ports}
     \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/0/${INDEX}                        vendor-cp=${tv['uv-attella_def_vendor']}
-    \                ...                        software-load-version=${osVersion.text}               ports=${portlist}
+    \                ...                        ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}
@@ -314,7 +313,7 @@ TC14
     \                @{line-port}               create list           ${ont-capability-Line0}                         ${ont-capability-Line1}
     \                &{ports}                   create dictionary     port-name-p=port-0/1/${INDEX}  port-direction=bidirectional   port-wavelength-type=wavelength   label-ports=1/${INDEX}  port-type=cfp2dco-port    if-cap-type-ports=${line-port}
     \                @{portlist}                create list           ${ports}
-    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}  software-load-version=${osVersion.text}    ports=${portlist}
+    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}  ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}

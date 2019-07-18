@@ -111,7 +111,7 @@ TC5
     ...              RLI38974 5.1-1
     [Tags]           Sanity   tc5
     @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     @{curfilelist1}=  Get Matches   ${curfilelist}    p*
     ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     @{filelist}      create list    @{curfilelist1}[0] 
@@ -124,7 +124,7 @@ TC6
     ...              RLI38974 5.1-2   
     [Tags]           Sanity   tc6
     @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     @{curfilelist1}=  Get Matches   ${curfilelist}    p*
     ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}    
@@ -135,7 +135,7 @@ TC7
     ...              RLI38974 5.1-3
     [Tags]           Sanity   tc7
     @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     @{curfilelist1}=  Get Matches   ${curfilelist}    p*
     ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     @{filename}    create list    ${extrafile}
@@ -155,7 +155,7 @@ TC9
     ...              RLI38974 5.1-4   
     [Tags]           Sanity   tc9
     @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     @{curfilelist1}=  Get Matches   ${curfilelist}    p*
     ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     @{filename}    create list    ${extrafile}
@@ -255,7 +255,7 @@ TC16
     ...              RLI38974 5.2-1
     [Tags]           Sanity   tc15
     @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     @{curfilelist1}=  Get Matches   ${curfilelist}    p*
     ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     @{filelist}      create list    @{curfilelist1}[0] 
@@ -270,7 +270,7 @@ TC17
     [Documentation]  Verify transfer upload notification can be reported failed with non-exsit file
     ...              RLI38974 5.2-1
     [Tags]           Sanity   tc16
-    ${addstr}=      Generate Random String   3      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   3      [NUMBERS]abcdef
     @{curfilelist1}=  create list    ${addstr}.txt
     @{uploadNotification}=  Create List  transfer-notification  @{curfilelist1}[0]   Failed
     @{Notifications}=  Create List  ${uploadNotification}
@@ -285,7 +285,7 @@ TC18
     @{uploadNotification}=  Create List  transfer-notification  ${extrafile}  Successful
     @{Notifications}=  Create List  ${uploadNotification}
     @{curfilelist}=    Get Default Openroadm File
-    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    #${addstr}=      Generate Random String   2      [NUMBERS]abcdef
     @{curfilelist1}=  Get Matches   ${curfilelist}    p*
     ${extrafile}=    Replace String Using Regexp    @{curfilelist1}[0]   \\d{8}-\\d{6}-\\w{3}    ${addstr}
     Rpc Command For Download File   ${odl_sessions}     ${tv['device0__re0__mgt-ip']}   ${tv['uv-remote-sftp-path']}   ${extrafile}
@@ -351,6 +351,9 @@ Testbed Init
         
     @{odl_sessions}    create list   ${opr_session}   ${cfg_session}   ${rpc_session}
     Set Suite Variable    ${odl_sessions}
+
+    ${addstr}=      Generate Random String   2      [NUMBERS]abcdef
+    Set Suite Variable    ${addstr}
     
     Mount vAttella On ODL Controller    ${odl_sessions}   ${tv['uv-odl-timeout']}   ${tv['uv-odl-interval']}    ${tv['device0__re0__mgt-ip']}   openroadm   openroadm
     Wait For   5s 
