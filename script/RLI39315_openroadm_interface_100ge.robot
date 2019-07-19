@@ -246,6 +246,9 @@ Test Bed Teardown
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
 
+    Log To Console  Clean up Interfaces
+    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+
 
 Verify Interfaces In Traffic Chain Are Alarm Free
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${ATTELLA_DEF_100GE_CLIENT_NAME}  ${EMPTY LIST}
