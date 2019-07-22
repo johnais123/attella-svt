@@ -352,7 +352,13 @@ Remove 100GE Service
     ${odu intf}=  Get Line ODU Intface Name From Client Intface  ${client intf}
     ${otu intf}=  Get OTU Intface Name From ODU Intface  ${odu intf}
     ${och intf}=  Get OCH Intface Name From OTU Intface  ${otu intf}
-    
+
+    ${length}=  Get Length  ${names for interfaces}
+    ${client intf}=  Set Variable If  ${length}==4  @{names for interfaces}[3]  ${client intf}
+    ${odu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[2]  ${odu intf}
+    ${otu intf}=  Set Variable If  ${length}==4  @{names for interfaces}[1]  ${otu intf}
+    ${och intf}=  Set Variable If  ${length}==4  @{names for interfaces}[0]  ${och intf}
+
     &{intf}=   create_dictionary   interface-name=${odu intf}
     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${netconfParams}
