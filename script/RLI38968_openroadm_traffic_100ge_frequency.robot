@@ -126,6 +126,7 @@ Test Bed Teardown
     Release Test Equipment    ${testSetHandle1}
     Release Test Equipment    ${testSetHandle2}
 
+
 Test Bed Init
     Set Log Level  DEBUG
     # Initialize
@@ -178,67 +179,29 @@ Test Bed Init
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port1-type']}  ${tv['uv-test-eqpt-port1-ip']}  ${tv['uv-test-eqpt-port1-number']}  ${tv['uv-test-eqpt-port1-extraparam']}
     ${testSetHandle1}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle1}
-    
+
+    Log To Console  Init Test Interface ${testEquipmentInfo}
+    Init Test Equipment  ${testSetHandle1}  100ge
+
     @{testEquipmentInfo}=  create list  ${tv['uv-test-eqpt-port2-type']}  ${tv['uv-test-eqpt-port2-ip']}  ${tv['uv-test-eqpt-port2-number']}  ${tv['uv-test-eqpt-port2-extraparam']}
     ${testSetHandle2}=  Get Test Equipment Handle  ${testEquipmentInfo}
     Set Suite Variable    ${testSetHandle2}
-           
-    Init Test Equipment  ${testSetHandle1}  100ge
+
+    Log To Console  Init Test Interface ${testEquipmentInfo}
     Init Test Equipment  ${testSetHandle2}  100ge
+
+    Start Traffic  ${testSetHandle1}
+    Start Traffic  ${testSetHandle2}
     
     Create 100GE Service  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 
     Create 100GE Service  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote client intf}   ${tv['uv-frequency']}  ${tv['uv-service-description']}
 
+    ${random}=  Evaluate  random.randint(30, 60)  modules=random
+    Sleep  ${random}
+
     Verify Traffic Is OK
 
-
-Verify Traffic Is OK
-#    Log To Console  Verify Traffic Is OK
-#    : FOR    ${nLoop}    IN RANGE    1    6
-#    \    Sleep  10
-#    \    Log To Console  Check Traffic Status for the ${nLoop} time
-#    \    Clear Statistic And Alarm  ${testSetHandle1}  
-#    \    Clear Statistic And Alarm  ${testSetHandle2}
-#
-#    \    Start Traffic  ${testSetHandle1}
-#    \    Start Traffic  ${testSetHandle2}
-#
-#    \    Sleep  10
-#
-#    \    stop Traffic  ${testSetHandle1}
-#    \    stop Traffic  ${testSetHandle2}
-#    \    
-#    \    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-#    \    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-#    \    @{EMPTY LIST}=  create list
-#    \    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-#
-#    \    Exit For Loop If  '${result}' == "PASS"
-#    \    Run Keyword Unless  '${result}' == "PASS"  Log To Console  Check Traffic Status fails for the ${nLoop} time
-#    
-#    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
-
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    Clear Statistic And Alarm  ${testSetHandle1}  
-    Clear Statistic And Alarm  ${testSetHandle2}
-    
-    Start Traffic  ${testSetHandle1}
-    Start Traffic  ${testSetHandle2}
-   
-    Sleep  30
-   
-    stop Traffic  ${testSetHandle1}
-    stop Traffic  ${testSetHandle2}
-    
-    @{lTx}=  create list  ${testSetHandle1}  ${testSetHandle2}
-    @{lRx}=  create list  ${testSetHandle2}  ${testSetHandle1}
-    @{EMPTY LIST}=  create list
-    ${result}=  Verify Traffic On Test Equipment  ${lTx}  ${lRx}  ${EMPTY LIST}  ${EMPTY LIST}
-   
-    Run Keyword Unless  '${result}' == "PASS"  FAIL  Traffic Verification fails
     
 Verify Traffic Is Blocked
     Log To Console  Verify Traffic Is Blocked
