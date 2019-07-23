@@ -1,0 +1,63 @@
+# ==== 'fv' Variables (Global). [START] ====
+fv-core-check    "enable";
+# ==== 'fv' Variables (Global). [END] ======
+uv-topology-info "
+
+      ----       ----       ----
+     |    |     |    |     |    |
+     | RT0|-----| R0 |-----| RT0|
+     |    |     |    |     |    |
+      ----       ----       ----
+
+";
+device0 {
+  system {
+    Model "ACX6160-T";
+    name "attella09";
+  }
+  interfaces {
+    client_intf {
+      type (and "ett" "near-end");
+    }
+    line_intf {
+      type "och";
+      link "CONNECT";
+    }
+  }
+}
+device1 {
+  system {
+    Model "ACX6160-T";
+    name "attella11";
+  }
+  interfaces {
+    client_intf {
+      type (and "ett" "far-end");
+    }
+    line_intf {
+      type "och";
+      link "CONNECT";
+    }
+  }
+}
+
+
+uv-odl-server "10.228.65.1:8181";
+uv-odl-username "admin";
+uv-odl-password "admin";
+uv-odl-interval 10;
+uv-odl-timeout 300;
+
+uv-frequency "192.50";
+uv-service-description "traffic_provision";
+uv-client_fec "rsfec";
+
+uv-test-eqpt-port1-ip "10.228.220.242";
+uv-test-eqpt-port1-type "EXFO";
+uv-test-eqpt-port1-number "5";
+uv-test-eqpt-port1-extraParam "QSFPP2";
+
+uv-test-eqpt-port2-ip "10.228.220.242";
+uv-test-eqpt-port2-type "EXFO";
+uv-test-eqpt-port2-number "6";
+uv-test-eqpt-port2-extraParam "QSFPP2";
