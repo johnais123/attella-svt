@@ -63,6 +63,9 @@ Suite Teardown  Run Keywords
 @{auth}    admin    admin
 ${interval}  120
 ${timeout}  120
+${uv-attella_def_circuit_pack_proactive_dmp}  false
+${uv-attella_def_circuit_pack_proactive_dmt}  false
+${uv-attella_def_circuit_pack_tcm_dmp_capable}  false
 
 *** Test Cases *** 
 TC0
