@@ -191,8 +191,8 @@ TC8
     Log              Get all read-only leaves(except serial-id) for circuit-pack PIC0 via Restconf
 
     :FOR             ${clientID}                 IN RANGE      0     7    2
-    \                &{ont-capability-100GE}     create dictionary      if-cap-type-cp=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}            proactive-DMp-cp=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-cp=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-cp=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
-    \                &{ont-capability-OUT4}      create dictionary      if-cap-type-cp=${tv['uv-attella_def_circuit_pack_if_cap_type_odu4']}             proactive-DMp-cp=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-cp=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-cp=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
+    \                &{ont-capability-100GE}     create dictionary      if-cap-type-cp=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}            proactive-DMp-cp=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-cp=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-cp=${uv-attella_def_circuit_pack_proactive_dmt}
+    \                &{ont-capability-OUT4}      create dictionary      if-cap-type-cp=${tv['uv-attella_def_circuit_pack_if_cap_type_odu4']}             proactive-DMp-cp=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-cp=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-cp=${uv-attella_def_circuit_pack_proactive_dmt}
     \                @{client-port}              create list            ${ont-capability-100GE}                                                     ${ont-capability-OUT4}
     \                &{pic-client-port}          create dictionary      port-name-cp=port-0/0/${clientID}                                            if-cap-type-cp=${client-port}
     \                @{supported-type-client}    create list            ${pic-client-port}
@@ -230,8 +230,8 @@ TC10
     Log              Get all read-only leaves(except serial-id) for circuit-pack PIC1 via Restconf
 
     :FOR             ${lineID}                  IN RANGE      0     4
-    \                &{ont-capability-Line0}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-cp=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-cp=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-cp=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
-    \                &{ont-capability-Line1}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-cp=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-cp=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-cp=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
+    \                &{ont-capability-Line0}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-cp=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-cp=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-cp=${uv-attella_def_circuit_pack_proactive_dmt}
+    \                &{ont-capability-Line1}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-cp=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-cp=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-cp=${uv-attella_def_circuit_pack_proactive_dmt}
     \                @{line-port}               create list           ${ont-capability-Line0}                         ${ont-capability-Line1}
     \                &{pic1-line-port}          create dictionary     port-name-cp=port-0/1/${lineID}                 if-cap-type-cp=${line-port}
     \                @{supported-type-line}     create list           ${pic1-line-port}
@@ -253,7 +253,7 @@ TC11
     ...              TC 5.1-10  RLI-38963	
     [Tags]           Sanity   TC11   Set-QPSK28-R/W
     Log              Configure all R/W leaves for circuit-pack QSFP28 via Restconf
-    : FOR            ${ClientID}        IN RANGE    0    8
+    : FOR            ${ClientID}        IN RANGE    0    7    2
     \                &{ctransc}         create dictionary       port-name-p=port-0/0/${ClientID}               port-type=qsfp28-port                port-qual=xpdr-client            
     \                ...                circuit-id-port=Client-QSFP28     administrative-state-port=inService    logical-connection-point=foo
     \                @{ctransclist}     create list             ${ctransc}
@@ -274,12 +274,13 @@ TC12
     [Tags]           Sanity   TC12   Get-QPSK28-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack QSFP28 via Restconf
     :FOR             ${INDEX}    IN RANGE    0    7    2
-    \                &{ont-capability-100GE}    create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}             proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
-    \                &{ont-capability-OUT4}     create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_odu4']}           proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
+    \                &{ont-capability-100GE}    create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}             proactive-DMp-ports=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-ports=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-ports=${uv-attella_def_circuit_pack_proactive_dmt}
+    \                &{ont-capability-OUT4}     create dictionary     if-cap-type-ports=${tv['uv-attella_def_circuit_pack_if_cap_type_odu4']}           proactive-DMp-ports=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-ports=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-ports=${uv-attella_def_circuit_pack_proactive_dmt}
     \                @{client-port}             create list           ${ont-capability-100GE}         ${ont-capability-OUT4}
-    \                &{ports}                   create dictionary     port-name-p=port-0/0/${INDEX}   port-direction=bidirectional    port-wavelength-type=wavelength    label-ports=0/${INDEX}      if-cap-type-ports=${client-port}     port-power-capability-min-rx=-22.00      port-power-capability-min-tx=-12.00      port-power-capability-max-rx=0.00     port-power-capability-max-tx=2.00
+    \                &{ports}                   create dictionary     port-name-p=port-0/0/${INDEX}   port-direction=bidirectional    port-wavelength-type=wavelength    label-ports=0/${INDEX}      if-cap-type-ports=${client-port}
+    #\                ...                        port-power-capability-min-rx=-13.60      port-power-capability-min-tx=1.50      port-power-capability-max-rx=5.50     port-power-capability-max-tx=1.50
     \                @{portlist}                create list           ${ports}
-    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/0/${INDEX}                        vendor-cp=${tv['uv-attella_def_vendor']}
+    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/0/${INDEX}
     \                ...                        ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
@@ -310,13 +311,12 @@ TC14
     [Tags]           Sanity   TC14   Get-CFP2DCO-READONLY
     Log              Get all read-only leaves(except serial-id) for circuit-pack CFP2DCO via Restconf
     : FOR            ${INDEX}    IN RANGE    0    4
-
-    \                &{ont-capability-Line0}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
-    \                &{ont-capability-Line1}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-ports=${tv['uv-attella_def_circuit_pack_proactive_dmp']}      tcm-capable-ports=${tv['uv-attella_def_circuit_pack_tcm_dmp_capable']}      proactive-DMt-ports=${tv['uv-attella_def_circuit_pack_proactive_dmt']}
+    \                &{ont-capability-Line0}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-ports=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-ports=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-ports=${uv-attella_def_circuit_pack_proactive_dmt}
+    \                &{ont-capability-Line1}    create dictionary     if-cap-type-cp=${tv['uv-attella_def_circuit_pack_line_if_cap_type']}             proactive-DMp-ports=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-ports=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-ports=${uv-attella_def_circuit_pack_proactive_dmt}
     \                @{line-port}               create list           ${ont-capability-Line0}                         ${ont-capability-Line1}
     \                &{ports}                   create dictionary     port-name-p=port-0/1/${INDEX}  port-direction=bidirectional   port-wavelength-type=wavelength   label-ports=1/${INDEX}  port-type=cfp2dco-port    if-cap-type-ports=${line-port}
     \                @{portlist}                create list           ${ports}
-    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}  vendor-cp=${tv['uv-attella_def_vendor']}  ports=${portlist}
+    \                &{optics_info}             create dictionary     circuit-pack-name-self=xcvr-0/1/${INDEX}   ports=${portlist}
     \                @{Transc_info}             create list           ${optics_info}
     \                &{static_info}             create dictionary     circuit-packs=${Transc_info}
     \                &{payload}                 create dictionary     org-openroadm-device=${static_info}

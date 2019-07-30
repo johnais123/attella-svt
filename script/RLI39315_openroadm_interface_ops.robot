@@ -303,7 +303,7 @@ TC6
     Sleep    30
     @{realpm}=    Get Current Spefic Pm Statistic   ${odl_sessions}    ${tv['device0__re0__mgt-ip']}   ${line port}    ${pmEntryParmaterlist}  @{pmInterval}[2]
     Log           ${realpm} 
-    @{expectValue}       Create List   ${och_tx_power}+1    ${och_tx_power}-1
+    @{expectValue}       Create List   ${och_tx_power}+2    ${och_tx_power}-2
     log           ${expectValue}	
     Verify Pm Should Be In Range    ${expectValue}     @{realpm}[0]	 
     [Teardown]  	Modify transmit-power for OCH interface    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${ATTELLA_DEF_LINE_OCH_NAME} 
@@ -341,7 +341,7 @@ TC7
     Log              Verify OTU4-BDE=I was raised on local line port
     @{expectedAlarms_local_line}      Create List       Backward Defect Indication  
     Verify Alarms On Resource  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${ATTELLA_DEF_LINE_OTU_NAME}         ${expectedAlarms_local_line}    
-    
+
     Log              Verify ODU4-AIS was raised on remote Test Set.
     ${expectedAlarms_remote_Test_Set}      Set variable      ALARM_OTU4_ODU4_AIS
     Is Alarm Raised  ${testSetHandle2}     ${expectedAlarms_remote_Test_Set}
@@ -631,8 +631,7 @@ Test Bed Init
     
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
-    Log To Console  Remove Service
-    
+    Log To Console  Stop Traffic
     Stop Traffic  ${testSetHandle1}
     Stop Traffic  ${testSetHandle2}
 
