@@ -307,12 +307,14 @@ Create OTU4 Service
     ...    odu-tim-act-enabled=true  odu-tim-detect-mode=SAPI-and-DAPI
 	...    odu-degm-intervals=5  odu-degthr-percentage=75  
 	...    odu-tx-operator=tx-operator-val
+	Log To Console     client &{client_interface}
 
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel  interface-circuit-id=1234
     ...    interface-administrative-state=inService  och-rate=${och rate}  
     ...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}  supporting-interface=none  
     ...    modulation-format=dp-qpsk  frequency=${frequency}000
 	...    transmit-power=-3.00
+	Log To Console     client &{och_interface}
     
     &{otu_interface}    create_dictionary   interface-name=${otu intf}     description=otu-${discription}  interface-type=otnOtu  interface-circuit-id=1234
     ...    interface-administrative-state=inService  otu-rate=${otu rate}
@@ -322,7 +324,8 @@ Create OTU4 Service
     ...    otu-tim-act-enabled=true  otu-tim-detect-mode=SAPI-and-DAPI
 	...    otu-fec=scfec  
 	...    otu-degm-intervals=5  otu-degthr-percentage=75  
-	...    otu-tx-operator=tx-operator-val 
+	...    otu-tx-operator=tx-operator-val
+	Log To Console     client &{otu_interface}
     
     &{odu_interface}    create_dictionary   interface-name=${odu intf}  description=odu-${discription}  interface-type=otnOdu  interface-circuit-id=1234  
     ...    interface-administrative-state=inService  odu-rate=${odu rate}
@@ -334,6 +337,7 @@ Create OTU4 Service
 	...    odu-tx-operator=tx-operator-val
 	...    proactive-delay-measurement-enabled=false
 	...    monitoring-mode=not-terminated
+	Log To Console     client &{odu_interface}
     
     @{interface_info}    create list    ${och_interface}    ${otu_interface}    ${odu_interface} 
     &{dev_info}   create_dictionary   interface=${interface_info}       
