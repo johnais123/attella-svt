@@ -562,9 +562,9 @@ Test Bed Init
     ${t}    get time 
     Log To Console    Device Setup Done ${t}
 
-	Log To Console  de-provision on both device0 and device1
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
-	Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
+	#Log To Console  de-provision on both device0 and device1
+    #Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+	#Delete all interface  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
     
     Load Pre Default Provision  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
     Load Pre Default Provision  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}
@@ -628,7 +628,8 @@ Test Bed Init
 
     ${t}    get time 
     Log To Console    Finished Setup ${t}
-    
+
+
 Test Bed Teardown
     [Documentation]  Test Bed Teardown
     Log To Console  Stop Traffic

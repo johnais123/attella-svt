@@ -1,0 +1,42 @@
+Below is a list of mappings to tidy up the script names for the ETRANS transfer 
+- this is to follow the guidelines that no script name should have RLI # 
+
+
+	renamed:    RLI38964_100ge_alarm.robot -> 100ge_alarm.robot
+	renamed:    RLI38964_100ge_pm.robot -> 100ge_pm.robot
+	renamed:    RLI38964_100ge_pm_robustness.robot -> 100ge_pm_robustness.robot
+	renamed:    RLI38964_100ge_signaling.robot -> 100ge_signaling.robot
+	renamed:    RLI38965_OTU4_loopback.robot -> OTU4_loopback.robot
+	renamed:    RLI38965_openroadm_alarm_client_otu4.robot -> openroadm_alarm_client_otu4.robot
+	renamed:    rli38965_openroadm_alarm_client_otu4_reboot.robot -> openroadm_alarm_client_otu4_reboot.robot
+	renamed:    RLI38963_openroadm_cold_reload_robustness.robot -> openroadm_cold_reload_robustness.robot
+	renamed:    RLI38968_openroadm_current_pm_list.robot -> openroadm_current_pm_list.robot
+	renamed:    RLI38965_openroadm_current_pm_otu4_client.robot -> openroadm_current_pm_otu4_client.robot
+	renamed:    RLI38968_openroadm_device_circuit_packs.params -> openroadm_device_circuit_packs.params
+	renamed:    RLI38968_openroadm_device_circuit_packs.robot -> openroadm_device_circuit_packs.robot
+	renamed:    RLI38968_openroadm_device_info.params -> openroadm_device_info.params
+	renamed:    RLI38968_openroadm_device_info.robot -> openroadm_device_info.robot
+	renamed:    RLI38968_openroadm_device_interface.params -> openroadm_device_interface.params
+	renamed:    RLI38968_openroadm_device_interface.robot -> openroadm_device_interface.robot
+	renamed:    RLI38963_openroadm_device_robustness.params -> openroadm_device_robustness.params
+	renamed:    RLI38968_openroadm_device_shelf.params -> openroadm_device_shelf.params
+	renamed:    RLI38968_openroadm_device_shelf.robot -> openroadm_device_shelf.robot
+	renamed:    RLI38974_openroadm_file_manage.params -> openroadm_file_manage.params
+	renamed:    RLI38974_openroadm_file_manage.robot -> openroadm_file_manage.robot
+	renamed:    RLI38974_openroadm_file_manage_reload.robot -> openroadm_file_manage_reload.robot
+	renamed:    RLI38965_openroadm_history_pm_otu4_client.robot -> openroadm_history_pm_otu4_client.robot
+	renamed:    RLI39315_openroadm_interface_100ge.robot -> openroadm_interface_100ge.robot
+	renamed:    RLI39315_openroadm_interface_heirarchy.robot -> openroadm_interface_heirarchy.robot
+	renamed:    RLI39315_openroadm_interface_naming.robot -> openroadm_interface_naming.robot
+	renamed:    RLI39315_openroadm_interface_ops.robot -> openroadm_interface_ops.robot
+	renamed:    RLI38966_openroadm_line_port_alarm.robot -> openroadm_line_port_alarm.robot
+	renamed:    rli38966_openroadm_line_port_alarm_reboot.robot -> openroadm_line_port_alarm_reboot.robot
+	renamed:    RLI38966_openroadm_line_port_pm.robot -> openroadm_line_port_pm.robot
+	renamed:    RLI38963_openroadm_setdatetime.robot -> openroadm_setdatetime.robot
+	renamed:    RLI38968_openroadm_traffic_100ge.robot -> openroadm_traffic_100ge.robot
+	renamed:    RLI38968_openroadm_traffic_100ge_frequency.robot -> openroadm_traffic_100ge_frequency.robot
+	renamed:    RLI38968_openroadm_traffic_odu4.robot -> openroadm_traffic_odu4.robot
+	renamed:    RLI38968_openroadm_traffic_odu4_frequency.robot -> openroadm_traffic_odu4_frequency.robot
+	renamed:    RLI38968_openroadm_traffic_reload.robot -> openroadm_traffic_reload.robot
+	renamed:    RLI38963_openroadm_user.robot -> openroadm_user.robot
+	renamed:    RLI38963_openroadm_warm_reload_robustness.robot -> openroadm_warm_reload_robustness.robot
