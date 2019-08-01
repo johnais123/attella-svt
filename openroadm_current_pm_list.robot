@@ -10,7 +10,7 @@ Documentation    This is Attella OpenROADM Current PM Data Model Scripts
 ...              TECHNOLOGY AREA            : PLATFORM
 ...              MAIN FEATURE               : Transponder support on ACX6160-T
 ...              SUB-AREA                   : CHASSIS
-...              Feature                    : OPENROADM
+...              Feature                    : CHASSIS_MGMT
 ...              Platform                   : ACX
 ...              DOMAIN                     : None
 ...              PLATFORM/PRODUCT SUPPORTED : ACX6160-T
@@ -39,9 +39,9 @@ Library         OperatingSystem
 Library         ExtendedRequestsLibrary
 Library         XML    use_lxml=True
 #Library			random
-Resource        ../lib/restconf_oper.robot
-Resource        ../lib/attella_keyword.robot
-Resource        ../lib/testSet.robot
+Resource        lib/restconf_oper.robot
+Resource        lib/attella_keyword.robot
+Resource        lib/testSet.robot
 
 
 Suite Setup   Run Keywords

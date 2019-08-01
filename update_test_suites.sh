@@ -1,10 +1,10 @@
 workspace=~/Documents/CVT/pluggables/test-suites/FUNCTIONAL_REG/PLATFORM/CHASSIS/CHASSIS_MGMT
 echo path is $workspace
-mkdir $workspace/lib
-mkdir $workspace/src
-cp lib/*.py*  $workspace/lib
-cp lib/*.robot $workspace/lib
-cp src/org-openroadm-device.xml $workspace/src
+#mkdir $workspace/lib
+#mkdir $workspace/src
+#cp lib/*.py*  $workspace/lib
+#cp lib/*.robot $workspace/lib
+#cp src/org-openroadm-device.xml $workspace/src
 cp 100ge_alarm.robot $workspace
 cp 100ge_pm.robot $workspace
 cp 100ge_pm_robustness.robot $workspace
