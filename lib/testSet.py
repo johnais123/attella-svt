@@ -1,5 +1,5 @@
 import EXFO
-import ont600
+# import ont600
 # import Spirent
 # from innocor import InnocorSession
 # from nose.tools import ok_

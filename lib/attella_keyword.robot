@@ -231,7 +231,7 @@ Create 100GE Service
     Log To Console     client &{client_interface}
     
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
-    ...    interface-administrative-state=inService    supporting-interface=none   och-rate=${och rate}
+    ...    interface-administrative-state=inService    och-rate=${och rate}
     ...    supporting-circuit-pack-name=${line circuit pack}     supporting-port=${line support port}  frequency=${frequency}000
     Log To Console     och &{och_interface}
     
@@ -291,7 +291,7 @@ Create OTU4 Service
 
     &{client_otu_interface}    create_dictionary   interface-name=${client otu intf}    description=client-otu-${discription}    interface-type=otnOtu  interface-circuit-id=1234  
     ...    interface-administrative-state=inService   otu-rate=${otu rate}  
-    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
+    ...    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
     ...    otu-tx-sapi=tx-sapi-val  otu-tx-dapi=tx-dapi-val  
     ...    otu-expected-sapi=tx-sapi-val  otu-expected-dapi=tx-dapi-val
 	...    otu-tim-act-enabled=true  otu-tim-detect-mode=SAPI-and-DAPI
@@ -311,7 +311,7 @@ Create OTU4 Service
 
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel  interface-circuit-id=1234
     ...    interface-administrative-state=inService  och-rate=${och rate}  
-    ...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}  supporting-interface=none  
+    ...    supporting-circuit-pack-name=${line circuit pack}  supporting-port=${line support port}
     ...    modulation-format=dp-qpsk  frequency=${frequency}000
 	...    transmit-power=-3.00
 	Log To Console     client &{och_interface}
