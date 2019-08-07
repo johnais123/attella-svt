@@ -20,7 +20,7 @@ Preconfiguration Netconf Feature
     [Arguments]             @{dut_list} 
     @{cmd_list}            Set Variable
     ...                     set system services netconf ssh
-    ...                     set system commit ignore-xpath-failure
+#    ...                     set system commit ignore-xpath-failure    <- Should not set, since ignores Validation
     ...                     set system services netconf rfc-compliant
     ...                     set system services netconf unified unhide
     ...                     set system services netconf traceoptions file size 100m
