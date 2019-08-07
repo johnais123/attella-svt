@@ -36,7 +36,8 @@ Get Netconf Client Handle
     ...                    |- strUsername : user name for netconf client
     ...                    |- strPassword : user password for netconf client
 
-    [Arguments]      ${strHost}  ${strUsername}=root  ${strPassword}=Embe1mpls
+#    [Arguments]      ${strHost}  ${strUsername}=root  ${strPassword}=Embe1mpls
+    [Arguments]      ${strHost}  ${strUsername}=regress  ${strPassword}=MaRtInI
 	${ncHandle}=  ncHandleInit  ${strHost}  ${strUsername}  ${strPassword}
 	[return]  ${ncHandle}
 	
