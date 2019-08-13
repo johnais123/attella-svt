@@ -227,7 +227,9 @@ Create 100GE Service
 
     &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
     ...    interface-administrative-state=inService   speed=${client rate}
-    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
+#    Error: Confirmed with Vince-C that supporting-interface should not be configured for Client-Ethernet:
+#    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
+    ...    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
     Log To Console     client &{client_interface}
     
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    
