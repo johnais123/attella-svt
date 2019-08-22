@@ -971,7 +971,8 @@ TC14
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
     Log              Modify the <expected-dapi> value for ODU4 on remote line port
-    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=012345    odu-tim-detect-mode=SAPI
+    # Error - SAPI?: &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=012345    odu-tim-detect-mode=SAPI
+    &{intf}          create dictionary   interface-name=${remote line odu intf}    odu-expected-dapi=012345    odu-tim-detect-mode=DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
@@ -1033,13 +1034,13 @@ TC15
     Log              Verify Interfaces In Traffic Chain Are Alarm Free
     Wait Until Interfaces In Traffic Chain Are Alarm Free
 
-    Log              Delete OCH on Lx
-    &{Och_interface}      create dictionary        interface-name=${line och intf}   
-    @{interface_info}     create list              ${Och_interface} 
-    &{dev_info}           create dictionary        interface=${interface_info}       
+    Log              Delete ODU4 on Lx
+    &{Och_interface}      create dictionary        interface-name=${line odu intf}
+    @{interface_info}     create list              ${Och_interface}
+    &{dev_info}           create dictionary        interface=${interface_info}
     &{payload}            create dictionary        org-openroadm-device=${dev_info}
-    ${patch_resp}         Send Delete Request      ${odl_sessions}                   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  200       
+    ${patch_resp}         Send Delete Request      ${odl_sessions}                   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  200
 
     Log              Delete OTU4 on Lx
     &{Och_interface}      create dictionary        interface-name=${line otu intf}     	
@@ -1049,13 +1050,13 @@ TC15
     ${patch_resp}         Send Delete Request      ${odl_sessions}                   ${tv['device0__re0__mgt-ip']}    ${payload} 
     check status line  ${patch_resp}  200	
 
-    Log              Delete ODU4 on Lx
-    &{Och_interface}      create dictionary        interface-name=${line odu intf}     	
-    @{interface_info}     create list              ${Och_interface} 
-    &{dev_info}           create dictionary        interface=${interface_info}       
+    Log              Delete OCH on Lx
+    &{Och_interface}      create dictionary        interface-name=${line och intf}
+    @{interface_info}     create list              ${Och_interface}
+    &{dev_info}           create dictionary        interface=${interface_info}
     &{payload}            create dictionary        org-openroadm-device=${dev_info}
-    ${patch_resp}         Send Delete Request      ${odl_sessions}                   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  200	
+    ${patch_resp}         Send Delete Request      ${odl_sessions}                   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  200
 	
    @{alarmNotification}=  Create List  alarm-notification  ${remote line och intf}  Loss of Signal
    @{alarmNotifications}=  Create List  ${alarmNotification}

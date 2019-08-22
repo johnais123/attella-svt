@@ -20,7 +20,7 @@ Preconfiguration Netconf Feature
     [Arguments]             @{dut_list} 
     @{cmd_list}            Set Variable
     ...                     set system services netconf ssh
-    ...                     set system commit ignore-xpath-failure
+#    ...                     set system commit ignore-xpath-failure    <- Should not set, since ignores Validation
     ...                     set system services netconf rfc-compliant
     ...                     set system services netconf unified unhide
     ...                     set system services netconf traceoptions file size 100m
@@ -227,7 +227,9 @@ Create 100GE Service
 
     &{client_interface}    create_dictionary   interface-name=${client intf}    description=ett-${discription}    interface-type=ethernetCsmacd    
     ...    interface-administrative-state=inService   speed=${client rate}
-    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
+#    Error: Confirmed with Vince-C that supporting-interface should not be configured for Client-Ethernet:
+#    ...    supporting-interface=none    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
+    ...    supporting-circuit-pack-name=${client circuit pack}     supporting-port=${client support port}
     Log To Console     client &{client_interface}
     
     &{och_interface}    create_dictionary   interface-name=${och intf}     description=och-${discription}    interface-type=opticalChannel    

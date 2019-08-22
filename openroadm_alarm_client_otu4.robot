@@ -565,7 +565,8 @@ TC10
     Wait Until Interfaces In Traffic Chain Are Alarm Free  
     
     Log              Modify the expected-sapi value for OTU4 on local client interface
-    &{intf}            create dictionary   interface-name=${client otu intf}    otu-expected-sapi=012345    odu-tim-detect-mode=SAPI
+    #Typo-error (odu-tim-detect-mode):  &{intf}            create dictionary   interface-name=${client otu intf}    otu-expected-sapi=012345    odu-tim-detect-mode=SAPI
+    &{intf}            create dictionary   interface-name=${client otu intf}    otu-expected-sapi=012345    otu-tim-detect-mode=SAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
@@ -598,7 +599,8 @@ TC10
 	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}  
 
     Log              Modify OTU4 expected-sapi back to "expected-sapi" on local client port
-    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-sapi=tx-sapi-val    odu-tim-detect-mode=SAPI-and-DAPI
+    #Typo-error (odu-tim-detect-mode):  &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-sapi=tx-sapi-val    odu-tim-detect-mode=SAPI-and-DAPI
+    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-sapi=tx-sapi-val    otu-tim-detect-mode=SAPI-and-DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
@@ -657,7 +659,8 @@ TC11
 	Wait Until Verify Alarms On Resource Succeeds  ${odl_sessions}  ${tv['device1__re0__mgt-ip']}  ${remote line odu intf}  ${expectedAlarms}  ${ALARM CHECK TIMEOUT}  
 
     Log              Modify OTU4 expected-sapi back to "expected-sapi" on local client port
-    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-dapi=tx-dapi-val   odu-tim-detect-mode=SAPI-and-DAPI
+    #typo-error (odu-tim-detect-mode):  &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-dapi=tx-dapi-val   odu-tim-detect-mode=SAPI-and-DAPI
+    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-dapi=tx-dapi-val   otu-tim-detect-mode=SAPI-and-DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
@@ -853,7 +856,8 @@ TC15
     Wait Until Interfaces In Traffic Chain Are Alarm Free   
     
     Log              Modify the expected-sapi value for OTU4 on local client interface
-    &{intf}            create dictionary   interface-name=${client otu intf}    otu-expected-sapi=012345    odu-tim-detect-mode=SAPI   odu-tim-act-enabled=false
+    #type-error (odu-tim-detect-mode):  &{intf}            create dictionary   interface-name=${client otu intf}    otu-expected-sapi=012345    odu-tim-detect-mode=SAPI   odu-tim-act-enabled=false
+    &{intf}            create dictionary   interface-name=${client otu intf}    otu-expected-sapi=012345    otu-tim-detect-mode=SAPI   otu-tim-act-enabled=false
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
@@ -883,7 +887,8 @@ TC15
 
 
     Log              Modify OTU4 expected-sapi back to "expected-sapi" on local client port
-    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-sapi=tx-sapi-val    odu-tim-detect-mode=SAPI-and-DAPI
+    #typo-error (odu-tim-detect-mode):  &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-sapi=tx-sapi-val    odu-tim-detect-mode=SAPI-and-DAPI
+    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-sapi=tx-sapi-val    otu-tim-detect-mode=SAPI-and-DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
@@ -939,7 +944,8 @@ TC16
 
 
     Log              Modify OTU4 expected-sapi back to "expected-sapi" on local client port
-    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-dapi=tx-dapi-val   odu-tim-detect-mode=SAPI-and-DAPI
+    #typo-error (odu-tim-detect-mode):  &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-dapi=tx-dapi-val   odu-tim-detect-mode=SAPI-and-DAPI
+    &{intf}          create dictionary   interface-name=${client otu intf}   otu-expected-dapi=tx-dapi-val   otu-tim-detect-mode=SAPI-and-DAPI
     @{interface_info}    create list  ${intf}    
     &{dev_info}      create_dictionary   interface=${interface_info}       
     &{payload}       create_dictionary   org-openroadm-device=${dev_info}
