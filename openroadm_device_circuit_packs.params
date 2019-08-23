@@ -22,7 +22,7 @@ device0 {
       type "odu";
     }
     intf4 {
-      type "ett";
+      type (and "ett" "test");
     }
   }
 }
