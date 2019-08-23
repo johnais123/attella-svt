@@ -176,7 +176,7 @@ TC7
     [Tags]           Sanity    TC7   Set-CP-PIC0
     Log              Configure all R/W leaves for circuit-pack PIC0 via Restconf
     &{pic0key}       create dictionary            circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-type=${ATTELLA_DEF_PIC0_MODEL.text}      shelf=shelf-0             slot=slot-0
-    ...              administrative-state-cp=inService                 equipment-state-cp=reserved-for-facility-available                                             circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
+    ...              administrative-state-cp=inService                 equipment-state-cp=reserved-for-facility-available       circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL     subSlot=slot-0/0     
 	...              due-date-cp=${tv['uv-valid_due_date']}                cp-slot-name=slot-0/0     circuit-pack-name-parent=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
     @{pic_info}      create list    ${pic0key}
@@ -194,11 +194,11 @@ TC8
     \                &{ont-capability-100GE}     create dictionary      if-cap-type-cp=${tv['uv-attella_def_circuit_pack_if_cap_type_ge']}            proactive-DMp-cp=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-cp=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-cp=${uv-attella_def_circuit_pack_proactive_dmt}
     \                &{ont-capability-OUT4}      create dictionary      if-cap-type-cp=${tv['uv-attella_def_circuit_pack_if_cap_type_odu4']}             proactive-DMp-cp=${uv-attella_def_circuit_pack_proactive_dmp}      tcm-capable-cp=${uv-attella_def_circuit_pack_tcm_dmp_capable}      proactive-DMt-cp=${uv-attella_def_circuit_pack_proactive_dmt}
     \                @{client-port}              create list            ${ont-capability-100GE}                                                     ${ont-capability-OUT4}
-    \                &{pic-client-port}          create dictionary      port-name-cp=port-0/0/${clientID}                                            if-cap-type-cp=${client-port}
+    \                &{pic-client-port}          create dictionary      port-name-cp=port-0/0/${clientID}        if-cap-type-cp=${client-port}
     \                @{supported-type-client}    create list            ${pic-client-port}
-    \                &{supported-client}         create dictionary      supported-circuit-pack-type-cp=qsfp28-port                                   port-name-cp=${supported-type-client}
+    \                &{supported-client}         create dictionary      supported-circuit-pack-type-cp=qsfp28-port    port-name-cp=${supported-type-client}
     \                @{client-type}              create list            ${supported-client}
-    \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}                 slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
+    \                &{cp-port}                  create dictionary      slot-name-cp=slot-0/0/${clientID}     label-cp=0/${clientID}     slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${client-type}
     \                @{pic0_cport_info}          create list            ${cp-port}
     \                &{pickey}                   create dictionary      circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}                     vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}      model-cp=${ATTELLA_DEF_PIC0_MODEL.text}
     \                ...                         operational-state-cp=${tv['uv-attella_def_operational_state2']}               type-cp=PIC
@@ -240,7 +240,7 @@ TC10
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
     \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_PIC1_MODEL.text}
-    \                ...                        operational-state-cp=${tv['uv-attella_def_operational_state2']}                type-cp=PIC
+    \                ...                        operational-state-cp=${tv['uv-attella_def_operational_state']}                type-cp=PIC
     \                ...                        type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
     \                @{pic_info}                create list           ${pickey}
