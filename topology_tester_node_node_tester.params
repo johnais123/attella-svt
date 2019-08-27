@@ -1,0 +1,60 @@
+fv-connect-controllers "all";
+
+uv-odl-server "172.27.93.100:38181";
+uv-odl-username "admin";
+uv-odl-password "admin";
+uv-odl-interval 10;
+uv-odl-timeout 300;
+
+fv-tags  "dut";
+
+
+#fv-load-baseline-config-from "default";
+
+#fv-connect-controllers "all";
+
+#fv-core-check "enable";
+
+
+
+device0 {
+  system {
+    Model "ACX6160-T";
+  }
+  interfaces {
+    client_intf {
+      type "traffic-near";
+    }
+    line_intf {
+      type "och";
+      link "CONNECT";
+    }
+  }
+}
+device1 {
+  system {
+    Model "ACX6160-T";
+  }
+  interfaces {
+    client_intf {
+      type "traffic-far";
+    }
+    line_intf {
+      type "och";
+      link "CONNECT";
+    }
+  }
+}
+uv-frequency "192.50";
+uv-service-description "traffic_provision";
+uv-client_fec "rsfec";
+
+uv-test-eqpt-port1-ip "172.27.93.131";
+uv-test-eqpt-port1-type "EXFO";
+uv-test-eqpt-port1-number "0";
+uv-test-eqpt-port1-extraParam "QSFPP2";
+
+uv-test-eqpt-port2-ip "172.27.93.131";
+uv-test-eqpt-port2-type "EXFO";
+uv-test-eqpt-port2-number "2";
+uv-test-eqpt-port2-extraParam "QSFPP2";
