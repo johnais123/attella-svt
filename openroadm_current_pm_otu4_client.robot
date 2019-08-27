@@ -54,7 +54,8 @@ Test Teardown  Run Keywords
 ...              Toby Test Teardown
 
 Suite Teardown  Run Keywords
- ...              Toby Suite Teardown
+...              Test Bed Teardown
+...              Toby Suite Teardown
 
 
 *** Variables ***
