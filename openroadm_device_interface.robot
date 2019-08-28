@@ -92,7 +92,7 @@ TC1
     ...              RLI38968 5.4-1
     [Tags]           Sanity   tc1 
     Log           Configure client interface supporting-port via Restconf Patch method
-    ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/ 
+    ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
     : FOR    ${INDEXS}    IN RANGE    0    8    2
     \     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     \     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}${INDEXS}:0:0    description=client-otu-${INDEXS}    interface-type=otnOtu
@@ -128,16 +128,16 @@ TC2
     ${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/ 
     ${ATTELLA_DEF_CLIENT_ODU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/     
     : FOR    ${INDEXS}    IN RANGE    0    8    2
-    \    &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}${INDEXS}:0:0 
-    \    @{delinter}    create list    ${OTUinterface}
+    \    &{ODUinterface}    create dictionary    interface-name=${ATTELLA_DEF_CLIENT_ODU_NAME_PREFIX}${INDEXS}:0:0:0
+    \    @{delinter}    create list    ${ODUinterface}
     \    &{dev_info}   create dictionary   interface=${delinter}       
     \    &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
     \    check status line  ${patch_resp}  200
     
     : FOR    ${INDEXS}    IN RANGE    0    8    2
-    \    &{ODUinterface}    create dictionary    interface-name=${ATTELLA_DEF_CLIENT_ODU_NAME_PREFIX}${INDEXS}:0:0:0
-    \    @{delinter}    create list     ${ODUinterface}
+    \    &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}${INDEXS}:0:0
+    \    @{delinter}    create list     ${OTUinterface}
     \    &{dev_info}   create dictionary   interface=${delinter}       
     \    &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
@@ -170,11 +170,11 @@ TC4
     \     &{och_interface}    create dictionary   interface-name=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0     description=och-interface    interface-type=${ATTELLA_DEF_OCH_PORT_TYPE}    
     \     ...    interface-administrative-state=${ATTELLA_INTERFACE_ADMINSTRATION_STATE}    interface-circuit-id=${circuit-id}
     \     ...    supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}${INDEX}     supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}${INDEX}
-    \     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
+    #\     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     \     &{otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0     description=otu-interface    interface-type=${ATTELLA_DEF_OTU_PORT_TYPE}    
     \     ...    interface-administrative-state=${ATTELLA_INTERFACE_ADMINSTRATION_STATE}    interface-circuit-id=${circuit-id}    supporting-interface=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0   
     \     ...    supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}${INDEX}     supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}${INDEX}
-    \     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
+    #\     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
     \     &{odu_interface}    create dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0     description=odu-interface    interface-type=${ATTELLA_DEF_ODU_PORT_TYPE}    
     \     ...    interface-administrative-state=${ATTELLA_INTERFACE_ADMINSTRATION_STATE}   interface-circuit-id=${circuit-id}    supporting-interface=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0     
     \     ...    supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}${INDEX}     supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}${INDEX}
@@ -265,7 +265,7 @@ TC10
     ...              RLI38968 5.4-9
     [Tags]           Sanity   tc10    
     Log           Configure client interface supporting-circuit-pack-name via Restconf Patch method
-    &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-circuit-pack-name=xcvr-0/0/0
+    &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-circuit-pack-name=xcvr-0/0/2
     &{och_interface}    create dictionary   interface-name=${tv['device0__intf1__pic']}    supporting-circuit-pack-name=xcvr-0/1/0
     &{otu_interface}    create dictionary   interface-name=${tv['device0__intf2__pic']}    supporting-circuit-pack-name=xcvr-0/1/0
     &{odu_interface}    create dictionary    interface-name=${tv['device0__intf3__pic']}    supporting-circuit-pack-name=xcvr-0/1/0
@@ -280,7 +280,7 @@ TC11
     ...              RLI38968 5.4-10
     [Tags]           Sanity   tc11    
     Log           Configure client interface supporting-port via Restconf Patch method
-    &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-port=port-0/0/0
+    &{100GE_interface}    create dictionary   interface-name=${tv['device0__intf4__pic']}    supporting-port=port-0/0/2
     &{och_interface}    create dictionary   interface-name=${tv['device0__intf1__pic']}     supporting-port=port-0/1/0
     &{otu_interface}    create dictionary   interface-name=${tv['device0__intf2__pic']}     supporting-port=port-0/1/0
     &{odu_interface}    create dictionary    interface-name=${tv['device0__intf3__pic']}    supporting-port=port-0/1/0
@@ -352,7 +352,7 @@ TC16
     [Tags]            Sanity    tc16    ethernet 
     Log           Configure all client interface ethernet via Restconf Patch method
     ${mulit}   set variable   2 
-    : FOR    ${INDEXS}    IN RANGE    0    8    2:
+    : FOR    ${INDEXS}    IN RANGE    0    8    2
     # \     ${INDEXS}   Evaluate   ${INDEX}*${mulit}*1
     \     &{100GE_interface}    create dictionary   interface-name=${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}${INDEXS}   duplex=full    ethernet-fec=off   speed=100000  
     \     @{interface_info}    create list    ${100GE_interface} 
@@ -742,7 +742,7 @@ TC42
     Log           Configure Otu interface fec via Restconf Patch method
     : FOR    ${INDEX}    IN RANGE    0    4
     \     ${otu_fec}   Evaluate   random.choice(["off", "scfec"])     random
-    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0   otu-fec=${otu_fec}     
+    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0   otu-fec=scfec
     \     @{interface_info}    create list    ${Otu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -924,6 +924,32 @@ TC54
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}  
 
+#TC55
+#    [Documentation]  quick delete test
+#    [Tags]         Sanity    tc55
+#    : FOR    ${INDEX}    IN RANGE    0    4
+#    \
+#    \     &{intf}=   create_dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0
+#    \     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+#    \
+#    \     &{intf}=   create_dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0
+#    \     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+#    \
+#    \     &{intf}=   create_dictionary   interface-name=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0
+#    \     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+#    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+
+#TC56
+#    [Documentation]  quick client delete test
+#    [Tags]         Sanity    tc56
+#    Log           delete client interface supporting-port via Restconf Patch method
+#    : FOR    ${INDEXS}    IN RANGE    0    8    2
+#    \     &{intf}   create dictionary   interface-name=${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}${INDEXS}
+#    \     &{netconfParams}   create dictionary   org-openroadm-device=${intf}
+#    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+
 
 *** Keywords ***
 Testbed Init
@@ -952,5 +978,29 @@ Testbed Init
 
 Testbed Teardown
     Log To Console  Clean up Interfaces
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Log           delete interfaces supporting-port via Restconf Patch method
+    : FOR    ${INDEX}    IN RANGE    0    4
+    \     &{intf}=   create_dictionary   interface-name=${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}${INDEX}:0:0:0
+    \     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    \
+    \     &{intf}=   create_dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0
+    \     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+    \
+    \     &{intf}=   create_dictionary   interface-name=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}${INDEX}:0
+    \     &{netconfParams}   create_dictionary   org-openroadm-device=${intf}
+    \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+
+     Log           delete client interface supporting-port via Restconf Patch method
+     : FOR    ${INDEXS}    IN RANGE    0    8    2
+     #\     &{100GE_interface}    create_dictionary     ${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}${INDEXS}
+     \     &{intf}   create dictionary   interface-name=${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}${INDEXS}
+     \     &{netconfParams}   create dictionary   org-openroadm-device=${intf}
+     \     Send Delete Request And Verify Status Of Response Is OK  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${netconfParams}
+
+
+
+
+
 

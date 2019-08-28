@@ -136,7 +136,7 @@ TC1
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_OTU4_CLIENT_NAME}    description=client-otu-0    interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
     ...    otu-expected-sapi=exp-sapi-val000  otu-expected-dapi=exp-dapi-val111  otu-tim-detect-mode=SAPI-and-DAPI
-    ...    otu-fec=rsfec
+    ...    otu-fec=scfec
     ...    supporting-interface=none   supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
     @{interface_info}    create list    ${client_otu_interface}

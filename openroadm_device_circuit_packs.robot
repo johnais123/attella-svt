@@ -175,7 +175,8 @@ TC7
     ...              TC 5.1-3  RLI-38963	
     [Tags]           Sanity    TC7   Set-CP-PIC0
     Log              Configure all R/W leaves for circuit-pack PIC0 via Restconf
-    &{pic0key}       create dictionary            circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}     circuit-pack-type=${ATTELLA_DEF_PIC0_MODEL.text}      shelf=shelf-0             slot=slot-0
+    &{pic0key}       create dictionary            circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}
+    ...              circuit-pack-type=PIC      shelf=shelf-0             slot=slot-0
     ...              administrative-state-cp=inService                 equipment-state-cp=reserved-for-facility-available       circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL     subSlot=slot-0/0     
 	...              due-date-cp=${tv['uv-valid_due_date']}                cp-slot-name=slot-0/0     circuit-pack-name-parent=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
@@ -214,7 +215,8 @@ TC9
     ...              TC 5.1-5  RLI-38963
     [Tags]           Sanity   TC9   Set-CP-PIC1
     Log              Configure all R/W leaves for circuit-pack PIC1 via Restconf
-    &{pic1key}       create dictionary                    circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}   circuit-pack-type=4X200G-CFP2DCO        shelf=shelf-0           slot=slot-0
+    &{pic1key}       create dictionary                    circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}
+    ...              circuit-pack-type=PIC        shelf=shelf-0           slot=slot-0
     ...              administrative-state-cp=inService    equipment-state-cp=reserved-for-facility-available         circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_fpc_pic_fan_product_code']}
     ...              circuit-pack-mode=NORMAL             subSlot=slot-0/1         
 	...              due-date-cp=${tv['uv-valid_due_date']}  cp-slot-name=slot-0/1   circuit-pack-name-parent=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
@@ -240,7 +242,7 @@ TC10
     \                &{cp-port}                 create dictionary     slot-name-cp=slot-0/1/${lineID}                 label-cp=1/${lineID}          slot-type=pluggable-optics-holder          supported-circuit-pack-type-cp=${line-type}
     \                @{pic1_lport_info}         create list           ${cp-port}
     \                &{pickey}                  create dictionary     circuit-pack-name-self=${tv['uv-attella_def_pic1_name']}                      vendor-cp=${tv['uv-attella_def_vendor']}   product-code-cp=${tv['uv-attella_def_product_code_fpc_pic']}   model-cp=${ATTELLA_DEF_PIC1_MODEL.text}
-    \                ...                        operational-state-cp=${tv['uv-attella_def_operational_state']}                type-cp=PIC
+    \                ...                        type-cp=PIC
     \                ...                        type-cp-category=${tv['uv-attella_def_circuit_pack_category']}
     \                ...                        cp-slots=${pic1_lport_info}
     \                @{pic_info}                create list           ${pickey}
@@ -255,9 +257,9 @@ TC11
     Log              Configure all R/W leaves for circuit-pack QSFP28 via Restconf
     : FOR            ${ClientID}        IN RANGE    0    7    2
     \                &{ctransc}         create dictionary       port-name-p=port-0/0/${ClientID}               port-type=qsfp28-port                port-qual=xpdr-client            
-    \                ...                circuit-id-port=Client-QSFP28     administrative-state-port=inService    logical-connection-point=foo
+    \                ...                circuit-id-port=1000     administrative-state-port=inService    logical-connection-point=foo
     \                @{ctransclist}     create list             ${ctransc}
-    \                &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/0/${ClientID}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     
+    \                &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/0/${ClientID}    circuit-pack-type=100G-QSFP28
     \                ...                shelf=shelf-0    slot=slot-0
     \                ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   
     \                ...                circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_qsfp28_product_code']}
@@ -296,7 +298,7 @@ TC13
     \                &{ltransc}        create dictionary     port-name-p=port-0/1/${ClientID}                 port-type=cfp2dco-port      port-qual=xpdr-network   
     \                ...               circuit-id-port=${tv['uv-attella_def_circuit_pack_type_cfp2dco']}   administrative-state-port=inService    logical-connection-point=foo
     \                @{ltransclist}    create list           ${ltransc}
-    \                &{ltransckey}     create dictionary     circuit-pack-name-self=xcvr-0/1/${ClientID}      circuit-pack-type=CFP2DCO   shelf=shelf-0    slot=slot-0
+    \                &{ltransckey}     create dictionary     circuit-pack-name-self=xcvr-0/1/${ClientID}      circuit-pack-type=200G-CFP2DCO   shelf=shelf-0    slot=slot-0
     \                ...               administrative-state-cp=inService     equipment-state-cp=reserved-for-facility-available           circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_cfp2dco_product_code']}
     \                ...               circuit-pack-mode=NORMAL              subSlot=slot-0/1/${ClientID}         due-date-cp=${tv['uv-valid_due_date']}
     \                ...               circuit-pack-name-parent=${tv['uv-attella_def_pic1_name']}             cp-slot-name=slot-0/1/${ClientID}             ports=${ltransclist}
@@ -330,7 +332,7 @@ TC15
     &{ctransc}         create dictionary       port-name-p=port-0/0/${QSFP28_INDEX}      port-type=qsfp28-port                port-qual=xpdr-client            
     ...                circuit-id-port=Client-QSFP28     administrative-state-port=inService    logical-connection-point=foo
     @{ctransclist}     create list             ${ctransc}
-    &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/0/${QSFP28_INDEX}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
+    &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/0/${QSFP28_INDEX}    circuit-pack-type=100G-QSFP28     shelf=shelf-0    slot=slot-0
     ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_qsfp28_product_code']}
     ...                circuit-pack-mode=NORMAL              subSlot=slot-0/0/${QSFP28_INDEX}     
     ...                due-date-cp=${tv['uv-valid_due_date']}
@@ -353,7 +355,7 @@ TC16
     &{ctransc}         create dictionary       port-name-p=port-0/1/${CFP2_INDEX}      port-type=cfp2dco-port                port-qual=xpdr-network            
     ...                circuit-id-port=CFP2DCO     administrative-state-port=inService    logical-connection-point=foo
     @{ctransclist}     create list             ${ctransc}
-    &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/1/${CFP2_INDEX}    circuit-pack-type=${tv['uv-attella_def_circuit_pack_type_qsfp28']}     shelf=shelf-0    slot=slot-0
+    &{ctransckey}      create dictionary       circuit-pack-name-self=xcvr-0/1/${CFP2_INDEX}    circuit-pack-type=200G-CFP2DCO     shelf=shelf-0    slot=slot-0
     ...                administrative-state-cp=inService      equipment-state-cp=reserved-for-facility-available                   circuit-pack-product-code=${tv['uv-attella_def_circuit_pack_cfp2dco_product_code']}
     ...                circuit-pack-mode=NORMAL              subSlot=slot-0/1/${CFP2_INDEX}     is-pluggable-optics=true    due-date-cp=${tv['uv-valid_due_date']}
     ...                circuit-pack-name-parent=${tv['uv-attella_def_pic1_name']}             cp-slot-name=slot-0/1/${CFP2_INDEX}    ports=${ctransclist}
@@ -372,7 +374,7 @@ TC17
     ...              TC 5.3-2  RLI-38968
     [Tags]           Sanity  TC17   Set-CP-NAME
     Log              Configure circuit-pack-name via Restconf Patch method, here we take PIC0 for example.
-    &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}   circuit-pack-type=${ATTELLA_DEF_PIC0_MODEL.text}    shelf=shelf-0    slot=slot-0
+    &{pickey}        create dictionary    circuit-pack-name-self=${tv['uv-attella_def_pic0_name']}   circuit-pack-type=PIC    shelf=shelf-0    slot=slot-0
     @{pic_info}      create list          ${pickey}
     &{dev_info}      create dictionary    circuit-packs=${pic_info}
     &{payload}       create dictionary    org-openroadm-device=${dev_info}
@@ -611,15 +613,15 @@ TC26
 #    check status line   ${patch_resp}        400
 
 TC37
-    [Documentation]  De-provison fpc-0 
-    ...              TC 5.1-2  RLI-38968
-    [Tags]           Sanity   TC37   Delete-CP-FPC0
-    Log              Delete circuit-pack fpc-0 via Restconf patch method
-    &{fpc_name}           create dictionary     circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
-    @{fpc}                create list           ${fpc_name}
+    [Documentation]  De-provison QSFP28 transceivers
+    ...              TC 5.1-11  RLI-38968
+    [Tags]           Sanity  TC37   Delete-CP-QSFP28
+    Log                   Delete circuit-pack QSFP28-6 via Restconf patch method
+    &{qsfp28_6}           create dictionary     circuit-pack-name-self=xcvr-${tv['uv-attella_client_transc_installed_prov']}
+    @{fpc}                create list           ${qsfp28_6}
     &{dev_fpc}            create dictionary     circuit-packs=${fpc}
     &{netconfParams}      create dictionary     org-openroadm-device=${dev_fpc}
-    Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}     ${netconfParams}
+    Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
 #TC38
 #    [Documentation]  This test case mapping to 5.4-22 in JTMS for RLI-38968
@@ -665,27 +667,28 @@ TC40
     &{netconfParams}     create dictionary     org-openroadm-device=${dev_fpc}
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
-TC41
-    [Documentation]  De-provison QSFP28 transceivers
-    ...              TC 5.1-11  RLI-38968
-    [Tags]           Sanity  TC41   Delete-CP-QSFP28
-    Log                   Delete circuit-pack QSFP28-6 via Restconf patch method
-    &{qsfp28_6}           create dictionary     circuit-pack-name-self=xcvr-${tv['uv-attella_client_transc_installed_prov']}
-    @{fpc}                create list           ${qsfp28_6}
-    &{dev_fpc}            create dictionary     circuit-packs=${fpc}
-    &{netconfParams}      create dictionary     org-openroadm-device=${dev_fpc}
-    Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
 
-TC42
+TC41
     [Documentation]  De-provison CFP2-DCO transceivers
     ...              TC 5.1-13 RLI-38963
-    [Tags]           Sanity   TC42   Delete-CP-CFP2DCO
+    [Tags]           Sanity   TC41   Delete-CP-CFP2DCO
     Log              Delete circuit-pack CFP2DCO-3 via Restconf patch method
     &{cfp2dco_3}           create dictionary     circuit-pack-name-self=xcvr-${tv['uv-attella_line_transc_installed_prov']}
     @{fpc}                 create list           ${cfp2dco_3}
     &{dev_fpc}             create dictionary     circuit-packs=${fpc}
     &{netconfParams}       create dictionary     org-openroadm-device=${dev_fpc}
     Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}    ${netconfParams}
+
+TC42
+    [Documentation]  De-provison fpc-0
+    ...              TC 5.1-2  RLI-38968
+    [Tags]           Sanity   TC42   Delete-CP-FPC0
+    Log              Delete circuit-pack fpc-0 via Restconf patch method
+    &{fpc_name}           create dictionary     circuit-pack-name-self=${tv['uv-attella_def_slot0_provisioned_circuit_pack']}
+    @{fpc}                create list           ${fpc_name}
+    &{dev_fpc}            create dictionary     circuit-packs=${fpc}
+    &{netconfParams}      create dictionary     org-openroadm-device=${dev_fpc}
+    Send Delete Request And Verify Status Of Response Is OK     ${odl_sessions}     ${tv['device0__re0__mgt-ip']}     ${netconfParams}
 
 TC43
     [Documentation]  Failed to delete FPC-0/0 twice

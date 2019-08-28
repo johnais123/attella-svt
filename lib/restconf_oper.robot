@@ -52,6 +52,13 @@ Send Get Request
 	Log  ${resp.content}
     [return]  ${resp}
 
+Send Get Request With Complete Url
+    [Documentation]   get configuration
+    [Arguments]    ${odl_sessions}  ${node}  ${fullUrl}
+    Log                     Get configuration
+    ${resp}             Get Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/${fullUrl}    headers=${get_headers}    allow_redirects=False
+    check status line    ${resp}     200
+    [return]  ${resp}
 
 Send Get Request And Verify Status Of Response Is OK
     [Documentation]   Retrieve system configuration and state information
@@ -948,7 +955,11 @@ Delete all interface
     ${resp}=                      Send Get Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${openroadm_xpath}
 	${resp_content}=              Decode Bytes To String   ${resp.content}    UTF-8
     @{interfaces_name}            Get Elements      ${resp_content}    /org-openroadm-device/interface/name
-	Log List                      ${interfaces_name}
+	#Log List                      ${interfaces_name}
+	# Check actual interface names
+	: FOR    ${interface_name}    IN   @{interfaces_name}
+    \        Log                  ${interface_name.text}
+    # remove actual interfaces
     : FOR    ${interface_name}    IN   @{interfaces_name}
 	\        Log                  ${interface_name.text}
     \        &{interface}         create dictionary    interface-name=${interface_name.text}

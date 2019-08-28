@@ -53,6 +53,7 @@ Test Teardown  Run Keywords
 ...              Toby Test Teardown
 
 Suite Teardown  Run Keywords
+...              Testbed Teardown
 ...              Toby Suite Teardown
 
 
@@ -410,6 +411,12 @@ Testbed Init
     @{odl_sessions}    create list   ${opr_session}    ${cfg_session}     ${rpc_session}
     Set Suite Variable    ${odl_sessions}
     Run Keyword And Ignore Error    Delete All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
+
+
+Testbed Teardown
+    Log  Testbed Teardown
+    Get All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+
 
 Get System Info
     ${r0} =     Get Handle      resource=device0
