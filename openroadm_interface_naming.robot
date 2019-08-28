@@ -106,7 +106,7 @@ TC1
     #: FOR    ${INDEXS}    IN RANGE    0    1
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_100GE_CLIENT_NAME}    description=client-otu-0    
     ...    interface-type=ethernetCsmacd    interface-administrative-state=inService     speed=100000
-    ...    supporting-interface=${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}0:0:0   supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
+    ...    supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
     ...    supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
     @{interface_info}    create list    ${client_otu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
@@ -142,7 +142,7 @@ TC3
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
     ...    otu-expected-sapi=exp-sapi-val000  otu-expected-dapi=exp-dapi-val111  otu-tim-detect-mode=SAPI-and-DAPI
     ...    otu-fec=rsfec
-    ...    supporting-interface=none   supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
+    ...    supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
     @{interface_info}    create list    ${client_otu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
@@ -205,7 +205,7 @@ TC7
     [Tags]           Sanity   tc7 
     Log           Configure och interface rate via Restconf Patch method
     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_LINE_OCH_NAME}    description=line-och    interface-type=opticalChannel
-    ...    interface-administrative-state=inService    supporting-interface=none    och-rate=R100G
+    ...    interface-administrative-state=inService    och-rate=R100G
     ...    supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0    supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
     Log To Console     och &{och_interface}
     @{interface_info}    create list    ${Och_interface} 
@@ -218,17 +218,14 @@ TC8
     ...           RLI39315  5.1-9  5.3-2
     Log           Configure client interface name / supporting-port via Restconf Patch method
     [Tags]           Sanity
-    #${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
-    &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_OTU_NAME}    description=client-otu-0    interface-type=otnOtu
+    &{line_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_OTU_NAME}    description=line-otu-0    interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
     ...    otu-expected-sapi=exp-sapi-val000  otu-expected-dapi=exp-dapi-val111  otu-tim-detect-mode=SAPI-and-DAPI
-    ...    otu-fec=rsfec
+    ...    otu-fec=scfec
     ...    supporting-interface=${ATTELLA_DEF_LINE_OCH_NAME}   supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
-    @{interface_info}    create list    ${client_otu_interface}
+    @{interface_info}    create list    ${line_otu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
@@ -239,16 +236,13 @@ TC9
     ...              RLI39315 5.1-11   5.3-4
     Log           Configure line interface name / supporting-port via Restconf Patch method
     [Tags]           Sanity
-    #${ATTELLA_DEF_CLIENT_PORT_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_ODU_PORT_NAME_PREFIX}  1/    0/
-    #${ATTELLA_DEF_CLIENT_OTU_NAME_PREFIX}   Replace String   ${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}  1/    0/
-    #: FOR    ${INDEXS}    IN RANGE    0    1
     ${circuit-id}     Evaluate     "".join(random.sample(string.ascii_letters + string.digits, random.randint(1,45)))      random,string
-    &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_ODU_NAME}    description=client-odu-0    interface-type=otnOdu
+    &{line_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_ODU_NAME}    description=line-odu-0    interface-type=otnOdu
     ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
     ...    odu-expected-sapi=exp-sapi-val000   odu-expected-dapi=exp-dapi-val111   odu-tim-detect-mode=SAPI-and-DAPI
     ...    supporting-interface=${ATTELLA_DEF_LINE_OTU_NAME}   supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
-    @{interface_info}    create list    ${client_odu_interface}
+    @{interface_info}    create list    ${line_odu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}

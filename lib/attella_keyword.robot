@@ -439,6 +439,12 @@ Get Device Name From IP
 	${resp}=  getDeviceNameFromMgtIP  ${tv}  ${node}
 	[return]  ${resp}
 
+Get All Users
+    [Documentation]   get all created openroadm users
+    [Arguments]    ${odl_sessions}    ${node}
+    ${resp}        Send Get Request With Complete Url    ${odl_sessions}    ${node}    org-openroadm-device:org-openroadm-device/users/
+    [return]    ${resp}
+
 Delete All Users
     [Documentation]   Delete all created openroadm users
     [Arguments]    ${odl_sessions}    ${node}    

@@ -201,6 +201,7 @@ TC3
 	
 	[Teardown]  Run Keywords  Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}  off  AND  Stop Inject Alarm On Test Equipment    ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
 
+
 TC4
     [Documentation]  verify line otu interface terminal loopback
     ...              RLI38966  5.8-2
