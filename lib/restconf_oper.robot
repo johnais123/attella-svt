@@ -68,6 +68,17 @@ Send Get Request And Verify Status Of Response Is OK
     [return]  ${resp}
 
 
+Send Get Request And Verify Output
+    [Documentation]   Retrieve system configuration and state information
+    [Arguments]    ${odl_sessions}  ${node}  ${dictNetconfParams}   ${expectedResult}
+    Log                     Fetching config via Restconf GET method
+    ${resp}=  Send Get Request And Verify Status Of Response Is OK  ${odl_sessions}  ${node}  ${dictNetconfParams}
+    ${resp_content}=    Decode Bytes To String   ${resp.content}    UTF-8
+    ${root}=                 Parse XML    ${resp_content}
+    ${result}=  verify data    ${root}    ${dictNetconfParams}
+    run keyword if   "${result}" != "${expectedResult}"  FAIL  Failed to retrieve leaf value  ELSE  Log  Get ${dictNetconfParams} and vaule show successful
+
+
 Send Get Request And Verify Output Is Correct
     [Documentation]   Retrieve system configuration and state information
     [Arguments]    ${odl_sessions}  ${node}  ${dictNetconfParams}

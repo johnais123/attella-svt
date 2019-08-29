@@ -115,13 +115,13 @@ TC0
     &{client_odu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_ODU4_CLIENT_NAME}    description=client-odu-0    interface-type=otnOdu
     ...    interface-administrative-state=inService   odu-rate=ODU4    odu-tx-sapi=777770000077777   odu-tx-dapi=888880000088888
     ...    odu-expected-sapi=exp-sapi-val000   odu-expected-dapi=exp-dapi-val111   odu-tim-detect-mode=SAPI-and-DAPI
-    ...    supporting-interface=${ATTELLA_DEF_OTU4_CLIENT_NAME}  supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
+    ...    supporting-interface=${ATTELLA_DEF_OTU4_CLIENT_NAME}   supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
+
     @{interface_info}    create list    ${client_odu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
-    check status line  ${patch_resp}  404
+    Send Get Request And Verify Output    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}    False
 
 
 TC1
@@ -136,9 +136,10 @@ TC1
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_OTU4_CLIENT_NAME}    description=client-otu-0    interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
     ...    otu-expected-sapi=exp-sapi-val000  otu-expected-dapi=exp-dapi-val111  otu-tim-detect-mode=SAPI-and-DAPI
-    ...    otu-fec=scfec
-    ...    supporting-interface=none   supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
+    ...    otu-fec=rsfec
+    ...    supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
+
     @{interface_info}    create list    ${client_otu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
@@ -159,6 +160,7 @@ TC2
     ...    odu-expected-sapi=exp-sapi-val000   odu-expected-dapi=exp-dapi-val111   odu-tim-detect-mode=SAPI-and-DAPI
     ...    supporting-interface=${ATTELLA_DEF_OTU4_CLIENT_NAME}  supporting-circuit-pack-name=${ATTELLA_DEF_CLIENT_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_CLIENT_PREFIX}0
+
     @{interface_info}    create list    ${client_odu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
@@ -175,9 +177,8 @@ TC3
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  200
-
+    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  500
 
 
 TC4
@@ -198,7 +199,7 @@ TC4
     &{dev_info}   create dictionary   interface=${delinter}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  404 
+    check status line  ${patch_resp}  200
 
 
 # Line Tests
@@ -215,13 +216,14 @@ TC5
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_OTU_NAME}    description=client-otu-0   interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
     ...    otu-expected-sapi=exp-sapi-val000  otu-expected-dapi=exp-dapi-val111  otu-tim-detect-mode=SAPI-and-DAPI
-    ...    otu-fec=rsfec
+    ...    otu-fec=scfec
     ...    supporting-interface=${ATTELLA_DEF_LINE_OCH_NAME}  supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
     @{interface_info}    create list    ${client_otu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
+    Send Get Request And Verify Output   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}    False
+
 
 TC6
     [Documentation]  Verify cannot configure odu4 line interface name without associated otu4
@@ -237,7 +239,8 @@ TC6
     @{interface_info}    create list    ${client_odu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
+    Send Get Request And Verify Output   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}    False
+
 
 TC7
     [Documentation]  Verify can configure och interface rate via openRoadm leaf
@@ -245,9 +248,10 @@ TC7
     [Tags]           Sanity   tc7 
     Log           Configure och interface rate via Restconf Patch method
     &{Och_interface}    create dictionary   interface-name=${ATTELLA_DEF_LINE_OCH_NAME}    description=line-och    interface-type=opticalChannel
-    ...    interface-administrative-state=inService    supporting-interface=${ATTELLA_DEF_OCH_PORT_NAME_PREFIX}0:0    och-rate=R100G
+    ...    interface-administrative-state=inService    och-rate=R100G
     ...    supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0    supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
     Log To Console     och &{och_interface}
+
     @{interface_info}    create list    ${Och_interface} 
     &{dev_info}   create dictionary   interface=${interface_info}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
@@ -258,9 +262,10 @@ TC7
     &{client_otu_interface}    create_dictionary   interface-name=${ATTELLA_DEF_LINE_OTU_NAME}    description=client-otu-0    interface-type=otnOtu
     ...    interface-administrative-state=inService   otu-rate=OTU4  otu-tx-sapi=777770000077777  otu-tx-dapi=888880000088888
     ...    otu-expected-sapi=exp-sapi-val000  otu-expected-dapi=exp-dapi-val111  otu-tim-detect-mode=SAPI-and-DAPI
-    ...    otu-fec=rsfec
+    ...    otu-fec=scfec
     ...    supporting-interface=${ATTELLA_DEF_LINE_OCH_NAME}   supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
+
     @{interface_info}    create list    ${client_otu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
@@ -272,6 +277,7 @@ TC7
     ...    odu-expected-sapi=exp-sapi-val000   odu-expected-dapi=exp-dapi-val111   odu-tim-detect-mode=SAPI-and-DAPI
     ...    supporting-interface=${ATTELLA_DEF_LINE_OTU_NAME}  supporting-circuit-pack-name=${ATTELLA_DEF_LINE_TRANSC_NAME_PREFIX}0
     ...    interface-circuit-id=${circuit-id}   supporting-port=${ATTELLA_DEF_PORT_LINE_PREFIX}0
+
     @{interface_info}    create list    ${client_odu_interface}
     &{dev_info}   create_dictionary   interface=${interface_info}
     &{payload}   create_dictionary   org-openroadm-device=${dev_info}
@@ -287,8 +293,10 @@ TC8
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  200    
+    #Send Get Request And Verify Output   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}    False
+    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  500
+
 
 TC9
     [Documentation]  Prevent delete otu4 line interface with existing odu
@@ -299,8 +307,9 @@ TC9
     @{delinter}    create list    ${OTUinterface}
     &{dev_info}   create dictionary   interface=${delinter}       
     &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload} 
-    check status line  ${patch_resp}  200    
+    #Send Get Request And Verify Output   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}    False
+    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  500
 
 
 *** Keywords ***
@@ -329,4 +338,28 @@ Testbed Init
 
 Testbed Teardown
     Log To Console  Clean up Interfaces
-    Delete all interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}
+    Log         Verify delete odu4 interface name via Restconf Patch method
+    #: FOR    ${INDEXS}    IN RANGE    0    1
+    &{ODUinterface}    create dictionary    interface-name=${ATTELLA_DEF_LINE_ODU_NAME}
+    @{delinter}    create list    ${ODUinterface}
+    &{dev_info}   create dictionary   interface=${delinter}
+    &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  200
+
+    Log         Verify delete odu4 interface name via Restconf Patch method
+    #: FOR    ${INDEXS}    IN RANGE    0    1
+    &{OTUinterface}    create dictionary    interface-name=${ATTELLA_DEF_LINE_OTU_NAME}
+    @{delinter}    create list    ${OTUinterface}
+    &{dev_info}   create dictionary   interface=${delinter}
+    &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  200
+
+    Log         Verify delete och interface name via Restconf Patch method
+    &{OCHinterface}    create dictionary    interface-name=${ATTELLA_DEF_LINE_OCH_NAME}
+    @{delinter}    create list    ${OCHinterface}
+    &{dev_info}   create dictionary   interface=${delinter}
+    &{payload}   create dictionary   org-openroadm-device=${dev_info}
+    ${patch_resp}  Send Delete Request   ${odl_sessions}   ${tv['device0__re0__mgt-ip']}    ${payload}
+    check status line  ${patch_resp}  200
