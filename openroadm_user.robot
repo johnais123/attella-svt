@@ -127,7 +127,8 @@ TC5
     ...              RLI-38963 5.6-1
     [Tags]           Sanity    tests13
     Log             Create a new user in openroadm but existed in os
-    ${random_user}   Generate Random String	8	[LOWER]
+    #${random_user}   Generate Random String	8	[LOWER]
+    ${random_user}   Get From List    ${user_list}    0
     Log     Use Cli to create user ${random_user}
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
@@ -156,7 +157,8 @@ TC6
     ...              RLI-38963 5.6-2
     [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
-    ${random_user}   Generate Random String	8	[LOWER]
+    #${random_user}   Generate Random String	8	[LOWER]
+    ${random_user}   Get From List    ${user_list}    1
     Log     Use Cli to create user ${random_user}
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
@@ -185,7 +187,8 @@ TC7
     ...              RLI-38963 5.6-3
     [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
-    ${random_user}   Generate Random String	8	[LOWER]
+    #${random_user}   Generate Random String	8	[LOWER]
+    ${random_user}   Get From List    ${user_list}    2
     Log     Use Cli to create user ${random_user}
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
@@ -219,7 +222,8 @@ TC8
     ...              RLI-38963 5.6-4
     [Tags]           Advance    tests13
     Log             Create a new user in openroadm but existed in os
-    ${random_user}   Generate Random String	8	[LOWER]
+    #${random_user}   Generate Random String	8	[LOWER]
+    ${random_user}   Get From List    ${user_list}    3
     Log     Use Cli to create user ${random_user}
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
@@ -252,7 +256,8 @@ TC9
     [Documentation]  Delete an existing user
     ...              RLI-38963 5.6-5
     [Tags]           Advance    tests13
-    ${random_user}   Generate Random String    8	[LOWER]
+    #${random_user}   Generate Random String    8	[LOWER]
+    ${random_user}   Get From List    ${user_list}    4
     Log    Use ODL to create user ${random_user} in openroadm
     
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
@@ -280,7 +285,8 @@ TC10
     [Documentation]  Delete an inexisting user
     ...              RLI-38963 5.6-6
     [Tags]           Advance    tests13
-    ${random_user}   Generate Random String    8	[LOWER]
+    #${random_user}   Generate Random String    8	[LOWER]
+    ${random_user}   Get From List    ${user_list}    5
     Log             Use ODL to create user ${random_user} in openroadm
     
     ${resp}      Create New User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${random_user}    ${VALID_ENCRYPTED_PASSWORD}    sudo
@@ -386,6 +392,25 @@ TC13
     ...           AND    Wait For    20s 
 
 
+#TC14
+#    [Documentation]  Delete user created during script
+#    ...              RLI-38963
+#    [Tags]           Sanity    tc14
+#    Log             Delete user created during script
+#    ${uList}    Get All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+#    : FOR    ${user}    IN   ${uList}
+#    \        Log        ${user}
+##    \        Log To Console    ${user}
+#    Run Keyword And Ignore Error    Delete All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+#
+#    ${r0} =     Get Handle      resource=device0
+#    : FOR     ${INDEX}    IN RANGE    0    5
+#    \         ${user}    Get From List    ${user_list}    ${INDEX}
+#    \         Log    ${user}
+#    \         Log To Console    ${user}
+#    \         @{cmd_list}    Create List    delete system login user ${user}
+#    \         Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}
+
     
 *** Keywords ***
 Testbed Init
@@ -410,12 +435,33 @@ Testbed Init
     
     @{odl_sessions}    create list   ${opr_session}    ${cfg_session}     ${rpc_session}
     Set Suite Variable    ${odl_sessions}
-    Run Keyword And Ignore Error    Delete All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']} 
+
+    ${random_user}   Generate Random String    8	[LOWER]
+    Log To Console    ${random_user}
+    ${user_list}     Create List    ${random_user}
+    : FOR     ${INDEX}    IN RANGE    0    5
+    \         ${random_user}   Generate Random String    8	[LOWER]
+    \         Log To Console    ${random_user}
+    \         Append To List    ${user_list}    ${random_user}
+    Set Suite Variable     ${user_list}
 
 
 Testbed Teardown
     Log  Testbed Teardown
-    Get All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Log             Delete user created during script
+    ${uList}    Get All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    : FOR    ${user}    IN   ${uList}
+    \        Log        ${user}
+    \        Log To Console    ${user}
+    Run Keyword And Ignore Error    Delete All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+
+    ${r0} =     Get Handle      resource=device0
+    : FOR     ${INDEX}    IN RANGE    0    4
+    \         ${user}    Get From List    ${user_list}    ${INDEX}
+    \         Log    ${user}
+    \         Log To Console    ${user}
+    \         @{cmd_list}    Create List    delete system login user ${user}
+    \         Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}
 
 
 Get System Info
