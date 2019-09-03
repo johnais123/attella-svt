@@ -372,7 +372,8 @@ TC13
     ${random_password}   Generate Random String	8	[LOWER]
     ${r0} =     Get Handle      resource=device0
     @{cmd_list}    Create List    
-    ...            set system login user openroadm authentication encrypted-password ${NEW_VALID_ENCRYPTED_PASSWORD} 
+    ...            set system login user openroadm authentication encrypted-password ${NEW_VALID_ENCRYPTED_PASSWORD}
+    ...            set system login user openroadm class super-user
     
     Log    Change the openroadm user password from 'openroadm' to 'password' but with wrong currentPasword in the command
     Log    Using ${random_password} as the newpasswordConfirm
@@ -453,7 +454,7 @@ Testbed Teardown
     : FOR    ${user}    IN   ${uList}
     \        Log        ${user}
     \        Log To Console    ${user}
-    Run Keyword And Ignore Error    Delete All Users    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}
+    Run Keyword And Ignore Error    Delete User    ${odl_sessions}    ${tv['device0__re0__mgt-ip']}    ${ANOTHER_VALID_USER_NAME}
 
     ${r0} =     Get Handle      resource=device0
     : FOR     ${INDEX}    IN RANGE    0    4
