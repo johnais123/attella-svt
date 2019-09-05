@@ -891,25 +891,25 @@ TC52
     Log           Enbale Otu interface maint-loopback via Restconf Patch method
     ${otulbtype}   Evaluate   random.choice(["term", "fac"])     random
     : FOR    ${INDEX}    IN RANGE    0    4
-    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=false     otu-maint-type=${otulbtype}
+    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=true     otu-maint-type=${otulbtype}
     \     @{interface_info}    create list    ${Otu_interface} 
     \     &{dev_info}   create dictionary   interface=${interface_info}       
     \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
     \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
 
 
-TC53
-    [Documentation]  Verify can enable Otu interface maint-loopback via openRoadm leaf
-    ...              RLI38968 5.4-37
-    [Tags]         Sanity    tc50  otu
-    Log           Enbale Otu interface maint-loopback via Restconf Patch method
-    : FOR    ${INDEX}    IN RANGE    0    4
-    \     ${lpstatus}   Evaluate   random.choice(["true", "false"])     random
-    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=${lpstatus}
-    \     @{interface_info}    create list    ${Otu_interface} 
-    \     &{dev_info}   create dictionary   interface=${interface_info}       
-    \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
-    \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}      
+#TC53
+#    [Documentation]  Verify can enable Otu interface maint-loopback via openRoadm leaf
+#    ...              RLI38968 5.4-37
+#    [Tags]         Sanity    tc50  otu
+#    Log           Enbale Otu interface maint-loopback via Restconf Patch method
+#    : FOR    ${INDEX}    IN RANGE    0    4
+#    \     ${lpstatus}   Evaluate   random.choice(["true", "false"])     random
+#    \     &{Otu_interface}    create dictionary   interface-name=${ATTELLA_DEF_OTU_PORT_NAME_PREFIX}${INDEX}:0:0    otu-maint-enabled=${lpstatus}
+#    \     @{interface_info}    create list    ${Otu_interface}
+#    \     &{dev_info}   create dictionary   interface=${interface_info}
+#    \     &{payload}   create dictionary   org-openroadm-device=${dev_info}
+#    \     Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${tv['device0__re0__mgt-ip']}   ${payload}
 
 TC54
     [Documentation]  Verify can Otu maint-loopback type via openRoadm leaf

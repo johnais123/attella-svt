@@ -87,7 +87,7 @@ TC1
 	
 	@{EMPTY LIST}=  create list
 	Wait until keyword succeeds  ${ALARM CHECK TIMEOUT}  10 sec  Verify Interfaces In Traffic Chain Are Alarm Free
-	
+
 	Log To Console  Facility Loopback2 Operated on local client otu port  
 	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  fac2
 
@@ -105,7 +105,7 @@ TC1
 	Wait until keyword succeeds  1 min  5 sec  Is Alarm Raised  ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
 	
 	Log To Console  Set no Loopback on local client otu interface
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  off
+	Delete Loopback to OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  off
 
 	Log To Console  stop Injecting OTU4 AIS alarm from tester
 	Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_ODU4_AIS
@@ -147,7 +147,7 @@ TC2
 	Wait until keyword succeeds  1 min  5 sec  Is Alarm Raised  ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
 	
 	Log To Console  Set no Loopback on local client otu interface
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  off
+	Delete Loopback to OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${client intf}  off
 
 	Log To Console  stop Injecting OTU4 AIS alarm from tester
 	Stop Inject Alarm On Test Equipment    ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
@@ -192,7 +192,7 @@ TC3
 	Wait until keyword succeeds  1 min  5 sec  Is Alarm Raised  ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
 	
 	Log To Console  Set no Loopback on local line otu interface
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}  off
+	Delete Loopback to OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}  off
 
 	Log To Console  stop Injecting OTU4 AIS alarm from tester
 	Stop Inject Alarm On Test Equipment    ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
@@ -237,7 +237,7 @@ TC4
 	Wait until keyword succeeds  1 min  5 sec  Is Alarm Raised  ${testSetHandle2}  ALARM_OTU4_ODU4_AIS
 	
 	Log To Console  Set no Loopback on local line otu interface
-	Set Loopback To OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}  off
+	Delete Loopback to OTU Interface  ${odl_sessions}  ${tv['device0__re0__mgt-ip']}  ${line otu intf}  off
 
 	Log To Console  stop Injecting OTU4 AIS alarm from tester
 	Stop Inject Alarm On Test Equipment    ${testSetHandle1}  ALARM_OTU4_ODU4_AIS

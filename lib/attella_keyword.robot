@@ -437,16 +437,15 @@ Delete Loopback to OTU Interface
     [Documentation]   Delete Loopback To OTU Interface
     [Arguments]    ${odl_sessions}  ${node}  ${intf}  ${loopback mode}
 
-    &{interface}    create_dictionary   interface-name=${intf}
-    #&{enable_loopback_interface}    create_dictionary   interface-name=${intf}  otu-maint-enabled=true  otu-maint-type=${loopback mode}
-    #&{interface}=  Set Variable If  '${loopback mode}' == 'off'  ${disable_loopback_interface}  ${enable_loopback_interface}
-    #@{interface_info}    create list    ${interface}
-    #&{dev_info}   create_dictionary   interface=${interface_info}
-    #&{payload}   create_dictionary   org-openroadm-device=${dev_info}
-    # Send Merge Then Get Request And Verify Output Is Correct    ${odl_sessions}   ${node}   ${payload}
-    #Send Merge Request And Verify Status Of Response Is OK    ${odl_sessions}   ${node}   ${payload}
-    ${resp}   Delete Request  @{odl_sessions}[${CFG_SESSEION_INDEX}]    /node/${node}/yang-ext:mount/org-openroadm-device:org-openroadm-device/interfaces/interface/${interface}/maint-loopback    headers=${delete_headers}    allow_redirects=False
-    [return]  ${resp}
+    Log     Deleting loopback for ${intf}
+    ${r0} =     Get Handle      resource=device0
+    @{cmd_list}    Create List
+    ...            delete org-openroadm-device:org-openroadm-device interface ${intf} org-openroadm-otn-otu-interfaces:otu maint-loopback
+    Execute config Command On Device     ${r0}    command_list=@{cmd_list}    commit=${TRUE}   detail=${TRUE}   timeout=${600}
+    Wait For    10s
+    #&{disable_loopback_interface}    create_dictionary   interface-name=${intf}  maint-loopback=${null}
+    #${resp}  Send Delete Request   ${odl_sessions}   ${node}    ${payload}
+    #check status line    ${resp}    200
 
 
 Get Device Name From IP
