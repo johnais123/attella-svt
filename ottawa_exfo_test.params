@@ -52,7 +52,7 @@ uv-frequency "192.50";
 uv-service-description "traffic_provision";
 uv-client_fec "rsfec";
 
-uv-test-eqpt-port1-ip "10.228.34.211";
+uv-test-eqpt-port1-ip "10.228.4.211";
 uv-test-eqpt-port1-type "EXFO";
 uv-test-eqpt-port1-number "1";
 uv-test-eqpt-port1-extraParam "QSFPP2";

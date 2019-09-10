@@ -1,6 +1,6 @@
 fv-connect-controllers "all";
 
-uv-odl-server "172.27.93.100:38181";
+uv-odl-server "172.27.80.27:8181";
 uv-odl-username "admin";
 uv-odl-password "admin";
 uv-odl-interval 10;
