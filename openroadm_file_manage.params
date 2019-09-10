@@ -11,7 +11,7 @@ fv-core-check   "enable";
 fv-connect-controllers "all";
 #fv-load-baseline-config-from  "default";
 
-uv-odl-server  "172.27.93.100:38181";
+uv-odl-server  "172.27.80.27:8181";
 uv-odl-interval  "10";
 uv-odl-timeout  "600";
 uv-remote-sftp-Path  "sftp://atlas:atlas@10.228.0.25/attella_log/Wh_team"; 

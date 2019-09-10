@@ -4,7 +4,7 @@ fv-tags "dut";
 #fv-load-baseline-config-from  "default";
 #fv-core-check   "enable";
 
-uv-odl-server "172.27.93.100:38181";
+uv-odl-server "172.27.80.27:8181";
 
 device0 {
   system {
