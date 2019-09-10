@@ -79,7 +79,7 @@ uv-INVALID_OPERATIONAL_STATE_CIRCUIT_PACK "invalid_state";
 uv-INVALID_EQUIPMENT_STATE_CIRCUIT_PACK "invalid_state";
 uv-INVALID_ADMINISTRATIVE_STATE_CIRCUIT_PACK "invalid_state";
 
-uv-odl-server "172.27.93.100:38181";
+uv-odl-server "172.27.80.27:8181";
 uv-odl-username "admin";
 uv-odl-password "admin";
 uv-odl-timeout 300;
